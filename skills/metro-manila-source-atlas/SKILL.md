@@ -1,12 +1,13 @@
 ---
 name: metro-manila-source-atlas
-description: Refresh or extend the ECC-aligned Metro Manila/NCR source atlas with read-only, source-attributed, validated public data sources.
+description: Refresh or extend the foundation Metro Manila/NCR source atlas that supports the address disaster risk assessor.
 ---
 
 # Metro Manila Source Atlas
 
-Use this skill when refreshing the source atlas, adding new data sources,
-rerunning a deep dive, or turning validated sources into a scoring prototype.
+Use this skill when refreshing the foundation source atlas, adding new public
+data sources, or rerunning a source validation pass for the address disaster
+risk assessor.
 
 ## Boundaries
 
@@ -28,8 +29,8 @@ Run independent lanes before integration:
    crosswalks.
 3. Metro Manila and LGU data: MMDA GIS Hub, city dashboards, open data pages.
 4. Transport and mobility: GTFS, OSM roads/transit tags, MMDA mobility sources.
-5. Business and market proxies: procurement, jobs, real estate, malls, POIs,
-   directories.
+5. Risk and service proxies: waste, drainage, access, facilities, waterways,
+   roads, and local operational signals.
 6. Portal and API infrastructure: BetterGov, HDX CKAN, ArcGIS search, Open Data
    Philippines, Overpass, Geofabrik.
 
@@ -67,18 +68,20 @@ id, or download URL. Rank by:
 - Metro Manila specificity;
 - automation value;
 - license clarity;
-- market signal quality.
+- risk-assessment signal quality.
 
 ## Current Build Decision
 
-The strongest next artifact is a city-level Metro Manila market scoring
-prototype. Use 17 city rows first because current source joins are strongest at
-city grain. Move to barangay only after the PSGC/HDX/MMDA/OpenSTAT crosswalk is
-validated.
+The active product is the address disaster risk assessor. The source atlas is a
+supporting inventory, not the product itself.
+
+Use city-level sources for coarse context and feature-level hazard layers for
+address-level screening. Move to barangay-specific outputs only after the
+PSGC/HDX/MMDA/OpenSTAT crosswalk is validated.
 
 Recommended source order:
 
-`PSGC -> boundary polygons -> PSA denominators -> OSM/MMDA overlays -> proxy sources`
+`address/coordinates -> PSGC/boundary context -> hazard layers -> MMDA/OSM proximity overlays -> weak-service proxies`
 
 ## Required Outputs
 

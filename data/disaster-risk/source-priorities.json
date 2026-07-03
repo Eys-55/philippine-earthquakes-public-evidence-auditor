@@ -1,0 +1,72 @@
+[
+  {
+    "name": "HazardHunterPH / GeoRiskPH",
+    "role": "official multi-hazard assessment context",
+    "risk_classes": ["earthquake", "volcanic", "flood", "landslide", "hydrometeorologic"],
+    "access_method": "web application and public GeoRiskPH surfaces where allowed",
+    "mvp_use": "reference official hazard categories and compare against machine-readable layers",
+    "automation_status": "manual-first until API terms and endpoints are validated",
+    "source_url": "https://hazardhunter.georisk.gov.ph/",
+    "notes": "Do not bypass access controls. Use as official context and validate any automatable endpoint separately."
+  },
+  {
+    "name": "Project NOAH Hazard Maps on BetterGov",
+    "role": "machine-readable hazard zone source",
+    "risk_classes": ["flood", "landslide", "storm_surge"],
+    "access_method": "BetterGov dataset and resources",
+    "mvp_use": "point-in-polygon exposure for hazard zones",
+    "automation_status": "candidate for MVP after resource download validation",
+    "source_url": "https://data.bettergov.ph/datasets/22",
+    "notes": "Validate license, resource URLs, vector-tile or download format, and layer schema before scoring."
+  },
+  {
+    "name": "PHIVOLCS FaultFinder",
+    "role": "active fault proximity reference",
+    "risk_classes": ["active_fault", "earthquake"],
+    "access_method": "web application and documented PHIVOLCS services where allowed",
+    "mvp_use": "nearest active-fault distance or manual official cross-check",
+    "automation_status": "manual-first until service terms and query method are validated",
+    "source_url": "https://www.phivolcs.dost.gov.ph/information-tools/the-phivolcs-faultfinder/",
+    "notes": "Use for proximity to active faults. Do not treat as structural safety certification."
+  },
+  {
+    "name": "PHIVOLCS Liquefaction MapServer",
+    "role": "liquefaction exposure layer",
+    "risk_classes": ["liquefaction", "earthquake"],
+    "access_method": "ArcGIS REST MapServer",
+    "mvp_use": "point-in-polygon or map-layer query for liquefaction exposure",
+    "automation_status": "candidate for MVP after layer query validation",
+    "source_url": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/PHIVOLCSPublic/Liquefaction/MapServer",
+    "notes": "Record PHIVOLCS copyright and layer vintage in outputs."
+  },
+  {
+    "name": "MMDA Metro Manila GIS Hub",
+    "role": "local Metro Manila risk and base geography",
+    "risk_classes": ["flood_history", "river_proximity", "local_context"],
+    "access_method": "ArcGIS Hub and FeatureServer layers",
+    "mvp_use": "city boundary joins, flood-prone point distance, river proximity",
+    "automation_status": "MVP-ready for validated layers",
+    "source_url": "https://metro-manila-geographic-information-system-hub-mmda.hub.arcgis.com/",
+    "notes": "Validated flood-prone points, rivers, and city boundaries in the source deep dive."
+  },
+  {
+    "name": "HDX Philippines GeoHazards Data",
+    "role": "downloadable geohazard fallback data",
+    "risk_classes": ["active_fault", "geohazard"],
+    "access_method": "HDX dataset downloads",
+    "mvp_use": "fallback hazard geometry or cross-check against PHIVOLCS/GeoRiskPH",
+    "automation_status": "candidate after file format and vintage validation",
+    "source_url": "https://data.humdata.org/dataset/philippines-geohazards-data",
+    "notes": "Some resources may be KMZ or imagery rather than clean vector layers."
+  },
+  {
+    "name": "OpenStreetMap / Geofabrik Philippines",
+    "role": "waterway, road, facility, and weak-service proxy source",
+    "risk_classes": ["waterway_proximity", "access", "waste_proxy"],
+    "access_method": "Geofabrik PBF/GPKG downloads and lightweight Overpass checks",
+    "mvp_use": "waterway proximity, access context, waste/disposal proxy only when tags are present",
+    "automation_status": "MVP-ready for bulk ETL with ODbL handling",
+    "source_url": "https://download.geofabrik.de/asia/philippines.html",
+    "notes": "ODbL attribution required. Do not treat missing OSM tags as absence of risk."
+  }
+]

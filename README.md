@@ -1,12 +1,22 @@
-# Metro Manila Data Source Atlas
+# Address Disaster Risk Assessor
 
-ECC-aligned source atlas for Metro Manila/NCR market research.
+ECC-aligned project for a reusable address-based disaster risk assessor.
 
-The project tracks machine-readable data sources: public APIs, CSV/GeoJSON/ZIP
-downloads, ArcGIS services, CKAN-style portals, and actively maintained datasets.
+The product goal is simple: given an address, return a source-attributed disaster
+risk packet covering flood, river proximity, liquefaction, active fault
+proximity, landslide or storm-surge relevance where applicable, and confidence
+notes for each signal.
+
+The earlier Metro Manila source atlas remains the foundation data inventory. The
+active project direction is now disaster-risk assessment only, not broad market
+research or generic city scoring.
 
 ## Artifacts
 
+- `docs/plans/2026-07-03-address-disaster-risk-assessor-design.md` - locked product design.
+- `docs/decisions/0002-lock-address-disaster-risk-assessor.md` - accepted decision to focus this repo on disaster risk.
+- `skills/address-disaster-risk-assessor/SKILL.md` - reusable ECC workflow for address-in, risk-packet-out assessment.
+- `data/disaster-risk/source-priorities.json` - canonical source priority list for the disaster assessor.
 - `reports/metro-manila-data-source-atlas.md` - decision-ready integrated report.
 - `reports/metro-manila-source-deep-dive.md` - qualification pass over the strongest buildable sources.
 - `data/metro-manila-source-atlas.json` - machine-readable ranked inventory.
@@ -15,17 +25,24 @@ downloads, ArcGIS services, CKAN-style portals, and actively maintained datasets
 - `data/deep-dive/local-validation-summary.json` - structured record of live checks for the deep dive.
 - `data/deep-dive/source-qualification-matrix.json` - build-readiness matrix for the strongest source groups.
 - `data/agent-findings/` - raw findings from the six parallel research streams.
-- `docs/decisions/0001-city-level-prototype-first.md` - accepted decision to build city-level scoring before barangay scoring.
+- `docs/decisions/0001-city-level-prototype-first.md` - superseded market-scoring decision retained for history.
 - `skills/metro-manila-source-atlas/SKILL.md` - reusable ECC workflow for refreshing or extending the atlas.
 
 ## Current Build Direction
 
-The next build should be a city-level Metro Manila market scoring prototype:
-17 city rows, PSGC normalization, MMDA geometry, PSA indicators, OSM POI counts,
-MMDA risk/facility summaries, and confidence columns for every score component.
+Build the first product as an **Address Disaster Risk Assessor**:
 
-Barangay-level scoring is intentionally deferred until PSGC, HDX, MMDA, and
-OpenSTAT crosswalks are validated.
+- Input: address or coordinates.
+- Output: disaster risk packet with source links and confidence labels.
+- First geography: Metro Manila / NCR.
+- First risk classes: flood, historical flood-prone points, river proximity,
+  liquefaction, active fault proximity, landslide or storm-surge relevance where
+  data supports it.
+- Later/weak class: waste-management or drainage-service risk only when a clean
+  source or defensible proxy is validated.
+
+Do not build generic market scoring unless the user explicitly reopens that
+direction.
 
 ## Verification
 
@@ -33,6 +50,7 @@ OpenSTAT crosswalks are validated.
 python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-source-atlas.json
 python3 -m json.tool data/deep-dive/local-validation-summary.json >/tmp/local-validation-summary.json
 python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/source-qualification-matrix.json
+python3 -m json.tool data/disaster-risk/source-priorities.json >/tmp/disaster-risk-source-priorities.json
 git diff --check
 ```
 

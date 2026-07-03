@@ -4,7 +4,7 @@ Date: 2026-07-03
 
 ## Status
 
-Accepted
+Superseded by `0002-lock-address-disaster-risk-assessor.md`
 
 ## Context
 
@@ -47,3 +47,8 @@ phase.
 The tradeoff is lower spatial precision in the first prototype. That is
 acceptable because false precision would be worse than a clear city-level
 screening model.
+
+## Supersession Note
+
+This decision is retained as source-atlas history. The active project direction
+is now the address-based disaster risk assessor, not generic market scoring.

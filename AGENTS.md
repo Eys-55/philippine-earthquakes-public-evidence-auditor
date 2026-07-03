@@ -1,7 +1,8 @@
-# Market Research Agent - ECC Instructions
+# Address Disaster Risk Assessor - ECC Instructions
 
-This repo is an ECC-aligned, read-only market research workspace for building a
-source-attributed Metro Manila/NCR data atlas and follow-on scoring prototypes.
+This repo is an ECC-aligned, read-only disaster-risk assessment workspace. The
+active product is a reusable address-based disaster risk assessor for Metro
+Manila / NCR.
 
 ## Core Rules
 
@@ -19,17 +20,24 @@ source-attributed Metro Manila/NCR data atlas and follow-on scoring prototypes.
 
 ## Current Project Scope
 
-The current geography is Metro Manila / NCR. The current job is source discovery
-and validation, not a final market insight report.
+The current geography is Metro Manila / NCR. The current job is to turn validated
+public hazard and geography sources into an address-in, risk-packet-out workflow.
+Generic market research and city scoring are out of scope unless the user
+explicitly reopens them.
 
 Priority sources:
 
-- PSA OpenSTAT and PSGC for official demographic, income, price, establishment,
-  and geography attributes.
-- HDX, MMDA ArcGIS, and BetterGov for boundaries, GIS layers, and discovery.
-- Geofabrik/OpenStreetMap for POIs, roads, and competitor-density primitives.
-- PhilGEPS, BSP, real-estate reports, and jobs data as proxy sources only after
-  terms, schema, and freshness are validated.
+- HazardHunterPH / GeoRiskPH for official multi-hazard assessment context.
+- Project NOAH / BetterGov hazard layers for flood, landslide, and storm-surge
+  zones.
+- PHIVOLCS FaultFinder and public hazard services for active fault and
+  liquefaction exposure.
+- MMDA ArcGIS for Metro Manila boundaries, flood-prone points, rivers, and local
+  risk overlays.
+- HDX geohazards and administrative boundaries for downloadable geospatial
+  fallback data.
+- OpenStreetMap / Geofabrik for waterways, roads, access, facilities, and weak
+  service-risk proxies.
 
 ## Validation Standard
 
@@ -39,6 +47,7 @@ For each high-priority source, record:
 - access method and format;
 - freshness signal;
 - Metro Manila relevance method;
+- address or coordinate assessment method;
 - license or terms;
 - auth/gating status;
 - sample query or download command;
@@ -52,11 +61,16 @@ Statuses should use: `active`, `reachable but stale`, `manual-only`,
 - `README.md` - project index and artifact map.
 - `reports/` - human-readable integrated reports.
 - `data/metro-manila-source-atlas.json` - ranked inventory.
+- `data/disaster-risk/` - canonical disaster-risk source priorities and future
+  assessor outputs.
 - `data/agent-findings/` - raw six-agent findings.
 - `data/deep-dive/` - structured validation and qualification outputs.
 - `docs/decisions/` - durable project decisions.
+- `docs/plans/` - product and workflow design documents.
+- `skills/address-disaster-risk-assessor/` - active reusable ECC workflow for
+  address-based disaster assessment.
 - `skills/metro-manila-source-atlas/` - reusable ECC workflow for refreshing or
-  extending the atlas.
+  extending the foundation atlas.
 
 ## Verification
 
@@ -66,6 +80,7 @@ Before committing, run:
 python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-source-atlas.json
 python3 -m json.tool data/deep-dive/local-validation-summary.json >/tmp/local-validation-summary.json
 python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/source-qualification-matrix.json
+python3 -m json.tool data/disaster-risk/source-priorities.json >/tmp/disaster-risk-source-priorities.json
 git diff --check
 ```
 
