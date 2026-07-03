@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Metro Manila Data Source Atlas Entry",
+  "type": "object",
+  "required": [
+    "rank",
+    "name",
+    "owner",
+    "coverage",
+    "data_type",
+    "access_method",
+    "endpoint_or_download_url",
+    "formats",
+    "auth_required",
+    "rate_limits",
+    "last_updated_signal",
+    "freshness_grade",
+    "metro_manila_filter_method",
+    "sample_query",
+    "market_research_use_cases",
+    "license_or_terms",
+    "risks",
+    "source_url",
+    "status",
+    "scores"
+  ],
+  "properties": {
+    "rank": { "type": "integer", "minimum": 1 },
+    "name": { "type": "string" },
+    "owner": { "type": "string" },
+    "coverage": { "type": "string" },
+    "data_type": { "type": "string" },
+    "access_method": { "type": "string" },
+    "endpoint_or_download_url": { "type": "string" },
+    "formats": { "type": "array", "items": { "type": "string" } },
+    "auth_required": { "type": "string" },
+    "rate_limits": { "type": "string" },
+    "last_updated_signal": { "type": "string" },
+    "freshness_grade": { "enum": ["A", "B", "C", "D", "Unknown"] },
+    "metro_manila_filter_method": { "type": "string" },
+    "sample_query": { "type": "string" },
+    "market_research_use_cases": { "type": "array", "items": { "type": "string" } },
+    "license_or_terms": { "type": "string" },
+    "risks": { "type": "string" },
+    "source_url": { "type": "string" },
+    "status": {
+      "enum": [
+        "active",
+        "reachable but stale",
+        "manual-only",
+        "auth-gated",
+        "commercial",
+        "dead"
+      ]
+    },
+    "scores": {
+      "type": "object",
+      "required": [
+        "accessibility",
+        "freshness",
+        "metro_manila_specificity",
+        "automation_value",
+        "license_clarity",
+        "market_signal_quality",
+        "total"
+      ],
+      "properties": {
+        "accessibility": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "freshness": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "metro_manila_specificity": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "automation_value": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "license_clarity": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "market_signal_quality": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "total": { "type": "integer", "minimum": 6, "maximum": 30 }
+      }
+    },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}
