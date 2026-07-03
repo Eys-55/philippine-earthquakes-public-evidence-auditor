@@ -15,6 +15,7 @@ research or generic city scoring.
 
 - `docs/plans/2026-07-03-address-disaster-risk-assessor-design.md` - locked product design.
 - `docs/decisions/0002-lock-address-disaster-risk-assessor.md` - accepted decision to focus this repo on disaster risk.
+- `docs/status/2026-07-03-ecc-handoff-summary.md` - restart summary of the ECC work, current goal shape, and next decision.
 - `skills/address-disaster-risk-assessor/SKILL.md` - reusable ECC workflow for address-in, risk-packet-out assessment.
 - `data/disaster-risk/source-priorities.json` - canonical source priority list for the disaster assessor.
 - `data/disaster-risk/disaster-source-atlas.json` - ranked machine-readable disaster-source atlas from the six-agent run.
