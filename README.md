@@ -15,6 +15,26 @@ downloads, ArcGIS services, CKAN-style portals, and actively maintained datasets
 - `data/deep-dive/local-validation-summary.json` - structured record of live checks for the deep dive.
 - `data/deep-dive/source-qualification-matrix.json` - build-readiness matrix for the strongest source groups.
 - `data/agent-findings/` - raw findings from the six parallel research streams.
+- `docs/decisions/0001-city-level-prototype-first.md` - accepted decision to build city-level scoring before barangay scoring.
+- `skills/metro-manila-source-atlas/SKILL.md` - reusable ECC workflow for refreshing or extending the atlas.
+
+## Current Build Direction
+
+The next build should be a city-level Metro Manila market scoring prototype:
+17 city rows, PSGC normalization, MMDA geometry, PSA indicators, OSM POI counts,
+MMDA risk/facility summaries, and confidence columns for every score component.
+
+Barangay-level scoring is intentionally deferred until PSGC, HDX, MMDA, and
+OpenSTAT crosswalks are validated.
+
+## Verification
+
+```bash
+python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-source-atlas.json
+python3 -m json.tool data/deep-dive/local-validation-summary.json >/tmp/local-validation-summary.json
+python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/source-qualification-matrix.json
+git diff --check
+```
 
 ## ECC Boundaries
 
