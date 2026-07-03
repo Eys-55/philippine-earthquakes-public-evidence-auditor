@@ -17,6 +17,10 @@ research or generic city scoring.
 - `docs/decisions/0002-lock-address-disaster-risk-assessor.md` - accepted decision to focus this repo on disaster risk.
 - `skills/address-disaster-risk-assessor/SKILL.md` - reusable ECC workflow for address-in, risk-packet-out assessment.
 - `data/disaster-risk/source-priorities.json` - canonical source priority list for the disaster assessor.
+- `data/disaster-risk/disaster-source-atlas.json` - ranked machine-readable disaster-source atlas from the six-agent run.
+- `data/disaster-risk/local-validation-summary.json` - live endpoint checks for high-priority disaster sources.
+- `data/disaster-risk/agent-findings/` - preserved raw findings from the six disaster research agents.
+- `reports/disaster-risk-data-source-atlas.md` - integrated disaster-source report and MVP source order.
 - `reports/metro-manila-data-source-atlas.md` - decision-ready integrated report.
 - `reports/metro-manila-source-deep-dive.md` - qualification pass over the strongest buildable sources.
 - `data/metro-manila-source-atlas.json` - machine-readable ranked inventory.
@@ -51,6 +55,8 @@ python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-sour
 python3 -m json.tool data/deep-dive/local-validation-summary.json >/tmp/local-validation-summary.json
 python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/source-qualification-matrix.json
 python3 -m json.tool data/disaster-risk/source-priorities.json >/tmp/disaster-risk-source-priorities.json
+python3 -m json.tool data/disaster-risk/disaster-source-atlas.json >/tmp/disaster-source-atlas.json
+python3 -m json.tool data/disaster-risk/local-validation-summary.json >/tmp/disaster-local-validation-summary.json
 git diff --check
 ```
 

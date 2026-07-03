@@ -1,72 +1,162 @@
 [
   {
-    "name": "HazardHunterPH / GeoRiskPH",
-    "role": "official multi-hazard assessment context",
-    "risk_classes": ["earthquake", "volcanic", "flood", "landslide", "hydrometeorologic"],
-    "access_method": "web application and public GeoRiskPH surfaces where allowed",
-    "mvp_use": "reference official hazard categories and compare against machine-readable layers",
-    "automation_status": "manual-first until API terms and endpoints are validated",
-    "source_url": "https://hazardhunter.georisk.gov.ph/",
-    "notes": "Do not bypass access controls. Use as official context and validate any automatable endpoint separately."
+    "name": "MGBPublic Flood MapServer",
+    "role": "primary flood susceptibility layer",
+    "risk_classes": ["flood"],
+    "access_method": "ArcGIS REST MapServer query",
+    "mvp_use": "point-in-polygon flood susceptibility for a geocoded address",
+    "automation_status": "MVP-ready",
+    "source_url": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/MGBPublic/Flood/MapServer",
+    "notes": "Live count check returned 87968 features on 2026-07-03. License clarity is weak; cite DENR-MGB/GeoRiskPH."
   },
   {
-    "name": "Project NOAH Hazard Maps on BetterGov",
-    "role": "machine-readable hazard zone source",
-    "risk_classes": ["flood", "landslide", "storm_surge"],
-    "access_method": "BetterGov dataset and resources",
-    "mvp_use": "point-in-polygon exposure for hazard zones",
-    "automation_status": "candidate for MVP after resource download validation",
-    "source_url": "https://data.bettergov.ph/datasets/22",
-    "notes": "Validate license, resource URLs, vector-tile or download format, and layer schema before scoring."
+    "name": "MMDA Flood-Prone Areas FeatureServer",
+    "role": "Metro Manila historical/local flood-prone point signal",
+    "risk_classes": ["flood_history", "drainage_proxy"],
+    "access_method": "ArcGIS FeatureServer query",
+    "mvp_use": "nearest flood-prone point and city-filtered flood history",
+    "automation_status": "MVP-ready",
+    "source_url": "https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/Flood_Prone_Areas_WFL1/FeatureServer/0",
+    "notes": "Live count check returned 593 features on 2026-07-03. Treat as points, not flood polygons."
   },
   {
-    "name": "PHIVOLCS FaultFinder",
-    "role": "active fault proximity reference",
-    "risk_classes": ["active_fault", "earthquake"],
-    "access_method": "web application and documented PHIVOLCS services where allowed",
-    "mvp_use": "nearest active-fault distance or manual official cross-check",
-    "automation_status": "manual-first until service terms and query method are validated",
-    "source_url": "https://www.phivolcs.dost.gov.ph/information-tools/the-phivolcs-faultfinder/",
-    "notes": "Use for proximity to active faults. Do not treat as structural safety certification."
+    "name": "MMDA River Line FeatureServer",
+    "role": "Metro Manila waterway proximity layer",
+    "risk_classes": ["river_proximity", "waterway_proximity", "drainage_proxy"],
+    "access_method": "ArcGIS FeatureServer query",
+    "mvp_use": "nearest river or waterway distance around address",
+    "automation_status": "MVP-ready",
+    "source_url": "https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/MMDAOAGMP_River/FeatureServer",
+    "notes": "Live count check returned 6908 features on 2026-07-03. River proximity is context, not proof of flooding."
   },
   {
     "name": "PHIVOLCS Liquefaction MapServer",
-    "role": "liquefaction exposure layer",
+    "role": "official liquefaction exposure layer",
     "risk_classes": ["liquefaction", "earthquake"],
-    "access_method": "ArcGIS REST MapServer",
-    "mvp_use": "point-in-polygon or map-layer query for liquefaction exposure",
-    "automation_status": "candidate for MVP after layer query validation",
+    "access_method": "ArcGIS REST MapServer query",
+    "mvp_use": "point-in-polygon liquefaction exposure",
+    "automation_status": "MVP-ready",
     "source_url": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/PHIVOLCSPublic/Liquefaction/MapServer",
-    "notes": "Record PHIVOLCS copyright and layer vintage in outputs."
+    "notes": "Live count check returned 239 features on 2026-07-03. Record class code and PHIVOLCS acknowledgement."
   },
   {
-    "name": "MMDA Metro Manila GIS Hub",
-    "role": "local Metro Manila risk and base geography",
-    "risk_classes": ["flood_history", "river_proximity", "local_context"],
-    "access_method": "ArcGIS Hub and FeatureServer layers",
-    "mvp_use": "city boundary joins, flood-prone point distance, river proximity",
-    "automation_status": "MVP-ready for validated layers",
-    "source_url": "https://metro-manila-geographic-information-system-hub-mmda.hub.arcgis.com/",
-    "notes": "Validated flood-prone points, rivers, and city boundaries in the source deep dive."
+    "name": "PHIVOLCS ActiveFault MapServer",
+    "role": "official active fault proximity layer",
+    "risk_classes": ["active_fault", "earthquake"],
+    "access_method": "ArcGIS REST MapServer query",
+    "mvp_use": "query NCR bbox and compute nearest active-fault line distance locally",
+    "automation_status": "MVP-ready",
+    "source_url": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/PHIVOLCSPublic/ActiveFault/MapServer",
+    "notes": "Live count check returned 6582 features on 2026-07-03. Use local distance calculation instead of relying on server nearest behavior."
   },
   {
-    "name": "HDX Philippines GeoHazards Data",
-    "role": "downloadable geohazard fallback data",
-    "risk_classes": ["active_fault", "geohazard"],
-    "access_method": "HDX dataset downloads",
-    "mvp_use": "fallback hazard geometry or cross-check against PHIVOLCS/GeoRiskPH",
-    "automation_status": "candidate after file format and vintage validation",
-    "source_url": "https://data.humdata.org/dataset/philippines-geohazards-data",
-    "notes": "Some resources may be KMZ or imagery rather than clean vector layers."
+    "name": "Project NOAH Hazard Maps on BetterGov",
+    "role": "national flood, landslide, debris-flow, and storm-surge package",
+    "risk_classes": ["flood", "landslide", "debris_flow", "storm_surge"],
+    "access_method": "BetterGov metadata plus PMTiles download",
+    "mvp_use": "point-in-polygon hazard zone checks after PMTiles schema inspection",
+    "automation_status": "MVP candidate after schema inspection",
+    "source_url": "https://data.bettergov.ph/datasets/22",
+    "notes": "Latest version date 2026-04-11; resource id 416; ODC-ODbL. Large 5.55 GB PMTiles file."
+  },
+  {
+    "name": "HDX Philippines Subnational Administrative Boundaries",
+    "role": "NCR, city, and barangay join layer",
+    "risk_classes": ["admin_join", "boundary_context"],
+    "access_method": "HDX CKAN API and downloads",
+    "mvp_use": "normalize address packets to NCR, city, and barangay",
+    "automation_status": "MVP-ready",
+    "source_url": "https://data.humdata.org/dataset/cod-ab-phl",
+    "notes": "Metadata modified 2026-06-24; formats include Geodatabase, SHP, GeoJSON, and XLSX; CC BY-IGO."
   },
   {
     "name": "OpenStreetMap / Geofabrik Philippines",
     "role": "waterway, road, facility, and weak-service proxy source",
     "risk_classes": ["waterway_proximity", "access", "waste_proxy"],
     "access_method": "Geofabrik PBF/GPKG downloads and lightweight Overpass checks",
-    "mvp_use": "waterway proximity, access context, waste/disposal proxy only when tags are present",
+    "mvp_use": "waterway proximity and mapped facility context; waste/disposal proxy only when tags are present",
     "automation_status": "MVP-ready for bulk ETL with ODbL handling",
     "source_url": "https://download.geofabrik.de/asia/philippines.html",
     "notes": "ODbL attribution required. Do not treat missing OSM tags as absence of risk."
+  },
+  {
+    "name": "MGBPublic RainInducedLandslide MapServer",
+    "role": "landslide exposure layer where geographically relevant",
+    "risk_classes": ["landslide"],
+    "access_method": "ArcGIS REST MapServer query",
+    "mvp_use": "point-in-polygon landslide check, with explicit low relevance for most flat NCR addresses",
+    "automation_status": "secondary MVP source",
+    "source_url": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/MGBPublic/RainInducedLandslide/MapServer",
+    "notes": "Older hazard vintage observed by agent; report no-hit as not applicable or unknown, not as guaranteed safety."
+  },
+  {
+    "name": "PAGASA Pasig-Marikina-Tullahan FFWS",
+    "role": "operational water-level and flood-warning context",
+    "risk_classes": ["live_water_level", "flood_warning"],
+    "access_method": "public map and observed JSON endpoint",
+    "mvp_use": "current flood context for addresses near relevant basins",
+    "automation_status": "operational context; poll conservatively",
+    "source_url": "https://pasig-marikina-tullahanffws.pagasa.dost.gov.ph/water/map.do",
+    "notes": "Not a historical or parcel hazard layer. Endpoint may change."
+  },
+  {
+    "name": "HazardHunterPH / GeoRiskPH",
+    "role": "official multi-hazard assessment cross-check",
+    "risk_classes": ["earthquake", "volcanic", "flood", "landslide", "hydrometeorologic"],
+    "access_method": "web application and public GeoRiskPH surfaces where allowed",
+    "mvp_use": "manual official cross-check and caveat language",
+    "automation_status": "manual-first",
+    "source_url": "https://hazardhunter.georisk.gov.ph/",
+    "notes": "Do not bypass access controls or automate gated features."
+  },
+  {
+    "name": "PHIVOLCS FaultFinder",
+    "role": "official active fault proximity reference",
+    "risk_classes": ["active_fault", "earthquake"],
+    "access_method": "web/mobile application",
+    "mvp_use": "manual cross-check of nearest fault distance",
+    "automation_status": "manual-first; automate using ActiveFault MapServer instead",
+    "source_url": "https://www.phivolcs.dost.gov.ph/information-tools/the-phivolcs-faultfinder/",
+    "notes": "Do not treat as a documented bulk API."
+  },
+  {
+    "name": "PHIVOLCS GroundShaking MapServer",
+    "role": "supplemental earthquake shaking context",
+    "risk_classes": ["ground_shaking", "earthquake"],
+    "access_method": "ArcGIS REST identify endpoint",
+    "mvp_use": "supplemental point identify after more validation",
+    "automation_status": "candidate",
+    "source_url": "https://gisweb.phivolcs.dost.gov.ph/arcgis/rest/services/PHIVOLCSPublic/GroundShaking/MapServer",
+    "notes": "Identify endpoint worked in agent check; query behavior needs more validation."
+  },
+  {
+    "name": "PHIVOLCS Tsunami MapServer",
+    "role": "coastal tsunami relevance check",
+    "risk_classes": ["tsunami"],
+    "access_method": "ArcGIS REST MapServer identify or query candidate",
+    "mvp_use": "run only for coastal Metro Manila addresses",
+    "automation_status": "candidate",
+    "source_url": "https://gisweb.phivolcs.dost.gov.ph/arcgis/rest/services/PHIVOLCSPublic/Tsunami/MapServer",
+    "notes": "Inland no-hit is not complete safety proof; validate coverage before scoring."
+  },
+  {
+    "name": "BetterGov Flood Control Projects Dashboard data",
+    "role": "flood-control and drainage infrastructure proxy",
+    "risk_classes": ["flood_control_proxy", "drainage_project_proxy"],
+    "access_method": "BetterGov API/resource discovery",
+    "mvp_use": "weak context only after inspecting resource schema and coordinates",
+    "automation_status": "weak proxy",
+    "source_url": "https://data.bettergov.ph/",
+    "notes": "Dataset search returned id 2 with latest_version_date 2025-09-21 and CC0. Project presence is not service quality."
+  },
+  {
+    "name": "LGU waste and sanitation pages",
+    "role": "weak service availability context",
+    "risk_classes": ["waste_proxy", "drainage_service_proxy"],
+    "access_method": "official city HTML/PDF pages",
+    "mvp_use": "include only as weak_proxy or unknown; never as proof of bad service",
+    "automation_status": "manual or semi-structured",
+    "source_url": "https://quezoncity.gov.ph/departments/department-of-sanitation-and-cleanup-works-of-quezon-city/",
+    "notes": "Schedules and service pages do not prove reliability."
   }
 ]

@@ -112,13 +112,27 @@ certification.
 
 ## Priority Sources
 
-- HazardHunterPH / GeoRiskPH
-- Project NOAH hazard maps through BetterGov
-- PHIVOLCS FaultFinder
-- PHIVOLCS public liquefaction service
-- MMDA ArcGIS flood-prone points, rivers, and city boundaries
-- HDX Philippines geohazards
-- OSM / Geofabrik waterways, roads, and facility proxies
+Primary automation stack:
+
+- MGBPublic Flood MapServer for flood susceptibility.
+- MMDA Flood-Prone Areas FeatureServer for local flood-prone point history.
+- MMDA River Line FeatureServer for waterway proximity.
+- PHIVOLCS Liquefaction MapServer for liquefaction exposure.
+- PHIVOLCS ActiveFault MapServer for nearest active fault distance.
+- Project NOAH hazard maps through BetterGov for flood, landslide, debris-flow,
+  and storm-surge zones after PMTiles schema inspection.
+- HDX Philippines administrative boundaries for NCR/city/barangay joins.
+- OSM / Geofabrik waterways, roads, and facility proxies.
+
+Secondary or manual sources:
+
+- MGBPublic RainInducedLandslide MapServer when landslide relevance exists.
+- PAGASA Pasig-Marikina-Tullahan FFWS for live flood-warning context only.
+- HazardHunterPH / GeoRiskPH for official manual cross-check.
+- PHIVOLCS FaultFinder for official manual fault-distance cross-check.
+- PHIVOLCS GroundShaking and Tsunami MapServers after more point validation.
+- LGU DRRMO/CDRA and waste-service pages only as manual context or weak
+  proxies.
 
 ## Verification
 
@@ -126,5 +140,7 @@ Before committing changes to this workflow:
 
 ```bash
 python3 -m json.tool data/disaster-risk/source-priorities.json >/tmp/disaster-risk-source-priorities.json
+python3 -m json.tool data/disaster-risk/disaster-source-atlas.json >/tmp/disaster-source-atlas.json
+python3 -m json.tool data/disaster-risk/local-validation-summary.json >/tmp/disaster-local-validation-summary.json
 git diff --check
 ```

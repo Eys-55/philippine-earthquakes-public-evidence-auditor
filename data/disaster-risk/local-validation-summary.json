@@ -1,0 +1,137 @@
+{
+  "date": "2026-07-03",
+  "mode": "read-only endpoint checks",
+  "scope": "Metro Manila / NCR address disaster risk assessor",
+  "validated_sources": [
+    {
+      "name": "PHIVOLCSPublic ActiveFault MapServer layer",
+      "endpoint": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/PHIVOLCSPublic/ActiveFault/MapServer/0/query",
+      "check": "returnCountOnly=true",
+      "result": {
+        "http_reachable": true,
+        "count": 6582,
+        "geometry_type": "polyline",
+        "formats_observed": ["JSON", "GeoJSON", "PBF"]
+      },
+      "status": "active",
+      "mvp_use": "nearest active-fault distance after local spatial filtering"
+    },
+    {
+      "name": "PHIVOLCSPublic Liquefaction MapServer layer",
+      "endpoint": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/PHIVOLCSPublic/Liquefaction/MapServer/0/query",
+      "check": "returnCountOnly=true plus layer metadata inspected during research run",
+      "result": {
+        "http_reachable": true,
+        "count": 239,
+        "geometry_type": "polygon",
+        "formats_observed": ["JSON", "GeoJSON", "PBF"],
+        "key_fields": ["lccode", "liqcode", "province", "publishdate"]
+      },
+      "status": "active",
+      "mvp_use": "point-in-polygon liquefaction exposure"
+    },
+    {
+      "name": "MGBPublic Flood MapServer layer",
+      "endpoint": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/MGBPublic/Flood/MapServer/0/query",
+      "check": "returnCountOnly=true",
+      "result": {
+        "http_reachable": true,
+        "count": 87968,
+        "geometry_type": "polygon",
+        "formats_observed": ["JSON", "GeoJSON", "PBF"]
+      },
+      "status": "active",
+      "mvp_use": "point-in-polygon flood susceptibility where Metro Manila coverage exists"
+    },
+    {
+      "name": "MMDA Flood-Prone Areas FeatureServer layer",
+      "endpoint": "https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/Flood_Prone_Areas_WFL1/FeatureServer/0/query",
+      "check": "returnCountOnly=true",
+      "result": {
+        "http_reachable": true,
+        "count": 593,
+        "geometry_type": "point",
+        "fields_from_prior_validation": ["Location", "CityMunic", "Year", "Amount"]
+      },
+      "status": "active",
+      "mvp_use": "nearest historical flood-prone point and city-filtered flood history"
+    },
+    {
+      "name": "MMDA River FeatureServer layer",
+      "endpoint": "https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/MMDAOAGMP_River/FeatureServer/0/query",
+      "check": "returnCountOnly=true",
+      "result": {
+        "http_reachable": true,
+        "count": 6908,
+        "geometry_type": "polyline"
+      },
+      "status": "active",
+      "mvp_use": "nearest river or waterway distance as flood/drainage context"
+    },
+    {
+      "name": "BetterGov Project NOAH Hazard Maps dataset",
+      "endpoint": "https://data.bettergov.ph/api/v1/datasets/22",
+      "check": "dataset metadata",
+      "result": {
+        "http_reachable": true,
+        "dataset_id": 22,
+        "publisher": "Department of Science and Technology",
+        "hazards": ["flood", "landslide", "storm surge", "debris flow"],
+        "size_bytes": 5551470387,
+        "latest_version_date": "2026-04-11",
+        "license": "ODC-ODbL"
+      },
+      "status": "active",
+      "mvp_use": "national hazard-zone layer package, with Metro Manila filtering"
+    },
+    {
+      "name": "BetterGov Project NOAH PMTiles resource",
+      "endpoint": "https://data.bettergov.ph/api/v1/resources?dataset_id=22&limit=100",
+      "check": "dataset resources",
+      "result": {
+        "http_reachable": true,
+        "resource_id": 416,
+        "mime_type": "application/vnd.pmtiles",
+        "download_url": "https://huggingface.co/datasets/bettergovph/project-noah-hazard-maps/resolve/main/PMTiles/noah_hazard_maps.pmtiles",
+        "size_bytes": 5551470387
+      },
+      "status": "active",
+      "mvp_use": "tile-backed hazard lookup after PMTiles schema inspection"
+    },
+    {
+      "name": "BetterGov flood dataset search",
+      "endpoint": "https://data.bettergov.ph/api/v1/datasets?search=flood&limit=10",
+      "check": "search metadata",
+      "result": {
+        "http_reachable": true,
+        "result_count": 2,
+        "results": [
+          "Project NOAH Hazard Maps",
+          "Flood Control Projects Dashboard data"
+        ]
+      },
+      "status": "active",
+      "mvp_use": "discover flood hazard and infrastructure proxy datasets"
+    },
+    {
+      "name": "HDX Philippines Subnational Administrative Boundaries",
+      "endpoint": "https://data.humdata.org/api/3/action/package_show?id=cod-ab-phl",
+      "check": "CKAN package metadata",
+      "result": {
+        "http_reachable": true,
+        "metadata_modified": "2026-06-24T09:15:32.493985",
+        "last_modified": "2026-05-28T12:27:34.210982",
+        "formats": ["Geodatabase", "SHP", "GeoJSON", "XLSX"],
+        "license": "CC BY-IGO",
+        "admin_levels": ["admin0", "admin1", "admin2", "admin3", "admin4"]
+      },
+      "status": "active",
+      "mvp_use": "NCR, city, and barangay joins for address packets"
+    }
+  ],
+  "validation_notes": [
+    "Large PMTiles, SHP, GeoJSON, GPKG, and PBF files were not downloaded during this check.",
+    "HazardHunterPH, FaultFinder, LGU pages, and FOI pages are treated as manual/reference unless a public API contract is documented.",
+    "Waste-management quality remains weakly sourced; only use explicit official schedules, complaints, FOI releases, or drainage/flood proxies with caveats."
+  ]
+}
