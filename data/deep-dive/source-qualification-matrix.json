@@ -1,0 +1,91 @@
+[
+  {
+    "source": "PSA OpenSTAT",
+    "qualification": "production-ready for selected verified table endpoints",
+    "best_grain": "city/HUC for population and income; regional NCR for some price/business tables",
+    "strong_fields": ["population", "households", "average_income", "average_expenditure", "retail_prices", "establishment_count", "employment", "revenue"],
+    "joins": ["normalized OpenSTAT geography label -> canonical PSGC city/region"],
+    "risks": ["table paths and variable names vary", "some UI-visible tables may 404 through direct API", "rate limit is 10 calls per 10 seconds"],
+    "first_use": "city-level denominator and purchasing-power indicators",
+    "source_urls": [
+      "https://openstat.psa.gov.ph/API-Documentation",
+      "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1A/PO/0011A6DPHH0.px",
+      "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1E/IE/0011E3ANIE0.px",
+      "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/2M/2018NEW/0042M4ARN01.px",
+      "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/2D/2022/0012D4BAG00.px"
+    ]
+  },
+  {
+    "source": "PSGC / HDX / MMDA geography stack",
+    "qualification": "production-ready at city level; barangay requires crosswalk validation",
+    "best_grain": "city/municipality now; barangay later",
+    "strong_fields": ["psgc_9", "psgc_10", "city_name", "region_code", "polygon", "hdx_pcode", "mmda_city_psgc"],
+    "joins": ["PSGC -> MMDA boundary by legacy PSGC after PH prefix normalization", "PSGC -> HDX by crosswalk, not mechanical code derivation"],
+    "risks": ["PSGC GitLab is stale versus official PSA", "HDX admin4 count is incomplete versus PSA barangay count", "MMDA Manila code anomaly needs manual review"],
+    "first_use": "canonical city table and boundary geometry",
+    "source_urls": [
+      "https://psa.gov.ph/classifications-api/psgc",
+      "https://psgc.gitlab.io/api/regions/130000000/cities-municipalities.json",
+      "https://data.humdata.org/dataset/cod-ab-phl",
+      "https://data.humdata.org/api/3/action/package_show?id=cod-ab-phl",
+      "https://metro-manila-geographic-information-system-hub-mmda.hub.arcgis.com/"
+    ]
+  },
+  {
+    "source": "MMDA ArcGIS FeatureServices",
+    "qualification": "production-ready for boundary, schools, flood points, and rivers",
+    "best_grain": "feature-level joined to city by field or spatial overlay",
+    "strong_fields": ["CityMunicipalityPSGC", "CITY_MUNIC", "CityMunic", "Flood_Susc", "Year", "Amount", "BLDG_NAME", "TYPE"],
+    "joins": ["city-name normalization -> PSGC", "point/line geometry -> city polygon"],
+    "risks": ["city names vary by layer", "public establishments are too sparse", "incident/MMARAS layers are sensitive and research-only"],
+    "first_use": "risk overlays and school-density features",
+    "source_urls": [
+      "https://metro-manila-geographic-information-system-hub-mmda.hub.arcgis.com/",
+      "https://www.arcgis.com/sharing/rest/search?f=json&q=orgid:Jlef2HFcOgOf9c7u%20AND%20type:%22Feature%20Service%22&num=30"
+    ]
+  },
+  {
+    "source": "Geofabrik / OpenStreetMap",
+    "qualification": "production-ready for bulk POI and road ETL with ODbL handling",
+    "best_grain": "feature-level joined by spatial overlay to city/barangay",
+    "strong_fields": ["osm_type", "osm_id", "shop", "amenity", "healthcare", "office", "highway", "brand", "operator", "name"],
+    "joins": ["OSM geometry -> official NCR/city/barangay polygons"],
+    "risks": ["ODbL attribution/share-alike obligations", "community completeness varies", "national extract is hundreds of MB"],
+    "first_use": "POI category counts, competitor density, road/access primitives",
+    "source_urls": [
+      "https://download.geofabrik.de/asia/philippines.html",
+      "https://download.geofabrik.de/asia/philippines-latest.osm.pbf",
+      "https://www.openstreetmap.org/copyright",
+      "https://overpass-api.de/"
+    ]
+  },
+  {
+    "source": "BetterGov API",
+    "qualification": "production-ready for source discovery and selected resources",
+    "best_grain": "dataset/resource metadata",
+    "strong_fields": ["dataset_id", "name", "publisher", "tags", "latest_version_date", "license", "resource_count", "download_url"],
+    "joins": ["resource-specific after download; metadata search by NCR/PSGC terms"],
+    "risks": ["community-run", "not CKAN-compatible", "dataset listing limit must be 10-100"],
+    "first_use": "source monitor and boundary-resource discovery",
+    "source_urls": [
+      "https://data.bettergov.ph/",
+      "https://data.bettergov.ph/docs",
+      "https://data.bettergov.ph/openapi.json",
+      "https://data.bettergov.ph/api/v1/stats"
+    ]
+  },
+  {
+    "source": "ArcGIS / HDX discovery APIs",
+    "qualification": "production-ready for source monitoring",
+    "best_grain": "dataset/item/resource metadata",
+    "strong_fields": ["item_id", "title", "owner", "orgId", "modified", "url", "extent", "tags", "licenseInfo", "resource_format"],
+    "joins": ["bbox/title/tag filtering -> manual or automated source triage"],
+    "risks": ["false positives for NCR and Metro terms", "item licenses vary", "private content can disappear or become gated"],
+    "first_use": "automated discovery monitor and drift checks",
+    "source_urls": [
+      "https://developers.arcgis.com/rest/users-groups-and-items/search-reference.htm",
+      "https://docs.ckan.org/en/latest/api/",
+      "https://data.humdata.org/api/3/action/package_show?id=cod-ab-phl"
+    ]
+  }
+]

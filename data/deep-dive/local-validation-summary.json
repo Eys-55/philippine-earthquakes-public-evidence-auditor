@@ -1,0 +1,177 @@
+{
+  "date": "2026-07-03",
+  "mode": "read-only live checks",
+  "openstat": {
+    "population_households": {
+      "endpoint": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1A/PO/0011A6DPHH0.px",
+      "http_status": 200,
+      "title": "Total Population, Household Population, and Number of Households by Region and Province/Highly Urbanized City: Philippines, 2020",
+      "variables": [
+        {
+          "code": "Geographic Location",
+          "count": 135,
+          "sample_values": [
+            ["0", "PHILIPPINES /a"],
+            ["1", "..NATIONAL CAPITAL REGION (NCR)"],
+            ["2", "....City of Manila"]
+          ]
+        },
+        {
+          "code": "Parameter",
+          "count": 3,
+          "sample_values": [
+            ["0", "Total Population"],
+            ["1", "Household Population"],
+            ["2", "Number of Households"]
+          ]
+        }
+      ]
+    },
+    "income_expenditure": {
+      "endpoint": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1E/IE/0011E3ANIE0.px",
+      "http_status": 200,
+      "title": "Table 1. Number of Families, Average Annual Family Income and Expenditure, by Region, Province, and HUC: 2023",
+      "variables": [
+        {
+          "code": "Region, Province, and HUC",
+          "count": 138,
+          "sample_values": [
+            ["0", "Philippines"],
+            ["1", "NATIONAL CAPITAL REGION"],
+            ["2", "City of Manila"]
+          ]
+        },
+        {
+          "code": "Indicators",
+          "count": 3,
+          "sample_values": [
+            ["0", "Number of Families  (In thousands)"],
+            ["1", "Average Income (In thousands)"],
+            ["2", "Average Expenditure  (In thousands)"]
+          ]
+        }
+      ]
+    },
+    "retail_prices": {
+      "endpoint": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/2M/2018NEW/0042M4ARN01.px",
+      "http_status": 200,
+      "title": "Cereals: Retail Prices of Agricultural Commodities by Geolocation, Commodity, Year and Period",
+      "ncr_filter": "Geolocation=130000000",
+      "variables": [
+        { "code": "Geolocation", "count": 119 },
+        { "code": "Commodity", "count": 14 },
+        { "code": "Year", "count": 9 },
+        { "code": "Period", "count": 13 }
+      ]
+    },
+    "services_establishments": {
+      "endpoint": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/2D/2022/0012D4BAG00.px",
+      "http_status": 200,
+      "title": "Summary Statistics for Wholesale and retail trade; repair of motor vehicles and motorcycles Establishments by Geolocation, Industry Description, Year and Data Items",
+      "ncr_filter": "Geolocation=1",
+      "variables": [
+        { "code": "Geolocation", "count": 18 },
+        { "code": "Industry Description", "count": 20 },
+        { "code": "Year", "count": 1 },
+        { "code": "Data Items", "count": 13 }
+      ]
+    }
+  },
+  "geography": {
+    "psgc_gitlab_ncr_cities": {
+      "endpoint": "https://psgc.gitlab.io/api/regions/130000000/cities-municipalities.json",
+      "http_status": 200,
+      "count": 17,
+      "sample": [
+        {
+          "code": "133900000",
+          "name": "City of Manila",
+          "regionCode": "130000000",
+          "psgc10DigitCode": "1380600000"
+        },
+        {
+          "code": "137404000",
+          "name": "Quezon City",
+          "regionCode": "130000000",
+          "psgc10DigitCode": "1381300000"
+        }
+      ],
+      "caveat": "Mirror vintage is June 30, 2022; use official PSA PSGC for canonical-current attributes."
+    },
+    "hdx_cod_ab": {
+      "endpoint": "https://data.humdata.org/api/3/action/package_show?id=cod-ab-phl",
+      "http_status": 200,
+      "metadata_modified": "2026-06-24T09:15:32.493985",
+      "resources": ["Geodatabase", "SHP", "GeoJSON", "XLSX"],
+      "ncr_join": "adm1_pcode=PH13"
+    }
+  },
+  "mmda_arcgis": {
+    "org_search": {
+      "endpoint": "https://www.arcgis.com/sharing/rest/search?f=json&q=orgid:Jlef2HFcOgOf9c7u%20AND%20type:%22Feature%20Service%22&num=30",
+      "http_status": 200,
+      "feature_service_count": 27
+    },
+    "layers": [
+      {
+        "name": "MMDA Metro Manila City/Municipality Boundary",
+        "geometry": "esriGeometryPolygon",
+        "count": 17,
+        "fields": ["RegionPSGC", "Region", "CityMunicipalityPSGC", "CityMunicipality"]
+      },
+      {
+        "name": "MM_Schools",
+        "geometry": "esriGeometryPoint",
+        "count": 2747,
+        "fields": ["BLDG_NAME", "TYPE", "STATUS", "CITY_MUNIC", "Flood_Susc"]
+      },
+      {
+        "name": "FloodProneAreas",
+        "geometry": "esriGeometryPoint",
+        "count": 593,
+        "fields": ["Location", "CityMunic", "Year", "Amount"]
+      },
+      {
+        "name": "MMDA River Line",
+        "geometry": "esriGeometryPolyline",
+        "count": 6908,
+        "fields": ["Name", "CityMunicipality"]
+      },
+      {
+        "name": "Public Establishment",
+        "geometry": "esriGeometryPolygon",
+        "count": 16,
+        "fields": ["LGU", "Name", "Address", "Establishment"],
+        "caveat": "Too sparse and sample records may be noisy; not production-worthy alone."
+      }
+    ]
+  },
+  "bettergov": {
+    "stats_endpoint": "https://data.bettergov.ph/api/v1/stats",
+    "stats_http_status": 200,
+    "stats": {
+      "total_datasets": 23,
+      "total_resources": 432,
+      "total_publishers": 13,
+      "total_categories": 13
+    },
+    "dataset_search": {
+      "minimum_limit": 10,
+      "search": "barangay",
+      "result_count": 1,
+      "top_result": "Philippine Barangay Boundaries (Hierarchical GeoJSON)"
+    }
+  },
+  "osm": {
+    "geofabrik_head": {
+      "endpoint": "https://download.geofabrik.de/asia/philippines-latest.osm.pbf",
+      "http_status": 200,
+      "content_length_bytes": 599447307,
+      "last_modified": "Fri, 03 Jul 2026 07:02:26 GMT"
+    },
+    "overpass_local_check": {
+      "result": "Unreliable from local curl; one endpoint returned 504 and alternate timed out.",
+      "production_guidance": "Use Geofabrik for bulk ETL; reserve Overpass for small targeted validation."
+    }
+  }
+}
