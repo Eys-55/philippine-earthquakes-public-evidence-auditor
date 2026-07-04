@@ -46,18 +46,55 @@ It may say:
 - manual OBO/LGU/engineer follow-up is needed;
 - the issue is not assessable from public web evidence.
 
+## Current Build Focus
+
+Focus only on Step 1 first: building identity confirmation.
+
+The target user may know very little about the building. They might only have a
+hotel name, mall name, booking link, Google Maps link, photo, receipt, nearby
+landmark, or rough city. The workflow must first help the user and agent agree
+on the exact building before searching permits, contractors, incidents, or code
+evidence.
+
+Step 1 output:
+
+- the user's raw clue;
+- the best likely building candidate, plus up to two alternates only when there
+  is real ambiguity;
+- address and jurisdiction confidence;
+- whether the target is a whole building, a tenant, a hotel, a mall, or a
+  complex;
+- a plain-language confirmation prompt;
+- a stop gate that blocks the audit until the user confirms.
+
+Confirmation style:
+
+- If the target is obvious, show the best guess and ask for confirmation.
+- If there are similar branches, nearby complexes, or tenant/building confusion,
+  show at most three options.
+- Keep the clarification light and human, for example: "I think you mean this
+  one. Just checking, not this other similarly named place, right?"
+- Do a small search before asking whenever the clue is searchable, because
+  Philippine place names, branches, malls, hotels, and mixed-use buildings can be
+  messy.
+
+Current artifact:
+
+- `data/building-code-auditor/building-identity-schema.json`
+
 ## ECC Building Blocks
 
 Build in this order:
 
-1. repeated job statement;
-2. evidence packet schema;
-3. regression test cases;
-4. skill instructions under `skills/`;
-5. source and agent-lane plan;
-6. validation script;
-7. sample evidence packet;
-8. broader scanning workflow.
+1. building identity confirmation;
+2. repeated job statement;
+3. evidence packet schema;
+4. regression test cases;
+5. skill instructions under `skills/`;
+6. source and agent-lane plan;
+7. validation script;
+8. sample evidence packet;
+9. broader scanning workflow.
 
 ## Agent Lanes
 
@@ -85,5 +122,6 @@ Recommended first lanes:
 
 ## Resume Prompt
 
-If work resumes from this note, start by designing the evidence packet schema and
-the regression test cases. Do not start with broad web scraping.
+If work resumes from this note, start with building identity confirmation. Do not
+search permits, contractors, incidents, or code evidence until the user confirms
+the exact building.

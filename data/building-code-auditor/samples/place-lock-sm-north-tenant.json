@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "building_identity_confirmation",
+  "user_intake": {
+    "raw_user_request": "restaurant in SM North",
+    "known_name_or_description": "restaurant in SM North",
+    "known_location": {
+      "city": "Quezon City",
+      "province_or_region": "Metro Manila",
+      "address_text": "SM North",
+      "nearby_landmarks": []
+    },
+    "provided_links": [],
+    "provided_media_or_documents": []
+  },
+  "identity_candidates": [
+    {
+      "candidate_id": "fixture-restaurant-sm-north",
+      "display_name": "Unspecified restaurant inside SM North",
+      "aliases": ["restaurant in SM North", "SM North tenant"],
+      "entity_type": "tenant_or_establishment",
+      "building_scope": "establishment_inside_building",
+      "address": {
+        "full_address": "Fixture SM North complex, Quezon City, Metro Manila",
+        "barangay": null,
+        "city": "Quezon City",
+        "province_or_region": "Metro Manila",
+        "country": "Philippines"
+      },
+      "coordinates": {"latitude": null, "longitude": null, "source": null},
+      "jurisdiction": {
+        "lgu": "Quezon City",
+        "likely_obo_or_building_office": "Quezon City Department of the Building Official"
+      },
+      "known_operator_or_brand": null,
+      "known_owner_or_developer": null,
+      "identity_confidence": "low",
+      "why_this_candidate": ["The clue points to a tenant category inside a larger mall complex."],
+      "why_it_might_not_be_this": ["The restaurant name and exact building/wing are missing."],
+      "evidence": [
+        {
+          "claim": "Fixture source treats SM North as a larger host complex for many tenants.",
+          "source": {"url": "https://example.com/fixtures/sm-north-tenant", "label": "Gate 1 fixture source", "source_type": "other"},
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": ["The target may be a restaurant tenant, one building/wing, or the whole mall complex."]
+    }
+  ],
+  "selected_candidate": {
+    "candidate_id": "fixture-restaurant-sm-north",
+    "display_name": "Unspecified restaurant inside SM North",
+    "aliases": ["restaurant in SM North", "SM North tenant"],
+    "entity_type": "tenant_or_establishment",
+    "building_scope": "establishment_inside_building",
+    "address": {
+      "full_address": "Fixture SM North complex, Quezon City, Metro Manila",
+      "barangay": null,
+      "city": "Quezon City",
+      "province_or_region": "Metro Manila",
+      "country": "Philippines"
+    },
+    "coordinates": {"latitude": null, "longitude": null, "source": null},
+    "jurisdiction": {
+      "lgu": "Quezon City",
+      "likely_obo_or_building_office": "Quezon City Department of the Building Official"
+    },
+    "known_operator_or_brand": null,
+    "known_owner_or_developer": null,
+    "identity_confidence": "low",
+    "why_this_candidate": ["The clue points to a tenant category inside a larger mall complex."],
+    "why_it_might_not_be_this": ["The restaurant name and exact building/wing are missing."],
+    "evidence": [
+      {
+        "claim": "Fixture source treats SM North as a larger host complex for many tenants.",
+        "source": {"url": "https://example.com/fixtures/sm-north-tenant", "label": "Gate 1 fixture source", "source_type": "other"},
+        "notes": "Test fixture only; not live public evidence."
+      }
+    ],
+    "ambiguities": ["The target may be a restaurant tenant, one building/wing, or the whole mall complex."]
+  },
+  "confirmation": {
+    "status": "candidate_ready_for_user_confirmation",
+    "user_facing_confirmation_prompt": "Should I audit the restaurant tenant, the whole SM North complex, or a specific building/wing?",
+    "clarification_style": "best_guess_with_quick_negative_check",
+    "clarifying_questions": ["Should I audit the restaurant tenant, the whole SM North complex, or a specific building/wing?"],
+    "can_proceed_to_audit": false,
+    "blockers": ["unclear_if_whole_building_or_tenant", "waiting_for_user_confirmation"]
+  }
+}

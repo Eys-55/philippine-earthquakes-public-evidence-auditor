@@ -1,0 +1,488 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-04",
+  "workflow_gate": "audit_scope_lock_learning",
+  "purpose": "Six-establishment Gate 2 menu search matrix for the Philippines Building Code Evidence Auditor. This is a public-evidence availability test, not a compliance or safety audit.",
+  "status_values": [
+    "confirmed_public_evidence",
+    "partial_public_evidence",
+    "not_found",
+    "manual_request_needed",
+    "not_assessable_from_public_web"
+  ],
+  "global_safety_rule": "Missing public evidence, reopening, booking availability, mall hours, generic standards, or social posts must never be converted into safety, compliance, permit, licensing, structural-code, or fitness-for-occupancy conclusions.",
+  "targets": [
+    {
+      "target_id": "kcc_veranza_complex",
+      "display_name": "KCC Mall of GenSan / Veranza complex",
+      "identity_notes": "Treat KCC Mall of GenSan, KCC Mall of Gensan, Veranza Mall, and Veranza by KCC as one combined test target. Sublocations remain important: KCC Mall, Veranza, KCC Supermarket, KCC/Veranza entrance, parking, and corporate areas may refer to different audit objects.",
+      "recommended_first_live_scope": "incident_damage_history",
+      "menu_results": [
+        {
+          "menu_scope": "permit_occupancy_records",
+          "best_status": "manual_request_needed",
+          "best_sources": [
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/occupancy",
+            "https://hrmdo.gensantos.gov.ph/uploads/services/587_5a66499d156e9356b729debaf06e04e3.pdf"
+          ],
+          "what_was_found": "General Santos OBO process pages exist for building permits, occupancy, annual inspection, and structural-stability-related requirements.",
+          "what_was_not_found": "No public target-specific building permit, occupancy certificate, annual inspection certificate, OBO clearance, or current post-quake clearance for the combined KCC/Veranza target was found.",
+          "manual_follow_up_needed": "Request target-specific permit, occupancy, annual inspection, post-quake inspection, repair, reopening, and clearance records from GenSan OBO or City Engineer by exact sublocation and date range.",
+          "overclaim_risk": "Process pages do not prove the target has or lacks permits, compliance, or safety."
+        },
+        {
+          "menu_scope": "incident_damage_history",
+          "best_status": "confirmed_public_evidence",
+          "best_sources": [
+            "https://www.pna.gov.ph/articles/1071654",
+            "https://mindanews.com/top-stories/2019/06/series-of-quakes-damage-gensan-mall/",
+            "https://mindanews.com/top-stories/2026/06/at-least-11-dead-4-missing-142-injured-in-quake-stricken-gensan/",
+            "https://bimp-eaga.asia/sites/default/files/publications/Reduced%20PRF18-IP%20GCAP%20General%20Santos%20City_WEB_28Nov.pdf"
+          ],
+          "what_was_found": "Public reports describe 2019 KCC facade/corner wall/roofing damage after earthquakes and a June 8, 2026 collapsed-structure response at the KCC Mall/Veranza entrance, with deaths reported inside KCC Supermarket.",
+          "what_was_not_found": "No complete official OBO engineering report, red/yellow tag record, repair permit, retrofit record, or current fit-for-occupancy clearance tied to the combined complex was found.",
+          "manual_follow_up_needed": "Request OBO, CDRRMO, City Engineer, and BFP incident inspection reports, tag status, repair methodology approvals, and reopening documents by sublocation.",
+          "overclaim_risk": "Incident reporting is not proof of current safety, compliance, completed repair, or fitness for occupancy."
+        },
+        {
+          "menu_scope": "contractor_professional_developer_operator",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://kccmalls.com/",
+            "https://www.smprime.com/latest_news/sm-mall-gensan-opens-in-august/",
+            "https://www.coreties.com/consignees/kcc-property-holdings-inc",
+            "https://www.slideshare.net/slideshow/lptrp-gensanpdf/252405596"
+          ],
+          "what_was_found": "Public evidence links the complex to KCC/KCC Malls, KCC Property Holdings, and KCC-related entities. Veranza appears as a KCC Mall expansion or adjacent KCC mall component.",
+          "what_was_not_found": "No reliable target-specific architect, structural engineer, contractor, engineer-of-record, retrofit contractor, repair contractor, or PRC/PCAB license evidence was found.",
+          "manual_follow_up_needed": "Use OBO permit files, approved plans, certificates, repair permits, and post-earthquake inspection records to identify signed/sealed professionals and contractors.",
+          "overclaim_risk": "Operator/developer leads are not licensed professional or contractor proof."
+        },
+        {
+          "menu_scope": "standards_process_context",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096",
+            "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/2/19962",
+            "https://ncda.gov.ph/revised-2024-rules-and-regulations-implementing-batas-pambansa-344/",
+            "https://animorepository.dlsu.edu.ph/faculty_research/6105/"
+          ],
+          "what_was_found": "Public legal and process context exists for PD 1096, Fire Code, accessibility, NSCP bibliographic context, and GenSan OBO process requirements.",
+          "what_was_not_found": "No target-specific official engineering, permit, inspection, NSCP, Fire Code, accessibility, or PD 1096 compliance document tied to KCC/Veranza was found.",
+          "manual_follow_up_needed": "For building-specific structural-code, Fire Code, or accessibility claims, obtain official inspection reports, approved plans, occupancy/annual inspection certificates, FSIC, accessibility audit, and repair or retrofit documentation.",
+          "overclaim_risk": "Generic standards are context only; NSCP/structural compliance is not assessable from public web without target-tied official or engineering records."
+        },
+        {
+          "menu_scope": "broad_public_evidence_packet",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://mindanews.com/top-stories/2026/06/at-least-11-dead-4-missing-142-injured-in-quake-stricken-gensan/",
+            "https://www.pna.gov.ph/articles/1071654",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building",
+            "https://factcheck.afp.com/doc.afp.com.B6K83T3"
+          ],
+          "what_was_found": "Enough public evidence exists for a packet separating identity, incident history, OBO process, standards context, and manual requests.",
+          "what_was_not_found": "Not enough public evidence for a defensible compliance, safety, permit, repair, retrofit, or current occupancy conclusion.",
+          "manual_follow_up_needed": "Packet should include manual request templates for OBO, CDRRMO, City Engineer, and BFP records, with required sublocation resolution.",
+          "overclaim_risk": "Public snippets and videos can conflate KCC, Veranza, SM City GenSan, KCC Supermarket, and entrance/parking areas."
+        }
+      ]
+    },
+    {
+      "target_id": "sm_city_general_santos",
+      "display_name": "SM City General Santos",
+      "identity_notes": "Target is the SM Supermalls mall at San Miguel Street / Santiago Boulevard, Lagao, General Santos City. Aliases include SM City GenSan, SM GenSan, SM City-Gensan, and SMGS. Sublocations include main mall, tenant spaces, SM Supermarket, The SM Store, Trade Hall, cinemas, and carpark.",
+      "recommended_first_live_scope": "incident_damage_history",
+      "menu_results": [
+        {
+          "menu_scope": "permit_occupancy_records",
+          "best_status": "manual_request_needed",
+          "best_sources": [
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/occupancy",
+            "https://mindanews.com/top-stories/2011/09/after-accident-lgu-partially-suspends-work-at-sm-gensan/"
+          ],
+          "what_was_found": "General Santos OBO process pages exist, and MindaNews reported a partial LGU suspension of carpark construction after a 2011 accident.",
+          "what_was_not_found": "No public target-specific current building permit, occupancy certificate, current inspection clearance, or complete permit file was found.",
+          "manual_follow_up_needed": "Request original mall permit, occupancy permit, carpark permit history, post-earthquake inspection records, and repair/renovation permits from GenSan OBO or City Engineer.",
+          "overclaim_risk": "Missing public permit evidence does not mean no permit, no occupancy clearance, unsafe, or noncompliant."
+        },
+        {
+          "menu_scope": "incident_damage_history",
+          "best_status": "confirmed_public_evidence",
+          "best_sources": [
+            "https://mindanews.com/top-stories/2011/09/after-accident-lgu-partially-suspends-work-at-sm-gensan/",
+            "https://newsinfo.inquirer.net/119151/7-construction-workers-hurt-as-platform-collapses-in-sm-gensan",
+            "https://www.gmanetwork.com/news/money/companies/990752/sm-gensan-to-remain-closed-following-mindanao-earthquake/story/",
+            "https://newsinfo.inquirer.net/2242621/mindanao-earthquake-gensan-malls-suspend-operations",
+            "https://factcheck.afp.com/doc.afp.com.B6K83T3"
+          ],
+          "what_was_found": "Public evidence covers 2011 carpark/construction incidents, 2011 worker injuries, June 2026 temporary closure after the Mw 7.8 earthquake, and AFP context separating 2023 and 2026 visuals.",
+          "what_was_not_found": "No official engineering report, repair scope, retrofit plan, reopening clearance, or final structural assessment tied to the mall was found.",
+          "manual_follow_up_needed": "Obtain OBO, DPWH, BFP, LGU, or SM engineering inspection records and repair/retrofit permits after 2023 and June 2026 events.",
+          "overclaim_risk": "Incident and closure evidence proves public reporting, not current safety, structural condition, code compliance, or fitness for occupancy."
+        },
+        {
+          "menu_scope": "contractor_professional_developer_operator",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://www.smprime.com/company_releases/sm-prime-to-open-sm-city-general-santos-in-south-cotabato/",
+            "https://www.jslaarchitects.com/project_uri/sm-city-general-santos/",
+            "https://www.philstar.com/lifestyle/modern-living/2012/09/08/846473/sm-city-general-santos-now-open",
+            "https://mindanews.com/top-stories/2011/09/after-accident-lgu-partially-suspends-work-at-sm-gensan/",
+            "https://newsinfo.inquirer.net/119151/7-construction-workers-hurt-as-platform-collapses-in-sm-gensan"
+          ],
+          "what_was_found": "SM Prime is developer/operator context. JSLA, Philstar, MindaNews, and Inquirer provide architecture/contractor leads including JSLA, SM EDD, DAAA, Monolith/MCDC, and Irvine Constructions.",
+          "what_was_not_found": "No PRC license files, signed/sealed plans, permit-listed professionals, current responsible engineer, or complete contractor package was found.",
+          "manual_follow_up_needed": "Use names as leads, then request OBO permit attachments or PRC/PCAB verification if professional accountability is needed.",
+          "overclaim_risk": "Source leads do not prove license validity, scope of responsibility, or responsibility for later repairs/retrofits."
+        },
+        {
+          "menu_scope": "standards_process_context",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building",
+            "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/2/19962",
+            "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/bpb344",
+            "https://aseponline.org/about/"
+          ],
+          "what_was_found": "Public standards and process context exists for PD 1096, OBO permitting, Fire Code, accessibility, and NSCP as an ASEP publication/referral-code context.",
+          "what_was_not_found": "No official engineering, permit, inspection, or compliance document tying SM City General Santos to a specific NSCP structural-code finding was found.",
+          "manual_follow_up_needed": "Request permit plans, structural calculations, inspection reports, FSIC/BFP records, accessibility inspection, and occupancy documents for building-specific compliance questions.",
+          "overclaim_risk": "Standards pages alone cannot prove the mall complies or does not comply."
+        },
+        {
+          "menu_scope": "broad_public_evidence_packet",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://www.smsupermalls.com/mall-directory/sm-city-general-santos/information",
+            "https://www.smprime.com/company_releases/sm-prime-to-open-sm-city-general-santos-in-south-cotabato/",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building",
+            "https://mindanews.com/top-stories/2011/09/after-accident-lgu-partially-suspends-work-at-sm-gensan/",
+            "https://www.gmanetwork.com/news/money/companies/990752/sm-gensan-to-remain-closed-following-mindanao-earthquake/story/"
+          ],
+          "what_was_found": "Enough public evidence exists to build identity, operator/developer, public process, incident chronology, caveat, and manual-request sections.",
+          "what_was_not_found": "Not enough for permit certainty, current safety, current code compliance, structural adequacy, or post-2026 repair/clearance status.",
+          "manual_follow_up_needed": "OBO, BFP, LGU inspection, DPWH/structural assessment, and SM mall administration records are needed for compliance/safety questions.",
+          "overclaim_risk": "Reopening, mall hours, tenants, or public advisories must not be treated as safety/compliance proof."
+        }
+      ]
+    },
+    {
+      "target_id": "fitmart_rd_plaza",
+      "display_name": "Fitmart / Fit Mart Gensan / RD Plaza area",
+      "identity_notes": "Best target cluster is RD Plaza Building / RD Plaza (Fitmart) / Fit Mart Gensan, Dadiangas West, General Santos City. Sources conflate the whole Fit Mart Mall of GenSan, RD Plaza, Jollibee RD Plaza/Fitmart, and radio-station floors.",
+      "recommended_first_live_scope": "incident_damage_history",
+      "menu_results": [
+        {
+          "menu_scope": "permit_occupancy_records",
+          "best_status": "manual_request_needed",
+          "best_sources": [
+            "https://gensantos.gov.ph/?slug=citizen-s-charter",
+            "https://hrmdo.gensantos.gov.ph/uploads/services/590_479a6625165b91bde61e69a5b703f330.pdf",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/occupancy"
+          ],
+          "what_was_found": "GenSan OBO has public routes for permits, occupancy/use certificates, annual inspections, and certified true copies.",
+          "what_was_not_found": "No public target-specific permit, occupancy certificate, annual inspection certificate, FSIC, FSEC, or certified copy for RD Plaza/Fitmart/Jollibee was found.",
+          "manual_follow_up_needed": "Ask GenSan OBO for certified true copy/certification using exact building name, address, owner/authorization basis, and record type.",
+          "overclaim_risk": "Missing public records do not mean no permit, no occupancy certificate, or noncompliance."
+        },
+        {
+          "menu_scope": "incident_damage_history",
+          "best_status": "confirmed_public_evidence",
+          "best_sources": [
+            "https://mindanews.com/top-stories/2026/06/7-8-magnitude-quake-jolts-general-santos-quake-felt-in-other-parts-of-mindanao/",
+            "https://mindanews.com/top-stories/2026/06/at-least-11-dead-4-missing-142-injured-in-quake-stricken-gensan/",
+            "https://www.radyonatin.com.ph/post/commercial-building-housing-dzrh-and-love-radio-collapses-after-magnitude-78-earthquake-in-general-santos-city",
+            "https://www.phivolcs.dost.gov.ph/primer-on-the-08-june-2026-magnitude-mw-7-8-offshore-sarangani-earthquake/"
+          ],
+          "what_was_found": "Public reporting confirms the June 8, 2026 earthquake and ties a collapsed Jollibee branch to the RD Plaza Building / Pendatun-Daproza area. Radyo Natin reports the building housed Love Radio and DZRH News FM.",
+          "what_was_not_found": "No official engineering report, post-earthquake tag, demolition order, repair permit, retrofit permit, or reoccupancy clearance tied to the exact target was found.",
+          "manual_follow_up_needed": "Request OBO/BFP/CDRRMO rapid assessment, tag status, repair/demolition/reoccupancy records, and incident command reports for RD Plaza Building.",
+          "overclaim_risk": "Incident evidence proves an event was reported, not current safety, cause, code compliance, or repair adequacy."
+        },
+        {
+          "menu_scope": "contractor_professional_developer_operator",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://ph.indeed.com/cmp/Brothers-D%26D-Fit-Mart-Gensan",
+            "https://www.infobel.com/en/philippines/brothers_d_d/general_santos_city/PH100264561/businessdetails.aspx",
+            "https://www.redribbon.ph/locations",
+            "https://www.scribd.com/document/668028526/2020-4"
+          ],
+          "what_was_found": "Tenant/operator leads exist: Fit Mart Gensan appears associated with Brothers D&D, and RD Plaza Building hosts food/retail/radio tenants in listings.",
+          "what_was_not_found": "No reliable public source found for original developer, building owner, architect, civil/structural engineer, contractor, retrofit contractor, or signed/sealed professional documents.",
+          "manual_follow_up_needed": "Use OBO permit/certified-copy request or owner-authorized document request; ask for permit photo, plaque, lease, business permit, project signboard, or owner/operator name.",
+          "overclaim_risk": "Tenant/operator evidence must not be treated as building-owner, designer, contractor, or professional-license evidence."
+        },
+        {
+          "menu_scope": "standards_process_context",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096",
+            "https://lawphil.net/statutes/repacts/ra2008/ra_9514_2008.html",
+            "https://ncda.gov.ph/revised-2024-rules-and-regulations-implementing-batas-pambansa-344/",
+            "https://gensantos.gov.ph/?slug=citizen-s-charter"
+          ],
+          "what_was_found": "Public legal/process context exists for building permits, occupancy/use, Fire Code, accessibility, and OBO processing.",
+          "what_was_not_found": "No target-specific official engineering, inspection, permit, structural calculation, NSCP review, Fire Code inspection, or accessibility audit document was found.",
+          "manual_follow_up_needed": "For NSCP/structural, Fire Code, or accessibility conclusions, obtain OBO/BFP/professional documents for the exact building or tenant space.",
+          "overclaim_risk": "NSCP/structural-code compliance is not assessable from public web for this target without official/engineering documents tied to the building."
+        },
+        {
+          "menu_scope": "broad_public_evidence_packet",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://d3rv4lo6ebphhq.cloudfront.net/Publications/Publication_File_1674398198.pdf",
+            "https://mapcarta.com/W275865348",
+            "https://mindanews.com/top-stories/2026/06/at-least-11-dead-4-missing-142-injured-in-quake-stricken-gensan/",
+            "https://hrmdo.gensantos.gov.ph/uploads/services/590_479a6625165b91bde61e69a5b703f330.pdf"
+          ],
+          "what_was_found": "A packet can start from identity cluster, address clues, target-specific incident evidence, OBO manual routes, and standards context.",
+          "what_was_not_found": "Not ready for compliance/safety findings because permit, inspection, professional, repair, retrofit, and reoccupancy records were not publicly found.",
+          "manual_follow_up_needed": "First lock the exact target: RD Plaza/Fitmart complex, Jollibee tenant, or radio-station floor/building; then request OBO/BFP records.",
+          "overclaim_risk": "A broad packet can document evidence and gaps only; it cannot certify safety, compliance, licensing, or permit absence."
+        }
+      ]
+    },
+    {
+      "target_id": "gaisano_gmall_gensan",
+      "display_name": "Gaisano Mall of GenSan / GMall of Gensan",
+      "identity_notes": "Confirmed identity cluster: GMall of Gensan, Gaisano Mall of GenSan, Gaisano Mall of Gensan, Gaisano Mall Of Gensan. Sublocations include National Highway Entrance, J. Catolico Entrance, Upper Ground Floor, Gaisano Store, Gaisano Market/Supermarket, cinemas, tenants, and portions under reconstruction.",
+      "recommended_first_live_scope": "incident_damage_history",
+      "menu_results": [
+        {
+          "menu_scope": "permit_occupancy_records",
+          "best_status": "manual_request_needed",
+          "best_sources": [
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/occupancy",
+            "https://hrmdo.gensantos.gov.ph/uploads/services/590_479a6625165b91bde61e69a5b703f330.pdf"
+          ],
+          "what_was_found": "GenSan OBO process sources exist for permits, occupancy, certified true copies, FSIC-linked occupancy requirements, signed/sealed documents, structural stability certificates, and building/occupancy record verification.",
+          "what_was_not_found": "No public target-specific permit, occupancy certificate, FSIC, certified true copy, approved plans, structural inspection report, or permit number was found for GMall.",
+          "manual_follow_up_needed": "Request certified true copy or certification from GenSan OBO; ask mall/operator for permit number, occupancy certificate, FSIC, inspection tag/report, and reopened-area scope.",
+          "overclaim_risk": "Missing public permit evidence does not mean no permit, unsafe, unlicensed, noncompliant, or unfit for occupancy."
+        },
+        {
+          "menu_scope": "incident_damage_history",
+          "best_status": "confirmed_public_evidence",
+          "best_sources": [
+            "https://newsinfo.inquirer.net/1178501/firemen-still-battling-gaisano-mall-fire-in-general-santos",
+            "https://newsinfo.inquirer.net/1178903/gensan-mall-fire-restarts-6-hours-after-fire-out-declared",
+            "https://www.pna.gov.ph/articles/1084102",
+            "https://mindanews.com/top-stories/2026/06/7-8-magnitude-quake-jolts-general-santos-quake-felt-in-other-parts-of-mindanao/"
+          ],
+          "what_was_found": "Public evidence confirms a major Oct. 16-17, 2019 fire after a magnitude 6.3 Mindanao quake, BFP involvement, fire reignition, and reported PHP 2B damage. Later reconstruction/reopening and June 2026 post-quake inspection leads exist.",
+          "what_was_not_found": "No official engineering damage assessment, repair scope, retrofit design, demolition permit, reconstruction permit, or final clearance document tied to the mall was found.",
+          "manual_follow_up_needed": "Pull BFP incident report, CDRRMO record, OBO inspection record, demolition/repair permits, and reconstruction/retrofit documents; separate 2019 fire damage from 2026 earthquake inspection claims.",
+          "overclaim_risk": "The 2019 incident is real public evidence but cannot prove current unsafe/safe status."
+        },
+        {
+          "menu_scope": "contractor_professional_developer_operator",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://gaisanomalls.com/about-us/",
+            "https://gaisanomalls.com/mall-directory/",
+            "https://ph.jobstreet.com/companies/dsg-sons-group-inc-168558363124764",
+            "https://bossjob.ph/en-us/company/dsg-sons-group-inc-gaisano-malls"
+          ],
+          "what_was_found": "Official Gaisano sources support the branch identity and General Santos operation. Employment profiles identify DSG Sons Group Inc. and GMalls portfolio context.",
+          "what_was_not_found": "No confirmed contractor, architect, civil/structural engineer, professional license number, PCAB contractor, developer filing, structural designer, or reconstruction contractor was found.",
+          "manual_follow_up_needed": "Ask operator/OBO for permit application parties, signed/sealed professionals, contractor, PCAB details, certificate of completion, and construction logbook signatories.",
+          "overclaim_risk": "Operator evidence is not contractor/professional evidence."
+        },
+        {
+          "menu_scope": "standards_process_context",
+          "best_status": "confirmed_public_evidence",
+          "best_sources": [
+            "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096",
+            "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/2/19962",
+            "https://ncda.gov.ph/disability-laws/implementing-rules-and-regulations-irr/irr-of-bp-344/",
+            "https://aseponline.org/about/",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building"
+          ],
+          "what_was_found": "Public context exists for building permits, occupancy, FSIC, accessibility, professional seals, structural documents, and OBO process. GenSan OBO requirements reference BP 344, structural documents, fire-protection plans, stability certificates, and earthquake recording instrumentation.",
+          "what_was_not_found": "No NSCP/structural-code compliance document tied to GMall was found.",
+          "manual_follow_up_needed": "For target structural-code questions, request signed structural plans, design computations, inspection report, and OBO/BFP records.",
+          "overclaim_risk": "NSCP or PD 1096 context cannot prove this mall complies."
+        },
+        {
+          "menu_scope": "broad_public_evidence_packet",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://gaisanomalls.com/mall-directory/",
+            "https://newsinfo.inquirer.net/1178501/firemen-still-battling-gaisano-mall-fire-in-general-santos",
+            "https://www.filipizen.com/partners/gensan_gensan",
+            "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096"
+          ],
+          "what_was_found": "A broad packet is viable if framed as public evidence plus manual gaps. Strongest lanes are identity, 2019 incident history, GenSan OBO process, and standards context.",
+          "what_was_not_found": "Permit/occupancy, contractor/professional, current structural status, rebuilt-area scope, and official post-2026 inspection documents are not publicly resolved.",
+          "manual_follow_up_needed": "Run packet with separated lanes and caveats; start manual OBO/BFP/operator requests immediately.",
+          "overclaim_risk": "Do not collapse public news, social reopening posts, and official compliance documents into the same evidence grade."
+        }
+      ]
+    },
+    {
+      "target_id": "robinsons_gensan",
+      "display_name": "Robinsons GenSan / Robinsons Place GenSan",
+      "identity_notes": "Target is the mall now branded Robinsons GenSan / Robinsons Gen San, also appearing as Robinsons Place GenSan, Robinsons Place Gen San, and Robinsons Place General Santos. Do not merge with Grand Summit Hotel General Santos or the 2026 Palengke Heneral / second mall PPP.",
+      "recommended_first_live_scope": "incident_damage_history",
+      "menu_results": [
+        {
+          "menu_scope": "permit_occupancy_records",
+          "best_status": "confirmed_public_evidence",
+          "best_sources": [
+            "https://robinsonsland.com/sites/default/files/2023-06/RLC%20-%20Final%20Offer%20Supplement%20%28dated%2013%20June%202023%29%20vF.pdf",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/occupancy"
+          ],
+          "what_was_found": "RLC filing lists Robinsons Place Gen San with LGU occupancy permit dated Sept. 28, 2009, HLURB certificate of completion dated Sept. 15, 2009, DENR ECC dated Apr. 16, 2008, LGU building permit dated Aug. 13, 2009, and a 2023 business permit.",
+          "what_was_not_found": "No actual scanned LGU permit/occupancy certificate, inspection report, approved plans, or current OBO certification was found on the open web.",
+          "manual_follow_up_needed": "Request certified copies or verification from GenSan OBO/LGU if legal-grade proof is needed.",
+          "overclaim_risk": "Company filing is strong public evidence but not a certified LGU record."
+        },
+        {
+          "menu_scope": "incident_damage_history",
+          "best_status": "confirmed_public_evidence",
+          "best_sources": [
+            "https://newsinfo.inquirer.net/2242621/mindanao-earthquake-gensan-malls-suspend-operations",
+            "https://bilyonaryo.com/2026/06/08/robinsons-land-all-safe-at-general-santos-property-after-7-8-magnitude-quake-mall-closed-for-structural-inspection/property/",
+            "https://apnews.com/article/philippines-earthquake-mindanao-688f1e3b08854f31e92eaf1fd12e0bcb"
+          ],
+          "what_was_found": "Public reports show temporary closure/inspection after the June 8, 2026 Mindanao quake, and AP reported a Robinsons GenSan temporary closure after the Nov. 17, 2023 quake.",
+          "what_was_not_found": "No official GenSan OBO/City Engineer structural assessment, repair methodology, retrofit record, clearance-to-reoccupy document, or current safety certificate was found.",
+          "manual_follow_up_needed": "Ask OBO, City Engineer, CDRRMO, BFP, or Robinsons Land for inspection and clearance records if current safety/repair/reoccupancy is at issue.",
+          "overclaim_risk": "Reopening, mall hours, and no-casualty statements do not prove safe/compliant."
+        },
+        {
+          "menu_scope": "contractor_professional_developer_operator",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://robinsonsland.com/sites/default/files/2023-04/RLC_SEC%2017-A_December%2031%202022.pdf",
+            "https://robinsonsland.com/sites/default/files/2023-06/RLC%20-%20Final%20Offer%20Supplement%20%28dated%2013%20June%202023%29%20vF.pdf",
+            "https://robinsonsmalls.com/mall-info/robinsons-place-gensan"
+          ],
+          "what_was_found": "RLC/Robinsons Malls is confirmed as developer/operator context, and filings list the mall property and Robinsons Malls business division.",
+          "what_was_not_found": "No reliable public source naming original contractor, architect, structural engineer, civil engineer of record, or post-quake inspection professional was found.",
+          "manual_follow_up_needed": "Need permit sheet, construction billboard, signed/sealed plan, PCAB/PRC name, project contract, or direct records request.",
+          "overclaim_risk": "Do not infer contractor/professional responsibility from RLC ownership/operator evidence."
+        },
+        {
+          "menu_scope": "standards_process_context",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/11/53320",
+            "https://lawphil.net/statutes/repacts/ra2008/ra_9514_2008.html",
+            "https://ncda.gov.ph/revised-2024-rules-and-regulations-implementing-batas-pambansa-344/",
+            "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/occupancy"
+          ],
+          "what_was_found": "Public context exists for building permits, occupancy certificates, Fire Code, accessibility, and general building-code duties.",
+          "what_was_not_found": "No target-specific NSCP/structural-code compliance document, signed/sealed structural plans, calculations, inspection report, or official engineering clearance found.",
+          "manual_follow_up_needed": "Manual request/professional review required for target-specific NSCP, structural safety, fire-safety, accessibility, or occupancy reliance.",
+          "overclaim_risk": "Standards context is not building-specific compliance proof."
+        },
+        {
+          "menu_scope": "broad_public_evidence_packet",
+          "best_status": "confirmed_public_evidence",
+          "best_sources": [
+            "https://vmd.robinsonsmalls.com/list-of-malls/mindanao/robinsons-gen-san",
+            "https://robinsonsland.com/sites/default/files/2023-06/RLC%20-%20Final%20Offer%20Supplement%20%28dated%2013%20June%202023%29%20vF.pdf",
+            "https://newsinfo.inquirer.net/2242621/mindanao-earthquake-gensan-malls-suspend-operations"
+          ],
+          "what_was_found": "Enough public evidence exists to build a broad packet: identity, address, aliases, RLC property/permit filing, OBO process routes, operator/developer context, 2023 and 2026 quake reports, and standards context.",
+          "what_was_not_found": "Packet cannot resolve current safety, certified permit status, exact contractor/professional-of-record, repair/retrofit status, or NSCP compliance from public web alone.",
+          "manual_follow_up_needed": "Manual checklist should include OBO, City Engineer/CDRRMO, BFP FSIC/FSEC records, RLC engineering/admin, and named professional/contractor lookup if names are obtained.",
+          "overclaim_risk": "Broad packet can summarize public evidence and gaps only; it must not certify safety, compliance, fitness for occupancy, or absence of permits/incidents."
+        }
+      ]
+    },
+    {
+      "target_id": "grand_summit_hotel_general_santos",
+      "display_name": "Grand Summit Hotel General Santos",
+      "identity_notes": "Grand Summit Hotel General Santos / Grand Summit Hotel Gensan at Honorio Arriola corner Arradaza Street, Barangay Lagao, General Santos City. Arrazada appears as a spelling variant. Treat the hotel as near Robinsons Place GenSan, not automatically as the mall.",
+      "recommended_first_live_scope": "broad_public_evidence_packet",
+      "menu_results": [
+        {
+          "menu_scope": "permit_occupancy_records",
+          "best_status": "manual_request_needed",
+          "best_sources": [
+            "https://hrmdo.gensantos.gov.ph/uploads/services/585_2e78b91ca0ad9bc403965dcbb896d2a9.pdf",
+            "https://hrmdo.gensantos.gov.ph/uploads/services/591_638e6e72c175bb6feaf0d3d2c99d7091.pdf",
+            "https://robinsonsland.com/sites/default/files/2023-04/RLC%20-%20Offer%20Supplement%20%282023.04.20%29%20vF.pdf"
+          ],
+          "what_was_found": "GenSan publishes OBO process documents for building permits and certificates of occupancy/use. RLC filing has broad company-level permit/approval language.",
+          "what_was_not_found": "No public certified building permit, occupancy permit, permit number, or OBO record tied directly to Grand Summit Hotel General Santos was found.",
+          "manual_follow_up_needed": "Request from GenSan OBO/Building Official using exact hotel name, address, owner/operator, record type, and date range.",
+          "overclaim_risk": "Do not infer no permit, valid permit, safety, or fitness for occupancy from process PDFs, company filings, or missing public records."
+        },
+        {
+          "menu_scope": "incident_damage_history",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://apnews.com/article/philippines-earthquake-mindanao-6e489739402863eaf40cbfd30a1b1cc7",
+            "https://www.phivolcs.dost.gov.ph/primer-on-the-08-june-2026-magnitude-mw-7-8-offshore-sarangani-earthquake/",
+            "https://www.facebook.com/ManilaBulletin/posts/grand-summit-hotel-general-santos-reported-no-injuries-among-guests-and-staff-fo/1479849747516560/",
+            "https://www.facebook.com/GenSanNews/posts/gensannewsonline-gensan-accommodation-establishments-cleared-following-obo-inspe/1538108834651294/"
+          ],
+          "what_was_found": "Strong public event context exists for the June 8, 2026 earthquake; social/news leads mention Grand Summit Hotel, no injuries, and accommodation establishments cleared after OBO inspections.",
+          "what_was_not_found": "No durable official LGU/OBO inspection memo, clearance, repair order, damage assessment, retrofit document, or closure/reopening order tied to the hotel was found.",
+          "manual_follow_up_needed": "Follow up with GenSan OBO/CDRRMO or hotel management for actual post-quake inspection/clearance record if needed.",
+          "overclaim_risk": "A social post saying safe or cleared is only a lead unless backed by official inspection documents."
+        },
+        {
+          "menu_scope": "contractor_professional_developer_operator",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://www.jgsummit.com.ph/news/robinsons-hotels-resorts-grand-summit-hotel-opens-in-general-santos-city-20211021",
+            "https://robinsonsland.com/AR2021/rhr.html",
+            "https://robinsonsland.com/sites/default/files/2026-04/RLC_SEC%2017-A_December%2031%202025.pdf",
+            "https://asyadesign.com.ph/projects/grand-summit-hotel-general-santos/"
+          ],
+          "what_was_found": "Operator/developer evidence is strong: Robinsons Hotels and Resorts / Robinsons Land context. ASYA Design lists the project with RLC as client and services including Architecture, MEFPS, and Interior Design.",
+          "what_was_not_found": "No signed/sealed professional-of-record documents, permit professionals, structural engineer, geotechnical report, contractor-of-record, or PCAB-linked contractor proof tied to the permit set was found.",
+          "manual_follow_up_needed": "Ask RLC/hotel/OBO for permit application attachments or project signboard/permit data if professional or contractor attribution is required.",
+          "overclaim_risk": "Designer portfolio pages are not permit-of-record proof; developer/operator identity does not prove construction quality or compliance."
+        },
+        {
+          "menu_scope": "standards_process_context",
+          "best_status": "not_assessable_from_public_web",
+          "best_sources": [
+            "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096",
+            "https://www.dpwh.gov.ph/DPWH/files/nbc/PD.pdf",
+            "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/2/19962",
+            "https://ncda.gov.ph/revised-2024-rules-and-regulations-implementing-batas-pambansa-344/",
+            "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/11/42784"
+          ],
+          "what_was_found": "General legal/process context is public for National Building Code/PD 1096, Fire Code, accessibility rules, GenSan OBO processes, and NSCP adoption context.",
+          "what_was_not_found": "No target-specific signed/sealed plans, structural calculations, FSEC/FSIC, accessibility inspection, occupancy certificate, or engineering assessment tied to Grand Summit Hotel was found.",
+          "manual_follow_up_needed": "Manual document request or professional engineering review is required for target-specific NSCP/structural/fire/accessibility compliance questions.",
+          "overclaim_risk": "Standards pages cannot prove this building is compliant, noncompliant, structurally safe, fire-safe, accessible, or fit for occupancy."
+        },
+        {
+          "menu_scope": "broad_public_evidence_packet",
+          "best_status": "partial_public_evidence",
+          "best_sources": [
+            "https://robinsonshotels.com/brand/grand-summit-hotels/",
+            "https://grandsummithotels.ph/",
+            "https://robinsonsland.com/sites/default/files/2026-04/RLC_SEC%2017-A_December%2031%202025.pdf",
+            "https://hrmdo.gensantos.gov.ph/uploads/services/585_2e78b91ca0ad9bc403965dcbb896d2a9.pdf"
+          ],
+          "what_was_found": "Packet is viable: identity, address, operator/developer, adjacent Robinsons Place context, OBO process route, standards context, and incident leads exist.",
+          "what_was_not_found": "Key legal-grade building-specific records are missing: permit, occupancy certificate, post-quake OBO inspection document, FSIC/FSEC, signed plans, structural calculations, and contractor/professional-of-record.",
+          "manual_follow_up_needed": "Include manual-request appendix for OBO, BFP, RLC/hotel management, and possibly DOT/LGU tourism if accreditation matters.",
+          "overclaim_risk": "Broad packet can summarize public evidence and gaps only; it cannot certify safety, compliance, licensing, or current occupancy fitness."
+        }
+      ]
+    }
+  ],
+  "cross_target_findings": [
+    "Incident, damage, closure, repair, or retrofit history is the strongest first live scope for KCC/Veranza, SM City General Santos, Fitmart/RD Plaza, Gaisano/GMall, and Robinsons GenSan.",
+    "Grand Summit Hotel General Santos is better as a broad packet first, with the incident lane prioritized inside that packet.",
+    "Robinsons GenSan is the only target with confirmed public permit/occupancy evidence from a corporate filing; the rest mostly expose public OBO process routes and require manual records requests.",
+    "No target had public web evidence sufficient to confirm NSCP or structural-code compliance. Generic standards context is available, but target-specific compliance is not assessable without official or engineering documents.",
+    "Gate 2 should add explicit fields for target_subscope, timeframe, source_reality_status, and manual_request_targets before Gate 3 evidence packets are designed."
+  ]
+}

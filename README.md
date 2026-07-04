@@ -1,53 +1,103 @@
-# Address Disaster Risk Assessor
+# Market Research Agent Workspace
 
-ECC-aligned project for a reusable address-based disaster risk assessor.
+ECC-aligned workspace for multiple source-attributed agent workflows. Each
+workflow lives in its own project lane so instructions, schemas, evidence,
+reports, and safety boundaries stay separate.
 
-The product goal is simple: given an address, return a source-attributed disaster
-risk packet covering flood, river proximity, liquefaction, active fault
-proximity, landslide or storm-surge relevance where applicable, and confidence
-notes for each signal.
+## Active Lanes
 
-The earlier Metro Manila source atlas remains the foundation data inventory. The
-active project direction is now disaster-risk assessment only, not broad market
-research or generic city scoring.
+| Lane | Status | Purpose | Start Here |
+| --- | --- | --- | --- |
+| `philippines-building-code-evidence-auditor` | active | Confirm a Philippine building, establishment, mall, hotel, or facility, then prepare audit-only public evidence about permits, occupancy, incidents, earthquake damage, contractors, and standards context. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
+| `address-disaster-risk-assessor` | paused/foundation | Given an address or coordinates, produce a source-attributed disaster-risk packet for Metro Manila / NCR. | `skills/address-disaster-risk-assessor/SKILL.md` |
+| `metro-manila-source-atlas` | foundation | Refresh or extend the reusable Metro Manila data-source inventory. | `skills/metro-manila-source-atlas/SKILL.md` |
+| `untitled-project` | exploring | Parking lane for the next workflow before the repeated job, input contract, and output artifact are named. | `skills/untitled-project/SKILL.md` |
 
-## Artifacts
+Before starting work, choose one lane. If a request could belong to multiple
+lanes, ask one lane-selection question before editing files.
 
-- `docs/plans/2026-07-03-address-disaster-risk-assessor-design.md` - locked product design.
-- `docs/decisions/0002-lock-address-disaster-risk-assessor.md` - accepted decision to focus this repo on disaster risk.
-- `docs/status/2026-07-03-ecc-handoff-summary.md` - restart summary of the ECC work, current goal shape, and next decision.
-- `skills/address-disaster-risk-assessor/SKILL.md` - reusable ECC workflow for address-in, risk-packet-out assessment.
-- `data/disaster-risk/source-priorities.json` - canonical source priority list for the disaster assessor.
-- `data/disaster-risk/disaster-source-atlas.json` - ranked machine-readable disaster-source atlas from the six-agent run.
-- `data/disaster-risk/local-validation-summary.json` - live endpoint checks for high-priority disaster sources.
-- `data/disaster-risk/agent-findings/` - preserved raw findings from the six disaster research agents.
-- `reports/disaster-risk-data-source-atlas.md` - integrated disaster-source report and MVP source order.
-- `reports/metro-manila-data-source-atlas.md` - decision-ready integrated report.
-- `reports/metro-manila-source-deep-dive.md` - qualification pass over the strongest buildable sources.
-- `data/metro-manila-source-atlas.json` - machine-readable ranked inventory.
-- `data/source-schema.json` - row schema for source inventory entries.
-- `data/verification-log.md` - live checks performed during source validation.
-- `data/deep-dive/local-validation-summary.json` - structured record of live checks for the deep dive.
-- `data/deep-dive/source-qualification-matrix.json` - build-readiness matrix for the strongest source groups.
-- `data/agent-findings/` - raw findings from the six parallel research streams.
-- `docs/decisions/0001-city-level-prototype-first.md` - superseded market-scoring decision retained for history.
-- `skills/metro-manila-source-atlas/SKILL.md` - reusable ECC workflow for refreshing or extending the atlas.
+## Lane Convention
 
-## Current Build Direction
+For new lanes, use one stable slug per workflow:
 
-Build the first product as an **Address Disaster Risk Assessor**:
+- `skills/<project-slug>/SKILL.md` - canonical workflow instructions.
+- `data/<project-slug>/` - schemas, fixtures, raw evidence, source notes, and
+  evals.
+- `reports/<project-slug>-*.md` - integrated reports and evidence packets.
+- `docs/plans/YYYY-MM-DD-<project-slug>-*.md` - design and execution plans.
+- `docs/decisions/000X-*.md` - durable decisions.
+- `docs/status/YYYY-MM-DD-<project-slug>-*.md` - handoff and resume notes.
+- `scripts/validate_<project_slug>*.py` - validation gates when useful.
 
-- Input: address or coordinates.
-- Output: disaster risk packet with source links and confidence labels.
-- First geography: Metro Manila / NCR.
-- First risk classes: flood, historical flood-prone points, river proximity,
-  liquefaction, active fault proximity, landslide or storm-surge relevance where
-  data supports it.
-- Later/weak class: waste-management or drainage-service risk only when a clean
-  source or defensible proxy is validated.
+Existing lanes with documented historical data surfaces can keep those paths.
+For example, the Building Code Evidence Auditor currently uses
+`data/building-code-auditor/`.
 
-Do not build generic market scoring unless the user explicitly reopens that
-direction.
+See `docs/decisions/0004-adopt-project-lanes.md` and
+`docs/status/2026-07-04-project-lanes-workspace-status.md`.
+
+## Building Code Evidence Auditor
+
+Current active lane:
+
+- Skill: `skills/philippines-building-code-evidence-auditor/SKILL.md`
+- Status: `docs/status/2026-07-04-building-code-evidence-auditor-lock.md`
+- Decision: `docs/decisions/0003-lock-philippines-building-code-evidence-auditor.md`
+- Data: `data/building-code-auditor/`
+- Current gate: building identity confirmation before any permit, contractor,
+  incident, compliance, safety, or earthquake evidence search.
+
+This lane is an evidence auditor, not a compliance certifier. It must not claim
+that a building is legally compliant, structurally safe, earthquake-safe, or fit
+for occupancy unless that exact claim is supported by authoritative public
+evidence.
+
+## Disaster Risk Assessor
+
+The earlier disaster-risk lane remains useful foundation work.
+
+- Plan: `docs/plans/2026-07-03-address-disaster-risk-assessor-design.md`
+- Decision: `docs/decisions/0002-lock-address-disaster-risk-assessor.md`
+- Status: `docs/status/2026-07-03-project-pause-handoff.md`
+- Skill: `skills/address-disaster-risk-assessor/SKILL.md`
+- Data: `data/disaster-risk/`
+- Report: `reports/disaster-risk-data-source-atlas.md`
+
+The product goal is address-in, disaster-risk-packet-out for Metro Manila / NCR,
+with source links and confidence labels.
+
+## Source Atlas Foundation
+
+Reusable source inventory and validation artifacts:
+
+- `skills/metro-manila-source-atlas/SKILL.md`
+- `data/metro-manila-source-atlas.json`
+- `data/source-schema.json`
+- `data/verification-log.md`
+- `data/deep-dive/local-validation-summary.json`
+- `data/deep-dive/source-qualification-matrix.json`
+- `data/agent-findings/`
+- `reports/metro-manila-data-source-atlas.md`
+- `reports/metro-manila-source-deep-dive.md`
+- `docs/decisions/0001-city-level-prototype-first.md`
+
+## Untitled Project
+
+Use `untitled-project` only as a temporary holding lane.
+
+Before promoting it, lock:
+
+- repeated real-world job;
+- trigger and refusal scope;
+- input contract;
+- output artifact;
+- agent lanes;
+- raw evidence surface;
+- validation loop;
+- safety boundary.
+
+Then rename `skills/untitled-project/` and `data/untitled-project/` to the final
+slug and add a decision note.
 
 ## Verification
 
@@ -58,12 +108,17 @@ python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/sourc
 python3 -m json.tool data/disaster-risk/source-priorities.json >/tmp/disaster-risk-source-priorities.json
 python3 -m json.tool data/disaster-risk/disaster-source-atlas.json >/tmp/disaster-source-atlas.json
 python3 -m json.tool data/disaster-risk/local-validation-summary.json >/tmp/disaster-local-validation-summary.json
+python3 scripts/validate_progress_docs.py
 git diff --check
 ```
+
+For docs-only changes, JSON parsing and whitespace checks are the required gate.
+For future code, add tests before implementation and keep ECC's 80% coverage
+target.
 
 ## ECC Boundaries
 
 - Research is read-only.
 - No credentials, signups, writes to third-party systems, or auth bypasses.
-- Every important claim in the integrated report links to a source URL.
-- Raw findings are preserved separately from the integrated atlas.
+- Every important claim in an integrated report links to a source URL.
+- Raw findings are preserved separately from integrated outputs.

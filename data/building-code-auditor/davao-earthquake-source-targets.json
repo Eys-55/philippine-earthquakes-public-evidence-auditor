@@ -1,0 +1,258 @@
+{
+  "artifact": "davao_earthquake_source_targets",
+  "lane": "philippines-building-code-evidence-auditor",
+  "version": "2026-07-05",
+  "purpose": "Davao City source-target menu for the four earthquake-only answerability questions. This identifies the strongest Davao-first document names, public sources, manual custodians, search terms, and overclaim boundaries.",
+  "scope": "Davao City earthquake, NSCP/seismic design evidence, OBO structural permit/review evidence, post-earthquake official tag/status, and post-damage or post-tag clearance/reoccupancy evidence.",
+  "global_rule": "These sources and document names help answer whether evidence exists. They do not certify that a building is safe, unsafe, earthquake-proof, NSCP-compliant, noncompliant, permitted, or unpermitted.",
+  "primary_davao_custodian": {
+    "office": "Davao City Office of the City Building Official (OCBO)",
+    "public_page": "https://davaocity.gov.ph/departments/infrastructure/office-of-the-building-official/",
+    "known_functions": [
+      "Building Permit",
+      "Occupancy Permit",
+      "Annual Inspection",
+      "Certification",
+      "Complaints on violations against the National Building Code"
+    ],
+    "manual_request_path": "Use the Davao Citizen's Charter service 'Issuance of Certified True Copy of Documents' and request the exact target-specific record by building/subscope and date.",
+    "manual_request_requirements_from_charter": [
+      "Request Letter",
+      "Photocopy of Building Permit and other related documents",
+      "Photocopy of Valid ID of the Owner with three signatures",
+      "If not the owner, processor valid ID with three signatures and original Special Power of Attorney",
+      "If lost, original Affidavit of Loss"
+    ]
+  },
+  "secondary_custodians": [
+    {
+      "office": "City Engineer's Office",
+      "use": "Public-building inspection reports, unsafe/not-safe-for-occupancy findings, repair recommendations, and inspection reports after earthquakes."
+    },
+    {
+      "office": "Davao City Reports / CDRRMO",
+      "use": "Damage reporting intake and referral path for cracks, leaning/tilting structures, jammed doors, and other post-earthquake building damage signs."
+    },
+    {
+      "office": "PICE Davao City Chapter",
+      "use": "Technical inspection support. Treat as official answer evidence only when OCBO, LGU, City Engineer, or DPWH publishes or adopts the result."
+    },
+    {
+      "office": "DPWH / NBCDO",
+      "use": "National rapid visual screening, placard, and National Building Code process context. Usually not a Davao target-specific custodian."
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "q1_nscp_seismic_design_evidence",
+      "davao_question": "Is there target-specific evidence that this Davao building was designed or reviewed for NSCP earthquake/seismic requirements?",
+      "strongest_answerable_targets": [
+        "Target-specific signed/sealed Seismic Analysis",
+        "Target-specific signed/sealed Structural Design Analysis or structural design computations",
+        "Target-specific Civil/Structural Permit Form with Civil/Structural Plans, only if issued, approved, released, or tied to OCBO review",
+        "Target-specific approved plans and documents stamped with Building Permit Number",
+        "Target-specific OCBO Evaluation Sheet showing structural review",
+        "Target-specific issued Building Permit that references approved structural/civil documents or structural review",
+        "Target-specific Civil/Structural Designs, Computations, Plans and Specifications"
+      ],
+      "process_or_manual_leads_only": [
+        "Davao Citizen's Charter checklist",
+        "Blank Building Permit or Civil/Structural forms",
+        "Boring and Plate Load Test Result/Report without structural/seismic design analysis",
+        "PRC ID or PTR of signing professionals without the signed/sealed target document",
+        "OBPS portal page without a visible issued/approved target record",
+        "Certificate of Annual Inspection of Buildings without original design/review evidence"
+      ],
+      "davao_search_queries": [
+        "site:davaocity.gov.ph \"Seismic Analysis\" \"Building Permit\"",
+        "site:davaocity.gov.ph \"Civil/Structural Permit Form\" \"Civil/Structural Plans\"",
+        "site:davaocity.gov.ph \"approved plans and documents\" \"Building Permit Number\"",
+        "site:davaocity.gov.ph \"Evaluation Sheet\" \"Structural\" \"OCBO\"",
+        "site:davaocity.gov.ph \"Certified True Copy of Documents\" \"Office of the City Building Official\"",
+        "\"{target}\" \"Davao\" \"Seismic Analysis\"",
+        "\"{target}\" \"Davao\" \"Civil/Structural Permit\"",
+        "\"{target}\" \"Davao\" \"Building Permit Number\""
+      ]
+    },
+    {
+      "question_id": "q2_obo_structural_permit_review_evidence",
+      "davao_question": "Is there target-specific evidence that this Davao building went through official OCBO structural permit or plan-review processing?",
+      "strongest_answerable_targets": [
+        "Target-specific issued Building Permit",
+        "Target-specific approved/released Civil/Structural Permit Form with Civil/Structural Plans",
+        "Target-specific approved plans/documents stamped with Building Permit Number",
+        "Target-specific Evaluation Sheet showing structural review",
+        "Target-specific Comprehensive Correction Sheet or Notice of Disapproval, with answer limited to review happened and not approval",
+        "Target-specific Certificate of Occupancy tied to approved permits/plans",
+        "Target-specific Approved Permits including Building Construction and Civil/Structural permits",
+        "Target-specific Approved plan of Building Permit"
+      ],
+      "process_or_manual_leads_only": [
+        "Blank permit application form",
+        "Davao Citizen's Charter process page",
+        "Order of Payment without issued permit, approval, or review disposition",
+        "Certificate of Annual Inspection of Buildings without original permit/review records",
+        "OBPS portal without visible target-specific issued/approved record"
+      ],
+      "davao_search_queries": [
+        "site:davaocity.gov.ph \"Civil/Structural Permit Form\" \"Davao\"",
+        "site:davaocity.gov.ph \"Seismic Analysis\" \"Office of the City Building Official\"",
+        "site:davaocity.gov.ph \"Evaluation Sheet\" \"Structural\" \"OCBO\"",
+        "site:davaocity.gov.ph \"Building Permit Number\" \"approved plans and documents\"",
+        "site:davaocity.gov.ph \"Certificate of Occupancy\" \"Approved Permits\" \"Civil/Structural\"",
+        "site:lissp2.davaocity.gov.ph \"Comprehensive Correction Sheet\" \"Notice of Disapproval\"",
+        "site:davaocity.gov.ph \"Online Building Permit System\" \"OBPS\""
+      ]
+    },
+    {
+      "question_id": "q3_latest_post_earthquake_tag_status",
+      "davao_question": "After a specific earthquake, what is the official Davao tag or inspection status for this building or affected portion?",
+      "strongest_answerable_targets": [
+        "City Government of Davao article, post, or list naming the building and tag/status",
+        "OCBO red tag notice or official red-tagged list",
+        "OCBO yellow tag notice or official yellow-tagged list",
+        "City Engineer's Office inspection result naming the building as unsafe for occupancy, not safe for occupancy, restricted, cordoned, or usable",
+        "Official OCBO/PICE rapid visual inspection result, only if OCBO/LGU publishes or adopts it",
+        "Official clearance/lifting update that states the new status after the earthquake"
+      ],
+      "davao_terms_to_search": [
+        "red tag notice",
+        "red tagged",
+        "yellow tag notice",
+        "yellow tagged",
+        "rapid visual inspection",
+        "unsafe for occupancy",
+        "not safe for occupancy",
+        "restricted use",
+        "entry or use prohibited",
+        "cleared by OCBO",
+        "before re-occupancy"
+      ],
+      "green_tag_rule": "Do not require the word green for Davao. National DPWH placard language supports green/yellow/red, but Davao official web sources found in this run mainly use red/yellow plus safe/not-safe-for-occupancy and clearance language. Accept green, inspected, safe for occupancy, cleared, or equivalent only if an official source says it for the exact target/date/scope.",
+      "process_or_manual_leads_only": [
+        "Reputable news without retrievable official source",
+        "Operator says open or business as usual",
+        "PICE inspection mention without OCBO/LGU publication or adoption",
+        "No public tag result after a reported inspection"
+      ],
+      "davao_search_queries": [
+        "site:davaocity.gov.ph OCBO red yellow tag earthquake building Davao",
+        "site:davaocity.gov.ph \"red tag\" \"yellow tag\" \"OCBO\" \"PICE\" Davao earthquake",
+        "site:davaocity.gov.ph \"rapid visual inspection\" \"OCBO\" \"PICE\" \"Davao\"",
+        "site:davaocity.gov.ph \"unsafe for occupancy\" earthquake \"City Engineer\"",
+        "site:davaocity.gov.ph \"not safe for occupancy\" earthquake Davao building",
+        "site:davaocity.gov.ph \"cleared by the OCBO\" earthquake building",
+        "site:davaocity.gov.ph \"before re-occupancy\" \"red tag\" \"yellow tag\""
+      ]
+    },
+    {
+      "question_id": "q4_latest_clearance_after_damage_or_tag",
+      "davao_question": "If the Davao building was tagged, damaged, closed, or restricted, is there target-specific official clearance allowing use or re-occupancy?",
+      "strongest_answerable_targets": [
+        "Official OCBO/LGU notice saying the building was cleared by OCBO after red/yellow tag, damage, or repair",
+        "Official notice saying re-occupancy, occupancy, entry, or use may resume for the exact building or affected area",
+        "Official green-tag update or tag lifting notice, if Davao uses or releases one for the target",
+        "Official final inspection, repair/retrofit acceptance, certificate of completion, or compliance acceptance that explicitly allows use or re-occupancy",
+        "Signed/sealed structural stability or structural soundness certificate after earthquake/repairs, with caveat if no OCBO/LGU clearance accompanies it"
+      ],
+      "davao_terms_to_search": [
+        "cleared by the OCBO",
+        "before allowing re-occupancy",
+        "repairs completed",
+        "comprehensive structural assessment report",
+        "repair methodology",
+        "repair permit",
+        "subject to review and approval",
+        "comply with OCBO conditions and safety requirements"
+      ],
+      "process_or_manual_leads_only": [
+        "Repair permit without completion or clearance",
+        "Approved repair methodology without final clearance",
+        "Comprehensive structural assessment report submitted to OCBO without acceptance or reoccupancy language",
+        "Notice to comply",
+        "Compliance report without authority acceptance",
+        "PICE-assisted inspection mention without OCBO/LGU adoption",
+        "Owner/operator reopening statement",
+        "Business hours, bookings, mall reopening, or tenant activity"
+      ],
+      "davao_search_queries": [
+        "site:davaocity.gov.ph OCBO red tag yellow tag cleared re-occupancy",
+        "site:davaocity.gov.ph \"cleared by the OCBO\" building earthquake",
+        "site:davaocity.gov.ph \"yellow tag\" \"re-occupancy\" OCBO",
+        "site:davaocity.gov.ph \"red tag\" \"repairs completed\" OCBO",
+        "site:davaocity.gov.ph \"comprehensive structural assessment report\" \"repair methodology\"",
+        "site:davaocity.gov.ph \"repair permit\" \"yellow tag\" \"OCBO\"",
+        "site:davaocity.gov.ph \"green tag\" OCBO earthquake building",
+        "site:davaocity.gov.ph \"fit for occupancy\" earthquake building",
+        "site:davaocity.gov.ph \"structural stability\" OCBO earthquake"
+      ]
+    }
+  ],
+  "strongest_sources": [
+    {
+      "name": "Davao City Citizen's Charter 2026 Volume II",
+      "url": "https://davaocity.gov.ph/wp-content/uploads/2026/03/CGD_CC2026_VOLUMEIIE.pdf",
+      "use": "Davao OCBO exact document names for building permit, occupancy permit, annual inspection, certified true copy, civil/structural plans, seismic analysis, evaluation sheet, Building Permit Number, and certificate processes."
+    },
+    {
+      "name": "Davao City OCBO department page",
+      "url": "https://davaocity.gov.ph/departments/infrastructure/office-of-the-building-official/",
+      "use": "Primary Davao custodian and scope: building permit, occupancy permit, annual inspection, certification, and NBC complaints."
+    },
+    {
+      "name": "Davao City issues red, yellow tags on earthquake-affected buildings",
+      "url": "https://davaocity.gov.ph/local-government/davao-city-issues-red-yellow-tags-on-earthquake-affected-buildings/",
+      "use": "Official Davao OCBO/PICE rapid visual inspection and red/yellow tag language."
+    },
+    {
+      "name": "OCBO: Tagged buildings must comply with safety requirements",
+      "url": "https://davaocity.gov.ph/infrastructure-development/ocbo-tagged-buildings-must-comply-with-safety-requirements/",
+      "use": "Official Davao red/yellow tag meanings, comprehensive structural assessment, repair methodology, repair permit, and OCBO clearance language."
+    },
+    {
+      "name": "OCBO urges immediate compliance with safety requirements for tagged buildings",
+      "url": "https://davaocity.gov.ph/infrastructure-development/ocbo-urges-immediate-compliance-with-safety-requirements-for-tagged-buildings/",
+      "use": "Official Davao building-specific red/yellow tag list and subscope examples."
+    },
+    {
+      "name": "CEO identifies buildings unsafe for occupancy after October 4 quake",
+      "url": "https://davaocity.gov.ph/infrastructure-development/ceo-identifies-buildings-unsafe-for-occupancy-after-october-4-quake/",
+      "use": "City Engineer inspection language for unsafe/not safe for occupancy, repair recommendations, and structural design analysis context."
+    },
+    {
+      "name": "Davao City LGU: Report signs of building damage",
+      "url": "https://davaocity.gov.ph/infrastructure-development/davao-city-lgu-report-signs-of-building-damage/",
+      "use": "Davao damage reporting path through CDRRMO, OCBO, and Davao City Reports."
+    },
+    {
+      "name": "Davao Online Building Permit System",
+      "url": "https://obps.davaocity.gov.ph/",
+      "use": "Applicant/owner online path for building permits and occupancy permits; not a public proof source unless it exposes a target-specific issued/approved record."
+    },
+    {
+      "name": "JMC 2018-01",
+      "url": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/89926",
+      "use": "National building permit and certificate of occupancy process context."
+    },
+    {
+      "name": "DPWH NBCDO",
+      "url": "https://www.dpwh.gov.ph/dpwh/nbc",
+      "use": "National Building Code context and national process references."
+    },
+    {
+      "name": "DPWH Department Order No. 027 s. 2023",
+      "url": "https://www.dpwh.gov.ph/dpwh/sites/default/files/issuances/do_027_s2023.pdf",
+      "use": "Rapid visual screening and placard context for green/yellow/red terminology."
+    }
+  ],
+  "overclaim_boundaries": [
+    "A Davao checklist proves required documents, not that a specific building passed review.",
+    "A blank permit form is not evidence that a building was reviewed.",
+    "A Building Permit or Certificate of Occupancy must be target-specific and tied to the relevant building/subscope.",
+    "A red/yellow tag is date/scope-specific and must not be converted into a permanent safety claim.",
+    "A green tag, inspected placard, or clearance is date/scope-specific and must not be converted into an earthquake-proof claim.",
+    "A repair permit, repair methodology, or comprehensive assessment report is not clearance unless OCBO/LGU accepts it and allows use or re-occupancy.",
+    "PICE involvement is technical support unless OCBO/LGU/DPWH adopts or publishes the result.",
+    "Missing public records mean manual verification is needed, not that the building is unsafe, uncleared, unpermitted, or noncompliant."
+  ]
+}

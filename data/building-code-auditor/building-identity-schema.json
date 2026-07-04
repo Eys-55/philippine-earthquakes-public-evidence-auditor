@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/building-code-auditor/building-identity.schema.json",
+  "title": "Building Identity Confirmation Packet",
+  "description": "Step 1 schema for confirming the exact Philippine building or establishment before any building-code evidence audit begins.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "workflow_step",
+    "user_intake",
+    "identity_candidates",
+    "selected_candidate",
+    "confirmation"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "workflow_step": {
+      "type": "string",
+      "const": "building_identity_confirmation"
+    },
+    "user_intake": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "What the user knows before the agent starts identity matching.",
+      "required": [
+        "raw_user_request",
+        "known_name_or_description",
+        "known_location",
+        "provided_links",
+        "provided_media_or_documents"
+      ],
+      "properties": {
+        "raw_user_request": {
+          "type": "string"
+        },
+        "known_name_or_description": {
+          "type": "string",
+          "description": "Hotel, mall, establishment, tower, landmark, or informal description from the user."
+        },
+        "known_location": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["city", "province_or_region", "address_text", "nearby_landmarks"],
+          "properties": {
+            "city": {
+              "type": ["string", "null"]
+            },
+            "province_or_region": {
+              "type": ["string", "null"]
+            },
+            "address_text": {
+              "type": ["string", "null"]
+            },
+            "nearby_landmarks": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "provided_links": {
+          "type": "array",
+          "description": "Links supplied by the user, such as Google Maps, hotel booking pages, establishment websites, social posts, or receipts.",
+          "items": {
+            "$ref": "#/$defs/source_link"
+          }
+        },
+        "provided_media_or_documents": {
+          "type": "array",
+          "description": "User-provided screenshots, photos, receipts, booking confirmations, or files. Do not require these for the first pass.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "description", "file_or_reference"],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": ["photo", "screenshot", "receipt", "booking_confirmation", "document", "other"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "file_or_reference": {
+                "type": ["string", "null"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "identity_candidates": {
+      "type": "array",
+      "description": "Possible buildings or establishments found during identity matching.",
+      "minItems": 0,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/identity_candidate"
+      }
+    },
+    "selected_candidate": {
+      "description": "The best candidate to show the user for confirmation. Null if no candidate is reliable enough.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/identity_candidate"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "confirmation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "user_facing_confirmation_prompt",
+        "clarification_style",
+        "clarifying_questions",
+        "can_proceed_to_audit",
+        "blockers"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "needs_more_user_info",
+            "candidate_ready_for_user_confirmation",
+            "confirmed_by_user",
+            "rejected_by_user"
+          ]
+        },
+        "user_facing_confirmation_prompt": {
+          "type": "string",
+          "description": "Plain-language prompt asking the user to confirm the exact building."
+        },
+        "clarification_style": {
+          "type": "string",
+          "description": "How cautious the agent should sound when confirming the place.",
+          "enum": [
+            "best_guess_only",
+            "best_guess_with_quick_negative_check",
+            "top_three_options"
+          ]
+        },
+        "clarifying_questions": {
+          "type": "array",
+          "description": "Ask only the minimum questions needed to identify the building.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "can_proceed_to_audit": {
+          "type": "boolean",
+          "description": "Must be false until the user confirms the selected candidate."
+        },
+        "blockers": {
+          "type": "array",
+          "description": "Reasons the workflow cannot proceed to permits, contractors, incidents, or code evidence yet.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "no_candidate_found",
+              "multiple_similar_candidates",
+              "missing_city_or_location",
+              "unclear_if_whole_building_or_tenant",
+              "low_address_confidence",
+              "waiting_for_user_confirmation"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "source_link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "label", "source_type"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "label": {
+          "type": ["string", "null"]
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "google_maps",
+            "booking_page",
+            "official_website",
+            "social_media",
+            "news",
+            "receipt_or_document_link",
+            "other"
+          ]
+        }
+      }
+    },
+    "identity_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "display_name",
+        "aliases",
+        "entity_type",
+        "building_scope",
+        "address",
+        "coordinates",
+        "jurisdiction",
+        "known_operator_or_brand",
+        "known_owner_or_developer",
+        "identity_confidence",
+        "evidence",
+        "ambiguities"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "entity_type": {
+          "type": "string",
+          "enum": [
+            "hotel",
+            "mall",
+            "condominium",
+            "office_building",
+            "school",
+            "hospital",
+            "public_facility",
+            "tenant_or_establishment",
+            "mixed_use_complex",
+            "unknown"
+          ]
+        },
+        "building_scope": {
+          "type": "string",
+          "description": "Clarifies whether the audit target is the whole structure or only an establishment inside it.",
+          "enum": [
+            "whole_building",
+            "establishment_inside_building",
+            "building_complex_or_campus",
+            "unclear"
+          ]
+        },
+        "address": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["full_address", "barangay", "city", "province_or_region", "country"],
+          "properties": {
+            "full_address": {
+              "type": ["string", "null"]
+            },
+            "barangay": {
+              "type": ["string", "null"]
+            },
+            "city": {
+              "type": ["string", "null"]
+            },
+            "province_or_region": {
+              "type": ["string", "null"]
+            },
+            "country": {
+              "type": "string",
+              "const": "Philippines"
+            }
+          }
+        },
+        "coordinates": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["latitude", "longitude", "source"],
+          "properties": {
+            "latitude": {
+              "type": ["number", "null"],
+              "minimum": -90,
+              "maximum": 90
+            },
+            "longitude": {
+              "type": ["number", "null"],
+              "minimum": -180,
+              "maximum": 180
+            },
+            "source": {
+              "type": ["string", "null"]
+            }
+          }
+        },
+        "jurisdiction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["lgu", "likely_obo_or_building_office"],
+          "properties": {
+            "lgu": {
+              "type": ["string", "null"]
+            },
+            "likely_obo_or_building_office": {
+              "type": ["string", "null"]
+            }
+          }
+        },
+        "known_operator_or_brand": {
+          "type": ["string", "null"]
+        },
+        "known_owner_or_developer": {
+          "type": ["string", "null"]
+        },
+        "identity_confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low", "unknown"]
+        },
+        "why_this_candidate": {
+          "type": "array",
+          "description": "Short reasons this candidate may be the intended building, written for a general-public user.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "why_it_might_not_be_this": {
+          "type": "array",
+          "description": "Short reasons to double-check this candidate, such as similar branches, tenant/building confusion, or a nearby complex.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["claim", "source", "notes"],
+            "properties": {
+              "claim": {
+                "type": "string"
+              },
+              "source": {
+                "$ref": "#/$defs/source_link"
+              },
+              "notes": {
+                "type": ["string", "null"]
+              }
+            }
+          }
+        },
+        "ambiguities": {
+          "type": "array",
+          "description": "Unresolved identity issues to show before the user confirms.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

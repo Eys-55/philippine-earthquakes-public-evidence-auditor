@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "building_identity_confirmation",
+  "user_intake": {
+    "raw_user_request": "Audit Fixture Cafe at Landmark Tower in Makati.",
+    "known_name_or_description": "Fixture Cafe at Landmark Tower",
+    "known_location": {
+      "city": "Makati",
+      "province_or_region": "Metro Manila",
+      "address_text": "Landmark Tower",
+      "nearby_landmarks": []
+    },
+    "provided_links": [],
+    "provided_media_or_documents": []
+  },
+  "identity_candidates": [
+    {
+      "candidate_id": "fixture-cafe-landmark-tower",
+      "display_name": "Fixture Cafe inside Landmark Tower",
+      "aliases": [
+        "Fixture Cafe",
+        "Landmark Tower Fixture Cafe"
+      ],
+      "entity_type": "tenant_or_establishment",
+      "building_scope": "establishment_inside_building",
+      "address": {
+        "full_address": "Ground Floor, Landmark Tower, Fixture Avenue, Makati, Metro Manila",
+        "barangay": null,
+        "city": "Makati",
+        "province_or_region": "Metro Manila",
+        "country": "Philippines"
+      },
+      "coordinates": {
+        "latitude": null,
+        "longitude": null,
+        "source": null
+      },
+      "jurisdiction": {
+        "lgu": "Makati City",
+        "likely_obo_or_building_office": "Makati City Office of the Building Official"
+      },
+      "known_operator_or_brand": "Fixture Cafe",
+      "known_owner_or_developer": null,
+      "identity_confidence": "medium",
+      "why_this_candidate": [
+        "The clue includes a tenant name and a larger tower name."
+      ],
+      "why_it_might_not_be_this": [
+        "Building-code evidence is usually tied to the tower or structure, not only the cafe tenant."
+      ],
+      "evidence": [
+        {
+          "claim": "Fixture source places the cafe inside Landmark Tower.",
+          "source": {
+            "url": "https://example.com/fixtures/fixture-cafe-landmark-tower",
+            "label": "Gate 1 fixture source",
+            "source_type": "other"
+          },
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": [
+        "User may want the cafe tenant, the full Landmark Tower structure, or both."
+      ]
+    }
+  ],
+  "selected_candidate": {
+    "candidate_id": "fixture-cafe-landmark-tower",
+    "display_name": "Fixture Cafe inside Landmark Tower",
+    "aliases": [
+      "Fixture Cafe",
+      "Landmark Tower Fixture Cafe"
+    ],
+    "entity_type": "tenant_or_establishment",
+    "building_scope": "establishment_inside_building",
+    "address": {
+      "full_address": "Ground Floor, Landmark Tower, Fixture Avenue, Makati, Metro Manila",
+      "barangay": null,
+      "city": "Makati",
+      "province_or_region": "Metro Manila",
+      "country": "Philippines"
+    },
+    "coordinates": {
+      "latitude": null,
+      "longitude": null,
+      "source": null
+    },
+    "jurisdiction": {
+      "lgu": "Makati City",
+      "likely_obo_or_building_office": "Makati City Office of the Building Official"
+    },
+    "known_operator_or_brand": "Fixture Cafe",
+    "known_owner_or_developer": null,
+    "identity_confidence": "medium",
+    "why_this_candidate": [
+      "The clue includes a tenant name and a larger tower name."
+    ],
+    "why_it_might_not_be_this": [
+      "Building-code evidence is usually tied to the tower or structure, not only the cafe tenant."
+    ],
+    "evidence": [
+      {
+        "claim": "Fixture source places the cafe inside Landmark Tower.",
+        "source": {
+          "url": "https://example.com/fixtures/fixture-cafe-landmark-tower",
+          "label": "Gate 1 fixture source",
+          "source_type": "other"
+        },
+        "notes": "Test fixture only; not live public evidence."
+      }
+    ],
+    "ambiguities": [
+      "User may want the cafe tenant, the full Landmark Tower structure, or both."
+    ]
+  },
+  "confirmation": {
+    "status": "candidate_ready_for_user_confirmation",
+    "user_facing_confirmation_prompt": "I found Fixture Cafe inside Landmark Tower. Should the audit target the cafe tenancy, the whole Landmark Tower building, or both?",
+    "clarification_style": "best_guess_with_quick_negative_check",
+    "clarifying_questions": [
+      "Should I audit the tenant location, the whole building, or both?"
+    ],
+    "can_proceed_to_audit": false,
+    "blockers": [
+      "unclear_if_whole_building_or_tenant",
+      "waiting_for_user_confirmation"
+    ]
+  }
+}

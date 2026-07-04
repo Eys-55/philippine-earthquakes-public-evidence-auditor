@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "building_identity_confirmation",
+  "user_intake": {
+    "raw_user_request": "Check Fixture Central Mall in Quezon City.",
+    "known_name_or_description": "Fixture Central Mall",
+    "known_location": {
+      "city": "Quezon City",
+      "province_or_region": "Metro Manila",
+      "address_text": null,
+      "nearby_landmarks": []
+    },
+    "provided_links": [],
+    "provided_media_or_documents": []
+  },
+  "identity_candidates": [
+    {
+      "candidate_id": "fixture-central-mall-north",
+      "display_name": "Fixture Central Mall North",
+      "aliases": [
+        "Fixture Central Mall"
+      ],
+      "entity_type": "mall",
+      "building_scope": "whole_building",
+      "address": {
+        "full_address": "Fixture North Avenue, Quezon City, Metro Manila",
+        "barangay": null,
+        "city": "Quezon City",
+        "province_or_region": "Metro Manila",
+        "country": "Philippines"
+      },
+      "coordinates": {
+        "latitude": null,
+        "longitude": null,
+        "source": null
+      },
+      "jurisdiction": {
+        "lgu": "Quezon City",
+        "likely_obo_or_building_office": "Quezon City Department of the Building Official"
+      },
+      "known_operator_or_brand": "Fixture Retail Group",
+      "known_owner_or_developer": null,
+      "identity_confidence": "medium",
+      "why_this_candidate": [
+        "The name and city match the user clue."
+      ],
+      "why_it_might_not_be_this": [
+        "A similarly named south branch appears in the same city."
+      ],
+      "evidence": [
+        {
+          "claim": "Fixture source lists a north branch with a matching mall name.",
+          "source": {
+            "url": "https://example.com/fixtures/central-mall-north",
+            "label": "Gate 1 fixture source",
+            "source_type": "other"
+          },
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": [
+        "Similar branch name in the same city."
+      ]
+    },
+    {
+      "candidate_id": "fixture-central-mall-south",
+      "display_name": "Fixture Central Mall South",
+      "aliases": [
+        "Fixture Central Mall"
+      ],
+      "entity_type": "mall",
+      "building_scope": "whole_building",
+      "address": {
+        "full_address": "Fixture South Road, Quezon City, Metro Manila",
+        "barangay": null,
+        "city": "Quezon City",
+        "province_or_region": "Metro Manila",
+        "country": "Philippines"
+      },
+      "coordinates": {
+        "latitude": null,
+        "longitude": null,
+        "source": null
+      },
+      "jurisdiction": {
+        "lgu": "Quezon City",
+        "likely_obo_or_building_office": "Quezon City Department of the Building Official"
+      },
+      "known_operator_or_brand": "Fixture Retail Group",
+      "known_owner_or_developer": null,
+      "identity_confidence": "medium",
+      "why_this_candidate": [
+        "The name and city also match the user clue."
+      ],
+      "why_it_might_not_be_this": [
+        "The user did not provide a street, landmark, or link to distinguish it from the north branch."
+      ],
+      "evidence": [
+        {
+          "claim": "Fixture source lists a south branch with a matching mall name.",
+          "source": {
+            "url": "https://example.com/fixtures/central-mall-south",
+            "label": "Gate 1 fixture source",
+            "source_type": "other"
+          },
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": [
+        "Similar branch name in the same city."
+      ]
+    }
+  ],
+  "selected_candidate": {
+    "candidate_id": "fixture-central-mall-north",
+    "display_name": "Fixture Central Mall North",
+    "aliases": [
+      "Fixture Central Mall"
+    ],
+    "entity_type": "mall",
+    "building_scope": "whole_building",
+    "address": {
+      "full_address": "Fixture North Avenue, Quezon City, Metro Manila",
+      "barangay": null,
+      "city": "Quezon City",
+      "province_or_region": "Metro Manila",
+      "country": "Philippines"
+    },
+    "coordinates": {
+      "latitude": null,
+      "longitude": null,
+      "source": null
+    },
+    "jurisdiction": {
+      "lgu": "Quezon City",
+      "likely_obo_or_building_office": "Quezon City Department of the Building Official"
+    },
+    "known_operator_or_brand": "Fixture Retail Group",
+    "known_owner_or_developer": null,
+    "identity_confidence": "medium",
+    "why_this_candidate": [
+      "The name and city match the user clue."
+    ],
+    "why_it_might_not_be_this": [
+      "A similarly named south branch appears in the same city."
+    ],
+    "evidence": [
+      {
+        "claim": "Fixture source lists a north branch with a matching mall name.",
+        "source": {
+          "url": "https://example.com/fixtures/central-mall-north",
+          "label": "Gate 1 fixture source",
+          "source_type": "other"
+        },
+        "notes": "Test fixture only; not live public evidence."
+      }
+    ],
+    "ambiguities": [
+      "Similar branch name in the same city."
+    ]
+  },
+  "confirmation": {
+    "status": "candidate_ready_for_user_confirmation",
+    "user_facing_confirmation_prompt": "I found two likely Fixture Central Mall candidates in Quezon City. Do you mean the North branch on Fixture North Avenue, or the South branch on Fixture South Road?",
+    "clarification_style": "top_three_options",
+    "clarifying_questions": [
+      "Which branch should I audit?",
+      "Do you have a map link, street, receipt, or nearby landmark for the exact mall?"
+    ],
+    "can_proceed_to_audit": false,
+    "blockers": [
+      "multiple_similar_candidates",
+      "waiting_for_user_confirmation"
+    ]
+  }
+}

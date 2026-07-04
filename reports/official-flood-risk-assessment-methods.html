@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Malacanang Palace Flood Hazard Screening Report</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18222f;
+      --muted: #5e6b7a;
+      --line: #d7dde6;
+      --paper: #ffffff;
+      --field: #f5f7fa;
+      --blue: #105d95;
+      --green: #2f7d45;
+      --amber: #9a6a00;
+      --red: #a82c23;
+      --violet: #5747a1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--field);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.48;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 30px 0 48px;
+    }
+
+    header {
+      display: grid;
+      gap: 10px;
+      padding: 20px 0 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 900px;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 1.12rem;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .panel,
+    .finding,
+    .note {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .panel {
+      display: grid;
+      gap: 8px;
+      min-height: 134px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 750;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .metric {
+      font-size: 1.75rem;
+      font-weight: 780;
+      line-height: 1;
+    }
+
+    .section {
+      display: grid;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .findings {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .finding {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .status {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 5px 10px;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 760;
+    }
+
+    .moderate {
+      background: var(--amber);
+    }
+
+    .high {
+      background: var(--red);
+    }
+
+    .not-queried {
+      background: var(--muted);
+    }
+
+    .supported {
+      background: var(--green);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef2f7;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 760;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 8px 14px;
+      margin: 0;
+      font-size: 0.94rem;
+    }
+
+    dt {
+      color: var(--muted);
+      font-weight: 720;
+    }
+
+    dd {
+      margin: 0;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    li + li {
+      margin-top: 5px;
+    }
+
+    .note {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .map-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .map-plate {
+      display: grid;
+      gap: 10px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .map-plate img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #f6f8fb;
+    }
+
+    .map-plate iframe {
+      display: block;
+      width: 100%;
+      height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #f6f8fb;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        width: min(100% - 22px, 1180px);
+        padding-top: 18px;
+      }
+
+      .grid,
+      .findings,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      dl {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="meta">Formal geospatial screening memorandum | Public hazard data | Generated 2026-07-03</p>
+      <h1>Malacanang Palace Flood Hazard Screening Report</h1>
+      <p class="meta">Representative point: 14.593947, 120.994349 | Jose P. Laurel Street, San Miguel, City of Manila, NCR</p>
+    </header>
+
+    <section class="section" aria-label="Methodology correction">
+      <h2>Methodology Correction</h2>
+      <article class="note">
+        <p><strong>The map plates in this report are derived GIS visualizations of queried public vector layers.</strong> They are not official cartographic flood map products. The official flood maps themselves are created upstream by agencies using geohazard mapping, remote sensing, field/geologic interpretation, hydrologic and hydraulic modeling, and published hazard-class rules.</p>
+      </article>
+    </section>
+
+    <section class="grid" aria-label="Executive metrics">
+      <article class="panel">
+        <p class="label">MGB Flood Class</p>
+        <p class="metric">Moderate</p>
+        <p class="meta">fscode 02; one intersecting polygon</p>
+      </article>
+      <article class="panel">
+        <p class="label">Nearest MMDA River Line</p>
+        <p class="metric">51.9 m</p>
+        <p class="meta">Pasig River geometry</p>
+      </article>
+      <article class="panel">
+        <p class="label">Nearest MMDA Flood-Prone Point</p>
+        <p class="metric">1.38 km</p>
+        <p class="meta">Magsaysay/Pureza, 2021, 0.25 m</p>
+      </article>
+      <article class="panel">
+        <p class="label">Computed Screening Result</p>
+        <p class="metric">Elevated</p>
+        <p class="meta">official moderate susceptibility plus immediate river adjacency</p>
+      </article>
+    </section>
+
+    <section class="section" aria-label="Executive finding">
+      <h2>Executive Finding</h2>
+      <article class="note">
+        <p>The representative point for Malacanang Palace intersects the DENR-MGB / GeoRiskPH flood susceptibility layer as <strong>Moderate Flood Susceptibility</strong>. The MGB class definition for Moderate susceptibility is expected flood height greater than 0.5 meter up to 1 meter, with likely duration of 1 to 3 days.</p>
+        <p>The site also lies approximately <strong>51.9 meters</strong> from the nearest MMDA river-line geometry identified as <strong>Pasig River</strong>. This does not change the MGB susceptibility class, but it is material context for a flood hazard screening because the site is directly river-adjacent.</p>
+        <p>The nearest MMDA flood-prone point within the queried 3 km radius is approximately <strong>1.38 km</strong> away at Magsaysay/Pureza. The closest repeated MMDA flood-prone cluster is around Manila City Hall and vicinity, approximately 1.41 km away, with records in 2019, 2022, 2023, and 2024.</p>
+      </article>
+    </section>
+
+    <section class="section" aria-label="How official flood maps are created">
+      <h2>How The Official Flood Maps Are Actually Created</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Map Family</th>
+              <th>How It Is Created</th>
+              <th>Inputs / Model Basis</th>
+              <th>What The Classes Mean</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>MGB Flood Susceptibility / Geohazard Maps</td>
+              <td>Geohazard assessment and mapping at 1:50,000 and 1:10,000 scales. MGB methodology includes interpretation of remote-sensing data and thematic maps, ground truthing, geomorphological/geological assessment, and local accounts.</td>
+              <td>Aerial photographs, satellite images, geologic maps, drainage maps, slope maps, vegetation maps, field checks, geomorphic setting, and evidence from affected communities.</td>
+              <td>Susceptibility classes are tied to likely flood depth, likely duration, and geomorphic setting such as active or abandoned channels, river banks, fluvial terraces, alluvial fans, infilled valleys, low hills, gentle slopes, and drainage density.</td>
+              <td><a href="https://essc.org.ph/content/wp-content/uploads/2014/04/Day1Session1B_MANZANO_MGB_Geohazard-Assessment-Mapping.pdf" target="_blank" rel="noreferrer">MGB Geohazard Assessment and Mapping Program</a></td>
+            </tr>
+            <tr>
+              <td>MGB Published Flood Susceptibility Classes</td>
+              <td>MGB classifies mapped areas into Low, Moderate, High, and Very High flood susceptibility.</td>
+              <td>Flood height and duration thresholds, supported by geohazard mapping and geomorphic interpretation.</td>
+              <td>Low: 0.5 m or less; Moderate: greater than 0.5 m up to 1 m; High: greater than 1 m up to 2 m; Very High: greater than 2 m. High and Very High classes are associated with longer duration and topographic lows such as river channels and riverbank areas.</td>
+              <td><a href="https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/MGBPublic/Flood/MapServer" target="_blank" rel="noreferrer">MGBPublic Flood MapServer</a></td>
+            </tr>
+            <tr>
+              <td>Project NOAH Flood Hazard Maps</td>
+              <td>Hydrologic and hydraulic flood modeling for rainfall return-period scenarios, converted into flood hazard and flow-depth maps.</td>
+              <td>Rainfall return periods, river-basin hydrology, DEM/LiDAR or other topographic data, HEC-HMS rainfall-runoff modeling in DREAM basin reports, and FLO-2D GDS Pro flood routing / inundation simulation.</td>
+              <td>NOAH flood layers use Low, Medium, and High hazard classes. In the BetterGov/NOAH PMTiles documentation, value 1 is Low, value 2 is Medium, and value 3 is High; classes are tied to flood depth and can also account for velocity.</td>
+              <td><a href="https://huggingface.co/datasets/bettergovph/project-noah-hazard-maps" target="_blank" rel="noreferrer">Project NOAH Hazard Maps documentation</a></td>
+            </tr>
+            <tr>
+              <td>DREAM / NOAH River-Basin Reports</td>
+              <td>Floodplain subbasins are delineated from DEM elevation values. FLO-2D simulations produce hazard and flow-depth outputs, then ArcMap prepares final map products.</td>
+              <td>DEM-derived catchments, calibrated hydrologic model outputs, discharge estimates, FLO-2D Mapper Pro hazard and flow-depth outputs, and GIS map layout preparation.</td>
+              <td>Outputs include flood inundation, hazard, and flow-depth shapefiles for mapped scenarios.</td>
+              <td><a href="https://dream.upd.edu.ph/assets/Publications/UP-DREAM-River-Reports/FMC/DREAM-Flood-Forecasting-and-Flood-Hazard-Mapping-for-Davao-River-Basin.pdf" target="_blank" rel="noreferrer">DREAM Flood Forecasting and Flood Hazard Mapping report</a></td>
+            </tr>
+            <tr>
+              <td>HazardHunterPH Flood Display</td>
+              <td>HazardHunterPH displays existing agency hazard information from GeoRiskPH. It can also show DOST-ASTI AI-derived flood impact maps against DENR-MGB flood susceptibility layers.</td>
+              <td>DENR-MGB flood susceptibility information and DOST-ASTI Sentinel-1 SAR-derived flood impact products.</td>
+              <td>DOST-ASTI flood impact maps are AI-identified from Sentinel-1 SAR composites and are explicitly flagged as not ground-validated, with lower thematic accuracy possible in urban and forested areas.</td>
+              <td><a href="https://hazardhunter.georisk.gov.ph/map" target="_blank" rel="noreferrer">HazardHunterPH map and disclaimers</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Map plates">
+      <h2>Map Plates</h2>
+      <div class="map-stack">
+        <figure class="map-plate">
+          <img src="assets/malacanang-flood-overview.svg" alt="Map Plate 1 showing the Malacanang Palace point, MGB flood susceptibility polygon, MMDA waterways, and nearby MMDA flood-prone points">
+          <figcaption class="meta">Map Plate 1. Flood evidence overview generated from MGB flood susceptibility geometry, MMDA river-line geometry, and the nearest MMDA flood-prone point records returned by live ArcGIS REST queries.</figcaption>
+        </figure>
+
+        <figure class="map-plate">
+          <img src="assets/malacanang-waterway-closeup.svg" alt="Map Plate 2 showing Malacanang Palace and nearby Pasig River and estero line features">
+          <figcaption class="meta">Map Plate 2. Waterway proximity close-up showing the site point, Pasig River, and nearby estero line features from the MMDA river layer.</figcaption>
+        </figure>
+
+        <figure class="map-plate">
+          <img src="assets/malacanang-flood-points.svg" alt="Map Plate 3 showing nearby MMDA flood-prone point records around Malacanang Palace">
+          <figcaption class="meta">Map Plate 3. MMDA flood-prone point context using the nearest 35 records from the 3 km flood-prone-point query.</figcaption>
+        </figure>
+
+        <figure class="map-plate">
+          <iframe
+            title="Google Maps reference basemap centered on Malacanang Palace"
+            src="https://www.google.com/maps?q=14.593947,120.994349&z=17&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+          <figcaption class="meta">Reference basemap. Google Maps is included for orientation only; it is not a source for the flood susceptibility, flood-prone point, or river-distance findings.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Site basis">
+      <h2>Site Basis</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+              <th>Source / Method</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Place</td>
+              <td>Malacanang Palace</td>
+              <td><a href="https://philhistoricsites.nhcp.gov.ph/registry_database/malacanan-palace/" target="_blank" rel="noreferrer">NHCP Registry</a></td>
+            </tr>
+            <tr>
+              <td>Address Context</td>
+              <td>Jose P. Laurel Street, San Miguel, Manila</td>
+              <td><a href="https://philhistoricsites.nhcp.gov.ph/registry_database/malacanan-palace/" target="_blank" rel="noreferrer">NHCP Registry location statement</a></td>
+            </tr>
+            <tr>
+              <td>Analysis Point</td>
+              <td>Latitude 14.593947; longitude 120.994349</td>
+              <td>Representative point used for GIS layer intersection; not a cadastral boundary</td>
+            </tr>
+            <tr>
+              <td>Administrative Join</td>
+              <td>City of Manila, National Capital Region; City PSGC PH133901000</td>
+              <td><a href="https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/MMDAOAGMP_MetroManilaCityMunicipalityBoundary/FeatureServer/0" target="_blank" rel="noreferrer">MMDA city / municipality boundary FeatureServer</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Layer findings">
+      <h2>Layer Findings</h2>
+      <div class="findings">
+        <article class="finding">
+          <span class="status moderate">Moderate</span>
+          <h3>MGB Flood Susceptibility</h3>
+          <dl>
+            <dt>Result</dt>
+            <dd>fscode 02</dd>
+            <dt>Feature</dt>
+            <dd>objectid 121954</dd>
+            <dt>Last edited</dt>
+            <dd>2025-11-05 02:04:09 UTC</dd>
+            <dt>Method</dt>
+            <dd>Point-in-polygon query</dd>
+          </dl>
+        </article>
+
+        <article class="finding">
+          <span class="status high">River Adjacent</span>
+          <h3>MMDA River / Waterway Proximity</h3>
+          <dl>
+            <dt>Nearest</dt>
+            <dd>Pasig River</dd>
+            <dt>Distance</dt>
+            <dd>51.9 meters</dd>
+            <dt>Queried</dt>
+            <dd>2 km radius</dd>
+            <dt>Features</dt>
+            <dd>76 river-line features returned</dd>
+          </dl>
+        </article>
+
+        <article class="finding">
+          <span class="status supported">Local Evidence</span>
+          <h3>MMDA Flood-Prone Points</h3>
+          <dl>
+            <dt>Nearest</dt>
+            <dd>Magsaysay/Pureza (WB)</dd>
+            <dt>Distance</dt>
+            <dd>1,381.5 meters</dd>
+            <dt>Queried</dt>
+            <dd>3 km radius</dd>
+            <dt>Features</dt>
+            <dd>93 flood-prone point records returned</dd>
+          </dl>
+        </article>
+
+        <article class="finding">
+          <span class="status not-queried">Not Computed</span>
+          <h3>Project NOAH Scenario Flood Layers</h3>
+          <dl>
+            <dt>Available</dt>
+            <dd>5-year, 25-year, 100-year flood PMTiles</dd>
+            <dt>Fields</dt>
+            <dd>Var 1 low, 2 medium, 3 high</dd>
+            <dt>Status</dt>
+            <dd>Pending PMTiles point-query implementation</dd>
+          </dl>
+        </article>
+
+        <article class="finding">
+          <span class="status not-queried">Manual Reference</span>
+          <h3>HazardHunterPH / GeoRiskPH</h3>
+          <dl>
+            <dt>Use</dt>
+            <dd>Official manual cross-check</dd>
+            <dt>Flood Source</dt>
+            <dd>MGB flood layer</dd>
+            <dt>Status</dt>
+            <dd>Not automated in this report</dd>
+          </dl>
+        </article>
+
+        <article class="finding">
+          <span class="status not-queried">Map Reference</span>
+          <h3>PAGASA Flood Hazard Maps</h3>
+          <dl>
+            <dt>Use</dt>
+            <dd>Published map reference where coverage exists</dd>
+            <dt>Status</dt>
+            <dd>No automated site point result in this report</dd>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-label="MGB class interpretation">
+      <h2>MGB Class Interpretation</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Class</th>
+              <th>Likely Flood Height</th>
+              <th>Likely Duration</th>
+              <th>Site Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>01</td>
+              <td>Low</td>
+              <td>0.5 meter or less</td>
+              <td>1 to 3 days</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td>02</td>
+              <td><strong>Moderate</strong></td>
+              <td><strong>Greater than 0.5 meter up to 1 meter</strong></td>
+              <td><strong>1 to 3 days</strong></td>
+              <td><strong>Yes</strong></td>
+            </tr>
+            <tr>
+              <td>03</td>
+              <td>High</td>
+              <td>Greater than 1 meter up to 2 meters</td>
+              <td>More than 3 days</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td>04</td>
+              <td>Very High</td>
+              <td>Greater than 2 meters</td>
+              <td>More than 3 days</td>
+              <td>No</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Nearest flood prone points">
+      <h2>Nearest MMDA Flood-Prone Point Records</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Location</th>
+              <th>Year</th>
+              <th>Amount</th>
+              <th>Distance From Site</th>
+              <th>Object ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Magsaysay/Pureza (WB)</td>
+              <td>2021</td>
+              <td>0.25 m</td>
+              <td>1,381.5 m</td>
+              <td>112</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Around Manila City Hall and Vicinity</td>
+              <td>2022</td>
+              <td>0.30 m</td>
+              <td>1,405.8 m</td>
+              <td>125</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Around Manila City Hall and Vicinity</td>
+              <td>2024</td>
+              <td>0.30 m</td>
+              <td>1,466.6 m</td>
+              <td>127</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Around Manila City Hall and Vicinity</td>
+              <td>2019</td>
+              <td>0.20 m</td>
+              <td>1,471.3 m</td>
+              <td>124</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Around Manila City Hall and Vicinity</td>
+              <td>2023</td>
+              <td>0.30 m</td>
+              <td>1,482.2 m</td>
+              <td>126</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Nearest waterways">
+      <h2>Nearest MMDA River / Waterway Line Features</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>City</th>
+              <th>Distance From Site</th>
+              <th>Object ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Pasig River</td>
+              <td>Manila City</td>
+              <td>51.9 m</td>
+              <td>987</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Pasig River</td>
+              <td>Manila City</td>
+              <td>166.1 m</td>
+              <td>959</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Estero de San Sebastian</td>
+              <td>Manila City</td>
+              <td>377.2 m</td>
+              <td>954</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Estero de San Sebastian</td>
+              <td>Manila City</td>
+              <td>382.9 m</td>
+              <td>1022</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Estero de San Ibanez</td>
+              <td>Manila City</td>
+              <td>383.1 m</td>
+              <td>961</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Methods and query log">
+      <h2>Methods And Query Log</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>Query Method</th>
+              <th>Returned Evidence</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>MGB Flood</td>
+              <td>ArcGIS REST point-in-polygon; geometry 120.994349,14.593947; WGS84</td>
+              <td>1 intersecting polygon; fscode 02</td>
+              <td><a href="https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/MGBPublic/Flood/MapServer" target="_blank" rel="noreferrer">MGBPublic Flood MapServer</a></td>
+            </tr>
+            <tr>
+              <td>MMDA City Boundary</td>
+              <td>ArcGIS REST point-in-polygon; geometry 120.994349,14.593947; WGS84</td>
+              <td>City of Manila, NCR; PH133901000</td>
+              <td><a href="https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/MMDAOAGMP_MetroManilaCityMunicipalityBoundary/FeatureServer/0" target="_blank" rel="noreferrer">MMDA boundary FeatureServer</a></td>
+            </tr>
+            <tr>
+              <td>MMDA Flood-Prone Areas</td>
+              <td>ArcGIS REST point-distance query; 3 km radius; local distance calculation</td>
+              <td>93 point records; nearest 1,381.5 m</td>
+              <td><a href="https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/Flood_Prone_Areas_WFL1/FeatureServer/0" target="_blank" rel="noreferrer">MMDA Flood-Prone Areas FeatureServer</a></td>
+            </tr>
+            <tr>
+              <td>MMDA River Line</td>
+              <td>ArcGIS REST point-distance query; 2 km radius; local point-to-line distance calculation</td>
+              <td>76 line features; nearest Pasig River 51.9 m</td>
+              <td><a href="https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/MMDAOAGMP_River/FeatureServer" target="_blank" rel="noreferrer">MMDA River Line FeatureServer</a></td>
+            </tr>
+            <tr>
+              <td>Project NOAH Flood</td>
+              <td>Source inspected; point result not computed in this report</td>
+              <td>PMTiles source available; flood_5yr, flood_25yr, flood_100yr use Var 1/2/3</td>
+              <td><a href="https://huggingface.co/datasets/bettergovph/project-noah-hazard-maps" target="_blank" rel="noreferrer">Project NOAH Hazard Maps dataset mirror</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Interpretation">
+      <h2>Professional Interpretation</h2>
+      <div class="two-col">
+        <article class="note">
+          <h3>Hazard Statement</h3>
+          <p>The site should be treated as having documented flood susceptibility, not as a no-hazard site. The controlling official computed classification in this report is MGB Moderate Flood Susceptibility. River adjacency is a separate geomorphic and exposure consideration and should be retained as a high-attention note in any due-diligence packet.</p>
+        </article>
+        <article class="note">
+          <h3>Confidence</h3>
+          <p>Confidence is medium-high for the MGB and MMDA layer intersections because the public ArcGIS services returned direct geometry hits and live feature responses. Confidence is lower for parcel-level implications because the analysis uses one representative point and not a surveyed property boundary, floor elevation, drainage invert data, or hydraulic model output.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Limitations">
+      <h2>Limitations</h2>
+      <article class="note">
+        <ul>
+          <li>This is a public-data flood hazard screening, not an engineering flood study, official certification, insurance determination, or legal opinion.</li>
+          <li>The analysis point is representative. A full assessment should evaluate the palace complex boundary, finished-floor elevations, riverbank protection, drainage outfalls, and local flood-control infrastructure.</li>
+          <li>MMDA flood-prone points are point records and should not be interpreted as flood polygons.</li>
+          <li>Project NOAH return-period flood layers were inspected as a source but not point-queried in this report because a PMTiles/vector-tile lookup pipeline has not yet been implemented locally.</li>
+          <li>HazardHunterPH should be used as a manual official cross-check before publication or operational reliance.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" aria-label="Sources">
+      <h2>Sources</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Use In Report</th>
+              <th>URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>NHCP Registry</td>
+              <td>Place and address context</td>
+              <td><a href="https://philhistoricsites.nhcp.gov.ph/registry_database/malacanan-palace/" target="_blank" rel="noreferrer">philhistoricsites.nhcp.gov.ph</a></td>
+            </tr>
+            <tr>
+              <td>DENR-MGB / GeoRiskPH Flood MapServer</td>
+              <td>Official flood susceptibility class</td>
+              <td><a href="https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/MGBPublic/Flood/MapServer" target="_blank" rel="noreferrer">MGBPublic Flood MapServer</a></td>
+            </tr>
+            <tr>
+              <td>MMDA City Boundary FeatureServer</td>
+              <td>Administrative join</td>
+              <td><a href="https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/MMDAOAGMP_MetroManilaCityMunicipalityBoundary/FeatureServer/0" target="_blank" rel="noreferrer">MMDA boundary layer</a></td>
+            </tr>
+            <tr>
+              <td>MMDA Flood-Prone Areas FeatureServer</td>
+              <td>Local flood-prone point evidence</td>
+              <td><a href="https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/Flood_Prone_Areas_WFL1/FeatureServer/0" target="_blank" rel="noreferrer">MMDA flood-prone areas layer</a></td>
+            </tr>
+            <tr>
+              <td>MMDA River Line FeatureServer</td>
+              <td>River and waterway proximity</td>
+              <td><a href="https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/MMDAOAGMP_River/FeatureServer" target="_blank" rel="noreferrer">MMDA river line layer</a></td>
+            </tr>
+            <tr>
+              <td>Project NOAH Hazard Maps</td>
+              <td>Scenario flood method reference, pending point lookup</td>
+              <td><a href="https://huggingface.co/datasets/bettergovph/project-noah-hazard-maps" target="_blank" rel="noreferrer">Project NOAH PMTiles documentation</a></td>
+            </tr>
+            <tr>
+              <td>HazardHunterPH</td>
+              <td>Official manual cross-check surface</td>
+              <td><a href="https://hazardhunter.georisk.gov.ph/map" target="_blank" rel="noreferrer">hazardhunter.georisk.gov.ph/map</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

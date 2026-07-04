@@ -1,0 +1,278 @@
+{
+  "artifact": "gate_3_sm_moa_document_target_matrix",
+  "lane": "philippines-building-code-evidence-auditor",
+  "version": "2026-07-05",
+  "run_type": "six_agent_document_family_learning_run",
+  "target": {
+    "canonical_name": "SM Mall of Asia",
+    "aliases": [
+      "SM MOA",
+      "SM Mall of Asia Complex",
+      "Mall of Asia"
+    ],
+    "city": "Pasay City",
+    "address_evidence": [
+      {
+        "source": "Pasay City Government tourism page",
+        "url": "https://pasay.gov.ph/tourism-spots/sm-mall-of-asia/",
+        "evidence": "SM Mall of Asia is identified at Seaside Blvd, Pasay City."
+      },
+      {
+        "source": "SM Supermalls mall page",
+        "url": "https://www.smsupermalls.com/mall-directory/sm-mall-of-asia/information/",
+        "evidence": "SM Mall of Asia is identified at Seaside Blvd., Pasay City, Philippines and the page exposes multiple sublocation labels."
+      }
+    ],
+    "sublocation_warning": "Public sources mix the whole SM Mall of Asia complex, Main Mall, Entertainment Mall, South Arcade, North/South Parking Buildings, MOA Square, SMX Convention Center, MOA Arena, SM By the Bay, and tenant spaces. Manual requests must name the exact subscope."
+  },
+  "global_safety_rule": "This learning run does not prove SM Mall of Asia is NSCP-compliant, structurally safe, fire-safe, fit for occupancy, permitted, unpermitted, compliant, or noncompliant. It maps public document availability and manual request targets.",
+  "source_reality_status_values": [
+    "confirmed_public_evidence",
+    "partial_public_evidence",
+    "public_process_only",
+    "manual_request_needed",
+    "not_assessable_from_public_web",
+    "not_found"
+  ],
+  "document_targets": [
+    {
+      "document_target": "Unified Application Form for Building Permit",
+      "document_family": "building_permit_packet",
+      "likely_custodian": "Pasay City Engineer's Office / Office of the Building Official via XERSYS or OSSCPAS",
+      "source_reality_status": "public_process_only",
+      "strongest_public_source": "https://pasay.gov.ph/wp-content/uploads/2026/02/pasay-city-external-service-building-permit-application.pdf",
+      "target_specific_result": "The form name is public as a Pasay OBO requirement, but no SM Mall of Asia target-tied application form was found.",
+      "manual_follow_up": "Request the building-permit application packet for the exact SM MOA subscope from Pasay CEO/OBO or the owner/operator.",
+      "overclaim_boundary": "A public form requirement does not prove that a target application exists, was approved, or is current."
+    },
+    {
+      "document_target": "Issued Building Permit",
+      "document_family": "building_permit_packet",
+      "likely_custodian": "Pasay City Engineer's Office / Office of the Building Official",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://eodbbuilding.pasay.gov.ph/Account/Login",
+      "target_specific_result": "Pasay XERSYS publicly describes application, claim stub, payment, and release workflow, but no public issued SM MOA building permit or permit number was found.",
+      "manual_follow_up": "Request certified copy or verification of the issued building permit for the exact building, renovation, repair, fit-out, or expansion scope.",
+      "overclaim_boundary": "Do not infer permit existence or absence from XERSYS process visibility."
+    },
+    {
+      "document_target": "Claim Stub, Order of Payment, and Official Receipt",
+      "document_family": "building_permit_packet",
+      "likely_custodian": "Pasay CEO/OBO, OSSCPAS, and City Treasurer's Office",
+      "source_reality_status": "public_process_only",
+      "strongest_public_source": "https://pasay.gov.ph/wp-content/uploads/2026/02/pasay-city-external-service-building-permit-application.pdf",
+      "target_specific_result": "These names appear in the Pasay process, but no SM MOA target-specific claim stub, order of payment, or official receipt was found.",
+      "manual_follow_up": "Request only if the audit needs traceability of a specific permit application, payment, or release transaction.",
+      "overclaim_boundary": "Payment or claim-stub process context is administrative; it is not compliance evidence by itself."
+    },
+    {
+      "document_target": "Civil/Structural Building and Design Plans",
+      "document_family": "structural_document_packet",
+      "likely_custodian": "Pasay CEO/OBO, SM Prime / SM Supermalls, and engineer of record",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://pasay.gov.ph/wp-content/uploads/2026/02/pasay-city-external-service-building-permit-application.pdf",
+      "target_specific_result": "Pasay process lists Civil/Structural plans as part of building and design plans, but no public target-tied SM MOA plan sheets were found.",
+      "manual_follow_up": "Request approved civil/structural plans and identify the exact building, parking structure, wing, tenant, or expansion scope.",
+      "overclaim_boundary": "A contractor or operator page may identify design participation, but not the approved plan set."
+    },
+    {
+      "document_target": "Structural Design Analysis and Computations",
+      "document_family": "structural_document_packet",
+      "likely_custodian": "Pasay CEO/OBO, SM Prime / SM Supermalls, and civil/structural engineer of record",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://pasay.gov.ph/wp-content/uploads/2026/02/pasay-city-external-service-building-permit-application.pdf",
+      "target_specific_result": "Pasay process lists structural design analysis and computations for two-storey and above projects, but no SM MOA target-tied signed/sealed computation packet was found.",
+      "manual_follow_up": "Request signed and sealed structural design analysis and computations for the exact target subscope.",
+      "overclaim_boundary": "No NSCP compliance conclusion is available without the target-tied computation, review, or authoritative record."
+    },
+    {
+      "document_target": "Boring/Soil Test",
+      "document_family": "structural_document_packet",
+      "likely_custodian": "Pasay CEO/OBO, SM Prime / SM Supermalls, geotechnical consultant, and civil/structural engineer of record",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://pasay.gov.ph/wp-content/uploads/2026/02/pasay-city-external-service-building-permit-application.pdf",
+      "target_specific_result": "Pasay process lists boring/soil test for two-storey with deck and above; public corporate/operator sources mention geotechnical engineering and deep-pile foundations, but no actual SM MOA boring/soil report was found.",
+      "manual_follow_up": "Request geotechnical investigation, boring logs, soil test report, and related signed/sealed professional documents.",
+      "overclaim_boundary": "Geotechnical narrative is not the same as the actual soil investigation report."
+    },
+    {
+      "document_target": "Compliance Evaluation Sheet",
+      "document_family": "building_permit_packet",
+      "likely_custodian": "Pasay CEO/OBO",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://pasay.gov.ph/wp-content/uploads/2026/02/pasay-city-external-service-building-permit-application.pdf",
+      "target_specific_result": "Pasay process says plans/documents are evaluated using a Compliance Evaluation Sheet, but no SM MOA target-tied sheet was found.",
+      "manual_follow_up": "Request the OBO evaluation sheet for the exact permit, renovation, repair, or expansion application.",
+      "overclaim_boundary": "The existence of an evaluation step does not prove the target plan was approved or compliant."
+    },
+    {
+      "document_target": "Fire Safety Evaluation Clearance (FSEC)",
+      "document_family": "fire_safety_packet",
+      "likely_custodian": "BFP Pasay City Fire Marshal and Pasay CEO/OBO",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/89926",
+      "target_specific_result": "JMC 2018-01 and Pasay process context confirm FSEC is a real permit prerequisite, but no public SM MOA target-tied FSEC was found.",
+      "manual_follow_up": "Request FSEC copy or verification for the exact building, renovation, fit-out, or expansion scope from BFP Pasay and Pasay OBO.",
+      "overclaim_boundary": "BFP service presence at SM MOA does not prove a current FSEC for any particular SM MOA structure."
+    },
+    {
+      "document_target": "Fire Safety Inspection Certificate (FSIC)",
+      "document_family": "fire_safety_packet",
+      "likely_custodian": "BFP Pasay City Fire Marshal, BFP satellite office at SM MOA if record-routing is accepted, and Pasay BPLO/OBO",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://www.smsupermalls.com/whats-new/news/sm-mall-of-asia-and-bfp-pasay-city-launch-first-ever-metro-manila-bfp-satellite-office-at-government-service-express",
+      "target_specific_result": "Public sources show BFP Pasay has a satellite office at SM MOA and provides inspection/permit/renewal assistance, but no public SM MOA FSIC copy, number, or issuance date was found.",
+      "manual_follow_up": "Request FSIC copy or verification from BFP Pasay for the exact building or tenant scope and relevant year.",
+      "overclaim_boundary": "Do not claim fire-safety compliance from BFP presence, events, drills, or public service access."
+    },
+    {
+      "document_target": "Certificate of Occupancy",
+      "document_family": "occupancy_packet",
+      "likely_custodian": "Pasay CEO/OBO and SM Prime / SM Supermalls owner records",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/89926",
+      "target_specific_result": "National and local process context identifies certificate-of-occupancy requirements, but no public target-tied SM MOA certificate of occupancy was found.",
+      "manual_follow_up": "Request certificate of occupancy for the exact building, wing, parking building, or expansion scope.",
+      "overclaim_boundary": "Opening, mall hours, tenant operation, or foot traffic do not prove occupancy certificate status."
+    },
+    {
+      "document_target": "Certificate of Completion",
+      "document_family": "occupancy_packet",
+      "likely_custodian": "Pasay CEO/OBO, owner/operator, contractor, architect, or civil engineer in charge of construction",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/89926",
+      "target_specific_result": "JMC 2018-01 identifies Certificate of Completion as part of occupancy processing, but no public SM MOA target-tied certificate of completion was found.",
+      "manual_follow_up": "Request notarized, signed/sealed Certificate of Completion and related approved/as-built plans for the exact scope.",
+      "overclaim_boundary": "Company statements about completion or opening are not the same as the formal certificate."
+    },
+    {
+      "document_target": "Approved Plans, As-Built Plans, Occupancy Inspection, Professional License Attachments",
+      "document_family": "occupancy_packet",
+      "likely_custodian": "Pasay CEO/OBO, SM Prime / SM Supermalls, contractor, architect, and civil/structural engineer of record",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/89926",
+      "target_specific_result": "These documents are defined by national/local occupancy process context, but no SM MOA target-tied public packet was found.",
+      "manual_follow_up": "Request approved plans/specifications, as-built plans if modified, construction logbook, inspection records, and professional license/PTR attachments.",
+      "overclaim_boundary": "Professional identity or corporate claims do not substitute for the occupancy packet."
+    },
+    {
+      "document_target": "Annual Building Inspection Permit / Certificate",
+      "document_family": "inspection_incident_repair_packet",
+      "likely_custodian": "Pasay CEO/OBO, Pasay BPLO, and owner/operator records",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://pasay.gov.ph/wp-content/uploads/2026/04/pasay-city-citizens-charter-2026.pdf",
+      "target_specific_result": "Pasay process context indicates annual building inspection is a real document route, but no public SM MOA target-tied annual inspection certificate or permit was found.",
+      "manual_follow_up": "Request annual building inspection certificate/permit for the exact year and exact SM MOA subscope.",
+      "overclaim_boundary": "Business-permit renewal or mall operation does not prove annual inspection status."
+    },
+    {
+      "document_target": "Structural Stability and Safety Certificate",
+      "document_family": "inspection_incident_repair_packet",
+      "likely_custodian": "Pasay CEO/OBO, owner/operator, and signed/sealed civil/structural engineer of record",
+      "source_reality_status": "manual_request_needed",
+      "strongest_public_source": "https://pasay.gov.ph/wp-content/uploads/2026/04/pasay-city-citizens-charter-2026.pdf",
+      "target_specific_result": "Pasay process context surfaced this document as an annual-inspection-related item, but no public SM MOA target-tied certificate was found.",
+      "manual_follow_up": "Request signed/sealed structural stability and safety certificate for the exact building, structure, or expansion.",
+      "overclaim_boundary": "Old public advisories or operator resilience narratives cannot replace a signed/sealed current certificate."
+    },
+    {
+      "document_target": "Post-Incident Structural Assessment, Repair Permit, Retrofit Permit, Reoccupancy Clearance, Closure/Tag Records",
+      "document_family": "inspection_incident_repair_packet",
+      "likely_custodian": "Pasay CEO/OBO, Pasay CDRRMO, BFP Pasay, SM Prime / SM Supermalls, and relevant professional of record",
+      "source_reality_status": "partial_public_evidence",
+      "strongest_public_source": "https://www.smprime.com/latest_news/sm-mall-of-asia-structure-intact-no-structural-damage-says-pasay-city-engineering-office/",
+      "target_specific_result": "Public sources include old target-specific advisories/incidents, including a 2020 Pasay Engineering Office statement reposted by SM Prime and fire/ceiling incident reports, but no underlying official assessment, repair permit, retrofit permit, closure order, tag record, or reoccupancy clearance was found.",
+      "manual_follow_up": "Request the underlying inspection or incident records for the exact date, event, and sublocation.",
+      "overclaim_boundary": "Incident reports and reopening/operation do not prove current safety, compliance, or repair completion."
+    },
+    {
+      "document_target": "Corporate Material Permits and Licenses Table / Business Permit Entries",
+      "document_family": "corporate_operator_filings_packet",
+      "likely_custodian": "SM Prime investor relations / corporate compliance and Pasay BPLO for official copies",
+      "source_reality_status": "partial_public_evidence",
+      "strongest_public_source": "https://www.smprime.com/wp-content/uploads/2025/09/0-SMPH-Series-ABACAD-Bonds-Preliminary-Offer-Supplement-as-of-15-September-2025.pdf",
+      "target_specific_result": "SM Prime's 2025 offer supplement lists SM Mall of Asia business permit entries in Pasay City with permit/license numbers and dates, but it does not attach official BPLO certificates or building/occupancy records.",
+      "manual_follow_up": "Use the listed numbers as leads when requesting official BPLO records or source documents behind the filing.",
+      "overclaim_boundary": "Business permit entries are not the same as building permits, occupancy certificates, FSIC/FSEC, or NSCP compliance records."
+    },
+    {
+      "document_target": "Operator Engineering / Resilience Statements",
+      "document_family": "corporate_operator_filings_packet",
+      "likely_custodian": "SM Prime / SM Supermalls corporate communications, sustainability, engineering, and compliance teams",
+      "source_reality_status": "partial_public_evidence",
+      "strongest_public_source": "https://www.smprime.com/wp-content/uploads/2026/04/SM-PRIME-Integrated-Report-2025-compressed.pdf",
+      "target_specific_result": "SM Prime public materials describe MOA Complex engineering, including geotechnical and structural measures, but these are operator statements rather than signed/sealed engineering records or OBO records.",
+      "manual_follow_up": "Request the underlying engineering documents, inspection reports, professional sign-offs, or OBO/BFP records that support the public narrative.",
+      "overclaim_boundary": "Operator resilience claims are useful leads, not compliance certification."
+    }
+  ],
+  "agent_results": [
+    {
+      "agent": "Agent 1",
+      "document_family": "building_permit_packet",
+      "source_reality_status": "manual_request_needed",
+      "best_public_result": "Pasay publishes the process and XERSYS workflow, but no target-tied SM MOA building permit packet was found.",
+      "manual_custodian": "Pasay CEO/OBO and SM Prime / SM Supermalls"
+    },
+    {
+      "agent": "Agent 2",
+      "document_family": "structural_document_packet",
+      "source_reality_status": "manual_request_needed",
+      "best_public_result": "Pasay process names the structural documents; SM/third-party sources provide engineering leads, but no signed/sealed structural packet was found.",
+      "manual_custodian": "Pasay CEO/OBO, SM Prime / SM Supermalls, and engineer/geotechnical consultant of record"
+    },
+    {
+      "agent": "Agent 3",
+      "document_family": "occupancy_packet",
+      "source_reality_status": "manual_request_needed",
+      "best_public_result": "Certificate-of-occupancy packet requirements are public process context, but no SM MOA target-tied occupancy packet was found.",
+      "manual_custodian": "Pasay CEO/OBO, BFP Pasay, CPDO, and owner/operator records"
+    },
+    {
+      "agent": "Agent 4",
+      "document_family": "fire_safety_packet",
+      "source_reality_status": "partial_public_evidence",
+      "best_public_result": "BFP Pasay has a target-site service presence at SM MOA, but no public target-tied FSEC, FSIC, correction sheet, or inspection record was found.",
+      "manual_custodian": "BFP Pasay City Fire Marshal and SM MOA BFP Satellite Office if it accepts record-routing requests"
+    },
+    {
+      "agent": "Agent 5",
+      "document_family": "inspection_incident_repair_packet",
+      "source_reality_status": "partial_public_evidence",
+      "best_public_result": "Public advisories and incident reports exist, but no underlying annual inspection, repair, retrofit, closure, tag, or reoccupancy record was found.",
+      "manual_custodian": "Pasay CEO/OBO, BFP Pasay, Pasay CDRRMO, SM Prime / SM Supermalls"
+    },
+    {
+      "agent": "Agent 6",
+      "document_family": "corporate_operator_filings_packet",
+      "source_reality_status": "partial_public_evidence",
+      "best_public_result": "SM Prime filings provide partial business-permit and operator evidence, but not primary OBO/BFP/occupancy/structural records.",
+      "manual_custodian": "SM Prime investor relations / corporate compliance and the relevant LGU/BFP issuing office"
+    }
+  ],
+  "query_patterns_that_worked": [
+    "site:pasay.gov.ph \"Building Permit\" \"Office of the Building Official\" \"Unified Application Form\"",
+    "site:eodbbuilding.pasay.gov.ph \"Building Permit\"",
+    "\"SM Mall of Asia\" \"Certificate of Occupancy\"",
+    "\"SM Mall of Asia\" \"Structural Design Analysis\"",
+    "\"SM Mall of Asia\" \"Boring/Soil Test\"",
+    "\"SM Mall of Asia\" FSEC",
+    "\"SM Mall of Asia\" FSIC BFP Pasay",
+    "\"SM Mall of Asia\" \"Annual Building Inspection\"",
+    "site:smprime.com \"SM Mall of Asia\" \"business permit\"",
+    "site:smprime.com \"Mall of Asia\" \"offer supplement\" \"permits\""
+  ],
+  "gate_3_required_fields_learned": [
+    "target_subscope",
+    "document_target",
+    "document_family",
+    "likely_custodian",
+    "source_reality_status",
+    "strongest_public_source",
+    "target_specific_result",
+    "manual_follow_up",
+    "overclaim_boundary",
+    "query_log"
+  ],
+  "key_learning": "Gate 3 should start from exact document targets, not vague compliance language. Public web commonly reveals process forms and some corporate/operator leads, while primary target-tied building, occupancy, fire-safety, and structural records usually require manual request to OBO, BFP, BPLO, owner/operator, or professional-of-record custodians."
+}

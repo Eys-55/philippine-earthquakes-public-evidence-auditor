@@ -1,0 +1,991 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_gate": "audit_scope_lock",
+  "purpose": "Regression fixtures for Gate 2 of the Philippines Building Code Evidence Auditor. These cases test menu-based audit scope locking after a place is confirmed and before any public-evidence search begins.",
+  "fixture_notice": "All sample places and source links in this file are workflow fixtures. They are not public evidence about real buildings.",
+  "required_case_categories": [
+    "menu_prompt",
+    "permit_occupancy_records",
+    "incident_damage_history",
+    "contractor_professional_developer",
+    "standards_context_only",
+    "broad_public_evidence_packet",
+    "ambiguous_scope"
+  ],
+  "cases": [
+    {
+      "case_id": "audit-scope-menu-001",
+      "category": "menu_prompt",
+      "description": "After the exact place is confirmed, the workflow asks one short menu question and keeps evidence search blocked.",
+      "expected_status": "needs_user_scope_choice",
+      "expected_can_proceed_to_evidence_search": false,
+      "expected_blockers": [
+        "waiting_for_scope_choice"
+      ],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": null,
+          "interpreted_scope": null,
+          "answer_source": "not_answered"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "needs_user_scope_choice",
+          "locked_scope": null,
+          "user_facing_prompt": "For KCC Mall of GenSan, what do you want checked? 1. Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry 2. Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety 3. Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead 4. Standards or process context only - public standards context; not building-specific compliance proof 5. Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+          "clarifying_questions": [
+            "For KCC Mall of GenSan, what do you want checked: 1. Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry, 2. Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety, 3. Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead, 4. Standards or process context only - public standards context; not building-specific compliance proof, or 5. Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups?"
+          ],
+          "can_proceed_to_evidence_search": false,
+          "blockers": [
+            "waiting_for_scope_choice"
+          ]
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "permit_search",
+            "incident_search",
+            "contractor_search",
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "audit-scope-permit-001",
+      "category": "permit_occupancy_records",
+      "description": "A numeric menu answer locks permit and occupancy records as the scope.",
+      "expected_status": "scope_confirmed",
+      "expected_locked_scope_id": "permit_occupancy_records",
+      "expected_can_proceed_to_evidence_search": true,
+      "expected_blockers": [],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": "1",
+          "interpreted_scope": "permit_occupancy_records",
+          "answer_source": "number"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "scope_confirmed",
+          "locked_scope": {
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ],
+            "blocked_lanes": [
+              "incident_safety_history",
+              "contractor_professional"
+            ],
+            "output_intent": "Find public evidence or request paths for building permit and occupancy records."
+          },
+          "user_facing_prompt": "Got it. I will lock the scope as permit or occupancy records. In the Philippines, this usually means LGU/OBO process pages or a manual record request, not a national public registry. I will not search outside that unless you ask.",
+          "clarifying_questions": [],
+          "can_proceed_to_evidence_search": true,
+          "blockers": []
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "incident_search",
+            "contractor_search",
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "audit-scope-incident-001",
+      "category": "incident_damage_history",
+      "description": "A label answer locks incident, damage, closure, repair, and retrofit history.",
+      "expected_status": "scope_confirmed",
+      "expected_locked_scope_id": "incident_damage_history",
+      "expected_can_proceed_to_evidence_search": true,
+      "expected_blockers": [],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": "incident, damage, closure, repair, or retrofit history",
+          "interpreted_scope": "incident_damage_history",
+          "answer_source": "label"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "scope_confirmed",
+          "locked_scope": {
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ],
+            "blocked_lanes": [
+              "lgu_obo",
+              "contractor_professional"
+            ],
+            "output_intent": "Find public incident, damage, closure, repair, retrofit, or inspection history."
+          },
+          "user_facing_prompt": "Got it. I will lock the scope as incident, damage, closure, repair, or retrofit history. In the Philippines, this is often publicly searchable through LGU, government, or reputable news sources, but it is not proof of current safety. I will not search outside that unless you ask.",
+          "clarifying_questions": [],
+          "can_proceed_to_evidence_search": true,
+          "blockers": []
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "permit_search",
+            "contractor_search",
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "audit-scope-contractor-001",
+      "category": "contractor_professional_developer",
+      "description": "A natural-language answer locks contractor, professional, developer, or operator evidence.",
+      "expected_status": "scope_confirmed",
+      "expected_locked_scope_id": "contractor_professional_developer",
+      "expected_can_proceed_to_evidence_search": true,
+      "expected_blockers": [],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": "check the developer and contractor",
+          "interpreted_scope": "contractor_professional_developer",
+          "answer_source": "natural_language"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "scope_confirmed",
+          "locked_scope": {
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ],
+            "blocked_lanes": [
+              "lgu_obo",
+              "incident_safety_history"
+            ],
+            "output_intent": "Find public evidence about contractors, professionals, developers, or operators when names are available."
+          },
+          "user_facing_prompt": "Got it. I will lock the scope as contractor, professional, developer, or operator evidence. In the Philippines, this usually needs a known name, license number, project name, or source lead before the evidence search can work. I will not search outside that unless you ask.",
+          "clarifying_questions": [],
+          "can_proceed_to_evidence_search": true,
+          "blockers": []
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "permit_search",
+            "incident_search",
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "audit-scope-standards-001",
+      "category": "standards_context_only",
+      "description": "A standards-only answer locks standards and process context, without building-specific compliance claims.",
+      "expected_status": "scope_confirmed",
+      "expected_locked_scope_id": "standards_context_only",
+      "expected_can_proceed_to_evidence_search": true,
+      "expected_blockers": [],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": "standards only",
+          "interpreted_scope": "standards_context_only",
+          "answer_source": "natural_language"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "scope_confirmed",
+          "locked_scope": {
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ],
+            "blocked_lanes": [
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history"
+            ],
+            "output_intent": "Find standards and process context only, without building-specific compliance conclusions."
+          },
+          "user_facing_prompt": "Got it. I will lock the scope as standards or process context only. In the Philippines, this can cite public standards and process context, but it cannot prove building-specific compliance. I will not search outside that unless you ask.",
+          "clarifying_questions": [],
+          "can_proceed_to_evidence_search": true,
+          "blockers": []
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "permit_search",
+            "incident_search",
+            "contractor_search",
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "audit-scope-broad-001",
+      "category": "broad_public_evidence_packet",
+      "description": "A numeric answer locks the broad public-evidence packet scope.",
+      "expected_status": "scope_confirmed",
+      "expected_locked_scope_id": "broad_public_evidence_packet",
+      "expected_can_proceed_to_evidence_search": true,
+      "expected_blockers": [],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": "5",
+          "interpreted_scope": "broad_public_evidence_packet",
+          "answer_source": "number"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "scope_confirmed",
+          "locked_scope": {
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ],
+            "blocked_lanes": [],
+            "output_intent": "Prepare a broad public-evidence packet with citations, confidence labels, caveats, and manual follow-up gaps."
+          },
+          "user_facing_prompt": "Got it. I will lock the scope as a broad public-evidence packet. In the Philippines, this will separate public findings from manual follow-ups across the available lanes. I will not search outside that unless you ask.",
+          "clarifying_questions": [],
+          "can_proceed_to_evidence_search": true,
+          "blockers": []
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "audit-scope-ambiguous-safety-001",
+      "category": "ambiguous_scope",
+      "description": "The word safety is too broad because Gate 2 cannot infer whether the user means incidents, standards, permits, hazards, or a broad packet.",
+      "expected_status": "needs_scope_clarification",
+      "expected_can_proceed_to_evidence_search": false,
+      "expected_blockers": [
+        "ambiguous_scope",
+        "waiting_for_scope_confirmation"
+      ],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": "safety",
+          "interpreted_scope": null,
+          "answer_source": "natural_language"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "needs_scope_clarification",
+          "locked_scope": null,
+          "user_facing_prompt": "Do you want a narrow incident or damage history check, or a broad public-evidence packet?",
+          "clarifying_questions": [
+            "Do you want a narrow incident or damage history check, or a broad public-evidence packet?"
+          ],
+          "can_proceed_to_evidence_search": false,
+          "blockers": [
+            "ambiguous_scope",
+            "waiting_for_scope_confirmation"
+          ]
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "permit_search",
+            "incident_search",
+            "contractor_search",
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "audit-scope-ambiguous-permits-001",
+      "category": "ambiguous_scope",
+      "description": "The word permits needs a narrow-vs-broad check because users may mean permit records only or a broader compliance-evidence packet.",
+      "expected_status": "needs_scope_clarification",
+      "expected_can_proceed_to_evidence_search": false,
+      "expected_blockers": [
+        "ambiguous_scope",
+        "waiting_for_scope_confirmation"
+      ],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": "permits",
+          "interpreted_scope": "permit_occupancy_records",
+          "answer_source": "natural_language"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "needs_scope_clarification",
+          "locked_scope": null,
+          "user_facing_prompt": "Do you want a narrow permit or occupancy records check, or a broad public-evidence packet?",
+          "clarifying_questions": [
+            "Do you want a narrow permit or occupancy records check, or a broad public-evidence packet?"
+          ],
+          "can_proceed_to_evidence_search": false,
+          "blockers": [
+            "ambiguous_scope",
+            "waiting_for_scope_confirmation"
+          ]
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "permit_search",
+            "incident_search",
+            "contractor_search",
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "audit-scope-ambiguous-earthquake-001",
+      "category": "ambiguous_scope",
+      "description": "Earthquake could mean incident history, hazard context, standards context, or broad evidence, so the workflow asks one narrowing question.",
+      "expected_status": "needs_scope_clarification",
+      "expected_can_proceed_to_evidence_search": false,
+      "expected_blockers": [
+        "ambiguous_scope",
+        "waiting_for_scope_confirmation"
+      ],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": "earthquake",
+          "interpreted_scope": "incident_damage_history",
+          "answer_source": "natural_language"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "needs_scope_clarification",
+          "locked_scope": null,
+          "user_facing_prompt": "Do you want a narrow earthquake incident or damage history check, or a broad public-evidence packet?",
+          "clarifying_questions": [
+            "Do you want a narrow earthquake incident or damage history check, or a broad public-evidence packet?"
+          ],
+          "can_proceed_to_evidence_search": false,
+          "blockers": [
+            "ambiguous_scope",
+            "waiting_for_scope_confirmation"
+          ]
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "permit_search",
+            "incident_search",
+            "contractor_search",
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "audit-scope-ambiguous-everything-001",
+      "category": "ambiguous_scope",
+      "description": "Everything is likely broad, but the workflow confirms broad scope before opening all evidence lanes.",
+      "expected_status": "needs_scope_clarification",
+      "expected_can_proceed_to_evidence_search": false,
+      "expected_blockers": [
+        "ambiguous_scope",
+        "waiting_for_scope_confirmation"
+      ],
+      "sample_packet": {
+        "schema_version": "1.0.0",
+        "workflow_step": "audit_scope_lock",
+        "confirmed_place": {
+          "display_name": "KCC Mall of GenSan",
+          "candidate_id": "fixture-kcc-gensan",
+          "city": "General Santos",
+          "country": "Philippines",
+          "gate_1_status": "confirmed_by_user"
+        },
+        "user_intake": {
+          "raw_user_scope_request": "everything",
+          "interpreted_scope": "broad_public_evidence_packet",
+          "answer_source": "natural_language"
+        },
+        "scope_menu": [
+          {
+            "number": 1,
+            "scope_id": "permit_occupancy_records",
+            "label": "Permit or occupancy records - usually LGU/OBO process pages or manual record request; not a national public registry",
+            "evidence_lanes": [
+              "lgu_obo"
+            ]
+          },
+          {
+            "number": 2,
+            "scope_id": "incident_damage_history",
+            "label": "Incident, damage, closure, repair, or retrofit history - often publicly searchable through LGU/government/news sources, but not proof of current safety",
+            "evidence_lanes": [
+              "incident_safety_history"
+            ]
+          },
+          {
+            "number": 3,
+            "scope_id": "contractor_professional_developer",
+            "label": "Contractor, professional, developer, or operator evidence - usually requires a known name, license number, project name, or source lead",
+            "evidence_lanes": [
+              "contractor_professional"
+            ]
+          },
+          {
+            "number": 4,
+            "scope_id": "standards_context_only",
+            "label": "Standards or process context only - public standards context; not building-specific compliance proof",
+            "evidence_lanes": [
+              "standards"
+            ]
+          },
+          {
+            "number": 5,
+            "scope_id": "broad_public_evidence_packet",
+            "label": "Broad public-evidence packet - combines lanes and separates public findings from manual follow-ups",
+            "evidence_lanes": [
+              "standards",
+              "lgu_obo",
+              "contractor_professional",
+              "incident_safety_history",
+              "foi_manual_requests"
+            ]
+          }
+        ],
+        "scope_confirmation": {
+          "status": "needs_scope_clarification",
+          "locked_scope": null,
+          "user_facing_prompt": "Do you want the broad public-evidence packet across all lanes?",
+          "clarifying_questions": [
+            "Do you want the broad public-evidence packet across all lanes?"
+          ],
+          "can_proceed_to_evidence_search": false,
+          "blockers": [
+            "ambiguous_scope",
+            "waiting_for_scope_confirmation"
+          ]
+        },
+        "safety": {
+          "evidence_search_started": false,
+          "blocked_work": [
+            "permit_search",
+            "incident_search",
+            "contractor_search",
+            "compliance_claim",
+            "safety_or_hazard_claim"
+          ]
+        }
+      }
+    }
+  ]
+}

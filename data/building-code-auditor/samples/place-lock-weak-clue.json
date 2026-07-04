@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "building_identity_confirmation",
+  "user_intake": {
+    "raw_user_request": "Check the old hotel near the market.",
+    "known_name_or_description": "old hotel near the market",
+    "known_location": {
+      "city": null,
+      "province_or_region": null,
+      "address_text": null,
+      "nearby_landmarks": [
+        "market"
+      ]
+    },
+    "provided_links": [],
+    "provided_media_or_documents": []
+  },
+  "identity_candidates": [],
+  "selected_candidate": null,
+  "confirmation": {
+    "status": "needs_more_user_info",
+    "user_facing_confirmation_prompt": "I do not have enough location detail to identify the exact building yet. What city/province is this in, or do you have a map link, photo, receipt, or booking page?",
+    "clarification_style": "best_guess_only",
+    "clarifying_questions": [
+      "What city/province is this in, or do you have a map link, photo, receipt, or booking page?"
+    ],
+    "can_proceed_to_audit": false,
+    "blockers": [
+      "no_candidate_found",
+      "missing_city_or_location",
+      "low_address_confidence"
+    ]
+  }
+}

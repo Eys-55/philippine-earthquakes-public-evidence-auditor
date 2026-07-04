@@ -1,0 +1,161 @@
+{
+  "generated_at": "2026-07-03",
+  "mode": "read-only public source queries",
+  "site": {
+    "name": "Malacanang Palace",
+    "address_context": "Jose P. Laurel Street, San Miguel, Manila",
+    "analysis_point": {
+      "latitude": 14.593947,
+      "longitude": 120.994349,
+      "note": "Representative point used for GIS layer intersection; not a cadastral boundary."
+    },
+    "address_source": "https://philhistoricsites.nhcp.gov.ph/registry_database/malacanan-palace/"
+  },
+  "admin_context": {
+    "source": "https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/MMDAOAGMP_MetroManilaCityMunicipalityBoundary/FeatureServer/0",
+    "query_method": "point-in-polygon",
+    "result": {
+      "RegionPSGC": "130000000",
+      "Region": "NATIONAL CAPITAL REGION (NCR)",
+      "CityMunicipalityPSGC": "PH133901000",
+      "CityMunicipality": "CITY OF MANILA"
+    }
+  },
+  "mgb_flood_susceptibility": {
+    "source": "https://ulap-hazards.georisk.gov.ph/arcgis/rest/services/MGBPublic/Flood/MapServer",
+    "query_method": "ArcGIS REST point-in-polygon query at 120.994349,14.593947",
+    "feature_count": 1,
+    "result": {
+      "objectid": 121954,
+      "fscode": "02",
+      "class": "Moderate Flood Susceptibility",
+      "class_definition": "Likely flood height greater than 0.5 meter up to 1 meter with flood duration of 1 to 3 days.",
+      "last_edited_date_utc": "2025-11-05T02:04:09Z"
+    }
+  },
+  "mmda_flood_prone_points": {
+    "source": "https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/Flood_Prone_Areas_WFL1/FeatureServer/0",
+    "query_method": "ArcGIS REST distance query within 3000 meters; local haversine distance calculation",
+    "feature_count_within_3km": 93,
+    "nearest_records": [
+      {
+        "OBJECTID": 112,
+        "Location": "Magsaysay/Pureza (WB)",
+        "CityMunic": "Manila",
+        "Year": "2021",
+        "Amount_m": 0.25,
+        "distance_m": 1381.5
+      },
+      {
+        "OBJECTID": 125,
+        "Location": "Around Manila City Hall and Vicinity",
+        "CityMunic": "Manila",
+        "Year": "2022",
+        "Amount_m": 0.3,
+        "distance_m": 1405.8
+      },
+      {
+        "OBJECTID": 127,
+        "Location": "Around Manila City Hall and Vicinity",
+        "CityMunic": "Manila",
+        "Year": "2024",
+        "Amount_m": 0.3,
+        "distance_m": 1466.6
+      },
+      {
+        "OBJECTID": 124,
+        "Location": "Around Manila City Hall and Vicinity",
+        "CityMunic": "Manila",
+        "Year": "2019",
+        "Amount_m": 0.2,
+        "distance_m": 1471.3
+      },
+      {
+        "OBJECTID": 126,
+        "Location": "Around Manila City Hall and Vicinity",
+        "CityMunic": "Manila",
+        "Year": "2023",
+        "Amount_m": 0.3,
+        "distance_m": 1482.2
+      }
+    ],
+    "nearest_repeated_location_groups": [
+      {
+        "location": "Around Manila City Hall and Vicinity",
+        "record_count": 4,
+        "years": ["2019", "2022", "2023", "2024"],
+        "nearest_m": 1405.8,
+        "max_amount_m": 0.3
+      },
+      {
+        "location": "P. burgos - Manila City Hall Vicinity",
+        "record_count": 4,
+        "years": ["2016", "2017", "2018", "2019"],
+        "nearest_m": 1534.0,
+        "max_amount_m": 0.2
+      }
+    ]
+  },
+  "mmda_river_line": {
+    "source": "https://services1.arcgis.com/Jlef2HFcOgOf9c7u/arcgis/rest/services/MMDAOAGMP_River/FeatureServer",
+    "query_method": "ArcGIS REST distance query within 2000 meters; local point-to-line distance calculation",
+    "feature_count_within_2km": 76,
+    "nearest_records": [
+      {
+        "OBJECTID": 987,
+        "Name": "PASIG RIVER",
+        "CityMunicipality": "MANILA CITY",
+        "distance_m": 51.9
+      },
+      {
+        "OBJECTID": 959,
+        "Name": "PASIG RIVER",
+        "CityMunicipality": "MANILA CITY",
+        "distance_m": 166.1
+      },
+      {
+        "OBJECTID": 954,
+        "Name": "ESTERO DE SAN SEBASTIAN",
+        "CityMunicipality": "MANILA CITY",
+        "distance_m": 377.2
+      },
+      {
+        "OBJECTID": 1022,
+        "Name": "ESTERO DE SAN SEBASTIAN",
+        "CityMunicipality": "MANILA CITY",
+        "distance_m": 382.9
+      },
+      {
+        "OBJECTID": 961,
+        "Name": "ESTERO DE SAN IBANEZ",
+        "CityMunicipality": "MANILA CITY",
+        "distance_m": 383.1
+      }
+    ]
+  },
+  "project_noah": {
+    "source": "https://huggingface.co/datasets/bettergovph/project-noah-hazard-maps",
+    "resource_api": "https://data.bettergov.ph/api/v1/resources?dataset_id=22&limit=100",
+    "status": "source inspected, point result not computed",
+    "reason_not_computed": "NOAH flood scenario layers are available as PMTiles/vector layers; local PMTiles point-query support has not yet been implemented.",
+    "documented_flood_layers": ["flood_5yr", "flood_25yr", "flood_100yr"],
+    "documented_flood_values": {
+      "1": "Low hazard, 0 to 0.5 meter flood depth",
+      "2": "Medium hazard, greater than 0.5 meter up to 1.5 meters",
+      "3": "High hazard, greater than 1.5 meters"
+    }
+  },
+  "screening_conclusion": {
+    "computed_label": "elevated flood hazard attention",
+    "basis": [
+      "MGB official flood susceptibility class is Moderate at the representative point.",
+      "Nearest MMDA river-line feature is Pasig River at approximately 51.9 meters.",
+      "Nearest MMDA flood-prone point is approximately 1.38 km away; repeated flood-prone point clusters exist within approximately 1.41 to 1.53 km."
+    ],
+    "limitations": [
+      "Representative point only; not a cadastral or surveyed palace-complex boundary.",
+      "Public hazard screening only; not an engineering assessment, insurance determination, legal opinion, or official government certification.",
+      "NOAH scenario layer point lookup remains pending."
+    ]
+  }
+}
