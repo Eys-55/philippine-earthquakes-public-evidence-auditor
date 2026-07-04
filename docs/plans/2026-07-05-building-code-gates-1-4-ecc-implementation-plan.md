@@ -52,6 +52,91 @@ The repo is meant to be handed off and reused, so the skill surface is not a fin
 | `data/building-code-auditor/` | Machine contract | Schemas, fixtures, source-reality matrices, and sample packets enforce the skill |
 | `scripts/` | Eval harness | Deterministic validators prove the skill can be rerun reliably |
 
+## Full Implementation Flow
+
+```mermaid
+graph TD
+  START["Start implementation<br/>from this plan"]
+
+  subgraph S0["Skill First Surface"]
+    A1["Update root<br/>AGENTS.md"]
+    A2["Rewrite skill<br/>contract"]
+    A3["Update agent<br/>metadata"]
+    A4["Add skill<br/>surface checks"]
+  end
+
+  subgraph G1["Gate 1 Place Lock"]
+    B1["Read existing<br/>place schema"]
+    B2["Keep identity<br/>only rules"]
+    B3["Run place<br/>fixtures"]
+    B4["Confirmed place<br/>packet ready"]
+  end
+
+  subgraph G2["Gate 2 Scope Lock"]
+    C1["Create audit<br/>scope schema"]
+    C2["Replace old<br/>five scope menu"]
+    C3["Add four<br/>earthquake questions"]
+    C4["Update scope<br/>validator"]
+    C5["Locked scope<br/>packet ready"]
+  end
+
+  subgraph G3["Gate 3 Evidence Packet"]
+    D1["Create evidence<br/>packet schema"]
+    D2["Add lane<br/>sample packets"]
+    D3["Build packet<br/>validator"]
+    D4["Build Markdown<br/>renderer"]
+    D5["Evidence packet<br/>ready"]
+  end
+
+  subgraph L3["Gate 3 Per Lane Loop"]
+    E1["Search exact<br/>target documents"]
+    E2["Analyze search<br/>result"]
+    E3{"Answer<br/>found?"}
+    E4["Record found<br/>answer"]
+    E5{"More useful<br/>public source?"}
+    E6["Try next<br/>source"]
+    E7{"Lane type?"}
+    E8["Lanes 1-2<br/>answer no"]
+    E9["Lanes 3-4<br/>no public answer"]
+    E10["Add manual<br/>follow up"]
+  end
+
+  subgraph G4["Gate 4 Regression Gate"]
+    F1["Create regression<br/>case file"]
+    F2["Build gate<br/>suite runner"]
+    F3["Check source<br/>URLs"]
+    F4["Check answer<br/>statuses"]
+    F5["Check manual<br/>follow up"]
+    F6["Block unsafe<br/>claims"]
+    F7{"All checks<br/>pass?"}
+    F8["Fix packet<br/>or rules"]
+    F9["Gate suite<br/>passes"]
+  end
+
+  subgraph HAND["Handoff And Upload"]
+    H1["Update progress<br/>docs"]
+    H2["Run final<br/>verification"]
+    H3["Commit changes<br/>when approved"]
+    H4["Push to<br/>GitHub"]
+    H5["Ready for<br/>live Gate 3 run"]
+  end
+
+  START --> A1 --> A2 --> A3 --> A4
+  A4 --> B1 --> B2 --> B3 --> B4
+  B4 --> C1 --> C2 --> C3 --> C4 --> C5
+  C5 --> D1 --> D2 --> D3 --> D4 --> D5
+  D5 --> E1 --> E2 --> E3
+  E3 -- Yes --> E4 --> F1
+  E3 -- No --> E5
+  E5 -- Yes --> E6 --> E1
+  E5 -- No --> E7
+  E7 -- "1 or 2" --> E8 --> F1
+  E7 -- "3 or 4" --> E9 --> E10 --> F1
+  F1 --> F2 --> F3 --> F4 --> F5 --> F6 --> F7
+  F7 -- No --> F8 --> F2
+  F7 -- Yes --> F9 --> H1 --> H2 --> H3 --> H4 --> H5
+```
+
 ## Canonical Four Gate 2 Questions
 
 Use these exact menu options everywhere:
