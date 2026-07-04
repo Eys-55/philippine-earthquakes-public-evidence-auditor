@@ -1,0 +1,306 @@
+{
+  "title": "Philippines Building Code Evidence Auditor Source Landscape",
+  "searched_at": "2026-07-04",
+  "purpose": "Identify what public data can and cannot support an ECC audit-only workflow for Philippine building-code evidence.",
+  "global_safety_rule": "The workflow may collect public evidence and identify gaps, but it must not certify legal compliance, structural safety, earthquake safety, or fitness for occupancy.",
+  "labels": [
+    "automatable",
+    "partly_automatable",
+    "manual_request_needed",
+    "source_context_only",
+    "not_publicly_provable"
+  ],
+  "agent_lanes": [
+    {
+      "lane": "standards",
+      "goal": "Find the legal and professional standards context for building permits, occupancy, structural design, and safety requirements.",
+      "status": "partly_automatable",
+      "what_is_available": [
+        "DPWH publishes National Building Code / PD 1096 references and PDFs.",
+        "DPWH publishes National Building Code Development Office memoranda and fee references.",
+        "ASEP publicly describes its role and publications, including National Structural Code volumes and referral-code context."
+      ],
+      "what_is_hard": [
+        "The latest full NSCP text may not be openly available as a clean official web document.",
+        "A standards agent can cite applicable standards context, but cannot determine whether a specific building design complies without plans and professional review."
+      ],
+      "sources": [
+        {
+          "name": "DPWH National Building Code references",
+          "url": "https://www.dpwh.gov.ph/dpwh/nbc",
+          "access": "public web page"
+        },
+        {
+          "name": "DPWH PD 1096 page",
+          "url": "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096",
+          "access": "public web page"
+        },
+        {
+          "name": "DPWH PD 1096 PDF",
+          "url": "https://www.dpwh.gov.ph/DPWH/files/nbc/PD.pdf",
+          "access": "public PDF"
+        },
+        {
+          "name": "ASEP about page",
+          "url": "https://aseponline.org/about/",
+          "access": "public web page"
+        },
+        {
+          "name": "DPWH NBCDO MC 01 s. 2025",
+          "url": "https://www.dpwh.gov.ph/DPWH/files/NBCDO/NBCDO_MC_01_s2025.pdf",
+          "access": "public PDF"
+        }
+      ],
+      "workflow_use": "Use as standards context and citation baseline, not as direct proof of a building's compliance."
+    },
+    {
+      "lane": "lgu_obo",
+      "goal": "Map LGU Office of the Building Official sources for building permits, occupancy permits, annual inspections, certificates, and complaints.",
+      "status": "partly_automatable",
+      "what_is_available": [
+        "Several LGUs publish OBO/DBO pages explaining services and permit authority.",
+        "Some LGUs publish citizen charters, checklists, downloadable forms, and online application references.",
+        "Davao City publicly lists building permit, occupancy permit, annual inspection, certification, and complaints on National Building Code violations as OCBO functions."
+      ],
+      "what_is_hard": [
+        "Building-specific permit and occupancy records are not consistently searchable online across LGUs.",
+        "Many OBO workflows are application or request workflows rather than public databases.",
+        "A not-found result does not imply that no permit exists."
+      ],
+      "sources": [
+        {
+          "name": "Quezon City Department of the Building Official",
+          "url": "https://quezoncity.gov.ph/departments/department-of-the-building-official/",
+          "access": "public web page"
+        },
+        {
+          "name": "Davao City Office of the City Building Official",
+          "url": "https://davaocity.gov.ph/departments/infrastructure/office-of-the-building-official/",
+          "access": "public web page"
+        },
+        {
+          "name": "Cebu City building application forms",
+          "url": "https://www.cebucity.gov.ph/building-application-forms/",
+          "access": "public web page"
+        },
+        {
+          "name": "Pasig building permit checklist PDF",
+          "url": "https://assets.pasigcity.gov.ph/storage/downloadables/2024/07/29/66a73e828c9fa1722236546CHECKLIST%20OF%20REQUIREMENTS%20-%20BUILDING%20PERMIT%20APPLICATION.pdf",
+          "access": "public PDF"
+        },
+        {
+          "name": "Pasig occupancy permit checklist PDF",
+          "url": "https://assets.pasigcity.gov.ph/storage/downloadables/2024/07/29/66a73de9b38e11722236393CHECKLIST%20OF%20REQUIREMENTS%20-%20OCCUPANCY%20PERMIT%20APPLICATION.pdf",
+          "access": "public PDF"
+        },
+        {
+          "name": "Taguig local building office citizen charter PDF",
+          "url": "https://www.taguig.gov.ph/assets/pdfform/citizens_charter/local_building_office/ARTA-Local_Building_Office.pdf",
+          "access": "public PDF"
+        }
+      ],
+      "workflow_use": "Use to identify city-specific request paths, required documents, and evidence categories for the packet."
+    },
+    {
+      "lane": "building_identity",
+      "goal": "Normalize the exact building or establishment name, address, use type, operator, and jurisdiction before searching compliance evidence.",
+      "status": "partly_automatable",
+      "what_is_available": [
+        "LGU business permit pages can help identify business-permit workflows and responsible offices.",
+        "SEC services can support company/operator lookup, though some documents require paid or manual access.",
+        "Public web, official pages, maps, news, and establishment websites can help identify the correct building and operator."
+      ],
+      "what_is_hard": [
+        "Building names are ambiguous and may refer to tenants, malls, towers, hotels, or corporate entities.",
+        "Ownership, operator, developer, and contractor may be different entities.",
+        "Public identity evidence should be treated as confidence-building, not final proof."
+      ],
+      "sources": [
+        {
+          "name": "Quezon City Business Permits and Licensing Department",
+          "url": "https://quezoncity.gov.ph/departments/business-permit-and-licensing-department-2/",
+          "access": "public web page"
+        },
+        {
+          "name": "Taguig Business Permits and Licensing Office",
+          "url": "https://www.taguig.gov.ph/business/",
+          "access": "public web page"
+        },
+        {
+          "name": "SEC eSPARC",
+          "url": "https://esparc.sec.gov.ph/",
+          "access": "public portal"
+        },
+        {
+          "name": "SEC Express",
+          "url": "https://secexpress.ph/",
+          "access": "public portal with payment workflow"
+        }
+      ],
+      "workflow_use": "Use as a prerequisite lane before any compliance evidence search; stop or ask for clarification when building identity confidence is low."
+    },
+    {
+      "lane": "contractor_professional",
+      "goal": "Check public traces for contractors, architects, engineers, developers, and professional/license verification routes.",
+      "status": "partly_automatable",
+      "what_is_available": [
+        "PCAB has public contractor license verification for regular, special, pakyaw, exemption, and suspended/revoked records.",
+        "PRC has public professional license verification, but searches often require exact names, license numbers, or other details.",
+        "SEC and public developer pages can help identify companies tied to a building."
+      ],
+      "what_is_hard": [
+        "Public building pages often do not name the contractor, architect, engineer, or engineer of record.",
+        "Professional verification may require exact identifiers and does not prove involvement in a specific building.",
+        "The agent should verify a named party when found; it should not invent missing parties."
+      ],
+      "sources": [
+        {
+          "name": "PCAB license verification portal",
+          "url": "https://pcabgovph.com/verify/",
+          "access": "public search portal"
+        },
+        {
+          "name": "CIAP listing for PCAB online license verification",
+          "url": "https://construction.gov.ph/directory-listings/directory-listings-pcab/pcab-online-license-verification-website/",
+          "access": "public web page"
+        },
+        {
+          "name": "PCAB suspended/revoked licenses",
+          "url": "https://pcabgovph.com/verify/suspendedlicenses.php",
+          "access": "public search portal"
+        },
+        {
+          "name": "PRC license verification",
+          "url": "https://verification.prc.gov.ph/",
+          "access": "public search portal"
+        },
+        {
+          "name": "PRC FOI license verification guidance",
+          "url": "https://www.foi.gov.ph/agencies/prc/license-verification-prc-739166038591/",
+          "access": "public FOI response"
+        }
+      ],
+      "workflow_use": "Use only after a contractor or professional name is identified from source evidence."
+    },
+    {
+      "lane": "incident_safety_history",
+      "goal": "Find public evidence of earthquake damage, red/yellow tags, closure orders, inspections, repairs, retrofits, building collapse, or safety incidents.",
+      "status": "automatable",
+      "what_is_available": [
+        "News and LGU pages report post-earthquake inspections, red/yellow tags, closures, reopening decisions, and damaged structures.",
+        "Davao City publicly reported red-tagged and yellow-tagged establishments after rapid visual inspection by OCBO and PICE Davao City Chapter.",
+        "DPWH and news sources provide examples of advice to seek structural engineer inspection before reopening after earthquakes."
+      ],
+      "what_is_hard": [
+        "News evidence may be incomplete, stale, or not tied to official permit records.",
+        "Incident history can support follow-up risk flags, but it cannot prove current structural condition.",
+        "Social media evidence should be lower confidence unless confirmed by LGU, official agency, or reputable news."
+      ],
+      "sources": [
+        {
+          "name": "Davao City red/yellow tag announcement",
+          "url": "https://davaocity.gov.ph/local-government/davao-city-issues-red-yellow-tags-on-earthquake-affected-buildings/",
+          "access": "public LGU page"
+        },
+        {
+          "name": "MindaNews Davao damaged buildings report",
+          "url": "https://mindanews.com/top-stories/2025/10/davao-city-building-official-bars-use-of-buildings-severely-damaged-by-quake/",
+          "access": "public news page"
+        },
+        {
+          "name": "PNA Butuan safety inspection report",
+          "url": "https://pia.gov.ph/news/butuan-city-conducts-safety-inspection-following-intensity-5-earthquake/",
+          "access": "public government news page"
+        },
+        {
+          "name": "PNA Cebu earthquake inspection report",
+          "url": "https://www.pna.gov.ph/articles/1259940",
+          "access": "public government news page"
+        },
+        {
+          "name": "DPWH advice after earthquake",
+          "url": "https://dpwh.gov.ph/DPWH/news/11209",
+          "access": "public agency news page"
+        },
+        {
+          "name": "Supreme Court E-Library PD 1096 dangerous buildings provisions",
+          "url": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/11/53320",
+          "access": "public legal reference"
+        }
+      ],
+      "workflow_use": "Use as high-value public evidence for safety follow-up and manual engineering review flags."
+    },
+    {
+      "lane": "foi_manual_requests",
+      "goal": "Identify records that may exist but require FOI, LGU, OBO, BFP, seller, owner, admin, or professional request workflows.",
+      "status": "manual_request_needed",
+      "what_is_available": [
+        "FOI pages show building permit, FSIC, and building-year/construction-type requests as real request paths.",
+        "Some FOI requests succeed, some are denied, and many require clarification or agency-specific routing.",
+        "BFP and OBO certificate records may be case-specific and not broadly public."
+      ],
+      "what_is_hard": [
+        "Certified true copies, FSICs, detailed plans, as-built plans, structural calculations, and occupancy permits may not be obtainable through simple public web search.",
+        "Many records may involve personal data, fees, physical requests, or owner/admin cooperation.",
+        "The agent should produce a manual follow-up checklist, not pretend unavailable records were checked."
+      ],
+      "sources": [
+        {
+          "name": "FOI certified true copy of building permit request",
+          "url": "https://www.foi.gov.ph/requests/certified-true-copy-of-building-permit/",
+          "access": "public FOI request page"
+        },
+        {
+          "name": "FOI BFP denied request listing with FSIC examples",
+          "url": "https://www.foi.gov.ph/agencies/bfp/DENIED/",
+          "access": "public FOI agency page"
+        },
+        {
+          "name": "FOI BFP agency page",
+          "url": "https://www.foi.gov.ph/agencies/bfp/",
+          "access": "public FOI agency page"
+        },
+        {
+          "name": "FOI SBMA building year and construction type request",
+          "url": "https://www.foi.gov.ph/requests/building-year-built-and-construction-type-subic-bay-metropolitan-authority/",
+          "access": "public FOI request page"
+        },
+        {
+          "name": "FOI USeP location clearance request",
+          "url": "https://www.foi.gov.ph/agencies/usep/",
+          "access": "public FOI agency page"
+        },
+        {
+          "name": "FOI AIC Burgundy Empire Tower FSIC request",
+          "url": "https://www.foi.gov.ph/requests/copy-of-fsic-2017-2022-of-aic-burgundy-empire-tower/",
+          "access": "public FOI request page"
+        }
+      ],
+      "workflow_use": "Use to generate a manual follow-up checklist and to label records as not publicly verifiable when appropriate."
+    }
+  ],
+  "top_level_findings": [
+    {
+      "finding": "The workflow is feasible as an evidence auditor, not as a compliance certifier.",
+      "basis": "Standards, LGU process pages, portals, incident reports, and FOI routes are public enough to build evidence packets, but building-specific compliance proof is often not public."
+    },
+    {
+      "finding": "The first automation target should be source discovery, identity normalization, citation capture, and confidence labeling.",
+      "basis": "The same source category can be public in one city, manual in another, and blocked or absent in a third."
+    },
+    {
+      "finding": "The strongest public evidence categories are standards context, LGU process pages, PCAB/PRC verification routes, and incident/closure reports.",
+      "basis": "These were discoverable through official agency, LGU, FOI, and reputable news/government-news sources."
+    },
+    {
+      "finding": "The weakest categories are actual building plans, structural calculations, certified permits, and current safety condition.",
+      "basis": "These generally require OBO/BFP/FOI/owner/admin/professional workflows and cannot be inferred from absence of web evidence."
+    }
+  ],
+  "recommended_next_artifacts": [
+    "reports/philippines-building-code-data-landscape.md",
+    "data/building-code-auditor/evidence-schema.json",
+    "data/building-code-auditor/test-cases.json",
+    "skills/philippines-building-code-evidence-auditor/SKILL.md"
+  ]
+}

@@ -18,12 +18,46 @@ Manila / NCR.
 - Workflow surface: put reusable workflows under `skills/` first. Avoid
   `commands/` unless a compatibility shim is explicitly needed.
 
+## ECC Agentic Workflow Contract
+
+Before designing or implementing any new agentic workflow in this repo, route the
+work through ECC rather than starting from a topic idea alone.
+
+Define the workflow contract first:
+
+- repeated real-world job: what task will a person run more than once;
+- trigger and scope: when the skill should activate and when it should refuse;
+- input contract: files, links, addresses, APIs, records, prompts, or other
+  inspectable inputs;
+- agent lanes: independent source, validation, integration, and review roles;
+- tool and action space: narrow read/search/parse/query actions with explicit
+  third-party write boundaries;
+- raw evidence surface: preserved findings, logs, source responses, and caveats;
+- integrated output: report, JSON packet, brief, atlas, dataset, or visual card;
+- validation loop: freshness, reachability, source URL, schema checks, and
+  expected failure cases;
+- safety contract: secrets, auth, paid actions, publishing, and irreversible
+  operations are blocked unless explicitly approved;
+- reusable skill surface: document the workflow under `skills/<name>/SKILL.md`
+  before adding scripts, app surfaces, scheduled runs, or compatibility shims.
+
+Start with input and output only after naming the repeated job. If the repeated
+job is vague, clarify that first. If the job is clear, lock the input contract,
+then the output artifact, then the agent lanes and validation loop.
+
 ## Current Project Scope
 
 The current geography is Metro Manila / NCR. The current job is to turn validated
 public hazard and geography sources into an address-in, risk-packet-out workflow.
 Generic market research and city scoring are out of scope unless the user
 explicitly reopens them.
+
+2026-07-04 update: the user explicitly reopened the project direction for a
+new ECC agent-building target: the **Philippines Building Code Evidence
+Auditor**. Treat this as the active next workflow unless superseded. The
+disaster-risk work remains valid foundation context, but the current build goal
+is an audit-only public-evidence workflow for Philippine buildings,
+establishments, malls, hotels, and similar facilities.
 
 Priority sources:
 
