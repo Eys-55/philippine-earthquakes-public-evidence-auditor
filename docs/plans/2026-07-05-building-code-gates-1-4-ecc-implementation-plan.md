@@ -2,9 +2,9 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Build Gates 1-4 of the Philippines Building Code Evidence Auditor as a Python-first ECC harness that locks place identity, locks the earthquake audit question, validates structured evidence packets, and blocks unsafe claims before any output is treated as complete.
+**Goal:** Build Gates 1-4 of the Philippines Building Code Evidence Auditor as a reusable ECC skill and Python-first harness that locks place identity, locks the earthquake audit question, validates structured evidence packets, and blocks unsafe claims before any output is treated as complete.
 
-**Architecture:** This is a contract-first workflow harness, not a live web-search crawler yet. Gate 1 and Gate 2 produce locked input packets; Gate 3 produces a structured evidence packet from agent/operator findings; Gate 4 validates packet quality, citations, answerability, manual follow-up, and overclaim boundaries. The reusable workflow surface remains `skills/philippines-building-code-evidence-auditor/SKILL.md`; schemas, fixtures, and evals live under `data/building-code-auditor/`; deterministic checks live under `scripts/`.
+**Architecture:** This is a skill-first, contract-first workflow harness, not a live web-search crawler yet. The reusable workflow surface in `skills/philippines-building-code-evidence-auditor/`, `agents/openai.yaml`, and repo `AGENTS.md` is the primary product surface for future agents; schemas, fixtures, and validators are the deterministic enforcement layer. Gate 1 and Gate 2 produce locked input packets; Gate 3 produces a structured evidence packet from agent/operator findings; Gate 4 validates packet quality, citations, answerability, manual follow-up, and overclaim boundaries.
 
 **Tech Stack:** Python 3 standard library, JSON fixtures and JSON-schema-style documents, Markdown reports, Mermaid charts, existing repo validators, Kroki or `mmdc` for Mermaid validation. No cron, no scheduler, no `.mjs`, no live search runner in this phase.
 
@@ -17,6 +17,7 @@ This plan must be implemented with Superpowers and ECC discipline:
 - Use `superpowers:using-git-worktrees` before implementation if starting from a shared or dirty branch.
 - Use `superpowers:executing-plans` to execute this file in batches, defaulting to three tasks per batch.
 - Use ECC contract language for every gate: objective, inputs, outputs, eval, handoff, human boundary, and safety risks.
+- Treat the reusable skill and agent metadata as implementation artifacts, not documentation cleanup. Build the skill surface before refactoring the gate schemas so future agents know the contract they are implementing.
 - Use eval-driven development: add or update fixtures first, run the validator to see the expected failure, then update implementation.
 - Keep live web search out of v1. Gate 3 validates structured evidence gathered by an agent/operator; it does not fetch the web itself.
 - Do not commit unless the user explicitly asks for commits during execution.
@@ -27,7 +28,7 @@ Definition of done:
 - Gate 2 validator reflects the four earthquake audit questions, not the old five-scope building-code menu.
 - Gate 3 has a final packet schema, valid sample packets, and a deterministic packet validator.
 - Gate 4 has a single suite command that runs all gate checks.
-- The skill instructions, progress table, and chart docs agree with the same Gate 1-4 workflow.
+- The skill instructions, `agents/openai.yaml`, root `AGENTS.md`, progress table, and chart docs agree with the same Gate 1-4 workflow.
 - No validator permits unsupported claims that a building is safe, unsafe, earthquake-proof, NSCP-compliant, noncompliant, fit for occupancy, or unpermitted.
 
 ## ECC Gate Map
@@ -38,6 +39,18 @@ Definition of done:
 | Gate 2 Audit Scope Lock | Intent/scope contract and handoff | Earthquake question scope packet and validator | Search evidence or preserve old broad five-scope menu |
 | Gate 3 Evidence Packet | Dynamic workflow harness output | Structured evidence packet, sample packets, renderer, validator | Certify safety/compliance or keep searching forever |
 | Gate 4 Test Gate | Eval gate and regression harness | Full gate suite validator and regression fixtures | Treat unchecked evidence packets as complete |
+
+## Reusable Skill Surface Map
+
+The repo is meant to be handed off and reused, so the skill surface is not a final documentation task. It is the first real product contract that every later schema and validator must follow.
+
+| Surface | Purpose | Required standard |
+|---|---|---|
+| `AGENTS.md` | Repo-wide operating policy | Names the active lane, states skills-first workflow surface, blocks disaster-risk scope drift, and defines GitHub/repo handoff expectations |
+| `skills/philippines-building-code-evidence-auditor/SKILL.md` | Reusable agent workflow | Contains trigger/refusal rules, Gate 1-4 contracts, exact user prompts, source boundaries, and validation commands |
+| `skills/philippines-building-code-evidence-auditor/agents/openai.yaml` | Agent UI metadata | Human-readable name, short description, and default prompt match the Gate 1-4 skill |
+| `data/building-code-auditor/` | Machine contract | Schemas, fixtures, source-reality matrices, and sample packets enforce the skill |
+| `scripts/` | Eval harness | Deterministic validators prove the skill can be rerun reliably |
 
 ## Canonical Four Gate 2 Questions
 
@@ -107,6 +120,143 @@ Suggested commit message if the user asks for commits:
 
 ```bash
 git commit -m "chore: record building-code gate baseline"
+```
+
+## Task 1A: Lock The Reusable Skill And Agent Surface First
+
+**ECC concept:** Reusable skill extraction. This is the handoff surface future agents will actually read, so it must be created before the schema/code refactor proceeds.
+
+**Files:**
+- Modify: `AGENTS.md`
+- Modify: `skills/philippines-building-code-evidence-auditor/SKILL.md`
+- Modify: `skills/philippines-building-code-evidence-auditor/agents/openai.yaml`
+
+**Step 1: Update root repo instructions**
+
+In `AGENTS.md`, ensure the active lane says:
+
+```markdown
+- `philippines-building-code-evidence-auditor` is the active lane.
+- `address-disaster-risk-assessor` is deprecated/paused foundation context for this build.
+- Reusable workflow behavior must be captured in `skills/philippines-building-code-evidence-auditor/SKILL.md` before adding scripts, cron, live search, or compatibility shims.
+- Gate 1-4 are the current product boundary: place lock, earthquake audit scope lock, evidence packet loop, and regression test gate.
+```
+
+Acceptance checks:
+
+- `AGENTS.md` does not describe the disaster-risk assessor as the active current build target.
+- `AGENTS.md` says `skills/` is the canonical workflow surface.
+- `AGENTS.md` says cron/live search comes after the deterministic harness.
+
+**Step 2: Rewrite `SKILL.md` as the core agent contract**
+
+The skill body must be concise enough for repeated loading and should avoid duplicating long matrices that already live in `data/` or `reports/`.
+
+Required sections, in this order:
+
+```markdown
+# Philippines Building Code Evidence Auditor
+
+## Trigger
+
+## Refuse Or Pause When
+
+## Gate 1 Place Lock
+
+## Gate 2 Earthquake Audit Scope Lock
+
+## Gate 3 Evidence Packet Loop
+
+## Gate 4 Regression Test Gate
+
+## Source And Claim Boundaries
+
+## Validation Commands
+```
+
+Required behavior:
+
+- Gate 1 confirms exact place identity only.
+- Gate 2 asks the four earthquake questions only.
+- Gate 3 runs the per-lane loop selected by Gate 2.
+- Gate 4 runs deterministic validators before any packet is final.
+- Missing public evidence never becomes unsafe, noncompliant, unpermitted, or no permit.
+- The skill points to detailed data files instead of embedding huge reference matrices.
+
+**Step 3: Add exact trigger/refusal language**
+
+`SKILL.md` frontmatter description must trigger when the user asks about:
+
+- Philippine building, mall, hotel, establishment, tower, tenant, complex, or facility;
+- earthquake safety evidence;
+- NSCP/seismic evidence;
+- OBO structural permit or plan-review evidence;
+- post-earthquake tags, inspections, or clearances.
+
+It must refuse or pause when:
+
+- exact place is not confirmed;
+- the user wants legal/engineering certification;
+- the user asks for "earthquake-proof" claims;
+- the answer would require non-public OBO/operator/professional records and no manual request path is accepted.
+
+**Step 4: Update agent metadata**
+
+`skills/philippines-building-code-evidence-auditor/agents/openai.yaml` should be:
+
+```yaml
+interface:
+  display_name: "Philippines Building Code Evidence Auditor"
+  short_description: "Lock a Philippine building, choose an earthquake audit question, and validate evidence packets without unsafe safety claims"
+  default_prompt: "Use this skill to run Gates 1-4 of the Philippine earthquake building-code evidence auditor: place lock, audit scope lock, evidence packet loop, and regression checks."
+```
+
+Acceptance checks:
+
+- `short_description` names the earthquake audit question and unsafe-claim boundary.
+- `default_prompt` names Gates 1-4.
+- Metadata does not imply the skill certifies safety or compliance.
+
+**Step 5: Add a lightweight skill-surface validator to the plan**
+
+The implementation should later add this check either to `scripts/validate_progress_docs.py` or the final Gate 4 suite:
+
+```python
+required_skill_phrases = [
+    "Gate 1 Place Lock",
+    "Gate 2 Earthquake Audit Scope Lock",
+    "Gate 3 Evidence Packet Loop",
+    "Gate 4 Regression Test Gate",
+    "Missing public evidence never",
+    "Validation Commands",
+]
+```
+
+Expected:
+
+- FAIL if the skill surface drifts away from the gate contracts.
+- FAIL if the old five-scope Gate 2 menu is reintroduced as active behavior.
+
+**Step 6: Run checks**
+
+Run:
+
+```bash
+python3 scripts/validate_progress_docs.py
+git diff --check
+```
+
+Expected:
+
+- PASS.
+
+**Step 7: Commit checkpoint only if requested**
+
+Suggested commit message:
+
+```bash
+git add AGENTS.md skills/philippines-building-code-evidence-auditor/SKILL.md skills/philippines-building-code-evidence-auditor/agents/openai.yaml
+git commit -m "docs: lock reusable building-code auditor skill surface"
 ```
 
 ## Task 2: Update Gate 2 Scope Contract To Earthquake-Only
@@ -948,15 +1098,16 @@ On failure, print:
 building code gate suite: FAIL: <reason>
 ```
 
-## Task 10: Update Gate 1-4 Skill Instructions
+## Task 10: Final Skill Surface Consistency Review
 
-**ECC concept:** Reusable skill extraction. The workflow is not complete until future agents can run it from the skill surface.
+**ECC concept:** Reusable skill extraction review. The actual skill surface was built in Task 1A; this task verifies it still matches the final schemas, validators, and Gate 1-4 behavior after implementation.
 
 **Files:**
+- Modify if needed: `AGENTS.md`
 - Modify: `skills/philippines-building-code-evidence-auditor/SKILL.md`
 - Modify: `skills/philippines-building-code-evidence-auditor/agents/openai.yaml`
 
-**Step 1: Update skill title and description**
+**Step 1: Re-check skill title and description**
 
 `agents/openai.yaml` should mention:
 
@@ -969,7 +1120,7 @@ interface:
 
 **Step 2: Rewrite skill gate sections**
 
-The skill must have these sections in order:
+The skill must still have these sections in order:
 
 - `Gate 1 Place Lock`
 - `Gate 2 Earthquake Audit Scope Lock`
@@ -1162,6 +1313,7 @@ New files:
 
 Modified files:
 
+- `AGENTS.md`
 - `data/building-code-auditor/audit-scope-test-cases.json`
 - `data/building-code-auditor/audit-scope-source-reality.json`
 - `scripts/validate_audit_scope_gate.py`
