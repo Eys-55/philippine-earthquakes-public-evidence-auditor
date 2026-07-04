@@ -65,27 +65,48 @@ graph TD
     A4["Add skill<br/>surface checks"]
   end
 
-  subgraph G1["Gate 1 Place Lock"]
-    B1["Read existing<br/>place schema"]
-    B2["Keep identity<br/>only rules"]
+  subgraph B0["Gate 1 Build Work"]
+    B1["Keep place<br/>schema"]
+    B2["Keep identity<br/>validator"]
     B3["Run place<br/>fixtures"]
-    B4["Confirmed place<br/>packet ready"]
   end
 
-  subgraph G2["Gate 2 Scope Lock"]
+  subgraph G1["Gate 1 Runtime Loop"]
+    P1["User gives<br/>place clue"]
+    P2["Capture exact<br/>user words"]
+    P3["Check identity<br/>only"]
+    P4{"Exact building<br/>clear?"}
+    P5["Ask one<br/>missing detail"]
+    P6["Show best match<br/>or options"]
+    P7{"User confirms<br/>exact place?"}
+    P8["Lock place<br/>identity"]
+    P9["Check prior<br/>research packet"]
+    P10["Gate 2 may<br/>begin"]
+  end
+
+  subgraph C0["Gate 2 Build Work"]
     C1["Create audit<br/>scope schema"]
-    C2["Replace old<br/>five scope menu"]
+    C2["Remove old<br/>five scope menu"]
     C3["Add four<br/>earthquake questions"]
     C4["Update scope<br/>validator"]
-    C5["Locked scope<br/>packet ready"]
   end
 
-  subgraph G3["Gate 3 Evidence Packet"]
+  subgraph G2["Gate 2 Runtime Loop"]
+    Q1["Confirmed place<br/>from Gate 1"]
+    Q2["Ask earthquake question<br/>1 NSCP evidence<br/>2 OBO review<br/>3 Post status<br/>4 Clearance"]
+    Q3["User chooses<br/>1 2 3 4 or all"]
+    Q4["Record exact<br/>scope answer"]
+    Q5{"Scope is<br/>clear?"}
+    Q6["Ask one<br/>scope detail"]
+    Q7["Lock audit<br/>scope"]
+    Q8["Gate 3 may<br/>begin"]
+  end
+
+  subgraph D0["Gate 3 Build Work"]
     D1["Create evidence<br/>packet schema"]
     D2["Add lane<br/>sample packets"]
     D3["Build packet<br/>validator"]
     D4["Build Markdown<br/>renderer"]
-    D5["Evidence packet<br/>ready"]
   end
 
   subgraph L3["Gate 3 Per Lane Loop"]
@@ -99,11 +120,18 @@ graph TD
     E8["Lanes 1-2<br/>answer no"]
     E9["Lanes 3-4<br/>no public answer"]
     E10["Add manual<br/>follow up"]
+    E11["Lane result<br/>ready"]
+    E12["Integrate lane<br/>results"]
+    E13["Create evidence<br/>packet"]
   end
 
-  subgraph G4["Gate 4 Regression Gate"]
+  subgraph F0["Gate 4 Build Work"]
     F1["Create regression<br/>case file"]
     F2["Build gate<br/>suite runner"]
+  end
+
+  subgraph G4["Gate 4 Runtime Loop"]
+    F0A["Evidence packet<br/>from Gate 3"]
     F3["Check source<br/>URLs"]
     F4["Check answer<br/>statuses"]
     F5["Check manual<br/>follow up"]
@@ -122,17 +150,27 @@ graph TD
   end
 
   START --> A1 --> A2 --> A3 --> A4
-  A4 --> B1 --> B2 --> B3 --> B4
-  B4 --> C1 --> C2 --> C3 --> C4 --> C5
-  C5 --> D1 --> D2 --> D3 --> D4 --> D5
-  D5 --> E1 --> E2 --> E3
-  E3 -- Yes --> E4 --> F1
+  A4 --> B1 --> B2 --> B3 --> P1
+  P1 --> P2 --> P3 --> P4
+  P4 -- No --> P5 --> P2
+  P4 -- Yes --> P6 --> P7
+  P7 -- No --> P5
+  P7 -- Yes --> P8 --> P9 --> P10
+  P10 --> C1 --> C2 --> C3 --> C4 --> Q1
+  Q1 --> Q2 --> Q3 --> Q4 --> Q5
+  Q5 -- No --> Q6 --> Q3
+  Q5 -- Yes --> Q7 --> Q8
+  Q8 --> D1 --> D2 --> D3 --> D4 --> E1
+  E1 --> E2 --> E3
+  E3 -- Yes --> E4 --> E11
   E3 -- No --> E5
   E5 -- Yes --> E6 --> E1
   E5 -- No --> E7
-  E7 -- "1 or 2" --> E8 --> F1
-  E7 -- "3 or 4" --> E9 --> E10 --> F1
-  F1 --> F2 --> F3 --> F4 --> F5 --> F6 --> F7
+  E7 -- "1 or 2" --> E8 --> E11
+  E7 -- "3 or 4" --> E9 --> E10 --> E11
+  E11 --> E12 --> E13
+  E13 --> F1 --> F2 --> F0A
+  F0A --> F3 --> F4 --> F5 --> F6 --> F7
   F7 -- No --> F8 --> F2
   F7 -- Yes --> F9 --> H1 --> H2 --> H3 --> H4 --> H5
 ```
