@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "workflow_gate": "earthquake_scope_lock",
+  "status": "deprecated_redirect",
+  "canonical_files": [
+    "earthquake-scope-test-cases.json",
+    "earthquake-source-reality.json"
+  ],
+  "purpose": "This copied learning matrix is not active in V2. V2 has one four-lane earthquake Gate 2 contract and does not keep establishment-menu research here.",
+  "active_scope_ids": [
+    "nscp_seismic_design_evidence",
+    "obo_structural_permit_review_evidence",
+    "post_earthquake_tag_status",
+    "clearance_after_damage_or_tag"
+  ],
+  "guardrail": "Do not use this file for V2 evidence collection or scope validation. Use the canonical earthquake files listed above."
+}

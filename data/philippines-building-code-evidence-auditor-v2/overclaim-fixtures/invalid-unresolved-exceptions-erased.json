@@ -1,0 +1,62 @@
+{
+  "fixture_id": "invalid-unresolved-exceptions-erased",
+  "expected_valid": false,
+  "expected_error_codes": [
+    "unresolved_exceptions_erased"
+  ],
+  "gate4_checklist": {
+    "exact_building_match_confirmed": true,
+    "claim_source_urls_checked": true,
+    "official_professional_evidence_separated_from_weak_leads": true,
+    "operator_corporate_claims_not_treated_as_clearance": true,
+    "missing_evidence_not_converted_to_conclusion": "not_applicable",
+    "red_yellow_tag_evidence_preserved": true,
+    "unresolved_exceptions_preserved": false,
+    "query_log_present_for_no_evidence": "not_applicable"
+  },
+  "packet": {
+    "confirmed_building": {
+      "display_name": "Davao City earthquake-affected building sample",
+      "candidate_id": "davao-earthquake-affected-building-sample",
+      "city": "Davao City",
+      "country": "Philippines",
+      "gate_1_status": "confirmed_by_user"
+    },
+    "locked_earthquake_lane": "post_earthquake_tag_status",
+    "document_inventory": [
+      {
+        "item_id": "official-tag-source-1",
+        "description": "Official LGU source reports red and yellow tag issuance for earthquake-affected buildings.",
+        "evidence_strength": "direct_authoritative_target_evidence",
+        "source_curation_class": "official_record",
+        "is_positive_evidence": true,
+        "target_match_status": "exact_target_match",
+        "source_url": "https://davaocity.gov.ph/local-government/davao-city-issues-red-yellow-tags-on-earthquake-affected-buildings/"
+      }
+    ],
+    "evidence_strength": "direct_authoritative_target_evidence",
+    "source_curation_class": "official_record",
+    "physical_condition_public_evidence": [],
+    "unresolved_exceptions": [],
+    "manual_request_targets": [],
+    "overclaim_boundary": {
+      "allowed_conclusion": "Official post-earthquake tag/status evidence was found and no exceptions remain.",
+      "forbidden_conclusion_codes": [
+        "earthquake_safe"
+      ]
+    },
+    "query_log": [
+      {
+        "query": "site:davaocity.gov.ph earthquake red yellow tags buildings",
+        "searched_surface": "official LGU web",
+        "result_summary": "Official LGU post-earthquake tag/status source found.",
+        "source_url": "https://davaocity.gov.ph/local-government/davao-city-issues-red-yellow-tags-on-earthquake-affected-buildings/"
+      }
+    ],
+    "packet_result": {
+      "status": "positive_evidence_found",
+      "summary": "Official post-earthquake tag/status evidence was found with no unresolved exceptions.",
+      "answer_semantics": "status_answer_lane"
+    }
+  }
+}

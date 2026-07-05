@@ -1,0 +1,65 @@
+{
+  "fixture_id": "invalid-missing-evidence-safe-conclusion",
+  "expected_valid": false,
+  "expected_error_codes": [
+    "missing_evidence_overclaim"
+  ],
+  "gate4_checklist": {
+    "exact_building_match_confirmed": true,
+    "claim_source_urls_checked": true,
+    "official_professional_evidence_separated_from_weak_leads": true,
+    "operator_corporate_claims_not_treated_as_clearance": true,
+    "missing_evidence_not_converted_to_conclusion": false,
+    "red_yellow_tag_evidence_preserved": "not_applicable",
+    "unresolved_exceptions_preserved": true,
+    "query_log_present_for_no_evidence": true
+  },
+  "packet": {
+    "confirmed_building": {
+      "display_name": "SM City Davao",
+      "candidate_id": "sm-city-davao",
+      "city": "Davao City",
+      "country": "Philippines",
+      "gate_1_status": "confirmed_by_user"
+    },
+    "locked_earthquake_lane": "obo_structural_permit_review_evidence",
+    "document_inventory": [],
+    "evidence_strength": "not_found_after_reasonable_search",
+    "source_curation_class": "process_context",
+    "physical_condition_public_evidence": [],
+    "unresolved_exceptions": [
+      {
+        "exception_id": "missing-target-obo-review-record",
+        "description": "No public target-specific OBO structural review record was found.",
+        "resolution_route": "Request target-specific review records from the OBO."
+      }
+    ],
+    "manual_request_targets": [
+      {
+        "target": "Davao City Office of the Building Official",
+        "request": "Ask for target-specific structural review records."
+      }
+    ],
+    "overclaim_boundary": {
+      "allowed_conclusion": "No public evidence was found, so the building is safe and NSCP compliant.",
+      "missing_evidence_statement": "No public record means there is no compliance concern.",
+      "forbidden_conclusion_codes": [
+        "earthquake_safe",
+        "nscp_compliant"
+      ]
+    },
+    "query_log": [
+      {
+        "query": "\"SM City Davao\" \"Office of the Building Official\" structural review",
+        "searched_surface": "web search",
+        "result_summary": "No target-specific OBO structural review evidence found.",
+        "source_url": null
+      }
+    ],
+    "packet_result": {
+      "status": "no_public_evidence_found",
+      "summary": "No public evidence found; the building is safe and compliant.",
+      "answer_semantics": "evidence_existence_lane"
+    }
+  }
+}

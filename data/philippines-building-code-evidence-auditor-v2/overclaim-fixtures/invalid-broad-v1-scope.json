@@ -1,0 +1,59 @@
+{
+  "fixture_id": "invalid-broad-v1-scope",
+  "expected_valid": false,
+  "expected_error_codes": [
+    "invalid_locked_scope",
+    "broad_v1_scope"
+  ],
+  "gate4_checklist": {
+    "exact_building_match_confirmed": true,
+    "claim_source_urls_checked": true,
+    "official_professional_evidence_separated_from_weak_leads": true,
+    "operator_corporate_claims_not_treated_as_clearance": true,
+    "missing_evidence_not_converted_to_conclusion": true,
+    "red_yellow_tag_evidence_preserved": "not_applicable",
+    "unresolved_exceptions_preserved": true,
+    "query_log_present_for_no_evidence": true
+  },
+  "packet": {
+    "confirmed_building": {
+      "display_name": "Unsupported broad-scope sample",
+      "candidate_id": "unsupported-broad-scope-sample",
+      "city": "Quezon City",
+      "country": "Philippines",
+      "gate_1_status": "confirmed_by_user"
+    },
+    "locked_earthquake_lane": "broad_public_evidence_packet",
+    "document_inventory": [],
+    "evidence_strength": "not_found_after_reasonable_search",
+    "source_curation_class": "weak_lead",
+    "physical_condition_public_evidence": [],
+    "unresolved_exceptions": [
+      {
+        "exception_id": "broad-scope-not-supported",
+        "description": "Broad public-evidence packet is not a V2 earthquake lane.",
+        "resolution_route": "Route to V1 or choose one of the four V2 earthquake lanes."
+      }
+    ],
+    "manual_request_targets": [],
+    "overclaim_boundary": {
+      "allowed_conclusion": "Unsupported broad scope should be rejected by Gate 4.",
+      "forbidden_conclusion_codes": [
+        "broad_scope_accepted"
+      ]
+    },
+    "query_log": [
+      {
+        "query": "unsupported broad scope",
+        "searched_surface": "fixture",
+        "result_summary": "This fixture should fail because it uses a V1 broad scope.",
+        "source_url": null
+      }
+    ],
+    "packet_result": {
+      "status": "no_public_evidence_found",
+      "summary": "No public evidence found.",
+      "answer_semantics": "evidence_existence_lane"
+    }
+  }
+}

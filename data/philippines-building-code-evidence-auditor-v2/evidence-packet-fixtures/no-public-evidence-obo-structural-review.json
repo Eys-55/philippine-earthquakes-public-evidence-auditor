@@ -1,0 +1,70 @@
+{
+  "confirmed_building": {
+    "display_name": "SM City Davao",
+    "candidate_id": "sm-city-davao",
+    "city": "Davao City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user",
+    "scope_note": "Exact mall identity confirmed before Gate 3 evidence review."
+  },
+  "locked_earthquake_lane": "obo_structural_permit_review_evidence",
+  "document_inventory": [
+    {
+      "item_id": "obo-process-context-1",
+      "description": "The public application-status route is process context only; no target-specific OBO structural permit or review record was found for the confirmed building.",
+      "evidence_strength": "process_or_standards_context",
+      "source_curation_class": "process_context",
+      "is_positive_evidence": false,
+      "target_match_status": "process_context_only",
+      "source_url": "https://obps.davaocity.gov.ph/applicationstatus/",
+      "source_name": "Davao City Online Building Permit System"
+    }
+  ],
+  "evidence_strength": "not_found_after_reasonable_search",
+  "source_curation_class": "process_context",
+  "physical_condition_public_evidence": [],
+  "unresolved_exceptions": [
+    {
+      "exception_id": "missing-target-obo-review-record",
+      "description": "No public target-specific OBO structural review, correction sheet, permit identifier, or certified review record was found.",
+      "resolution_route": "Request target-specific review records from the OBO or authorized owner/applicant."
+    }
+  ],
+  "manual_request_targets": [
+    {
+      "target": "Davao City Office of the Building Official",
+      "request": "Ask for target-specific structural permit or review records for the confirmed building.",
+      "reason": "A public status route does not publish review records without target identifiers."
+    }
+  ],
+  "overclaim_boundary": {
+    "allowed_conclusion": "No public evidence found for OBO structural permit or review evidence after the recorded searches.",
+    "missing_evidence_statement": "This does not resolve whether private or offline OBO records exist.",
+    "forbidden_conclusion_codes": [
+      "no_permit_exists",
+      "not_reviewed",
+      "unpermitted",
+      "earthquake_safe",
+      "earthquake_unsafe"
+    ]
+  },
+  "query_log": [
+    {
+      "query": "\"SM City Davao\" \"building permit\" \"structural\"",
+      "searched_surface": "web search",
+      "result_summary": "No target-specific OBO structural permit or review evidence found.",
+      "source_url": null
+    },
+    {
+      "query": "\"SM City Davao\" \"Office of the Building Official\"",
+      "searched_surface": "web search",
+      "result_summary": "Process and custodian routes found, but no target-specific review record.",
+      "source_url": "https://obps.davaocity.gov.ph/applicationstatus/"
+    }
+  ],
+  "packet_result": {
+    "status": "no_public_evidence_found",
+    "summary": "No public evidence found for OBO structural permit or review evidence for the confirmed building.",
+    "answer_semantics": "evidence_existence_lane"
+  }
+}

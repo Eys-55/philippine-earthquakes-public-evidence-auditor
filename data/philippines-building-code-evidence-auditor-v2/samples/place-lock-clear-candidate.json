@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "building_identity_confirmation",
+  "user_intake": {
+    "raw_user_request": "Can you check the building code evidence for Fixture Harbor Hotel in Pasay?",
+    "known_name_or_description": "Fixture Harbor Hotel",
+    "known_location": {
+      "city": "Pasay",
+      "province_or_region": "Metro Manila",
+      "address_text": null,
+      "nearby_landmarks": [
+        "Fixture Bay Walk"
+      ]
+    },
+    "provided_links": [],
+    "provided_media_or_documents": []
+  },
+  "identity_candidates": [
+    {
+      "candidate_id": "fixture-harbor-hotel-pasay",
+      "display_name": "Fixture Harbor Hotel Pasay",
+      "aliases": [
+        "Fixture Harbor Hotel"
+      ],
+      "entity_type": "hotel",
+      "building_scope": "whole_building",
+      "address": {
+        "full_address": "Fixture Harbor Road, Pasay, Metro Manila",
+        "barangay": null,
+        "city": "Pasay",
+        "province_or_region": "Metro Manila",
+        "country": "Philippines"
+      },
+      "coordinates": {
+        "latitude": null,
+        "longitude": null,
+        "source": null
+      },
+      "jurisdiction": {
+        "lgu": "Pasay City",
+        "likely_obo_or_building_office": "Pasay City Office of the Building Official"
+      },
+      "known_operator_or_brand": "Fixture Harbor Hospitality",
+      "known_owner_or_developer": null,
+      "identity_confidence": "high",
+      "why_this_candidate": [
+        "The fixture name and city match one candidate.",
+        "The clue points to a hotel rather than a tenant inside another building."
+      ],
+      "why_it_might_not_be_this": [
+        "The user has not yet confirmed the exact address or link."
+      ],
+      "evidence": [
+        {
+          "claim": "Fixture source names one hotel candidate in Pasay.",
+          "source": {
+            "url": "https://example.com/fixtures/harbor-hotel-pasay",
+            "label": "Gate 1 fixture source",
+            "source_type": "other"
+          },
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": []
+    }
+  ],
+  "selected_candidate": {
+    "candidate_id": "fixture-harbor-hotel-pasay",
+    "display_name": "Fixture Harbor Hotel Pasay",
+    "aliases": [
+      "Fixture Harbor Hotel"
+    ],
+    "entity_type": "hotel",
+    "building_scope": "whole_building",
+    "address": {
+      "full_address": "Fixture Harbor Road, Pasay, Metro Manila",
+      "barangay": null,
+      "city": "Pasay",
+      "province_or_region": "Metro Manila",
+      "country": "Philippines"
+    },
+    "coordinates": {
+      "latitude": null,
+      "longitude": null,
+      "source": null
+    },
+    "jurisdiction": {
+      "lgu": "Pasay City",
+      "likely_obo_or_building_office": "Pasay City Office of the Building Official"
+    },
+    "known_operator_or_brand": "Fixture Harbor Hospitality",
+    "known_owner_or_developer": null,
+    "identity_confidence": "high",
+    "why_this_candidate": [
+      "The fixture name and city match one candidate.",
+      "The clue points to a hotel rather than a tenant inside another building."
+    ],
+    "why_it_might_not_be_this": [
+      "The user has not yet confirmed the exact address or link."
+    ],
+    "evidence": [
+      {
+        "claim": "Fixture source names one hotel candidate in Pasay.",
+        "source": {
+          "url": "https://example.com/fixtures/harbor-hotel-pasay",
+          "label": "Gate 1 fixture source",
+          "source_type": "other"
+        },
+        "notes": "Test fixture only; not live public evidence."
+      }
+    ],
+    "ambiguities": []
+  },
+  "confirmation": {
+    "status": "candidate_ready_for_user_confirmation",
+    "user_facing_confirmation_prompt": "I think you mean Fixture Harbor Hotel Pasay on Fixture Harbor Road. Is that the exact hotel/building you want audited before I search permit, contractor, incident, or code evidence?",
+    "clarification_style": "best_guess_with_quick_negative_check",
+    "clarifying_questions": [
+      "Is this the exact hotel/building you mean?"
+    ],
+    "can_proceed_to_audit": false,
+    "blockers": [
+      "waiting_for_user_confirmation"
+    ]
+  }
+}

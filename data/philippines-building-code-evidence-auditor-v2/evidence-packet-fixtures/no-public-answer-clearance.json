@@ -1,0 +1,60 @@
+{
+  "confirmed_building": {
+    "display_name": "SM Lanang Premier",
+    "candidate_id": "sm-lanang-premier",
+    "city": "Davao City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user",
+    "scope_note": "Exact mall identity confirmed before Gate 3 evidence review."
+  },
+  "locked_earthquake_lane": "clearance_after_damage_or_tag",
+  "document_inventory": [],
+  "evidence_strength": "not_found_after_reasonable_search",
+  "source_curation_class": "weak_lead",
+  "physical_condition_public_evidence": [],
+  "unresolved_exceptions": [
+    {
+      "exception_id": "no-current-public-clearance-answer",
+      "description": "No target-specific public reoccupancy, lifting, repair-acceptance, or post-tag clearance answer was found.",
+      "resolution_route": "Request latest clearance records from the OBO, City Engineer, owner, or engineer of record."
+    }
+  ],
+  "manual_request_targets": [
+    {
+      "target": "Davao City Office of the Building Official",
+      "request": "Ask for any target-specific clearance after damage, tag, repair, or assessment.",
+      "reason": "Clearance after a tag or damage event is often not publicly posted."
+    }
+  ],
+  "overclaim_boundary": {
+    "allowed_conclusion": "No public answer found for latest clearance after damage or tag after the recorded searches.",
+    "missing_evidence_statement": "The lack of a public answer does not resolve whether any offline clearance record exists.",
+    "forbidden_conclusion_codes": [
+      "cleared",
+      "uncleared",
+      "open",
+      "closed",
+      "earthquake_safe",
+      "earthquake_unsafe"
+    ]
+  },
+  "query_log": [
+    {
+      "query": "\"SM Lanang Premier\" earthquake clearance",
+      "searched_surface": "web search",
+      "result_summary": "No target-specific public clearance answer found.",
+      "source_url": null
+    },
+    {
+      "query": "\"SM Lanang Premier\" \"reoccupancy\"",
+      "searched_surface": "web search",
+      "result_summary": "No target-specific public reoccupancy answer found.",
+      "source_url": null
+    }
+  ],
+  "packet_result": {
+    "status": "no_public_answer_found",
+    "summary": "No public answer found for latest clearance after damage or tag for the confirmed building.",
+    "answer_semantics": "status_answer_lane"
+  }
+}

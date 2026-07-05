@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "workflow_gate": "earthquake_scope_lock",
+  "status": "redirected_to_v2_earthquake_source_reality",
+  "canonical_file": "earthquake-source-reality.json",
+  "purpose": "V2 does not keep an active copied V1 source landscape. Use the earthquake-only source reality file for the four permanent V2 lanes.",
+  "active_scope_ids": [
+    "nscp_seismic_design_evidence",
+    "obo_structural_permit_review_evidence",
+    "post_earthquake_tag_status",
+    "clearance_after_damage_or_tag"
+  ],
+  "guardrail": "This file is a redirect pointer only. It must not contain active source lanes, source matrices, or manual-request routes outside the four V2 earthquake lanes."
+}

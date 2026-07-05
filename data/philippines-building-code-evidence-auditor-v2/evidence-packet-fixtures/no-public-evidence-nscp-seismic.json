@@ -1,0 +1,75 @@
+{
+  "confirmed_building": {
+    "display_name": "KCC Mall of Gensan",
+    "candidate_id": "kcc-mall-of-gensan",
+    "city": "General Santos City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user",
+    "scope_note": "Exact mall identity confirmed before Gate 3 evidence review."
+  },
+  "locked_earthquake_lane": "nscp_seismic_design_evidence",
+  "document_inventory": [
+    {
+      "item_id": "nscp-process-context-1",
+      "description": "Public process context identifies building and structural document routes, but no target-specific NSCP or seismic design record was found for the confirmed building.",
+      "evidence_strength": "process_or_standards_context",
+      "source_curation_class": "process_context",
+      "is_positive_evidence": false,
+      "target_match_status": "process_context_only",
+      "source_url": "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096",
+      "source_name": "DPWH National Building Code references"
+    }
+  ],
+  "evidence_strength": "not_found_after_reasonable_search",
+  "source_curation_class": "process_context",
+  "physical_condition_public_evidence": [],
+  "unresolved_exceptions": [
+    {
+      "exception_id": "missing-target-structural-design-record",
+      "description": "No public target-specific signed/sealed structural plan, seismic design basis, or design computation was found.",
+      "resolution_route": "Request target-specific structural design records from the owner, OBO, or engineer of record."
+    }
+  ],
+  "manual_request_targets": [
+    {
+      "target": "LGU Office of the Building Official",
+      "request": "Ask for target-specific civil or structural plans, design computations, and review records for the confirmed building.",
+      "reason": "These records are commonly not published for private buildings."
+    },
+    {
+      "target": "Owner or operator engineering office",
+      "request": "Ask for signed and sealed structural design evidence tied to the confirmed building.",
+      "reason": "Owner-held engineering records may be the direct custodian."
+    }
+  ],
+  "overclaim_boundary": {
+    "allowed_conclusion": "No public evidence found for NSCP/seismic design evidence after the recorded searches.",
+    "missing_evidence_statement": "The absence of public target-specific records is only an evidence-availability result.",
+    "forbidden_conclusion_codes": [
+      "earthquake_safe",
+      "earthquake_unsafe",
+      "nscp_compliant",
+      "nscp_noncompliant",
+      "no_seismic_design_exists"
+    ]
+  },
+  "query_log": [
+    {
+      "query": "\"KCC Mall of Gensan\" \"NSCP\" \"seismic\"",
+      "searched_surface": "web search",
+      "result_summary": "No target-specific NSCP or seismic design evidence found.",
+      "source_url": null
+    },
+    {
+      "query": "\"KCC Mall of Gensan\" \"structural design\"",
+      "searched_surface": "web search",
+      "result_summary": "No target-specific structural design record found.",
+      "source_url": null
+    }
+  ],
+  "packet_result": {
+    "status": "no_public_evidence_found",
+    "summary": "No public evidence found for NSCP/seismic design evidence for the confirmed building.",
+    "answer_semantics": "evidence_existence_lane"
+  }
+}

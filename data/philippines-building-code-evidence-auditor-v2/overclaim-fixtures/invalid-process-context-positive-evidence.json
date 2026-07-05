@@ -1,0 +1,75 @@
+{
+  "fixture_id": "invalid-process-context-positive-evidence",
+  "expected_valid": false,
+  "expected_error_codes": [
+    "positive_claim_not_target_specific"
+  ],
+  "gate4_checklist": {
+    "exact_building_match_confirmed": true,
+    "claim_source_urls_checked": true,
+    "official_professional_evidence_separated_from_weak_leads": true,
+    "operator_corporate_claims_not_treated_as_clearance": true,
+    "missing_evidence_not_converted_to_conclusion": "not_applicable",
+    "red_yellow_tag_evidence_preserved": "not_applicable",
+    "unresolved_exceptions_preserved": true,
+    "query_log_present_for_no_evidence": "not_applicable"
+  },
+  "packet": {
+    "confirmed_building": {
+      "display_name": "Davao City process-context clearance sample",
+      "candidate_id": "davao-process-context-clearance-sample",
+      "city": "Davao City",
+      "country": "Philippines",
+      "gate_1_status": "confirmed_by_user"
+    },
+    "locked_earthquake_lane": "clearance_after_damage_or_tag",
+    "document_inventory": [
+      {
+        "item_id": "clearance-process-page-1",
+        "description": "Official process page explains how tagged buildings can seek repair permits and clearance, but it does not name the target building or issue a clearance for it.",
+        "evidence_strength": "process_or_standards_context",
+        "source_curation_class": "process_context",
+        "is_positive_evidence": true,
+        "target_match_status": "exact_target_match",
+        "source_url": "https://davaocity.gov.ph/infrastructure-development/ocbo-tagged-buildings-must-comply-with-safety-requirements/"
+      }
+    ],
+    "evidence_strength": "process_or_standards_context",
+    "source_curation_class": "process_context",
+    "physical_condition_public_evidence": [],
+    "unresolved_exceptions": [
+      {
+        "exception_id": "process-context-not-target-clearance",
+        "description": "The source is a clearance process page, not a target-specific clearance record.",
+        "resolution_route": "Downgrade the packet result or attach an exact-target clearance notice."
+      }
+    ],
+    "manual_request_targets": [
+      {
+        "target": "Davao City Office of the Building Official",
+        "request": "Request the exact target-specific clearance, lifting notice, or updated tag/status record."
+      }
+    ],
+    "overclaim_boundary": {
+      "allowed_conclusion": "Process context was found, but no target-specific clearance evidence is attached.",
+      "forbidden_conclusion_codes": [
+        "official_clearance_found",
+        "cleared",
+        "earthquake_safe"
+      ]
+    },
+    "query_log": [
+      {
+        "query": "site:davaocity.gov.ph OCBO tagged buildings clearance repair methodology",
+        "searched_surface": "official LGU web",
+        "result_summary": "Only process context was found.",
+        "source_url": "https://davaocity.gov.ph/infrastructure-development/ocbo-tagged-buildings-must-comply-with-safety-requirements/"
+      }
+    ],
+    "packet_result": {
+      "status": "positive_evidence_found",
+      "summary": "Positive clearance evidence was found from a process page.",
+      "answer_semantics": "status_answer_lane"
+    }
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_gate": "place_lock",
+  "purpose": "Regression fixtures for V2 Gate 1 of the Philippines Building Code Evidence Auditor. These cases test lightweight building identity confirmation before the four earthquake evidence lanes: NSCP/seismic design evidence, OBO structural permit or review evidence, post-earthquake tag/status, and clearance after damage or tag.",
+  "fixture_notice": "All sample places and source links in this file are workflow fixtures. They are not public evidence about real buildings.",
+  "required_case_categories": [
+    "clear_candidate",
+    "ambiguous_similar_places",
+    "tenant_vs_building",
+    "complex_vs_building",
+    "weak_clue",
+    "rejected_candidate",
+    "confirmed_place"
+  ],
+  "cases": [
+    {
+      "case_id": "place-lock-kcc-abbrev-001",
+      "category": "ambiguous_similar_places",
+      "description": "The abbreviation KCC can refer to KCC Malls or the Korean Cultural Center, so the workflow asks one broad narrowing question.",
+      "sample_packet_path": "data/philippines-building-code-evidence-auditor-v2/samples/place-lock-kcc-abbreviation.json",
+      "expected_confirmation_status": "candidate_ready_for_user_confirmation",
+      "expected_can_proceed_to_audit": false,
+      "expected_blockers": [
+        "multiple_similar_candidates",
+        "waiting_for_user_confirmation"
+      ],
+      "acceptance_checks": [
+        "identity_candidates contains two or three candidates",
+        "clarification_style is top_three_options",
+        "clarifying_questions contains exactly one question",
+        "audit remains blocked"
+      ]
+    },
+    {
+      "case_id": "place-lock-kcc-mall-branches-001",
+      "category": "ambiguous_similar_places",
+      "description": "KCC Mall identifies the brand but not the branch, so the workflow asks for branch or city.",
+      "sample_packet_path": "data/philippines-building-code-evidence-auditor-v2/samples/place-lock-kcc-mall-branches.json",
+      "expected_confirmation_status": "candidate_ready_for_user_confirmation",
+      "expected_can_proceed_to_audit": false,
+      "expected_blockers": [
+        "multiple_similar_candidates",
+        "waiting_for_user_confirmation"
+      ],
+      "acceptance_checks": [
+        "identity_candidates contains two or three branch candidates",
+        "prompt asks for the exact branch or city",
+        "audit remains blocked"
+      ]
+    },
+    {
+      "case_id": "place-lock-kcc-gensan-001",
+      "category": "clear_candidate",
+      "description": "KCC GenSan is specific enough to present KCC Mall of GenSan as the best candidate but still requires user confirmation.",
+      "sample_packet_path": "data/philippines-building-code-evidence-auditor-v2/samples/place-lock-kcc-gensan-clear.json",
+      "expected_confirmation_status": "candidate_ready_for_user_confirmation",
+      "expected_can_proceed_to_audit": false,
+      "expected_blockers": [
+        "waiting_for_user_confirmation"
+      ],
+      "acceptance_checks": [
+        "selected_candidate is not null",
+        "identity_candidates contains exactly one candidate",
+        "confirmation prompt asks the user to confirm the exact place",
+        "audit remains blocked"
+      ]
+    },
+    {
+      "case_id": "place-lock-sm-north-tenant-001",
+      "category": "tenant_vs_building",
+      "description": "A restaurant inside SM North requires tenant-vs-building scope clarification.",
+      "sample_packet_path": "data/philippines-building-code-evidence-auditor-v2/samples/place-lock-sm-north-tenant.json",
+      "expected_confirmation_status": "candidate_ready_for_user_confirmation",
+      "expected_can_proceed_to_audit": false,
+      "expected_blockers": [
+        "unclear_if_whole_building_or_tenant",
+        "waiting_for_user_confirmation"
+      ],
+      "acceptance_checks": [
+        "selected_candidate.building_scope is establishment_inside_building",
+        "clarifying question asks whether to audit tenant, whole building, or both",
+        "audit remains blocked"
+      ]
+    },
+    {
+      "case_id": "place-lock-ayala-center-complex-001",
+      "category": "complex_vs_building",
+      "description": "A mixed-use complex clue requires scope clarification before choosing one structure.",
+      "sample_packet_path": "data/philippines-building-code-evidence-auditor-v2/samples/place-lock-ayala-center-complex.json",
+      "expected_confirmation_status": "candidate_ready_for_user_confirmation",
+      "expected_can_proceed_to_audit": false,
+      "expected_blockers": [
+        "unclear_if_whole_building_or_tenant",
+        "waiting_for_user_confirmation"
+      ],
+      "acceptance_checks": [
+        "selected_candidate.building_scope is building_complex_or_campus",
+        "prompt asks whether the user means the whole complex or a specific building",
+        "audit remains blocked"
+      ]
+    },
+    {
+      "case_id": "place-lock-old-hotel-market-001",
+      "category": "weak_clue",
+      "description": "A vague landmark-only clue asks for city, link, photo, receipt, or booking page.",
+      "sample_packet_path": "data/philippines-building-code-evidence-auditor-v2/samples/place-lock-weak-clue.json",
+      "expected_confirmation_status": "needs_more_user_info",
+      "expected_can_proceed_to_audit": false,
+      "expected_blockers": [
+        "no_candidate_found",
+        "missing_city_or_location",
+        "low_address_confidence"
+      ],
+      "acceptance_checks": [
+        "selected_candidate is null",
+        "identity_candidates is empty",
+        "clarifying_questions contains exactly one minimum useful question",
+        "audit remains blocked"
+      ]
+    },
+    {
+      "case_id": "place-lock-rejected-001",
+      "category": "rejected_candidate",
+      "description": "The user rejects the best guess, so the workflow clears the selected candidate and asks for one better clue.",
+      "sample_packet_path": "data/philippines-building-code-evidence-auditor-v2/samples/place-lock-rejected-candidate.json",
+      "expected_confirmation_status": "rejected_by_user",
+      "expected_can_proceed_to_audit": false,
+      "expected_blockers": [
+        "waiting_for_user_confirmation"
+      ],
+      "acceptance_checks": [
+        "selected_candidate is null",
+        "previous rejected candidate may remain in identity_candidates as context",
+        "prompt does not proceed to audit",
+        "clarifying_questions contains exactly one question"
+      ]
+    },
+    {
+      "case_id": "place-lock-confirmed-001",
+      "category": "confirmed_place",
+      "description": "The user explicitly confirms the exact building, allowing only the next intent-lock stage to begin.",
+      "sample_packet_path": "data/philippines-building-code-evidence-auditor-v2/samples/place-lock-confirmed-place.json",
+      "expected_confirmation_status": "confirmed_by_user",
+      "expected_can_proceed_to_audit": true,
+      "expected_blockers": [],
+      "acceptance_checks": [
+        "selected_candidate is not null",
+        "confirmation status is confirmed_by_user",
+        "can_proceed_to_audit is true only after confirmation",
+        "blockers is empty"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.0.0",
+  "workflow_gate": "earthquake_scope_lock",
+  "status": "redirected_to_v2_earthquake_scope_lock",
+  "canonical_file": "earthquake-source-reality.json",
+  "purpose": "V2 keeps this copied filename as a compatibility pointer only. Active Gate 2 source-reality rules live in earthquake-source-reality.json.",
+  "active_scope_ids": [
+    "nscp_seismic_design_evidence",
+    "obo_structural_permit_review_evidence",
+    "post_earthquake_tag_status",
+    "clearance_after_damage_or_tag"
+  ],
+  "source_reality_summary": [
+    "NSCP and OBO evidence lanes may validly end as no public evidence found after sufficient search.",
+    "Post-earthquake tag and clearance lanes may validly end as no public answer found after sufficient search.",
+    "No missing public evidence may become a safety, compliance, tag, clearance, or permit conclusion."
+  ],
+  "guardrail": "Gate 2 locks one earthquake lane only. Gate 3 performs evidence collection and packet review."
+}

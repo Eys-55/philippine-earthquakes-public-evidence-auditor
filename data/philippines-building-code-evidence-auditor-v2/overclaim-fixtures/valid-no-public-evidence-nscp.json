@@ -1,0 +1,65 @@
+{
+  "fixture_id": "valid-no-public-evidence-nscp",
+  "expected_valid": true,
+  "expected_error_codes": [],
+  "gate4_checklist": {
+    "exact_building_match_confirmed": true,
+    "claim_source_urls_checked": true,
+    "official_professional_evidence_separated_from_weak_leads": true,
+    "operator_corporate_claims_not_treated_as_clearance": true,
+    "missing_evidence_not_converted_to_conclusion": true,
+    "red_yellow_tag_evidence_preserved": "not_applicable",
+    "unresolved_exceptions_preserved": true,
+    "query_log_present_for_no_evidence": true
+  },
+  "packet": {
+    "confirmed_building": {
+      "display_name": "KCC Mall of Gensan",
+      "candidate_id": "kcc-mall-of-gensan",
+      "city": "General Santos City",
+      "country": "Philippines",
+      "gate_1_status": "confirmed_by_user"
+    },
+    "locked_earthquake_lane": "nscp_seismic_design_evidence",
+    "document_inventory": [],
+    "evidence_strength": "not_found_after_reasonable_search",
+    "source_curation_class": "process_context",
+    "physical_condition_public_evidence": [],
+    "unresolved_exceptions": [
+      {
+        "exception_id": "missing-target-structural-design-record",
+        "description": "No public target-specific signed/sealed structural plan, seismic design basis, or design computation was found.",
+        "resolution_route": "Request target-specific structural design records from the owner, OBO, or engineer of record."
+      }
+    ],
+    "manual_request_targets": [
+      {
+        "target": "LGU Office of the Building Official",
+        "request": "Ask for target-specific civil or structural plans, design computations, and review records for the confirmed building."
+      }
+    ],
+    "overclaim_boundary": {
+      "allowed_conclusion": "No public evidence found for NSCP/seismic design evidence after the recorded searches.",
+      "missing_evidence_statement": "The absence of public target-specific records is only an evidence-availability result.",
+      "forbidden_conclusion_codes": [
+        "earthquake_safe",
+        "earthquake_unsafe",
+        "nscp_compliant",
+        "nscp_noncompliant"
+      ]
+    },
+    "query_log": [
+      {
+        "query": "\"KCC Mall of Gensan\" \"NSCP\" \"seismic\"",
+        "searched_surface": "web search",
+        "result_summary": "No target-specific NSCP or seismic design evidence found.",
+        "source_url": null
+      }
+    ],
+    "packet_result": {
+      "status": "no_public_evidence_found",
+      "summary": "No public evidence found for NSCP/seismic design evidence for the confirmed building.",
+      "answer_semantics": "evidence_existence_lane"
+    }
+  }
+}

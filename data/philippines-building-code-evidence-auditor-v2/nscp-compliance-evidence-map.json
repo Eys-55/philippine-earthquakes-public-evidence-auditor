@@ -1,0 +1,314 @@
+{
+  "artifact": "nscp_compliance_evidence_map",
+  "lane": "philippines-building-code-evidence-auditor-v2",
+  "copied_reference_note": "Copied from V1 and retained as V2 earthquake evidence reference material; V2 remains limited to the four earthquake lanes.",
+  "version": "2026-07-05",
+  "purpose": "Define how the auditor searches for and classifies public evidence related to National Structural Code of the Philippines (NSCP) or structural-code compliance for a named Philippine building.",
+  "core_rule": "Do not treat generic NSCP, PD 1096, OBO, BFP, booking, reopening, mall-hours, or social-media evidence as proof that a named building complies with NSCP or is structurally safe.",
+  "public_web_reality": {
+    "default_status_for_named_building_without_target_documents": "not_assessable_from_public_web",
+    "reason": "Target-specific NSCP compliance normally depends on signed and sealed plans, structural design analysis and computations, permit review, inspection, certificates, or professional engineering review. These records are usually held by the OBO, BFP, owner, operator, developer, contractor, or professional of record rather than exposed as public web pages.",
+    "allowed_public_claim": "No public target-tied NSCP or structural-code compliance document was found in the searched sources.",
+    "forbidden_public_claim": "The building is NSCP-compliant, noncompliant, structurally safe, structurally unsafe, earthquake-safe, fit for occupancy, or unpermitted based only on public web absence, generic standards, reopening, booking availability, or business hours."
+  },
+  "source_basis": [
+    {
+      "source_id": "asep_about",
+      "name": "Association of Structural Engineers of the Philippines About page",
+      "url": "https://aseponline.org/about/",
+      "authority_type": "professional_standards_context",
+      "supports": [
+        "ASEP is an official professional-standards context source for NSCP publications.",
+        "ASEP context is standards context only unless tied to target-specific signed/sealed documents or official records."
+      ],
+      "does_not_support": [
+        "It does not prove any named building complies with NSCP."
+      ]
+    },
+    {
+      "source_id": "prc_board_resolution_17_1992",
+      "name": "PRC Board of Civil Engineering Resolution No. 17",
+      "url": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/11/42784",
+      "authority_type": "legal_professional_context",
+      "supports": [
+        "NSCP provisions were adopted as part of rules and regulations governing civil engineering practice.",
+        "Civil engineering plans, design analysis, specifications, reports, studies, investigations, and related documents require civil engineer signature, license number, dry seal, and current registration expiration date."
+      ],
+      "does_not_support": [
+        "It does not identify target-specific compliance for a named building."
+      ]
+    },
+    {
+      "source_id": "jmc_2018_01_permits_occupancy",
+      "name": "DILG-DPWH-DICT-DTI Joint Memorandum Circular No. 2018-01",
+      "url": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/89926",
+      "authority_type": "national_process_context",
+      "supports": [
+        "Building permits and certificates of occupancy are processed through LGU/OBO systems consistent with NBCP/PD 1096 and Fire Code requirements.",
+        "A building permit is issued after plans, specifications, and pertinent documents are found satisfactory and substantially conforming with NBCP and its IRR.",
+        "Certificate of occupancy applications require completion documents, approved plans/specifications, issued building and ancillary permits, FSEC-related documents, professional licenses, and inspection processes."
+      ],
+      "does_not_support": [
+        "A process rule does not prove the public has a target-specific permit, occupancy, or structural review document."
+      ]
+    },
+    {
+      "source_id": "gensan_obo_requirements",
+      "name": "General Santos OBO building-permit requirements",
+      "url": "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building",
+      "authority_type": "local_process_context",
+      "supports": [
+        "General Santos permit processes include signed and sealed technical documents, civil/structural permit forms, approved structural analysis/design computations, structural plans for certain scopes, structural stability certificates for buildings 15 years or older, and repair or renovation attachments.",
+        "Commercial or highly technical applications are routed through local building-permit classifications."
+      ],
+      "does_not_support": [
+        "The public requirements page does not prove any named General Santos establishment has a valid permit, certificate, structural-stability certificate, or NSCP-compliant design."
+      ]
+    }
+  ],
+  "evidence_hierarchy": [
+    {
+      "grade": "direct_authoritative_target_evidence",
+      "status_when_sufficient": "confirmed_public_evidence",
+      "examples": [
+        "OBO-issued building permit or certified true copy tied to the exact target",
+        "Civil/structural ancillary permit tied to the exact target",
+        "Certificate of occupancy tied to the exact target",
+        "OBO evaluation sheet or plan-review record tied to the exact target",
+        "Signed and sealed structural plans tied to the exact target",
+        "Signed and sealed structural design analysis or computations tied to the exact target",
+        "Structural stability certificate tied to the exact target",
+        "Official post-earthquake structural assessment, rapid visual assessment, red tag, yellow tag, reoccupancy clearance, repair permit, retrofit permit, or demolition permit tied to the exact target",
+        "Court, procurement, or regulatory filing attaching target-specific engineering or permit records"
+      ],
+      "limits": [
+        "Even direct documents should be reported as document evidence, not as the auditor's own engineering certification.",
+        "Check date, target subscope, issuer, professional seal/signature, and whether the record is final, provisional, expired, superseded, or partial."
+      ]
+    },
+    {
+      "grade": "strong_indirect_target_evidence",
+      "status_when_sufficient": "partial_public_evidence",
+      "examples": [
+        "SEC, bond, or annual-report filing listing target-specific building permit, occupancy permit, certificate of completion, ECC, or business permit fields",
+        "Official LGU, BFP, CDRRMO, City Engineer, DPWH, or court text referencing target-specific inspection, clearance, repair, or closure",
+        "Operator or developer statement naming a structural inspection, closure, repair, reopening condition, or professional review for the exact target"
+      ],
+      "limits": [
+        "Corporate and operator statements are not certified OBO records unless they attach or quote the record.",
+        "Incident or reopening statements do not establish NSCP compliance unless the source includes target-specific structural review evidence."
+      ]
+    },
+    {
+      "grade": "process_or_standards_context",
+      "status_when_sufficient": "manual_request_needed",
+      "examples": [
+        "PD 1096, NBCP, NSCP, Fire Code, accessibility, or green-building references",
+        "OBO or BFP citizen charters and permit-process pages",
+        "ASEP or PRC context about structural engineering practice and standards"
+      ],
+      "limits": [
+        "Useful for explaining what documents to ask for.",
+        "Not useful for concluding that the named target complied."
+      ]
+    },
+    {
+      "grade": "weak_lead_only",
+      "status_when_sufficient": "not_assessable_from_public_web",
+      "examples": [
+        "News reports without an official inspection document",
+        "Social posts, photos, videos, mall announcements, store locators, booking availability, or reopening notices",
+        "Contractor, architect, or developer portfolios that do not include permit or signed/sealed structural documents"
+      ],
+      "limits": [
+        "May guide the next query or manual request.",
+        "Cannot support serious compliance, safety, permit, or occupancy claims."
+      ]
+    }
+  ],
+  "search_workflow": [
+    {
+      "step": 0,
+      "name": "Lock target identity and subscope",
+      "actions": [
+        "Confirm exact building, complex, wing, tower, tenant, carpark, entrance, or hotel structure.",
+        "Capture city, barangay, address, operator, known aliases, and timeframe."
+      ],
+      "block_if_missing": [
+        "target_subscope",
+        "timeframe for incident, repair, retrofit, or current-status questions"
+      ]
+    },
+    {
+      "step": 1,
+      "name": "Search target-tied OBO and permit records",
+      "actions": [
+        "Search LGU/OBO pages, citizen charters, online services, permit portals, and certified-copy routes.",
+        "Look for building permit, civil/structural permit, certificate of occupancy, structural stability certificate, approved plans, design computation, repair permit, renovation permit, and occupancy inspection report references."
+      ],
+      "expected_outcome": "Most targets will produce process routes, not public target records."
+    },
+    {
+      "step": 2,
+      "name": "Search filings and official operator documents",
+      "actions": [
+        "Search SEC filings, offer supplements, annual reports, project documents, and official operator/developer PDFs.",
+        "Extract only fields tied to the exact target and preserve caveats when filings are not certified LGU copies."
+      ],
+      "expected_outcome": "This can produce partial public evidence, especially for large publicly listed developers."
+    },
+    {
+      "step": 3,
+      "name": "Search official incident and inspection context",
+      "actions": [
+        "Search OBO, BFP, CDRRMO, City Engineer, DPWH, PIA, PNA, court, and reputable news sources for incidents, earthquake damage, fire, closure, repair, retrofit, red/yellow tags, inspection, or reoccupancy.",
+        "Separate incident evidence from current structural-code compliance."
+      ],
+      "expected_outcome": "Incident evidence can be public, but current NSCP compliance usually remains manual."
+    },
+    {
+      "step": 4,
+      "name": "Search professional and contractor leads",
+      "actions": [
+        "Search contractor, architect, engineer, developer, PCAB, PRC, and portfolio sources only after a name or project lead exists.",
+        "Require a source that connects the professional or contractor to the exact building before using it."
+      ],
+      "expected_outcome": "Professional identity evidence is not compliance evidence unless tied to signed/sealed target records."
+    },
+    {
+      "step": 5,
+      "name": "Classify and hand off",
+      "actions": [
+        "Assign the best status from the status rubric.",
+        "List manual request targets and exact documents needed.",
+        "Write the overclaim boundary in the packet."
+      ],
+      "expected_outcome": "If only standards or process context exists, classify as not_assessable_from_public_web or manual_request_needed, not as compliant or noncompliant."
+    }
+  ],
+  "query_templates": [
+    "\"{target}\" \"NSCP\"",
+    "\"{target}\" \"National Structural Code\"",
+    "\"{target}\" \"structural code\"",
+    "\"{target}\" \"structural stability certificate\"",
+    "\"{target}\" \"signed and sealed\" structural",
+    "\"{target}\" \"structural design analysis\"",
+    "\"{target}\" \"design computation\"",
+    "\"{target}\" \"building permit\"",
+    "\"{target}\" \"civil/structural permit\"",
+    "\"{target}\" \"occupancy permit\"",
+    "\"{target}\" \"certificate of occupancy\"",
+    "\"{target}\" \"certificate of completion\"",
+    "\"{target}\" \"FSEC\"",
+    "\"{target}\" \"FSIC\"",
+    "\"{target}\" \"structural assessment\"",
+    "\"{target}\" \"earthquake\" \"inspection\"",
+    "\"{target}\" \"red tag\"",
+    "\"{target}\" \"yellow tag\"",
+    "\"{target}\" \"repair permit\"",
+    "\"{target}\" \"retrofit\"",
+    "site:gensantos.gov.ph \"{target}\" \"OBO\"",
+    "site:gensantos.gov.ph \"{target}\" \"building permit\"",
+    "site:robinsonsland.com \"{target}\" \"occupancy permit\"",
+    "site:smprime.com \"{target}\" \"building permit\"",
+    "site:elibrary.judiciary.gov.ph \"National Structural Code\"",
+    "site:dpwh.gov.ph \"National Structural Code\" \"building permit\""
+  ],
+  "status_rubric": {
+    "confirmed_public_evidence": {
+      "use_when": "A target-tied official or professional document is public and directly supports the record type being reported.",
+      "minimum_evidence": [
+        "exact target identity",
+        "issuer or professional of record",
+        "document type",
+        "date or validity signal",
+        "subscope match"
+      ],
+      "still_do_not_claim": [
+        "auditor-certified safety",
+        "current structural condition beyond the document's scope"
+      ]
+    },
+    "partial_public_evidence": {
+      "use_when": "Target-tied public evidence exists but is indirect, incomplete, dated, uncertified, or not enough for NSCP compliance.",
+      "examples": [
+        "corporate filing lists permit fields",
+        "operator statement says inspection was underway",
+        "news reports official closure or repair but not the underlying inspection record"
+      ]
+    },
+    "manual_request_needed": {
+      "use_when": "A public process or custodian is identifiable, but the target-specific document is not public.",
+      "examples": [
+        "OBO has a permit or certified-copy process",
+        "BFP has FSEC/FSIC process",
+        "operator or developer should hold building records"
+      ]
+    },
+    "not_assessable_from_public_web": {
+      "use_when": "Only generic standards/process context or weak leads exist for a target-specific NSCP or structural-code claim.",
+      "examples": [
+        "only NSCP/PD1096/ASEP context appears",
+        "only reopening, mall hours, or booking pages appear",
+        "only social posts or unverified snippets appear"
+      ]
+    },
+    "not_found": {
+      "use_when": "Reasonable search found no target-tied evidence and no useful manual process route.",
+      "preference": "Prefer manual_request_needed when a plausible OBO, BFP, operator, developer, or professional custodian exists."
+    }
+  },
+  "required_packet_fields": [
+    "target_identity",
+    "target_aliases",
+    "target_subscope",
+    "timeframe",
+    "source_reality_status",
+    "nscp_evidence_status",
+    "evidence_grade",
+    "best_sources",
+    "what_was_found",
+    "what_was_not_found",
+    "manual_request_targets",
+    "manual_documents_needed",
+    "overclaim_boundary"
+  ],
+  "manual_request_targets": [
+    "Office of the Building Official or City Engineer where the building is located",
+    "Bureau of Fire Protection local fire marshal",
+    "CDRRMO or local disaster risk office for incident or post-earthquake assessment records",
+    "owner, operator, mall administration, hotel administration, or developer",
+    "contractor, architect, civil/structural engineer, or professional of record when named by a source"
+  ],
+  "manual_documents_needed": [
+    "building permit",
+    "civil/structural permit form",
+    "approved structural plans",
+    "structural design analysis and computations",
+    "technical specifications",
+    "certificate of completion",
+    "certificate of occupancy",
+    "FSEC",
+    "FSIC",
+    "occupancy or annual inspection report",
+    "structural stability certificate",
+    "post-earthquake inspection or structural assessment",
+    "red tag, yellow tag, reoccupancy clearance, or closure order",
+    "repair, renovation, retrofit, demolition, or amendatory permit",
+    "OBO evaluation sheet or plan-review record",
+    "names and license details of involved professionals of record"
+  ],
+  "gate_integration": {
+    "gate_2": [
+      "If the user asks whether a target complies with NSCP, lock the scope as standards/process context plus manual target-record request unless target-specific official/professional records are already available.",
+      "Require target_subscope and timeframe before Gate 3 starts.",
+      "Warn that generic standards context cannot prove building-specific compliance."
+    ],
+    "gate_3": [
+      "Run the search workflow in order.",
+      "Preserve weak leads but grade them separately.",
+      "Produce manual request checklist whenever target-specific records are not public.",
+      "Run an overclaim review before finalizing any packet."
+    ]
+  }
+}

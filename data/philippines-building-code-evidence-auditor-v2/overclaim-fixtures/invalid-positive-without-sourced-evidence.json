@@ -1,0 +1,63 @@
+{
+  "fixture_id": "invalid-positive-without-sourced-evidence",
+  "expected_valid": false,
+  "expected_error_codes": [
+    "positive_claim_missing_source_url"
+  ],
+  "gate4_checklist": {
+    "exact_building_match_confirmed": true,
+    "claim_source_urls_checked": true,
+    "official_professional_evidence_separated_from_weak_leads": true,
+    "operator_corporate_claims_not_treated_as_clearance": true,
+    "missing_evidence_not_converted_to_conclusion": "not_applicable",
+    "red_yellow_tag_evidence_preserved": "not_applicable",
+    "unresolved_exceptions_preserved": true,
+    "query_log_present_for_no_evidence": "not_applicable"
+  },
+  "packet": {
+    "confirmed_building": {
+      "display_name": "Davao City clearance positive-claim sample",
+      "candidate_id": "davao-clearance-positive-claim-sample",
+      "city": "Davao City",
+      "country": "Philippines",
+      "gate_1_status": "confirmed_by_user"
+    },
+    "locked_earthquake_lane": "clearance_after_damage_or_tag",
+    "document_inventory": [],
+    "evidence_strength": "direct_authoritative_target_evidence",
+    "source_curation_class": "official_record",
+    "physical_condition_public_evidence": [],
+    "unresolved_exceptions": [
+      {
+        "exception_id": "positive-claim-source-missing",
+        "description": "The packet claims a positive official result but has no positive evidence item with a source URL.",
+        "resolution_route": "Attach the source record or downgrade the packet result."
+      }
+    ],
+    "manual_request_targets": [
+      {
+        "target": "Davao City Office of the Building Official",
+        "request": "Attach the specific clearance, lifting notice, or status record supporting the positive claim."
+      }
+    ],
+    "overclaim_boundary": {
+      "allowed_conclusion": "A positive evidence finding requires a source-backed positive evidence item.",
+      "forbidden_conclusion_codes": [
+        "positive_claim_without_source"
+      ]
+    },
+    "query_log": [
+      {
+        "query": "site:davaocity.gov.ph OCBO tagged buildings clearance repair methodology",
+        "searched_surface": "official LGU web",
+        "result_summary": "No source-backed positive evidence item is attached in this fixture.",
+        "source_url": null
+      }
+    ],
+    "packet_result": {
+      "status": "positive_evidence_found",
+      "summary": "Positive clearance-related evidence was found.",
+      "answer_semantics": "status_answer_lane"
+    }
+  }
+}

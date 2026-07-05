@@ -1,0 +1,60 @@
+{
+  "confirmed_building": {
+    "display_name": "Ayala Center Cebu",
+    "candidate_id": "ayala-center-cebu",
+    "city": "Cebu City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user",
+    "scope_note": "Exact mall identity confirmed before Gate 3 evidence review."
+  },
+  "locked_earthquake_lane": "post_earthquake_tag_status",
+  "document_inventory": [],
+  "evidence_strength": "not_found_after_reasonable_search",
+  "source_curation_class": "weak_lead",
+  "physical_condition_public_evidence": [],
+  "unresolved_exceptions": [
+    {
+      "exception_id": "no-current-public-tag-answer",
+      "description": "No target-specific public red, yellow, green, restricted-use, or similar post-earthquake tag/status answer was found.",
+      "resolution_route": "Request latest tag/status records from the OBO, City Engineer, or disaster-risk office."
+    }
+  ],
+  "manual_request_targets": [
+    {
+      "target": "Cebu City Office of the Building Official",
+      "request": "Ask for any latest post-earthquake tag/status record for the confirmed building.",
+      "reason": "Status-answer lanes require an official or professional target-specific answer."
+    }
+  ],
+  "overclaim_boundary": {
+    "allowed_conclusion": "No public answer found for latest post-earthquake tag/status after the recorded searches.",
+    "missing_evidence_statement": "The lack of a public answer does not resolve the actual tag/status record.",
+    "forbidden_conclusion_codes": [
+      "no_tag_exists",
+      "cleared",
+      "open",
+      "closed",
+      "earthquake_safe",
+      "earthquake_unsafe"
+    ]
+  },
+  "query_log": [
+    {
+      "query": "\"Ayala Center Cebu\" \"red tag\" earthquake",
+      "searched_surface": "web search",
+      "result_summary": "No target-specific public tag/status answer found.",
+      "source_url": null
+    },
+    {
+      "query": "\"Ayala Center Cebu\" \"yellow tag\" earthquake",
+      "searched_surface": "web search",
+      "result_summary": "No target-specific public tag/status answer found.",
+      "source_url": null
+    }
+  ],
+  "packet_result": {
+    "status": "no_public_answer_found",
+    "summary": "No public answer found for latest post-earthquake tag/status for the confirmed building.",
+    "answer_semantics": "status_answer_lane"
+  }
+}

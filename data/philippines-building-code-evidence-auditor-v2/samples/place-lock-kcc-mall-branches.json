@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "building_identity_confirmation",
+  "user_intake": {
+    "raw_user_request": "KCC Mall",
+    "known_name_or_description": "KCC Mall",
+    "known_location": {
+      "city": null,
+      "province_or_region": null,
+      "address_text": null,
+      "nearby_landmarks": []
+    },
+    "provided_links": [],
+    "provided_media_or_documents": []
+  },
+  "identity_candidates": [
+    {
+      "candidate_id": "fixture-kcc-mall-gensan",
+      "display_name": "KCC Mall of GenSan",
+      "aliases": ["KCC GenSan", "KCC Mall Gensan"],
+      "entity_type": "mall",
+      "building_scope": "building_complex_or_campus",
+      "address": {
+        "full_address": "Fixture Jose Catolico Sr. Avenue, Lagao, General Santos City",
+        "barangay": "Lagao",
+        "city": "General Santos City",
+        "province_or_region": "South Cotabato",
+        "country": "Philippines"
+      },
+      "coordinates": {"latitude": null, "longitude": null, "source": null},
+      "jurisdiction": {
+        "lgu": "General Santos City",
+        "likely_obo_or_building_office": "General Santos City Office of the Building Official"
+      },
+      "known_operator_or_brand": "KCC Malls",
+      "known_owner_or_developer": null,
+      "identity_confidence": "medium",
+      "why_this_candidate": ["KCC Mall can refer to the GenSan branch."],
+      "why_it_might_not_be_this": ["The user did not provide the branch or city."],
+      "evidence": [
+        {
+          "claim": "Fixture source lists GenSan as a possible KCC Mall branch.",
+          "source": {"url": "https://example.com/fixtures/kcc-gensan", "label": "Gate 1 fixture source", "source_type": "other"},
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": ["KCC Mall has multiple branches."]
+    },
+    {
+      "candidate_id": "fixture-kcc-mall-marbel",
+      "display_name": "KCC Mall of Marbel",
+      "aliases": ["KCC Marbel", "KCC Koronadal"],
+      "entity_type": "mall",
+      "building_scope": "building_complex_or_campus",
+      "address": {
+        "full_address": "Fixture General Santos Drive, Koronadal City",
+        "barangay": null,
+        "city": "Koronadal City",
+        "province_or_region": "South Cotabato",
+        "country": "Philippines"
+      },
+      "coordinates": {"latitude": null, "longitude": null, "source": null},
+      "jurisdiction": {
+        "lgu": "Koronadal City",
+        "likely_obo_or_building_office": "Koronadal City Office of the Building Official"
+      },
+      "known_operator_or_brand": "KCC Malls",
+      "known_owner_or_developer": null,
+      "identity_confidence": "medium",
+      "why_this_candidate": ["KCC Mall can refer to the Marbel/Koronadal branch."],
+      "why_it_might_not_be_this": ["The user did not provide the branch or city."],
+      "evidence": [
+        {
+          "claim": "Fixture source lists Marbel/Koronadal as a possible KCC Mall branch.",
+          "source": {"url": "https://example.com/fixtures/kcc-marbel", "label": "Gate 1 fixture source", "source_type": "other"},
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": ["KCC Mall has multiple branches."]
+    },
+    {
+      "candidate_id": "fixture-kcc-mall-zamboanga",
+      "display_name": "KCC Mall de Zamboanga",
+      "aliases": ["KCC Zamboanga", "KCC Mall Zamboanga"],
+      "entity_type": "mall",
+      "building_scope": "building_complex_or_campus",
+      "address": {
+        "full_address": "Fixture Governor Camins Avenue, Zamboanga City",
+        "barangay": null,
+        "city": "Zamboanga City",
+        "province_or_region": "Zamboanga Peninsula",
+        "country": "Philippines"
+      },
+      "coordinates": {"latitude": null, "longitude": null, "source": null},
+      "jurisdiction": {
+        "lgu": "Zamboanga City",
+        "likely_obo_or_building_office": "Zamboanga City Office of the Building Official"
+      },
+      "known_operator_or_brand": "KCC Malls",
+      "known_owner_or_developer": null,
+      "identity_confidence": "medium",
+      "why_this_candidate": ["KCC Mall can refer to the Zamboanga branch."],
+      "why_it_might_not_be_this": ["The user did not provide the branch or city."],
+      "evidence": [
+        {
+          "claim": "Fixture source lists Zamboanga as a possible KCC Mall branch.",
+          "source": {"url": "https://example.com/fixtures/kcc-zamboanga", "label": "Gate 1 fixture source", "source_type": "other"},
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": ["KCC Mall has multiple branches."]
+    }
+  ],
+  "selected_candidate": {
+    "candidate_id": "fixture-kcc-mall-gensan",
+    "display_name": "KCC Mall of GenSan",
+    "aliases": ["KCC GenSan", "KCC Mall Gensan"],
+    "entity_type": "mall",
+    "building_scope": "building_complex_or_campus",
+    "address": {
+      "full_address": "Fixture Jose Catolico Sr. Avenue, Lagao, General Santos City",
+      "barangay": "Lagao",
+      "city": "General Santos City",
+      "province_or_region": "South Cotabato",
+      "country": "Philippines"
+    },
+    "coordinates": {"latitude": null, "longitude": null, "source": null},
+    "jurisdiction": {
+      "lgu": "General Santos City",
+      "likely_obo_or_building_office": "General Santos City Office of the Building Official"
+    },
+    "known_operator_or_brand": "KCC Malls",
+    "known_owner_or_developer": null,
+    "identity_confidence": "medium",
+    "why_this_candidate": ["KCC Mall can refer to the GenSan branch."],
+    "why_it_might_not_be_this": ["The user did not provide the branch or city."],
+    "evidence": [
+      {
+        "claim": "Fixture source lists GenSan as a possible KCC Mall branch.",
+        "source": {"url": "https://example.com/fixtures/kcc-gensan", "label": "Gate 1 fixture source", "source_type": "other"},
+        "notes": "Test fixture only; not live public evidence."
+      }
+    ],
+    "ambiguities": ["KCC Mall has multiple branches."]
+  },
+  "confirmation": {
+    "status": "candidate_ready_for_user_confirmation",
+    "user_facing_confirmation_prompt": "KCC Mall has multiple branches. Which branch or city do you mean: GenSan, Marbel/Koronadal, Zamboanga, Cotabato, or another KCC location?",
+    "clarification_style": "top_three_options",
+    "clarifying_questions": ["Which KCC Mall branch or city do you mean?"],
+    "can_proceed_to_audit": false,
+    "blockers": ["multiple_similar_candidates", "waiting_for_user_confirmation"]
+  }
+}

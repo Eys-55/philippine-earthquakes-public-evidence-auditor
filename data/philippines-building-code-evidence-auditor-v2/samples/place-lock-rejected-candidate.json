@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "building_identity_confirmation",
+  "user_intake": {
+    "raw_user_request": "No, not Fixture Harbor Hotel Pasay. I mean the one near the pier.",
+    "known_name_or_description": "Fixture Harbor Hotel near the pier",
+    "known_location": {
+      "city": "Pasay",
+      "province_or_region": "Metro Manila",
+      "address_text": null,
+      "nearby_landmarks": [
+        "pier"
+      ]
+    },
+    "provided_links": [],
+    "provided_media_or_documents": []
+  },
+  "identity_candidates": [
+    {
+      "candidate_id": "fixture-harbor-hotel-pasay",
+      "display_name": "Fixture Harbor Hotel Pasay",
+      "aliases": [
+        "Fixture Harbor Hotel"
+      ],
+      "entity_type": "hotel",
+      "building_scope": "whole_building",
+      "address": {
+        "full_address": "Fixture Harbor Road, Pasay, Metro Manila",
+        "barangay": null,
+        "city": "Pasay",
+        "province_or_region": "Metro Manila",
+        "country": "Philippines"
+      },
+      "coordinates": {
+        "latitude": null,
+        "longitude": null,
+        "source": null
+      },
+      "jurisdiction": {
+        "lgu": "Pasay City",
+        "likely_obo_or_building_office": "Pasay City Office of the Building Official"
+      },
+      "known_operator_or_brand": "Fixture Harbor Hospitality",
+      "known_owner_or_developer": null,
+      "identity_confidence": "low",
+      "why_this_candidate": [
+        "This was the prior best guess."
+      ],
+      "why_it_might_not_be_this": [
+        "The user explicitly rejected this candidate."
+      ],
+      "evidence": [
+        {
+          "claim": "Fixture source names the rejected prior hotel candidate.",
+          "source": {
+            "url": "https://example.com/fixtures/harbor-hotel-pasay",
+            "label": "Gate 1 fixture source",
+            "source_type": "other"
+          },
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": [
+        "User says this is not the intended hotel."
+      ]
+    }
+  ],
+  "selected_candidate": null,
+  "confirmation": {
+    "status": "rejected_by_user",
+    "user_facing_confirmation_prompt": "Got it. I will not audit Fixture Harbor Hotel Pasay. Please send the exact pier-area hotel name, map link, address, booking page, photo, or receipt so I can identify the right building.",
+    "clarification_style": "best_guess_only",
+    "clarifying_questions": [
+      "Can you send a map link, address, booking page, photo, or receipt for the pier-area hotel?"
+    ],
+    "can_proceed_to_audit": false,
+    "blockers": [
+      "waiting_for_user_confirmation"
+    ]
+  }
+}

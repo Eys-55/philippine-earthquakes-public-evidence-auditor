@@ -1,0 +1,240 @@
+{
+  "artifact": "earthquake_safety_answerability_matrix",
+  "lane": "philippines-building-code-evidence-auditor-v2",
+  "copied_reference_note": "Copied from V1 and retained as V2 earthquake evidence reference material; V2 remains limited to the four earthquake lanes.",
+  "version": "2026-07-05",
+  "purpose": "Decision matrix for answering citizen-facing earthquake/NSCP questions without using partial evidence labels. The matrix defines exactly which document findings make each question answerable and what answer the agent may return.",
+  "scope": "Earthquake / NSCP seismic design evidence and post-earthquake public safety status only. Fire, accessibility, business permits, and generic building-code topics are out of scope unless they are part of a structural or post-earthquake clearance record.",
+  "verification_status": "verified_with_changes_from_public_official_sources_on_2026-07-05",
+  "verification_sources": [
+    {
+      "name": "DILG-DPWH-DICT-DTI JMC No. 2018-01",
+      "url": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/89926",
+      "use": "Building permit, occupancy, OBO evaluation, and approved plans/specifications process context."
+    },
+    {
+      "name": "Pasay City Building Permit Application PDF",
+      "url": "https://pasay.gov.ph/wp-content/uploads/2026/02/pasay-city-external-service-building-permit-application.pdf",
+      "use": "Official OBO document names for structural plans, structural design analysis and computations, boring/soil test, and compliance evaluation sheet."
+    },
+    {
+      "name": "Muntinlupa Civil/Structural Permit PDF",
+      "url": "https://muntinlupacity.gov.ph/wp-content/uploads/2024/09/Civil-Structural-Permit.pdf",
+      "use": "Official Civil/Structural Permit language tying civil/structural documents to NSCP/NBC conformity."
+    },
+    {
+      "name": "Davao City red/yellow tag announcement",
+      "url": "https://davaocity.gov.ph/local-government/davao-city-issues-red-yellow-tags-on-earthquake-affected-buildings/",
+      "use": "Official OCBO/PICE rapid visual inspection, red/yellow tag, repair, and OCBO clearance language."
+    },
+    {
+      "name": "Davao City tagged buildings compliance notice",
+      "url": "https://davaocity.gov.ph/infrastructure-development/ocbo-tagged-buildings-must-comply-with-safety-requirements/",
+      "use": "Official restrictions, repair methodology, repair permit, and clearance-before-reoccupancy language."
+    },
+    {
+      "name": "DPWH Department Order No. 027 s. 2023",
+      "url": "https://www.dpwh.gov.ph/dpwh/sites/default/files/issuances/do_027_s2023.pdf",
+      "use": "Rapid visual screening and green/yellow/red placard terminology."
+    }
+  ],
+  "global_rule": "The agent reports whether the question is answerable from the found evidence. It must not certify structural safety, earthquake-proof status, legal compliance, or fitness for occupancy beyond the authority, date, and scope of the evidence.",
+  "answerability_values": [
+    "answerable",
+    "not_answerable"
+  ],
+  "questions": [
+    {
+      "question_id": "q1_nscp_seismic_design_evidence",
+      "citizen_question": "Is there evidence that this building was designed/reviewed for NSCP earthquake or seismic requirements?",
+      "decision_type": "availability_only",
+      "columns": [
+        "if_we_find_this",
+        "is_this_enough_to_answer_the_question"
+      ],
+      "answerable_if_any_found": [
+        {
+          "if_we_find_this": "Target-specific signed and sealed Structural Design Analysis and Computations, or Structural Design, Computation and Seismic Analysis, prepared by a licensed civil/structural engineer, that identifies NSCP, seismic/earthquake loads, lateral-force/resisting system, load combinations, or equivalent seismic design basis.",
+          "is_this_enough_to_answer_the_question": "answerable"
+        },
+        {
+          "if_we_find_this": "Target-specific signed and sealed Civil/Structural Documents, Civil/Structural Plans, or Civil/Structural Designs, Computations, Plans and Specifications package that includes structural computations/design analysis or is tied to an issued permit record stating NSCP/NBC structural conformity.",
+          "is_this_enough_to_answer_the_question": "answerable"
+        },
+        {
+          "if_we_find_this": "Official OBO/Building Official record, including an issued Building Permit, Civil/Structural Permit, Compliance Evaluation Sheet, technical review/evaluation sheet, or stamped approved plan record, saying the target's civil/structural plans, computations, or specifications were reviewed, approved, accepted, or found conforming for the relevant permit scope.",
+          "is_this_enough_to_answer_the_question": "answerable"
+        }
+      ],
+      "not_answerable_if_only_found": [
+        "Boring/Soil Test alone",
+        "Civil/Structural Plans without computations or OBO approval",
+        "Building Permit without structural attachments, civil/structural permit reference, approved civil/structural documents, review/evaluation sheet, or NSCP/NBC conformity language",
+        "operator statement that the building is earthquake-ready",
+        "news article or marketing page",
+        "generic NSCP, PD 1096, ASEP, or OBO process page"
+      ],
+      "allowed_output_when_answerable": "Public evidence was found that the target has NSCP/seismic design-review evidence. Report the document name, issuer/custodian, date if available, exact target/subscope, and source URL. Do not say earthquake-proof.",
+      "allowed_output_when_not_answerable": "No public target-specific NSCP/seismic design-review evidence was found. Manual request is needed from OBO, owner/operator, or engineer of record."
+    },
+    {
+      "question_id": "q2_obo_structural_permit_review_evidence",
+      "citizen_question": "Is there evidence that this building went through official OBO structural permit or plan-review processing?",
+      "decision_type": "availability_only",
+      "columns": [
+        "if_we_find_this",
+        "is_this_enough_to_answer_the_question"
+      ],
+      "answerable_if_any_found": [
+        {
+          "if_we_find_this": "Target-specific official OBO-issued Building Permit, or official OBO issued-permit registry/certification, that identifies the exact building/subscope and the relevant construction, alteration, repair, renovation, demolition, or structural work scope.",
+          "is_this_enough_to_answer_the_question": "answerable"
+        },
+        {
+          "if_we_find_this": "Target-specific issued, approved, or released Civil/Structural Permit or ancillary civil/structural permit record. Application-only forms are not enough unless the record also shows OBO approval, release, or review disposition.",
+          "is_this_enough_to_answer_the_question": "answerable"
+        },
+        {
+          "if_we_find_this": "Target-specific Compliance Evaluation Sheet, OBO evaluation checklist, OBO correction/deficiency sheet, Notice of Disapproval, or other OBO plan-review record for the building permit or civil/structural scope. Report the stated disposition and do not imply approval unless the record says approved.",
+          "is_this_enough_to_answer_the_question": "answerable"
+        },
+        {
+          "if_we_find_this": "Target-specific Approved Civil/Structural Plans or Approved Plans and Specifications with OBO/Building Official stamp, approval, release, or official custody evidence.",
+          "is_this_enough_to_answer_the_question": "answerable"
+        },
+        {
+          "if_we_find_this": "Target-specific Certificate of Occupancy or Partial Certificate of Occupancy that identifies or references the issued Building Permit, issued ancillary permits, approved plans/specifications, or structural scope for the exact building/subscope.",
+          "is_this_enough_to_answer_the_question": "answerable"
+        }
+      ],
+      "not_answerable_if_only_found": [
+        "Unified Application Form blank template",
+        "permit application requirements page",
+        "claim stub or order of payment without issued permit/review record",
+        "target-specific permit application form, claim stub, order of payment, or receipt without issued permit, OBO approval, release record, or review disposition",
+        "Certificate of Occupancy that does not identify or reference the relevant building permit, ancillary permits, approved plans/specifications, or structural scope",
+        "business permit",
+        "corporate material-permits table that does not attach or quote the OBO record"
+      ],
+      "allowed_output_when_answerable": "Public evidence was found that the target went through OBO structural permit/review processing. Report the exact record and scope. Do not convert this into current earthquake safety.",
+      "allowed_output_when_not_answerable": "No public target-specific OBO structural permit/review evidence was found. Manual request is needed from OBO or the owner/operator."
+    },
+    {
+      "question_id": "q3_latest_post_earthquake_tag_status",
+      "citizen_question": "After a specific earthquake, what is the official tag or inspection status for this building?",
+      "decision_type": "availability_and_status_answer",
+      "columns": [
+        "if_we_find_this",
+        "is_this_enough_to_answer_the_question",
+        "answer_to_the_question"
+      ],
+      "answer_rules": [
+        {
+          "if_we_find_this": "Official Green Tag, INSPECTED / Green placard, or official clearance/lifting notice for the exact building/subscope after the earthquake.",
+          "is_this_enough_to_answer_the_question": "answerable",
+          "answer_to_the_question": "Green / inspected / cleared for use only for the stated scope, date, and authority. Do not convert this into a general earthquake-safe claim."
+        },
+        {
+          "if_we_find_this": "Official Yellow Tag Notice, RESTRICTED USE / Yellow placard, or official restricted-use disposition for the exact building/subscope after the earthquake.",
+          "is_this_enough_to_answer_the_question": "answerable",
+          "answer_to_the_question": "Yellow / restricted use; repairs, conditions, or further checks are required before full re-occupancy."
+        },
+        {
+          "if_we_find_this": "Official Red Tag Notice or official red-tagged status for the exact building/subscope after the earthquake.",
+          "is_this_enough_to_answer_the_question": "answerable",
+          "answer_to_the_question": "Red / off limits / unsafe or not safe for occupancy / entry or use prohibited until required assessment, repair, and official clearance."
+        },
+        {
+          "if_we_find_this": "Official Rapid Visual Inspection, rapid assessment, inspection report, or structural evaluation result that states the building disposition, tag, occupancy restriction, off-limits/no-entry status, unsafe/not-safe-for-occupancy finding, notice to vacate, or required repair/clearance condition.",
+          "is_this_enough_to_answer_the_question": "answerable",
+          "answer_to_the_question": "Use the exact disposition stated by the inspecting authority. If no tag/disposition is stated, the question is not answerable."
+        }
+      ],
+      "not_answerable_if_only_found": [
+        "reputable news, including reports quoting OCBO, OBO, PICE, LGU, DPWH, or City Engineer officials, unless the run can also cite an official source URL, document, public post, inspection list, or notice for the exact building/subscope",
+        "news used as a lead or corroborating context only; if the official tag/status source cannot be retrieved, mark Q3 not answerable from official sources and recommend manual OCBO/OBO/LGU/DPWH request",
+        "operator says open or business as usual",
+        "social media post without official OCBO/LGU/PICE/DPWH attribution",
+        "old inspection before the earthquake in question",
+        "rapid visual inspection was conducted but no result/tag/status is stated"
+      ],
+      "required_context_when_answerable": [
+        "earthquake date or event",
+        "inspection/tag date",
+        "issuing authority",
+        "exact building or affected portion",
+        "tag/status language",
+        "restriction or allowed-use language"
+      ]
+    },
+    {
+      "question_id": "q4_latest_clearance_after_damage_or_tag",
+      "citizen_question": "If the building was yellow-tagged, red-tagged, damaged, closed, or restricted, has it later been officially cleared?",
+      "decision_type": "availability_and_status_answer",
+      "columns": [
+        "if_we_find_this",
+        "is_this_enough_to_answer_the_question",
+        "answer_to_the_question"
+      ],
+      "answer_rules": [
+        {
+          "if_we_find_this": "Official Re-occupancy Clearance for the exact building/subscope after the damage, restriction, red tag, or yellow tag.",
+          "is_this_enough_to_answer_the_question": "answerable",
+          "answer_to_the_question": "Cleared for re-occupancy for the stated scope and date."
+        },
+        {
+          "if_we_find_this": "Official updated Green Tag after a previous Yellow Tag or Red Tag.",
+          "is_this_enough_to_answer_the_question": "answerable",
+          "answer_to_the_question": "Previously restricted/no-entry status was lifted for the stated scope and date."
+        },
+        {
+          "if_we_find_this": "Official OCBO/OBO, City Engineer, LGU, DPWH, or OCBO/LGU-adopted PICE-assisted clearance, lifting notice, green-tag update, fit-for-occupancy / fit-for-reoccupancy declaration, or equivalent official notice stating that required repairs, retrofit works, conditions, or safety requirements have been accepted and that entry, use, occupancy, or re-occupancy may resume for the exact building/subscope.",
+          "is_this_enough_to_answer_the_question": "answerable",
+          "answer_to_the_question": "Cleared or allowed to resume use according to the authority's stated conditions."
+        },
+        {
+          "if_we_find_this": "Official final inspection, certificate of completion, completion report, repair/retrofit acceptance, or compliance certificate for the earthquake repair/retrofit scope, only if issued or accepted by OCBO/OBO/Building Official/DPWH/LGU and it states or is paired with official language allowing occupancy, use, or re-occupancy.",
+          "is_this_enough_to_answer_the_question": "answerable",
+          "answer_to_the_question": "Repair or retrofit scope was accepted and occupancy/use/re-occupancy may resume only for the stated scope, date, conditions, and issuing authority."
+        },
+        {
+          "if_we_find_this": "Signed and sealed Structural Stability and Safety Certificate, Certificate of Structural Stability, Certificate of Structural Soundness and Stability, or signed/sealed structural stability assessment issued after the earthquake or after repairs, tied to the exact building/subscope.",
+          "is_this_enough_to_answer_the_question": "answerable",
+          "answer_to_the_question": "Engineering stability certificate found for the stated date and scope. If no authority clearance accompanies it, say certificate found but official re-occupancy clearance not found."
+        }
+      ],
+      "not_answerable_if_only_found": [
+        "repair permit without completion or clearance",
+        "retrofit permit without completion or clearance",
+        "repair or retrofit permit, approved repair methodology, or construction start notice without final inspection, completion acceptance, green tag, clearance, or re-occupancy language",
+        "Notice to Comply, Notice of Non-Compliance, Letter/Notice of Instruction, Compliance Report, or generic statement that safety requirements must be complied with, unless the authority accepts the compliance and allows use or re-occupancy",
+        "operator statement that repairs were done",
+        "owner/operator/contractor declaration that repairs are complete or the building is fit for re-occupancy, unless backed by official OCBO/OBO/LGU/DPWH clearance or a signed/sealed engineer certificate with the caveat above",
+        "reopening, booking availability, mall hours, or business activity",
+        "old green tag before the relevant earthquake or before the latest damage/tag event"
+      ],
+      "required_context_when_answerable": [
+        "previous damage/tag/closure event",
+        "clearance or certificate date",
+        "issuing authority or signing professional",
+        "exact building or affected portion",
+        "conditions or remaining restrictions"
+      ]
+    }
+  ],
+  "agent_output_shape": {
+    "required_fields": [
+      "question_id",
+      "evidence_found",
+      "is_this_enough_to_answer_the_question",
+      "answer_to_the_question",
+      "source_url",
+      "issuer_or_custodian",
+      "document_date",
+      "target_subscope",
+      "missing_context",
+      "manual_request_needed"
+    ],
+    "status_rule": "Use only answerable or not_answerable for the answerability field. Do not use partial, weak, likely, probably, safe, unsafe, earthquake-proof, or compliant as answerability values."
+  }
+}

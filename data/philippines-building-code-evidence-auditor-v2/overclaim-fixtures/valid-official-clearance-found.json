@@ -1,0 +1,73 @@
+{
+  "fixture_id": "valid-official-clearance-found",
+  "expected_valid": true,
+  "expected_error_codes": [],
+  "gate4_checklist": {
+    "exact_building_match_confirmed": true,
+    "claim_source_urls_checked": true,
+    "official_professional_evidence_separated_from_weak_leads": true,
+    "operator_corporate_claims_not_treated_as_clearance": true,
+    "missing_evidence_not_converted_to_conclusion": "not_applicable",
+    "red_yellow_tag_evidence_preserved": "not_applicable",
+    "unresolved_exceptions_preserved": true,
+    "query_log_present_for_no_evidence": "not_applicable"
+  },
+  "packet": {
+    "confirmed_building": {
+      "display_name": "Davao City OCBO clearance notice sample",
+      "candidate_id": "davao-ocbo-clearance-notice-sample",
+      "city": "Davao City",
+      "country": "Philippines",
+      "gate_1_status": "confirmed_by_user"
+    },
+    "locked_earthquake_lane": "clearance_after_damage_or_tag",
+    "document_inventory": [
+      {
+        "item_id": "official-clearance-notice-1",
+        "description": "Target-specific OCBO clearance notice names the confirmed sample building, the earthquake event date, the affected portion, and the reoccupancy clearance scope.",
+        "evidence_strength": "direct_authoritative_target_evidence",
+        "source_curation_class": "official_record",
+        "is_positive_evidence": true,
+        "target_match_status": "exact_target_match",
+        "source_url": "https://example.com/fixtures/davao-ocbo-clearance-notice-2026-001"
+      }
+    ],
+    "evidence_strength": "direct_authoritative_target_evidence",
+    "source_curation_class": "official_record",
+    "physical_condition_public_evidence": [],
+    "unresolved_exceptions": [
+      {
+        "exception_id": "current-condition-not-certified",
+        "description": "The clearance notice is evidence for its stated target, date, issuing body, and scope only; it does not certify permanent earthquake safety.",
+        "resolution_route": "Request any newer inspection, tag/status, or superseding restriction record before reporting current condition."
+      }
+    ],
+    "manual_request_targets": [
+      {
+        "target": "Davao City Office of the Building Official",
+        "request": "Ask whether a newer tag/status, lifting notice, or restriction supersedes the sample clearance notice."
+      }
+    ],
+    "overclaim_boundary": {
+      "allowed_conclusion": "Target-specific official clearance evidence was found and must be reported with target, date, issuing body, and unresolved current-condition exceptions.",
+      "forbidden_conclusion_codes": [
+        "permanent_condition",
+        "earthquake_safe",
+        "nscp_compliant"
+      ]
+    },
+    "query_log": [
+      {
+        "query": "\"Davao City OCBO\" \"clearance notice\" \"davao-ocbo-clearance-notice-sample\"",
+        "searched_surface": "fixture-only official-record sample",
+        "result_summary": "Target-specific official clearance notice fixture found.",
+        "source_url": "https://example.com/fixtures/davao-ocbo-clearance-notice-2026-001"
+      }
+    ],
+    "packet_result": {
+      "status": "positive_evidence_found",
+      "summary": "Target-specific official clearance evidence was found; the packet preserves date, target, scope, and current-condition exceptions.",
+      "answer_semantics": "status_answer_lane"
+    }
+  }
+}

@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "2.0.0",
+  "title": "Philippines Building Code Evidence Auditor V2 Gate 3 Evidence Packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "confirmed_building",
+    "locked_earthquake_lane",
+    "document_inventory",
+    "evidence_strength",
+    "source_curation_class",
+    "physical_condition_public_evidence",
+    "unresolved_exceptions",
+    "manual_request_targets",
+    "overclaim_boundary",
+    "query_log",
+    "packet_result"
+  ],
+  "properties": {
+    "confirmed_building": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "display_name",
+        "candidate_id",
+        "city",
+        "country",
+        "gate_1_status"
+      ],
+      "properties": {
+        "display_name": {
+          "type": "string"
+        },
+        "candidate_id": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "const": "Philippines"
+        },
+        "gate_1_status": {
+          "const": "confirmed_by_user"
+        },
+        "scope_note": {
+          "type": "string"
+        }
+      }
+    },
+    "locked_earthquake_lane": {
+      "type": "string",
+      "enum": [
+        "nscp_seismic_design_evidence",
+        "obo_structural_permit_review_evidence",
+        "post_earthquake_tag_status",
+        "clearance_after_damage_or_tag"
+      ]
+    },
+    "document_inventory": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence_item"
+      }
+    },
+    "evidence_strength": {
+      "$ref": "#/$defs/evidence_strength"
+    },
+    "source_curation_class": {
+      "$ref": "#/$defs/source_curation_class"
+    },
+    "physical_condition_public_evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence_item"
+      }
+    },
+    "unresolved_exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "exception_id",
+          "description",
+          "resolution_route"
+        ],
+        "properties": {
+          "exception_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "resolution_route": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "manual_request_targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "target",
+          "request"
+        ],
+        "properties": {
+          "target": {
+            "type": "string"
+          },
+          "request": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "overclaim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_conclusion",
+        "forbidden_conclusion_codes"
+      ],
+      "properties": {
+        "allowed_conclusion": {
+          "type": "string"
+        },
+        "missing_evidence_statement": {
+          "type": "string"
+        },
+        "forbidden_conclusion_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "query_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query",
+          "searched_surface",
+          "result_summary"
+        ],
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "searched_surface": {
+            "type": "string"
+          },
+          "result_summary": {
+            "type": "string"
+          },
+          "source_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "packet_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "summary"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "no_public_evidence_found",
+            "no_public_answer_found",
+            "positive_evidence_found",
+            "weak_lead_only"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "answer_semantics": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidence_strength": {
+      "type": "string",
+      "enum": [
+        "direct_authoritative_target_evidence",
+        "professional_target_evidence",
+        "strong_indirect_target_evidence",
+        "process_or_standards_context",
+        "weak_lead_only",
+        "not_found_after_reasonable_search"
+      ]
+    },
+    "source_curation_class": {
+      "type": "string",
+      "enum": [
+        "official_record",
+        "professional_record",
+        "operator_corporate_claim",
+        "reputable_news_lead",
+        "process_context",
+        "weak_lead"
+      ]
+    },
+    "evidence_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "description",
+        "evidence_strength",
+        "source_curation_class",
+        "is_positive_evidence",
+        "target_match_status"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "evidence_strength": {
+          "$ref": "#/$defs/evidence_strength"
+        },
+        "source_curation_class": {
+          "$ref": "#/$defs/source_curation_class"
+        },
+        "is_positive_evidence": {
+          "type": "boolean"
+        },
+        "target_match_status": {
+          "type": "string",
+          "enum": [
+            "exact_target_match",
+            "process_context_only",
+            "weak_target_lead",
+            "no_target_match"
+          ]
+        },
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "source_name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

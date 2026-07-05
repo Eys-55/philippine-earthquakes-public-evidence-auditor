@@ -1,0 +1,251 @@
+{
+  "schema_version": "2.0.0",
+  "generated_at": "2026-07-05",
+  "workflow_gate": "earthquake_scope_lock",
+  "purpose": "Gate 2 source-reality contract for the Philippines Building Code Evidence Auditor V2. It defines the four earthquake-only evidence lanes before any target-specific evidence search begins.",
+  "source_status_values": [
+    "public_searchable",
+    "public_process_only",
+    "manual_request_needed",
+    "not_publicly_provable"
+  ],
+  "global_safety_rule": "Missing public evidence must produce no public evidence found or no public answer found. It must never be converted into safe, unsafe, compliant, noncompliant, cleared, no tag, no permit, or not reviewed.",
+  "scope_reality": [
+    {
+      "scope_id": "nscp_seismic_design_evidence",
+      "label": "NSCP / seismic design evidence",
+      "source_reality": "Usually not publicly searchable for a named private building. Public sources may show process requirements or rare target-specific engineering references; signed/sealed design documents normally require owner, OBO, or professional disclosure.",
+      "accepted_evidence_types": [
+        "target-specific signed and sealed structural plans naming NSCP or seismic design basis",
+        "target-specific structural calculations or design computation records naming seismic analysis",
+        "official OBO or Building Official record saying civil or structural plans were reviewed for the target",
+        "professional structural engineer report tied to the exact building and date",
+        "court, procurement, or public-agency record attaching or quoting the target-specific seismic design evidence"
+      ],
+      "source_reality_status": [
+        "public_process_only",
+        "manual_request_needed",
+        "not_publicly_provable"
+      ],
+      "likely_public_sources": [
+        {
+          "name": "LGU OBO or Building Official process pages",
+          "url": "https://davaocity.gov.ph/departments/infrastructure/office-of-the-building-official/",
+          "source_type": "public_process_context",
+          "status": "public_process_only",
+          "use": "Shows process and custodian route, not named-building NSCP evidence by itself."
+        },
+        {
+          "name": "DPWH National Building Code references",
+          "url": "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096",
+          "source_type": "standards_context",
+          "status": "public_process_only",
+          "use": "Provides legal context only; it does not prove a named building was designed or reviewed for NSCP seismic requirements."
+        }
+      ],
+      "no_evidence_semantics": "A complete public search with no target-specific finding means no public evidence found for NSCP/seismic design evidence. It does not mean the building lacks NSCP design, lacks review, is unsafe, or is noncompliant.",
+      "forbidden_claims": [
+        "Do not claim the building is earthquake safe or unsafe.",
+        "Do not claim the building is NSCP compliant or noncompliant.",
+        "Do not claim no seismic design exists because no public record was found.",
+        "Do not treat generic standards pages as target-specific evidence."
+      ],
+      "manual_request_targets": [
+        "LGU OBO or Building Official records unit",
+        "owner or operator engineering office",
+        "civil or structural engineer of record",
+        "developer or project manager",
+        "court or procurement custodian if the target is publicly owned or litigated"
+      ],
+      "ecc_review_notes": [
+        "Gate 2 may only lock this lane; evidence collection belongs to Gate 3.",
+        "The output must preserve no-public-evidence semantics without making safety or compliance conclusions."
+      ]
+    },
+    {
+      "scope_id": "obo_structural_permit_review_evidence",
+      "label": "OBO structural permit or review evidence",
+      "source_reality": "Some LGUs publish process pages, citizen charters, or applicant portals, but target-specific structural review records are usually offline, applicant-facing, or released only through manual request.",
+      "accepted_evidence_types": [
+        "target-specific building permit record with civil or structural review details",
+        "OBO evaluation, correction, deficiency, notice of action, or plan-review document tied to the target",
+        "official inspection report referencing structural permit or review status",
+        "public portal result using a valid target-specific application or permit identifier",
+        "official certification or certified copy confirming structural review or related permit records"
+      ],
+      "source_reality_status": [
+        "public_process_only",
+        "manual_request_needed",
+        "not_publicly_provable"
+      ],
+      "likely_public_sources": [
+        {
+          "name": "Quezon City Department of the Building Official",
+          "url": "https://quezoncity.gov.ph/departments/department-of-the-building-official/",
+          "source_type": "lgu_obo_page",
+          "status": "public_process_only",
+          "use": "Public process and custodian context; not a named-building structural review registry."
+        },
+        {
+          "name": "Davao City Online Building Permit System application status",
+          "url": "https://obps.davaocity.gov.ph/applicationstatus/",
+          "source_type": "lgu_status_portal",
+          "status": "public_process_only",
+          "use": "Applicant-facing status route that may require application identifiers before target-specific checking."
+        }
+      ],
+      "no_evidence_semantics": "A complete public search with no target-specific finding means no public evidence found for OBO structural permit or review evidence. It does not mean no permit exists, no review happened, or the building is unsafe or noncompliant.",
+      "forbidden_claims": [
+        "Do not claim no OBO review exists because no public web result was found.",
+        "Do not claim the building has or lacks a structural permit unless a target-specific source says so.",
+        "Do not convert an OBO process page into target-specific review evidence.",
+        "Do not infer safety or code compliance from an application portal route."
+      ],
+      "manual_request_targets": [
+        "LGU OBO or Building Official",
+        "city engineer or structural plan review unit",
+        "one-stop shop or building permit application desk",
+        "owner, applicant, or authorized representative",
+        "BFP only when the structural review question also references occupancy or fire-safety clearance documents"
+      ],
+      "ecc_review_notes": [
+        "Gate 2 only locks the structural-review evidence question.",
+        "A public process route is a manual request target, not a positive target-specific finding."
+      ]
+    },
+    {
+      "scope_id": "post_earthquake_tag_status",
+      "label": "Latest post-earthquake tag / status",
+      "source_reality": "Official LGU, OBO, OCBO, City Engineer, CDRRMO, DPWH, or BFP sources may publish tag lists or status notices after major earthquakes. News can be useful as a lead but must be separated from official status evidence.",
+      "accepted_evidence_types": [
+        "official green, yellow, or red tag notice tied to the target",
+        "official inspected, restricted-use, unsafe, not-safe-for-occupancy, or similar post-earthquake status",
+        "official assessment report or public list naming the target and tag or occupancy restriction",
+        "official notice requiring repair, comprehensive assessment, or clearance before use",
+        "reputable news that quotes or links an official tag/status source, recorded as weaker evidence unless confirmed"
+      ],
+      "source_reality_status": [
+        "public_searchable",
+        "manual_request_needed",
+        "not_publicly_provable"
+      ],
+      "likely_public_sources": [
+        {
+          "name": "Davao City red and yellow tag announcement",
+          "url": "https://davaocity.gov.ph/local-government/davao-city-issues-red-yellow-tags-on-earthquake-affected-buildings/",
+          "source_type": "official_lgu_tag_context",
+          "status": "public_searchable",
+          "use": "Official example for post-earthquake red/yellow tag language and building-status handling."
+        },
+        {
+          "name": "Davao OCBO tagged buildings safety requirements",
+          "url": "https://davaocity.gov.ph/infrastructure-development/ocbo-tagged-buildings-must-comply-with-safety-requirements/",
+          "source_type": "official_lgu_tag_context",
+          "status": "public_searchable",
+          "use": "Official example for tag effects, repair methodology, and clearance-before-use context."
+        }
+      ],
+      "no_evidence_semantics": "A complete public search with no target-specific finding means no public answer found for latest post-earthquake tag/status. It does not mean no tag exists, the target is cleared, or the target is safe.",
+      "forbidden_claims": [
+        "Do not claim no tag exists because no public answer was found.",
+        "Do not treat a news report as official tag status unless it cites or quotes an official source.",
+        "Do not treat an old tag/status as current without date and scope caveats.",
+        "Do not convert a red, yellow, or green tag into a permanent safety conclusion."
+      ],
+      "manual_request_targets": [
+        "LGU OBO, OCBO, or Building Official",
+        "City Engineer or municipal engineer",
+        "CDRRMO or incident command records custodian",
+        "DPWH district or regional office when involved in assessments",
+        "BFP when occupancy or closure status is linked to fire-safety inspection records"
+      ],
+      "ecc_review_notes": [
+        "This is a status-answer lane: no public result means no public answer found.",
+        "Gate 3 must preserve the latest date, issuing body, tag color/status, affected portion, and any unresolved exceptions."
+      ]
+    },
+    {
+      "scope_id": "clearance_after_damage_or_tag",
+      "label": "Latest clearance after damage or tag",
+      "source_reality": "Clearance after damage or a tag is often less publicly visible than the initial incident. Strong evidence usually requires an official lifting notice, reoccupancy clearance, updated tag, accepted repair completion, or signed/sealed stability certificate tied to the post-earthquake context.",
+      "accepted_evidence_types": [
+        "official reoccupancy clearance tied to the target and post-earthquake event",
+        "official lifting notice or updated green/inspected status after a prior red/yellow tag",
+        "official acceptance of repair, retrofit, or methodology completion allowing use",
+        "signed/sealed structural stability or soundness certificate tied to the damage/tag context",
+        "official LGU/OBO/OCBO notice naming the target and stating clearance conditions"
+      ],
+      "source_reality_status": [
+        "public_searchable",
+        "manual_request_needed",
+        "not_publicly_provable"
+      ],
+      "likely_public_sources": [
+        {
+          "name": "Davao OCBO tagged buildings compliance requirements",
+          "url": "https://davaocity.gov.ph/infrastructure-development/ocbo-tagged-buildings-must-comply-with-safety-requirements/",
+          "source_type": "official_clearance_context",
+          "status": "public_searchable",
+          "use": "Official context for comprehensive structural assessment, repair methodology, repair permits, and OCBO clearance before use."
+        },
+        {
+          "name": "Davao City structural assessments continue",
+          "url": "https://davaocity.gov.ph/local-government/davao-city-lgu-continues-structural-assessments/",
+          "source_type": "official_assessment_context",
+          "status": "public_searchable",
+          "use": "Official context for assessment workflow and damage-report routing."
+        }
+      ],
+      "no_evidence_semantics": "A complete public search with no target-specific finding means no public answer found for latest clearance after damage or tag. It does not mean the target is cleared, uncleared, safe, unsafe, open, or closed.",
+      "forbidden_claims": [
+        "Do not claim the target is cleared unless a target-specific official or professional source says so.",
+        "Do not treat reopening, hours, bookings, or operator statements as official clearance.",
+        "Do not treat a repair permit or repair plan as final clearance unless acceptance or reoccupancy is explicit.",
+        "Do not convert missing public clearance into unsafe, safe, open, or closed."
+      ],
+      "manual_request_targets": [
+        "LGU OBO, OCBO, or Building Official",
+        "City Engineer or municipal engineer",
+        "owner or operator engineering office",
+        "civil or structural engineer who issued a stability certificate",
+        "CDRRMO, BFP, or DPWH when named in the incident or assessment chain"
+      ],
+      "ecc_review_notes": [
+        "This is a status-answer lane: no public result means no public answer found.",
+        "Gate 3 must separate official clearance from operator claims and preserve unresolved exceptions."
+      ]
+    }
+  ],
+  "ecc_review": {
+    "objective": "Keep V2 Gate 2 locked to four earthquake evidence searches and prevent evidence collection before a scope is confirmed.",
+    "inputs": [
+      "confirmed exact building identity from Gate 1",
+      "one user-selected earthquake evidence lane",
+      "optional earthquake date, location, tag color, permit number, owner, or sublocation clues"
+    ],
+    "outputs": [
+      "one locked earthquake scope ID",
+      "source-reality caveats for that lane",
+      "Gate 3 readiness without any evidence search results"
+    ],
+    "eval": [
+      "menu has exactly four options",
+      "locked scope is one of the four required IDs",
+      "unsupported non-earthquake requests do not proceed",
+      "Gate 2 packets do not include search results or claims"
+    ],
+    "human_boundary": [
+      "user chooses the earthquake lane",
+      "manual custodians are identified only after the lane is locked",
+      "legal-grade records require user-authorized manual request outside public search"
+    ],
+    "safety_risks": [
+      "missing public evidence misread as no permit, no tag, or clearance",
+      "official and operator sources mixed together",
+      "Gate 2 starting evidence search before scope lock",
+      "generic standards treated as target-specific proof"
+    ],
+    "handoff": "Gate 3 receives exactly one locked earthquake lane and must build an evidence packet rather than expanding the scope.",
+    "overclaim_boundary": "The auditor may report public evidence and public gaps. It must not certify safety, compliance, structural adequacy, current occupancy fitness, permit absence, tag absence, or clearance without direct target-specific evidence."
+  }
+}

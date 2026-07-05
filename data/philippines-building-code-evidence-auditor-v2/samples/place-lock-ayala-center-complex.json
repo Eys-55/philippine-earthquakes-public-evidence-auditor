@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "building_identity_confirmation",
+  "user_intake": {
+    "raw_user_request": "Ayala Center Cebu",
+    "known_name_or_description": "Ayala Center Cebu",
+    "known_location": {
+      "city": "Cebu City",
+      "province_or_region": "Cebu",
+      "address_text": null,
+      "nearby_landmarks": []
+    },
+    "provided_links": [],
+    "provided_media_or_documents": []
+  },
+  "identity_candidates": [
+    {
+      "candidate_id": "fixture-ayala-center-cebu-complex",
+      "display_name": "Ayala Center Cebu complex",
+      "aliases": ["Ayala Center Cebu", "ACC"],
+      "entity_type": "mixed_use_complex",
+      "building_scope": "building_complex_or_campus",
+      "address": {
+        "full_address": "Fixture Cebu Business Park, Cebu City",
+        "barangay": null,
+        "city": "Cebu City",
+        "province_or_region": "Cebu",
+        "country": "Philippines"
+      },
+      "coordinates": {"latitude": null, "longitude": null, "source": null},
+      "jurisdiction": {
+        "lgu": "Cebu City",
+        "likely_obo_or_building_office": "Cebu City Office of the Building Official"
+      },
+      "known_operator_or_brand": "Ayala",
+      "known_owner_or_developer": null,
+      "identity_confidence": "medium",
+      "why_this_candidate": ["The clue names a large commercial complex rather than one structure."],
+      "why_it_might_not_be_this": ["The user may mean one wing, tenant, tower, or nearby building."],
+      "evidence": [
+        {
+          "claim": "Fixture source treats Ayala Center Cebu as a complex-level clue.",
+          "source": {"url": "https://example.com/fixtures/ayala-center-cebu", "label": "Gate 1 fixture source", "source_type": "other"},
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": ["The target may be the whole complex or one specific building/wing."]
+    }
+  ],
+  "selected_candidate": {
+    "candidate_id": "fixture-ayala-center-cebu-complex",
+    "display_name": "Ayala Center Cebu complex",
+    "aliases": ["Ayala Center Cebu", "ACC"],
+    "entity_type": "mixed_use_complex",
+    "building_scope": "building_complex_or_campus",
+    "address": {
+      "full_address": "Fixture Cebu Business Park, Cebu City",
+      "barangay": null,
+      "city": "Cebu City",
+      "province_or_region": "Cebu",
+      "country": "Philippines"
+    },
+    "coordinates": {"latitude": null, "longitude": null, "source": null},
+    "jurisdiction": {
+      "lgu": "Cebu City",
+      "likely_obo_or_building_office": "Cebu City Office of the Building Official"
+    },
+    "known_operator_or_brand": "Ayala",
+    "known_owner_or_developer": null,
+    "identity_confidence": "medium",
+    "why_this_candidate": ["The clue names a large commercial complex rather than one structure."],
+    "why_it_might_not_be_this": ["The user may mean one wing, tenant, tower, or nearby building."],
+    "evidence": [
+      {
+        "claim": "Fixture source treats Ayala Center Cebu as a complex-level clue.",
+        "source": {"url": "https://example.com/fixtures/ayala-center-cebu", "label": "Gate 1 fixture source", "source_type": "other"},
+        "notes": "Test fixture only; not live public evidence."
+      }
+    ],
+    "ambiguities": ["The target may be the whole complex or one specific building/wing."]
+  },
+  "confirmation": {
+    "status": "candidate_ready_for_user_confirmation",
+    "user_facing_confirmation_prompt": "Should I treat Ayala Center Cebu as the whole complex, or do you mean one specific building, wing, or tenant?",
+    "clarification_style": "best_guess_with_quick_negative_check",
+    "clarifying_questions": ["Do you mean the whole complex, or one specific building, wing, or tenant?"],
+    "can_proceed_to_audit": false,
+    "blockers": ["unclear_if_whole_building_or_tenant", "waiting_for_user_confirmation"]
+  }
+}

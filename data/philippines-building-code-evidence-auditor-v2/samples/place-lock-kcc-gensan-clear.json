@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "building_identity_confirmation",
+  "user_intake": {
+    "raw_user_request": "KCC GenSan",
+    "known_name_or_description": "KCC GenSan",
+    "known_location": {
+      "city": "General Santos City",
+      "province_or_region": "South Cotabato",
+      "address_text": null,
+      "nearby_landmarks": []
+    },
+    "provided_links": [],
+    "provided_media_or_documents": []
+  },
+  "identity_candidates": [
+    {
+      "candidate_id": "fixture-kcc-mall-gensan",
+      "display_name": "KCC Mall of GenSan",
+      "aliases": ["KCC GenSan", "KCC Mall Gensan"],
+      "entity_type": "mall",
+      "building_scope": "building_complex_or_campus",
+      "address": {
+        "full_address": "Fixture Jose Catolico Sr. Avenue, Lagao, General Santos City",
+        "barangay": "Lagao",
+        "city": "General Santos City",
+        "province_or_region": "South Cotabato",
+        "country": "Philippines"
+      },
+      "coordinates": {"latitude": null, "longitude": null, "source": null},
+      "jurisdiction": {
+        "lgu": "General Santos City",
+        "likely_obo_or_building_office": "General Santos City Office of the Building Official"
+      },
+      "known_operator_or_brand": "KCC Malls",
+      "known_owner_or_developer": null,
+      "identity_confidence": "high",
+      "why_this_candidate": ["GenSan is a strong branch and city clue for KCC Mall of GenSan."],
+      "why_it_might_not_be_this": ["The user has not explicitly confirmed the exact branch yet."],
+      "evidence": [
+        {
+          "claim": "Fixture source maps KCC GenSan to KCC Mall of GenSan.",
+          "source": {"url": "https://example.com/fixtures/kcc-gensan", "label": "Gate 1 fixture source", "source_type": "other"},
+          "notes": "Test fixture only; not live public evidence."
+        }
+      ],
+      "ambiguities": []
+    }
+  ],
+  "selected_candidate": {
+    "candidate_id": "fixture-kcc-mall-gensan",
+    "display_name": "KCC Mall of GenSan",
+    "aliases": ["KCC GenSan", "KCC Mall Gensan"],
+    "entity_type": "mall",
+    "building_scope": "building_complex_or_campus",
+    "address": {
+      "full_address": "Fixture Jose Catolico Sr. Avenue, Lagao, General Santos City",
+      "barangay": "Lagao",
+      "city": "General Santos City",
+      "province_or_region": "South Cotabato",
+      "country": "Philippines"
+    },
+    "coordinates": {"latitude": null, "longitude": null, "source": null},
+    "jurisdiction": {
+      "lgu": "General Santos City",
+      "likely_obo_or_building_office": "General Santos City Office of the Building Official"
+    },
+    "known_operator_or_brand": "KCC Malls",
+    "known_owner_or_developer": null,
+    "identity_confidence": "high",
+    "why_this_candidate": ["GenSan is a strong branch and city clue for KCC Mall of GenSan."],
+    "why_it_might_not_be_this": ["The user has not explicitly confirmed the exact branch yet."],
+    "evidence": [
+      {
+        "claim": "Fixture source maps KCC GenSan to KCC Mall of GenSan.",
+        "source": {"url": "https://example.com/fixtures/kcc-gensan", "label": "Gate 1 fixture source", "source_type": "other"},
+        "notes": "Test fixture only; not live public evidence."
+      }
+    ],
+    "ambiguities": []
+  },
+  "confirmation": {
+    "status": "candidate_ready_for_user_confirmation",
+    "user_facing_confirmation_prompt": "I think you mean KCC Mall of GenSan on Fixture Jose Catolico Sr. Avenue in General Santos City. Is that the exact place?",
+    "clarification_style": "best_guess_with_quick_negative_check",
+    "clarifying_questions": ["Is KCC Mall of GenSan the exact place?"],
+    "can_proceed_to_audit": false,
+    "blockers": ["waiting_for_user_confirmation"]
+  }
+}

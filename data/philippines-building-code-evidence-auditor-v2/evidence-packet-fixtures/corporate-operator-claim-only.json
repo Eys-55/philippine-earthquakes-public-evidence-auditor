@@ -1,0 +1,74 @@
+{
+  "confirmed_building": {
+    "display_name": "SM Mall of Asia",
+    "candidate_id": "sm-mall-of-asia",
+    "city": "Pasay City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user",
+    "scope_note": "Exact mall identity confirmed before Gate 3 evidence review."
+  },
+  "locked_earthquake_lane": "clearance_after_damage_or_tag",
+  "document_inventory": [
+    {
+      "item_id": "operator-claim-1",
+      "description": "Operator statement says the structure was intact after a reported event, but the underlying official assessment or clearance document is not attached.",
+      "evidence_strength": "weak_lead_only",
+      "source_curation_class": "operator_corporate_claim",
+      "is_positive_evidence": true,
+      "target_match_status": "weak_target_lead",
+      "source_url": "https://www.smprime.com/latest_news/sm-mall-of-asia-structure-intact-no-structural-damage-says-pasay-city-engineering-office/",
+      "source_name": "SM Prime"
+    }
+  ],
+  "evidence_strength": "weak_lead_only",
+  "source_curation_class": "operator_corporate_claim",
+  "physical_condition_public_evidence": [
+    {
+      "item_id": "operator-condition-claim-1",
+      "description": "Operator-published condition narrative is preserved as a weak lead and not treated as official clearance.",
+      "evidence_strength": "weak_lead_only",
+      "source_curation_class": "operator_corporate_claim",
+      "is_positive_evidence": true,
+      "target_match_status": "weak_target_lead",
+      "source_url": "https://www.smprime.com/latest_news/sm-mall-of-asia-structure-intact-no-structural-damage-says-pasay-city-engineering-office/",
+      "source_name": "SM Prime"
+    }
+  ],
+  "unresolved_exceptions": [
+    {
+      "exception_id": "official-clearance-not-attached",
+      "description": "The operator statement references an official office but does not attach the source record, signed report, or clearance document.",
+      "resolution_route": "Request the underlying assessment or clearance from the issuing office and owner/operator."
+    }
+  ],
+  "manual_request_targets": [
+    {
+      "target": "Pasay City Engineering Office or Building Official",
+      "request": "Ask for the underlying post-event assessment, tag/status, or clearance record referenced by the operator statement.",
+      "reason": "Operator claims must be separated from official or professional records."
+    }
+  ],
+  "overclaim_boundary": {
+    "allowed_conclusion": "An operator/corporate claim was found and is a weak lead only; official or professional clearance evidence remains unresolved.",
+    "forbidden_conclusion_codes": [
+      "official_clearance_found",
+      "cleared",
+      "earthquake_safe",
+      "earthquake_unsafe",
+      "nscp_compliant"
+    ]
+  },
+  "query_log": [
+    {
+      "query": "\"SM Mall of Asia\" \"structure intact\" earthquake",
+      "searched_surface": "web search",
+      "result_summary": "Operator/corporate claim found; no attached official clearance record.",
+      "source_url": "https://www.smprime.com/latest_news/sm-mall-of-asia-structure-intact-no-structural-damage-says-pasay-city-engineering-office/"
+    }
+  ],
+  "packet_result": {
+    "status": "weak_lead_only",
+    "summary": "Only an operator/corporate claim was found; it remains separated from official or professional clearance evidence.",
+    "answer_semantics": "status_answer_lane"
+  }
+}

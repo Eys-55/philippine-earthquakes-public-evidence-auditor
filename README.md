@@ -8,7 +8,8 @@ reports, and safety boundaries stay separate.
 
 | Lane | Status | Purpose | Start Here |
 | --- | --- | --- | --- |
-| `philippines-building-code-evidence-auditor` | active | Confirm a Philippine building, establishment, mall, hotel, or facility, then prepare audit-only public evidence about permits, occupancy, incidents, earthquake damage, contractors, and standards context. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
+| `philippines-building-code-evidence-auditor` | active V1 | Broad building-code public-evidence auditor for Philippine buildings, establishments, malls, hotels, and facilities. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
+| `philippines-building-code-evidence-auditor-v2` | active V2 | Four-lane earthquake public-evidence auditor for NSCP/seismic evidence, OBO structural review, post-earthquake tag/status, and clearance after damage or tag. | `skills/philippines-building-code-evidence-auditor-v2/SKILL.md` |
 | `address-disaster-risk-assessor` | paused/foundation | Given an address or coordinates, produce a source-attributed disaster-risk packet for Metro Manila / NCR. | `skills/address-disaster-risk-assessor/SKILL.md` |
 | `metro-manila-source-atlas` | foundation | Refresh or extend the reusable Metro Manila data-source inventory. | `skills/metro-manila-source-atlas/SKILL.md` |
 | `untitled-project` | exploring | Parking lane for the next workflow before the repeated job, input contract, and output artifact are named. | `skills/untitled-project/SKILL.md` |
@@ -30,15 +31,15 @@ For new lanes, use one stable slug per workflow:
 - `scripts/validate_<project_slug>*.py` - validation gates when useful.
 
 Existing lanes with documented historical data surfaces can keep those paths.
-For example, the Building Code Evidence Auditor currently uses
+For example, the V1 Building Code Evidence Auditor currently uses
 `data/building-code-auditor/`.
 
 See `docs/decisions/0004-adopt-project-lanes.md` and
 `docs/status/2026-07-04-project-lanes-workspace-status.md`.
 
-## Building Code Evidence Auditor
+## Building Code Evidence Auditors
 
-Current active lane:
+V1 active lane:
 
 - Skill: `skills/philippines-building-code-evidence-auditor/SKILL.md`
 - Status: `docs/status/2026-07-04-building-code-evidence-auditor-lock.md`
@@ -47,7 +48,17 @@ Current active lane:
 - Current gate: building identity confirmation before any permit, contractor,
   incident, compliance, safety, or earthquake evidence search.
 
-This lane is an evidence auditor, not a compliance certifier. It must not claim
+V2 active lane:
+
+- Skill: `skills/philippines-building-code-evidence-auditor-v2/SKILL.md`
+- Status: `docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md`
+- Plan: `docs/plans/2026-07-05-philippines-building-code-evidence-auditor-v2-implementation-plan.md`
+- Data: `data/philippines-building-code-evidence-auditor-v2/`
+- Scope: four earthquake evidence lanes only: NSCP/seismic design evidence, OBO
+  structural permit or review evidence, latest post-earthquake tag/status, and
+  latest clearance after damage or tag.
+
+These lanes are evidence auditors, not compliance certifiers. They must not claim
 that a building is legally compliant, structurally safe, earthquake-safe, or fit
 for occupancy unless that exact claim is supported by authoritative public
 evidence.
