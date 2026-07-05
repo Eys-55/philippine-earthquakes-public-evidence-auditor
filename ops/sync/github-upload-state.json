@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-06T02:44:55+08:00",
+  "generated_at": "2026-07-06T02:53:26+08:00",
   "repos": {
     "market-research-agent-control": {
       "local_branch": "codex/control-repo-tracker",
-      "local_head": "2f6ebd19a0069b1e799bf361bcaca7a595f3ba21",
+      "local_head": "6a60f00097450efa2047ea4282d9371197ac165a",
       "remote_branch": "codex/control-repo-tracker",
-      "remote_head": "2f6ebd19a0069b1e799bf361bcaca7a595f3ba21",
+      "remote_head": "6a60f00097450efa2047ea4282d9371197ac165a",
       "status": "pending_local_changes",
-      "untracked_file_count": 1,
-      "dirty_file_count": 3,
+      "untracked_file_count": 0,
+      "dirty_file_count": 1,
       "ahead_count": 0,
       "last_successful_upload": null,
       "last_verification_command": "git ls-remote origin refs/heads/codex/control-repo-tracker"
