@@ -1,15 +1,158 @@
-# Market Research Agent Workspace
+![Abstract seismic evidence banner](assets/philippines-earthquake-public-evidence-auditor-header.png)
 
-ECC-aligned workspace for multiple source-attributed agent workflows. Each
-workflow lives in its own project lane so instructions, schemas, evidence,
-reports, and safety boundaries stay separate.
+# Philippines Earthquake Public Evidence Auditor
+
+A Codex/ECC workflow for checking what public evidence exists about a specific
+Philippine building's earthquake-related records. It does not certify safety,
+compliance, or fitness for occupancy. It locks the exact building first, narrows
+the question to one of four earthquake evidence lanes, then produces a
+source-bounded packet with unresolved gaps preserved.
+
+## What It Audits
+
+This workflow only searches four earthquake evidence lanes:
+
+1. NSCP / seismic design evidence
+2. OBO structural permit or review evidence
+3. Latest post-earthquake tag / status
+4. Latest clearance after damage or tag
+
+Questions outside these lanes belong in a separate workflow. The auditor should
+not silently broaden a request into general permits, fire safety, accessibility,
+business permits, contractor research, or generic building-code compliance.
+
+## How The Workflow Runs
+
+1. Gate 1 confirms the exact building, branch, tenant, wing, or complex.
+2. Gate 2 locks one of the four earthquake evidence lanes.
+3. Gate 3 builds an evidence packet with document inventory, evidence strength,
+   source class, unresolved exceptions, manual request targets, and query log.
+4. Gate 4 audits the packet for overclaims before anything is treated as a
+   finding.
+
+The workflow is intentionally narrow. Its job is to preserve what can be shown
+from public evidence and to keep missing, weak, or unresolved evidence visible.
+
+## Evidence Rules
+
+The auditor separates evidence by source strength:
+
+- official records and notices;
+- signed or sealed professional records;
+- operator or corporate claims;
+- reputable news leads;
+- process or standards context;
+- weak public leads such as marketing pages, booking availability, directory
+  pages, or social posts.
+
+Positive findings need exact-target evidence and a source URL. Operator claims,
+process pages, and weak leads can guide follow-up, but they do not become
+official clearance or engineering evidence by themselves.
+
+Missing public evidence is not evidence of safety, non-safety, compliance,
+noncompliance, clearance, no tag, no permit, or no review.
+
+## No-Evidence Semantics
+
+For NSCP/seismic design evidence and OBO structural review evidence, a complete
+but unsuccessful search means: `No public evidence found.`
+
+For post-earthquake tag/status and clearance after damage or tag, a complete but
+unsuccessful search means: `No public answer found.`
+
+Neither result should be converted into a claim that the building is safe,
+unsafe, compliant, noncompliant, cleared, tagged, untagged, permitted, or
+unreviewed.
+
+## Evidence Packet Output
+
+The packet is designed for operators who need to see what was searched, what was
+found, and what remains unresolved. It records:
+
+- confirmed building identity;
+- locked earthquake lane;
+- document inventory;
+- evidence strength;
+- source curation class;
+- physical-condition public evidence;
+- unresolved exceptions;
+- manual request targets;
+- overclaim boundary;
+- query log;
+- packet result.
+
+This makes the output auditable. Another operator should be able to tell which
+claims are supported, which leads are weak, and which documents still need manual
+request or professional review.
+
+## Operator Checklist
+
+Before presenting a packet, check that:
+
+- the exact building match is confirmed;
+- the locked lane is one of the four earthquake lanes;
+- every positive finding has a source URL;
+- official and professional records are separated from weak leads;
+- operator or corporate claims are not treated as official clearance;
+- unresolved exceptions are preserved;
+- no missing evidence has been converted into a safety or compliance conclusion.
+
+If any item fails, the packet should be revised before it is treated as a
+finding.
+
+## Manual Request Handoff
+
+Some outcomes are valid even when the public web does not answer the question.
+In those cases, the workflow should name the likely custodian and the exact
+document family to request, instead of guessing.
+
+Common handoff targets include the relevant building official or structural
+record custodian, the owner or operator, and the professional record holder. The
+handoff should stay document-specific: ask for the record that would answer the
+locked lane, not for a general assurance that a building is safe.
+
+## Workspace Notes
+
+This repo is an ECC-aligned multi-lane workspace. Multiple agentic workflows may
+live here at the same time, but each workflow stays in its own project lane so
+instructions, schemas, evidence, reports, and safety boundaries do not mix.
+
+## Run The Validators
+
+Use these checks for the current auditor:
+
+```bash
+find data/philippines-building-code-evidence-auditor-v2 -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool >/tmp/building-code-v2-json-parse.txt
+python3 scripts/validate_building_code_v2_identity_gate.py
+python3 scripts/validate_building_code_v2_earthquake_scope_gate.py
+python3 scripts/validate_building_code_v2_evidence_packet.py
+python3 scripts/validate_building_code_v2_overclaim.py
+python3 scripts/validate_progress_docs.py
+git diff --check
+```
+
+For maintainer checks that preserve the earlier broad building-code workflow:
+
+```bash
+python3 scripts/validate_building_identity_gate.py
+python3 scripts/validate_audit_scope_gate.py
+python3 scripts/validate_audit_scope_source_reality.py
+```
+
+## Repo Map
+
+- Current auditor skill: `skills/philippines-building-code-evidence-auditor-v2/SKILL.md`
+- Current auditor data: `data/philippines-building-code-evidence-auditor-v2/`
+- README design: `docs/plans/2026-07-05-earthquake-auditor-readme-design.md`
+- README implementation plan: `docs/plans/2026-07-05-earthquake-auditor-readme-implementation-plan.md`
+- Status lock: `docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md`
 
 ## Active Lanes
 
 | Lane | Status | Purpose | Start Here |
 | --- | --- | --- | --- |
-| `philippines-building-code-evidence-auditor` | active V1 | Broad building-code public-evidence auditor for Philippine buildings, establishments, malls, hotels, and facilities. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
-| `philippines-building-code-evidence-auditor-v2` | active V2 | Four-lane earthquake public-evidence auditor for NSCP/seismic evidence, OBO structural review, post-earthquake tag/status, and clearance after damage or tag. | `skills/philippines-building-code-evidence-auditor-v2/SKILL.md` |
+| `philippines-building-code-evidence-auditor-v2` | active current auditor | Four-lane earthquake public-evidence auditor for NSCP/seismic evidence, OBO structural review, post-earthquake tag/status, and clearance after damage or tag. | `skills/philippines-building-code-evidence-auditor-v2/SKILL.md` |
+| `philippines-building-code-evidence-auditor` | active V1 maintainer lane | Broad building-code public-evidence auditor for Philippine buildings, establishments, malls, hotels, and facilities. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
 | `address-disaster-risk-assessor` | paused/foundation | Given an address or coordinates, produce a source-attributed disaster-risk packet for Metro Manila / NCR. | `skills/address-disaster-risk-assessor/SKILL.md` |
 | `metro-manila-source-atlas` | foundation | Refresh or extend the reusable Metro Manila data-source inventory. | `skills/metro-manila-source-atlas/SKILL.md` |
 | `untitled-project` | exploring | Parking lane for the next workflow before the repeated job, input contract, and output artifact are named. | `skills/untitled-project/SKILL.md` |
@@ -37,9 +180,20 @@ For example, the V1 Building Code Evidence Auditor currently uses
 See `docs/decisions/0004-adopt-project-lanes.md` and
 `docs/status/2026-07-04-project-lanes-workspace-status.md`.
 
-## Building Code Evidence Auditors
+## Building Code Evidence Auditor Maintainer Context
 
-V1 active lane:
+Current earthquake auditor:
+
+- Skill: `skills/philippines-building-code-evidence-auditor-v2/SKILL.md`
+- Status: `docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md`
+- Design: `docs/plans/2026-07-05-earthquake-auditor-readme-design.md`
+- Implementation plan: `docs/plans/2026-07-05-earthquake-auditor-readme-implementation-plan.md`
+- Data: `data/philippines-building-code-evidence-auditor-v2/`
+- Scope: four earthquake evidence lanes only: NSCP/seismic design evidence, OBO
+  structural permit or review evidence, latest post-earthquake tag/status, and
+  latest clearance after damage or tag.
+
+V1 maintainer lane:
 
 - Skill: `skills/philippines-building-code-evidence-auditor/SKILL.md`
 - Status: `docs/status/2026-07-04-building-code-evidence-auditor-lock.md`
@@ -47,16 +201,6 @@ V1 active lane:
 - Data: `data/building-code-auditor/`
 - Current gate: building identity confirmation before any permit, contractor,
   incident, compliance, safety, or earthquake evidence search.
-
-V2 active lane:
-
-- Skill: `skills/philippines-building-code-evidence-auditor-v2/SKILL.md`
-- Status: `docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md`
-- Plan: `docs/plans/2026-07-05-philippines-building-code-evidence-auditor-v2-implementation-plan.md`
-- Data: `data/philippines-building-code-evidence-auditor-v2/`
-- Scope: four earthquake evidence lanes only: NSCP/seismic design evidence, OBO
-  structural permit or review evidence, latest post-earthquake tag/status, and
-  latest clearance after damage or tag.
 
 These lanes are evidence auditors, not compliance certifiers. They must not claim
 that a building is legally compliant, structurally safe, earthquake-safe, or fit
@@ -110,7 +254,7 @@ Before promoting it, lock:
 Then rename `skills/untitled-project/` and `data/untitled-project/` to the final
 slug and add a decision note.
 
-## Verification
+## Workspace Verification
 
 ```bash
 python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-source-atlas.json
