@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import subprocess
 from typing import Any
+from urllib.parse import urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,6 +26,8 @@ class GitCommandError(RuntimeError):
 class LiveGitCheck:
     branch: str
     local_head: str
+    remote_url: str
+    expected_remote: str
     remote_head: str
     ahead_count: int | None
     untracked_file_count: int
@@ -33,6 +36,10 @@ class LiveGitCheck:
     @property
     def has_local_changes(self) -> bool:
         return self.untracked_file_count > 0 or self.dirty_file_count > 0
+
+    @property
+    def remote_matches_expected(self) -> bool:
+        return remote_matches(self.remote_url, self.expected_remote)
 
 
 def read_json(path: Path) -> JsonObject:
@@ -104,7 +111,31 @@ def run_git(args: list[str]) -> str:
         raise GitCommandError(str(exc)) from exc
     if result.returncode != 0:
         raise GitCommandError(result.stderr.strip() or f"{' '.join(command)} failed")
-    return result.stdout.strip()
+    return result.stdout.rstrip("\n")
+
+
+def strip_git_suffix(value: str) -> str:
+    return value[:-4] if value.endswith(".git") else value
+
+
+def normalize_remote_url(remote_url: str) -> str:
+    raw_url = remote_url.strip().rstrip("/")
+    if raw_url.startswith("git@"):
+        host_path = raw_url[4:]
+        if ":" in host_path:
+            host, path = host_path.split(":", 1)
+            return f"{host.lower()}/{strip_git_suffix(path.strip('/'))}"
+
+    parsed = urlparse(raw_url)
+    if parsed.scheme and parsed.netloc:
+        host = (parsed.hostname or parsed.netloc).lower()
+        return f"{host}/{strip_git_suffix(parsed.path.strip('/'))}"
+
+    return strip_git_suffix(raw_url)
+
+
+def remote_matches(actual_remote: str, expected_remote: str) -> bool:
+    return normalize_remote_url(actual_remote) == normalize_remote_url(expected_remote)
 
 
 def status_counts(status_output: str) -> tuple[int, int]:
@@ -139,15 +170,22 @@ def ahead_count(local_head: str, remote_head: str) -> int | None:
         return None
 
 
-def live_git_check() -> LiveGitCheck:
-    status_output = run_git(["status", "--short"])
+def live_git_check(repo: JsonObject) -> LiveGitCheck:
+    expected_remote = repo.get("github_remote")
+    if not isinstance(expected_remote, str) or not expected_remote:
+        raise GitCommandError("registered repo is missing github_remote")
+
+    status_output = run_git(["status", "--porcelain=v1", "--untracked-files=all"])
     untracked_file_count, dirty_file_count = status_counts(status_output)
     branch = run_git(["rev-parse", "--abbrev-ref", "HEAD"])
     local_head = run_git(["rev-parse", "HEAD"])
+    remote_url = run_git(["remote", "get-url", "origin"])
     remote_head = parse_remote_head(run_git(["ls-remote", "origin", f"refs/heads/{branch}"]))
     return LiveGitCheck(
         branch=branch,
         local_head=local_head,
+        remote_url=remote_url,
+        expected_remote=expected_remote,
         remote_head=remote_head,
         ahead_count=ahead_count(local_head, remote_head),
         untracked_file_count=untracked_file_count,
@@ -183,6 +221,8 @@ def upload_marker(state: JsonObject) -> str:
 
 
 def live_upload_marker(check: LiveGitCheck) -> tuple[str, str]:
+    if not check.remote_matches_expected:
+        return "not uploaded", "origin remote differs from expected GitHub remote"
     if check.has_local_changes:
         return "pending", "dirty/untracked"
     if not check.remote_head:
@@ -203,7 +243,7 @@ def upload_source_marker(
     remote_branch = state.get("remote_branch", "unknown")
     if repo is not None and repo.get("path") == ".":
         try:
-            check = live_git_check()
+            check = live_git_check(repo)
         except GitCommandError:
             return (
                 upload_marker(state),

@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 import sys
 from typing import Any
+from urllib.parse import urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -198,7 +199,7 @@ def run_git(repo_path_value: Path, args: list[str]) -> GitCommandResult:
     except OSError as exc:
         return GitCommandResult(stdout="", stderr=str(exc), returncode=1)
     return GitCommandResult(
-        stdout=result.stdout.strip(),
+        stdout=result.stdout.rstrip("\n"),
         stderr=result.stderr.strip(),
         returncode=result.returncode,
     )
@@ -227,6 +228,30 @@ def parse_remote_head(ls_remote_output: str) -> str:
     first_line = ls_remote_output.splitlines()[0] if ls_remote_output else ""
     parts = first_line.split()
     return parts[0] if parts else "missing"
+
+
+def strip_git_suffix(value: str) -> str:
+    return value[:-4] if value.endswith(".git") else value
+
+
+def normalize_remote_url(remote_url: str) -> str:
+    raw_url = remote_url.strip().rstrip("/")
+    if raw_url.startswith("git@"):
+        host_path = raw_url[4:]
+        if ":" in host_path:
+            host, path = host_path.split(":", 1)
+            return f"{host.lower()}/{strip_git_suffix(path.strip('/'))}"
+
+    parsed = urlparse(raw_url)
+    if parsed.scheme and parsed.netloc:
+        host = (parsed.hostname or parsed.netloc).lower()
+        return f"{host}/{strip_git_suffix(parsed.path.strip('/'))}"
+
+    return strip_git_suffix(raw_url)
+
+
+def remote_matches(actual_remote: str, expected_remote: str) -> bool:
+    return normalize_remote_url(actual_remote) == normalize_remote_url(expected_remote)
 
 
 def audit_repo(repo: RepoRecord) -> RepoAudit:
@@ -270,6 +295,9 @@ def audit_repo(repo: RepoRecord) -> RepoAudit:
     ):
         if error:
             errors.append(f"{label}: {error}")
+
+    if not remote_url_error and not remote_matches(remote_url, repo.github_remote):
+        errors.append("remote URL differs from expected GitHub remote")
 
     remote_ref = (
         branch if branch and branch != "unknown" and branch != "HEAD" else repo.default_branch
@@ -324,7 +352,8 @@ def active_project_ids(
             f"active_current_projects[{index}]"
         )
         slug = require_string(project, "slug", project_label)
-        sources.setdefault(slug, set()).add("inventory active_current_projects")
+        if slug in sources:
+            sources[slug].add("inventory active_current_projects confirmation")
 
     return sources
 
@@ -415,7 +444,7 @@ def print_active_projects(
     project_sources: dict[str, set[str]],
     stale_ids: set[str],
 ) -> None:
-    print("## Active Projects From Registry/Inventory")
+    print("## Active Projects From Registry")
     print()
     active_ids = sorted(
         project_id for project_id in project_sources if project_id not in stale_ids

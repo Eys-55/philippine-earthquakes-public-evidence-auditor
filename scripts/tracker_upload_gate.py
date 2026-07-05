@@ -13,6 +13,7 @@ import sys
 import tempfile
 from datetime import datetime
 from typing import Any
+from urllib.parse import urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,10 +33,18 @@ class GitCommandError(RuntimeError):
 
 
 @dataclass(frozen=True)
+class RepoTarget:
+    repo_id: str
+    expected_remote: str
+
+
+@dataclass(frozen=True)
 class GitSnapshot:
     status_output: str
     branch: str
     local_head: str
+    remote_url: str
+    expected_remote: str
     remote_head: str
     ahead_count: int | None
     untracked_file_count: int
@@ -46,8 +55,17 @@ class GitSnapshot:
         return self.untracked_file_count > 0 or self.dirty_file_count > 0
 
     @property
+    def remote_matches_expected(self) -> bool:
+        return remote_matches(self.remote_url, self.expected_remote)
+
+    @property
     def is_uploaded(self) -> bool:
-        return not self.has_local_changes and bool(self.remote_head) and self.local_head == self.remote_head
+        return (
+            not self.has_local_changes
+            and self.remote_matches_expected
+            and bool(self.remote_head)
+            and self.local_head == self.remote_head
+        )
 
 
 def fsync_directory(path: Path) -> None:
@@ -120,7 +138,7 @@ def run_git(args: list[str], *, check: bool = True) -> str:
     )
     if check and result.returncode != 0:
         raise GitCommandError(command, result.stderr)
-    return result.stdout.strip()
+    return result.stdout.rstrip("\n")
 
 
 def status_counts(status_output: str) -> tuple[int, int]:
@@ -136,26 +154,54 @@ def status_counts(status_output: str) -> tuple[int, int]:
     return untracked_file_count, dirty_file_count
 
 
-def current_repo_id() -> str:
+def strip_git_suffix(value: str) -> str:
+    return value[:-4] if value.endswith(".git") else value
+
+
+def normalize_remote_url(remote_url: str) -> str:
+    raw_url = remote_url.strip().rstrip("/")
+    if raw_url.startswith("git@"):
+        host_path = raw_url[4:]
+        if ":" in host_path:
+            host, path = host_path.split(":", 1)
+            return f"{host.lower()}/{strip_git_suffix(path.strip('/'))}"
+
+    parsed = urlparse(raw_url)
+    if parsed.scheme and parsed.netloc:
+        host = (parsed.hostname or parsed.netloc).lower()
+        return f"{host}/{strip_git_suffix(parsed.path.strip('/'))}"
+
+    return strip_git_suffix(raw_url)
+
+
+def remote_matches(actual_remote: str, expected_remote: str) -> bool:
+    return normalize_remote_url(actual_remote) == normalize_remote_url(expected_remote)
+
+
+def current_repo_target() -> RepoTarget:
     payload = read_json(REPOS_PATH)
     repos = payload.get("repos", [])
     if not isinstance(repos, list):
         raise ValueError("ops/registry/repos.json: repos must be a list")
 
-    required_repo_ids: list[str] = []
-    fallback_repo_ids: list[str] = []
+    required_targets: list[RepoTarget] = []
+    fallback_targets: list[RepoTarget] = []
     for repo in repos:
         if not isinstance(repo, dict):
             continue
         repo_id = repo.get("id")
         if not isinstance(repo_id, str) or not repo_id:
             continue
+        expected_remote = repo.get("github_remote")
+        if not isinstance(expected_remote, str) or not expected_remote:
+            continue
+        target = RepoTarget(repo_id=repo_id, expected_remote=expected_remote)
         if repo.get("path") == REPO_PATH:
-            fallback_repo_ids.append(repo_id)
+            fallback_targets.append(target)
             if repo.get("upload_policy") == "required":
-                required_repo_ids.append(repo_id)
+                required_targets.append(target)
 
-    candidates = required_repo_ids or fallback_repo_ids
+    candidates = required_targets or fallback_targets
     if len(candidates) != 1:
         raise ValueError("expected exactly one tracker repo at path .")
     return candidates[0]
@@ -177,16 +223,19 @@ def ahead_count(local_head: str, remote_head: str) -> int | None:
         return None
 
 
-def git_snapshot() -> GitSnapshot:
-    status_output = run_git(["status", "--short"])
+def git_snapshot(target: RepoTarget) -> GitSnapshot:
+    status_output = run_git(["status", "--porcelain=v1", "--untracked-files=all"])
     untracked_file_count, dirty_file_count = status_counts(status_output)
     branch = run_git(["rev-parse", "--abbrev-ref", "HEAD"])
     local_head = run_git(["rev-parse", "HEAD"])
+    remote_url = run_git(["remote", "get-url", "origin"])
     remote_head = parse_remote_head(run_git(["ls-remote", "origin", f"refs/heads/{branch}"]))
     return GitSnapshot(
         status_output=status_output,
         branch=branch,
         local_head=local_head,
+        remote_url=remote_url,
+        expected_remote=target.expected_remote,
         remote_head=remote_head,
         ahead_count=ahead_count(local_head, remote_head),
         untracked_file_count=untracked_file_count,
@@ -197,10 +246,13 @@ def git_snapshot() -> GitSnapshot:
 def upload_status(
     *,
     has_local_changes: bool,
+    remote_matches_expected: bool,
     local_head: str,
     remote_head: str,
     count_ahead: int | None,
 ) -> str:
+    if not remote_matches_expected:
+        return "wrong_remote"
     if has_local_changes:
         return "pending_local_changes"
     if not remote_head:
@@ -217,6 +269,9 @@ def refreshed_upload_state(
     repo_id: str,
     branch: str,
     local_head: str,
+    remote_url: str,
+    expected_remote: str,
+    remote_matches_expected: bool,
     remote_head: str,
     status: str,
     untracked_file_count: int,
@@ -233,6 +288,7 @@ def refreshed_upload_state(
     clean_and_uploaded = (
         untracked_file_count == 0
         and dirty_file_count == 0
+        and remote_matches_expected
         and bool(remote_head)
         and local_head == remote_head
     )
@@ -244,6 +300,9 @@ def refreshed_upload_state(
     updated_repos[repo_id] = {
         "local_branch": branch,
         "local_head": local_head,
+        "remote_url": remote_url,
+        "expected_remote": expected_remote,
+        "remote_matches_expected": remote_matches_expected,
         "remote_branch": branch,
         "remote_head": remote_head,
         "status": status,
@@ -262,18 +321,19 @@ def refreshed_upload_state(
 
 
 def main() -> int:
-    snapshot = git_snapshot()
+    repo_target = current_repo_target()
+    snapshot = git_snapshot(repo_target)
     if snapshot.is_uploaded:
         # Clean success is no-write: a tracked upload-state file cannot
         # self-certify the commit that contains its own updated hash.
         print("uploaded to GitHub")
         return 0
 
-    repo_id = current_repo_id()
     remote_ref = f"refs/heads/{snapshot.branch}"
     ls_remote_command = f"git ls-remote origin {remote_ref}"
     status = upload_status(
         has_local_changes=snapshot.has_local_changes,
+        remote_matches_expected=snapshot.remote_matches_expected,
         local_head=snapshot.local_head,
         remote_head=snapshot.remote_head,
         count_ahead=snapshot.ahead_count,
@@ -283,9 +343,12 @@ def main() -> int:
     write_json(
         UPLOAD_STATE_PATH,
         refreshed_upload_state(
-            repo_id=repo_id,
+            repo_id=repo_target.repo_id,
             branch=snapshot.branch,
             local_head=snapshot.local_head,
+            remote_url=snapshot.remote_url,
+            expected_remote=snapshot.expected_remote,
+            remote_matches_expected=snapshot.remote_matches_expected,
             remote_head=snapshot.remote_head,
             status=status,
             untracked_file_count=snapshot.untracked_file_count,
@@ -296,9 +359,10 @@ def main() -> int:
         ),
     )
 
-    post_write_snapshot = git_snapshot()
+    post_write_snapshot = git_snapshot(repo_target)
     post_write_status = upload_status(
         has_local_changes=post_write_snapshot.has_local_changes,
+        remote_matches_expected=post_write_snapshot.remote_matches_expected,
         local_head=post_write_snapshot.local_head,
         remote_head=post_write_snapshot.remote_head,
         count_ahead=post_write_snapshot.ahead_count,
@@ -308,9 +372,12 @@ def main() -> int:
     write_json(
         UPLOAD_STATE_PATH,
         refreshed_upload_state(
-            repo_id=repo_id,
+            repo_id=repo_target.repo_id,
             branch=post_write_snapshot.branch,
             local_head=post_write_snapshot.local_head,
+            remote_url=post_write_snapshot.remote_url,
+            expected_remote=post_write_snapshot.expected_remote,
+            remote_matches_expected=post_write_snapshot.remote_matches_expected,
             remote_head=post_write_snapshot.remote_head,
             status=post_write_status,
             untracked_file_count=post_write_snapshot.untracked_file_count,
