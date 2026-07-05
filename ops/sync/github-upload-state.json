@@ -1,17 +1,18 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-06T00:00:00+08:00",
+  "generated_at": "2026-07-06T02:44:55+08:00",
   "repos": {
     "market-research-agent-control": {
       "local_branch": "codex/control-repo-tracker",
-      "local_head": "92b4c992c0034b2a12943397dadbc03d5138da1b",
+      "local_head": "2f6ebd19a0069b1e799bf361bcaca7a595f3ba21",
       "remote_branch": "codex/control-repo-tracker",
-      "remote_head": "92b4c992c0034b2a12943397dadbc03d5138da1b",
+      "remote_head": "2f6ebd19a0069b1e799bf361bcaca7a595f3ba21",
       "status": "pending_local_changes",
-      "untracked_file_count": 9,
+      "untracked_file_count": 1,
+      "dirty_file_count": 3,
+      "ahead_count": 0,
       "last_successful_upload": null,
-      "last_verification_command": "git ls-remote origin refs/heads/codex/control-repo-tracker",
-      "pending_reason": "Task 3 ops tracker seed files are untracked locally and have not been uploaded yet."
+      "last_verification_command": "git ls-remote origin refs/heads/codex/control-repo-tracker"
     }
   }
 }

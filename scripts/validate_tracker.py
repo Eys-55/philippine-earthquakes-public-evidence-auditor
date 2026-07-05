@@ -12,6 +12,12 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 JsonObject = dict[str, Any]
+PENDING_UPLOAD_STATUSES = {
+    "pending_upload",
+    "ahead_of_remote",
+    "remote_missing",
+    "pending_local_changes",
+}
 
 
 @dataclass(frozen=True)
@@ -256,7 +262,14 @@ def validate_upload_state(
             errors.append(f"{repo_id}: upload state missing local_head")
         if remote_head is None:
             errors.append(f"{repo_id}: upload state missing remote_head")
-        if local_head is not None and remote_head is not None and local_head != remote_head:
+        status = state.get("status")
+        mismatch_allowed = isinstance(status, str) and status in PENDING_UPLOAD_STATUSES
+        if (
+            local_head is not None
+            and remote_head is not None
+            and local_head != remote_head
+            and not mismatch_allowed
+        ):
             errors.append(f"{repo_id}: local_head differs from remote_head")
 
 

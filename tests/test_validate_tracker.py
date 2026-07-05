@@ -261,7 +261,50 @@ class ValidateTrackerTests(unittest.TestCase):
 
             self.assertIn("control-repo: required repo missing upload state", result.errors)
 
-    def test_local_and_remote_head_mismatch_fails(self) -> None:
+    def test_pending_upload_state_allows_local_remote_head_mismatch(self) -> None:
+        allowed_statuses = (
+            "pending_upload",
+            "ahead_of_remote",
+            "remote_missing",
+            "pending_local_changes",
+        )
+
+        for upload_status in allowed_statuses:
+            with self.subTest(upload_status=upload_status):
+                with tempfile.TemporaryDirectory() as raw_tmp:
+                    root = Path(raw_tmp)
+                    seed_valid_tracker(root)
+                    write_json(
+                        root / "ops/sync/github-upload-state.json",
+                        {
+                            "repos": {
+                                "control-repo": {
+                                    "local_branch": "main",
+                                    "local_head": "abc123",
+                                    "remote_branch": "main",
+                                    "remote_head": (
+                                        "" if upload_status == "remote_missing" else "def456"
+                                    ),
+                                    "status": upload_status,
+                                    "untracked_file_count": 0,
+                                    "last_successful_upload": None,
+                                    "last_verification_command": (
+                                        "git ls-remote origin refs/heads/main"
+                                    ),
+                                }
+                            }
+                        },
+                    )
+
+                    result = validate_tracker_root(root)
+
+                    self.assertNotIn(
+                        "control-repo: local_head differs from remote_head",
+                        result.errors,
+                    )
+                    self.assertTrue(result.ok)
+
+    def test_uploaded_state_rejects_local_remote_head_mismatch(self) -> None:
         with tempfile.TemporaryDirectory() as raw_tmp:
             root = Path(raw_tmp)
             seed_valid_tracker(root)
@@ -274,7 +317,7 @@ class ValidateTrackerTests(unittest.TestCase):
                             "local_head": "abc123",
                             "remote_branch": "main",
                             "remote_head": "def456",
-                            "status": "behind",
+                            "status": "uploaded",
                             "untracked_file_count": 0,
                             "last_successful_upload": None,
                             "last_verification_command": "git ls-remote origin refs/heads/main",
