@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-06T00:00:00+08:00",
+  "projects": [
+    {
+      "id": "philippines-building-code-evidence-auditor-v2",
+      "title": "Philippines Building Code Evidence Auditor V2",
+      "status": "active",
+      "owner_intent": "Audit public earthquake evidence for specific Philippine buildings without overclaiming safety or compliance.",
+      "current_goal": "Keep the V2 evidence-auditor workflow testable, source-bounded, and gated by exact building identity.",
+      "repos": [
+        "market-research-agent-control"
+      ],
+      "workstreams": [
+        "philippines-building-code-evidence-auditor-v2"
+      ],
+      "not_projects": [],
+      "last_event_id": null,
+      "last_uploaded_commit": null
+    },
+    {
+      "id": "agent-workflow-project-maker",
+      "title": "Agent Workflow Project Maker",
+      "status": "active",
+      "owner_intent": "Create reusable ECC workflow project packs and manage generated repo work.",
+      "current_goal": "Build the control repo tracker and project creation workflow.",
+      "repos": [
+        "market-research-agent-control"
+      ],
+      "workstreams": [
+        "control-repo-tracker"
+      ],
+      "not_projects": [],
+      "last_event_id": null,
+      "last_uploaded_commit": null
+    }
+  ],
+  "non_projects": [
+    {
+      "id": "philippines-building-code-evidence-auditor",
+      "reason": "Predecessor V1 surface; do not report as active while V2 is the current auditor."
+    },
+    {
+      "id": "address-disaster-risk-assessor",
+      "reason": "Stale or obsolete surface; do not report as active unless explicitly reopened."
+    },
+    {
+      "id": "metro-manila-source-atlas",
+      "reason": "Stale source-atlas surface; do not report as active."
+    },
+    {
+      "id": "untitled-project",
+      "reason": "Placeholder surface; do not report as active."
+    },
+    {
+      "id": "multi-lane-foundation-model",
+      "reason": "Stale policy model; do not report as active."
+    }
+  ]
+}

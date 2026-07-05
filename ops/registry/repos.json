@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-06T00:00:00+08:00",
+  "repos": [
+    {
+      "id": "market-research-agent-control",
+      "path": ".",
+      "github_remote": "https://github.com/Eys-55/philippine-earthquakes-public-evidence-auditor.git",
+      "default_branch": "main",
+      "role": "control",
+      "owning_project": "shared",
+      "upload_policy": "required",
+      "last_clean_check": null
+    }
+  ]
+}
