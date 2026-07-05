@@ -78,12 +78,24 @@ Lane lifecycle:
 - `active` - the repeated job, input contract, and output artifact are locked.
 - `paused` - preserve the status file and resume prompt, but do not blend the
   lane into active work.
-- `foundation` - reusable source atlas, schema, or research substrate used by
+- `reference` - reusable source atlas, schema, or research substrate used by
   more than one active lane.
 
 Codex memory can remember the lane convention and current lane list, but the
 repo is authoritative. Update repo docs first for team/project knowledge; use
 memory only as a reminder for future Codex sessions.
+
+## Control Repo Tracker Authority
+
+Use `skills/control-repo-manager/SKILL.md` before answering project status or
+ending a session in this repo. Project, repo, workstream, session, handoff,
+daily rollup, and sync status comes from `ops/registry/*.json` and
+`ops/events/*.jsonl`.
+
+Folder scans, lane tables, README sections, AGENTS.md sections, and project
+surface inventories are audit evidence only. Deleted or stale surfaces must not
+be reported as active projects. Run `python3 scripts/tracker_status.py` before
+answering what projects are active.
 
 ## Visualization Default
 
@@ -128,25 +140,27 @@ viewer.
 Do not create custom HTML workflow charts unless the user explicitly asks for an
 HTML page.
 
-## Active Project Lanes
+## Historical Project Surface Notes
 
-- `philippines-building-code-evidence-auditor` - active. Audit-only public
-  evidence workflow for Philippine buildings, establishments, malls, hotels, and
-  similar facilities. Current gate: confirm exact building identity before any
-  permit, contractor, incident, code, compliance, earthquake, or safety search.
-- `address-disaster-risk-assessor` - paused/foundation. Address-in,
-  risk-packet-out workflow for Metro Manila / NCR hazard context.
-- `metro-manila-source-atlas` - foundation. Reusable source inventory and
-  validation substrate.
-- `untitled-project` - exploring. Parking lane for the next workflow until the
-  repeated job, input contract, and output artifact are named.
+Do not use this section to determine current project status. It is historical
+background for old workspace surfaces. Run `python3 scripts/tracker_status.py`
+before reporting which projects are current.
+
+- `philippines-building-code-evidence-auditor-v2` - tracker-listed current
+  project; verify live status with `tracker_status.py`.
+- `philippines-building-code-evidence-auditor` - predecessor surface; do not
+  report as current while V2 is the tracker-listed auditor.
+- `address-disaster-risk-assessor` - obsolete historical surface; do not report
+  as current unless explicitly reopened and tracker-listed.
+- `metro-manila-source-atlas` - stale source-atlas surface; do not report as
+  current.
+- `untitled-project` - placeholder surface; do not report as current.
 
 2026-07-04 update: the user explicitly reopened the project direction for a
 new ECC agent-building target: the **Philippines Building Code Evidence
-Auditor**. Treat this as the active next workflow unless superseded. The
-disaster-risk work remains valid foundation context, but the current build goal
-is an audit-only public-evidence workflow for Philippine buildings,
-establishments, malls, hotels, and similar facilities.
+Auditor**. This is historical context only; the tracker now decides current
+project status. Disaster-risk work remains background context, not a current
+project unless the tracker says so.
 
 Priority sources:
 
@@ -195,12 +209,13 @@ Statuses should use: `active`, `reachable but stale`, `manual-only`,
 - `docs/decisions/` - durable project decisions.
 - `docs/plans/` - product and workflow design documents.
 - `docs/status/` - lane status, handoff, and resume notes.
-- `skills/address-disaster-risk-assessor/` - active reusable ECC workflow for
-  address-based disaster assessment.
+- `skills/address-disaster-risk-assessor/` - historical ECC workflow surface
+  for address-based disaster assessment.
 - `skills/metro-manila-source-atlas/` - reusable ECC workflow for refreshing or
-  extending the foundation atlas.
-- `skills/philippines-building-code-evidence-auditor/` - active ECC workflow
-  for Philippine building identity and public evidence audit gates.
+  extending the source atlas.
+- `skills/philippines-building-code-evidence-auditor/` - predecessor ECC
+  workflow surface for Philippine building identity and public evidence audit
+  gates.
 - `skills/untitled-project/` - placeholder lane for the next project until it is
   named and promoted.
 
@@ -209,6 +224,10 @@ Statuses should use: `active`, `reachable but stale`, `manual-only`,
 Before committing, run:
 
 ```bash
+python3 scripts/validate_tracker.py
+python3 scripts/tracker_status.py
+python3 scripts/tracker_upload_gate.py
+python3 scripts/tracker_repo_audit.py
 python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-source-atlas.json
 python3 -m json.tool data/deep-dive/local-validation-summary.json >/tmp/local-validation-summary.json
 python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/source-qualification-matrix.json

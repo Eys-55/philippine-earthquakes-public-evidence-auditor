@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-06T00:00:00+08:00",
+  "workstreams": [
+    {
+      "id": "philippines-building-code-evidence-auditor-v2",
+      "project_id": "philippines-building-code-evidence-auditor-v2",
+      "repo_id": "market-research-agent-control",
+      "status": "active",
+      "objective": "Maintain the Philippine building earthquake evidence audit workflow.",
+      "session_ids": [],
+      "handoff": "docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md",
+      "open_decisions": [],
+      "next_action": "Confirm exact building identity before permit, contractor, incident, code, compliance, earthquake, or safety search."
+    },
+    {
+      "id": "control-repo-tracker",
+      "project_id": "agent-workflow-project-maker",
+      "repo_id": "market-research-agent-control",
+      "status": "active",
+      "objective": "Build a tracker for projects, repos, sessions, and GitHub upload state.",
+      "session_ids": [
+        "20260706-021920-fe10"
+      ],
+      "handoff": "ops/handoffs/latest.md",
+      "open_decisions": [
+        "Decide whether command shims should live under commands/."
+      ],
+      "next_action": "Continue implementing upload gate, daily rollup, and repo audit."
+    }
+  ]
+}
