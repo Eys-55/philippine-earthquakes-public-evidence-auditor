@@ -131,6 +131,16 @@ This repo is an ECC-aligned multi-lane workspace. Multiple agentic workflows may
 live here at the same time, but each workflow stays in its own project lane so
 instructions, schemas, evidence, reports, and safety boundaries do not mix.
 
+## Control Repo Tracker
+
+This repo uses `ops/` as the authoritative tracker for projects, repos,
+workstreams, sessions, handoffs, daily rollups, and sync evidence. Use
+`python3 scripts/tracker_status.py` before answering what projects are current.
+For upload completion, the live checks in `tracker_status.py` and
+`tracker_upload_gate.py` are the truth; `ops/sync` is recorded evidence, not a
+self-certifying upload result. Folder names, stale lane tables, and project
+surface scans are not project authority; they are audit evidence only.
+
 ## Run The Validators
 
 Use these checks for the current auditor:
@@ -161,15 +171,20 @@ python3 scripts/validate_audit_scope_source_reality.py
 - README implementation plan: `docs/plans/2026-07-05-earthquake-auditor-readme-implementation-plan.md`
 - Status lock: `docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md`
 
-## Active Lanes
+## Workspace Surface Background
 
-| Lane | Status | Purpose | Start Here |
+The control repo tracker is the source of truth for current project status.
+Treat this table as background workspace documentation, not as project
+authority. Run `python3 scripts/tracker_status.py` before reporting which
+projects are current.
+
+| Surface | Tracker Relationship | Purpose | Start Here |
 | --- | --- | --- | --- |
-| `philippines-building-code-evidence-auditor-v2` | active current auditor | Four-lane earthquake public-evidence auditor for NSCP/seismic evidence, OBO structural review, post-earthquake tag/status, and clearance after damage or tag. | `skills/philippines-building-code-evidence-auditor-v2/SKILL.md` |
-| `philippines-building-code-evidence-auditor` | active V1 maintainer lane | Broad building-code public-evidence auditor for Philippine buildings, establishments, malls, hotels, and facilities. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
-| `address-disaster-risk-assessor` | paused/foundation | Given an address or coordinates, produce a source-attributed disaster-risk packet for Metro Manila / NCR. | `skills/address-disaster-risk-assessor/SKILL.md` |
-| `metro-manila-source-atlas` | foundation | Refresh or extend the reusable Metro Manila data-source inventory. | `skills/metro-manila-source-atlas/SKILL.md` |
-| `untitled-project` | exploring | Parking lane for the next workflow before the repeated job, input contract, and output artifact are named. | `skills/untitled-project/SKILL.md` |
+| `philippines-building-code-evidence-auditor-v2` | Tracker-listed current project; verify live status with `tracker_status.py`. | Four-lane earthquake public-evidence auditor for NSCP/seismic evidence, OBO structural review, post-earthquake tag/status, and clearance after damage or tag. | `skills/philippines-building-code-evidence-auditor-v2/SKILL.md` |
+| `philippines-building-code-evidence-auditor` | Predecessor surface; do not report as current while V2 is the tracker-listed auditor. | Broad building-code public-evidence auditor for Philippine buildings, establishments, malls, hotels, and facilities. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
+| `address-disaster-risk-assessor` | Obsolete historical surface; do not report as current unless explicitly reopened and tracker-listed. | Given an address or coordinates, produce a source-attributed disaster-risk packet for Metro Manila / NCR. | `skills/address-disaster-risk-assessor/SKILL.md` |
+| `metro-manila-source-atlas` | Stale source-atlas surface; do not report as current. | Refresh or extend the reusable Metro Manila data-source inventory. | `skills/metro-manila-source-atlas/SKILL.md` |
+| `untitled-project` | Placeholder surface; do not report as current. | Parking lane for the next workflow before the repeated job, input contract, and output artifact are named. | `skills/untitled-project/SKILL.md` |
 
 Before starting work, choose one lane. If a request could belong to multiple
 lanes, ask one lane-selection question before editing files.
@@ -223,7 +238,7 @@ evidence.
 
 ## Disaster Risk Assessor
 
-The earlier disaster-risk lane remains useful foundation work.
+The earlier disaster-risk lane remains useful background work.
 
 - Plan: `docs/plans/2026-07-03-address-disaster-risk-assessor-design.md`
 - Decision: `docs/decisions/0002-lock-address-disaster-risk-assessor.md`
@@ -235,7 +250,7 @@ The earlier disaster-risk lane remains useful foundation work.
 The product goal is address-in, disaster-risk-packet-out for Metro Manila / NCR,
 with source links and confidence labels.
 
-## Source Atlas Foundation
+## Source Atlas Background
 
 Reusable source inventory and validation artifacts:
 
@@ -271,6 +286,10 @@ slug and add a decision note.
 ## Workspace Verification
 
 ```bash
+python3 scripts/validate_tracker.py
+python3 scripts/tracker_status.py
+python3 scripts/tracker_upload_gate.py
+python3 scripts/tracker_repo_audit.py
 python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-source-atlas.json
 python3 -m json.tool data/deep-dive/local-validation-summary.json >/tmp/local-validation-summary.json
 python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/source-qualification-matrix.json
