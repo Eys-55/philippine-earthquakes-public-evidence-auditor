@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/building-code-auditor/audit-scope.schema.json",
+  "title": "Earthquake Audit Scope Lock Packet",
+  "description": "Gate 2 schema for locking one earthquake-related audit question after a Philippine building identity is confirmed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "workflow_step",
+    "confirmed_place",
+    "user_intake",
+    "scope_menu",
+    "scope_confirmation",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "workflow_step": {
+      "type": "string",
+      "const": "audit_scope_lock"
+    },
+    "confirmed_place": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "display_name",
+        "candidate_id",
+        "city",
+        "country",
+        "gate_1_status"
+      ],
+      "properties": {
+        "display_name": {
+          "type": "string"
+        },
+        "candidate_id": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string",
+          "const": "Philippines"
+        },
+        "gate_1_status": {
+          "type": "string",
+          "const": "confirmed_by_user"
+        }
+      }
+    },
+    "user_intake": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_user_scope_request",
+        "interpreted_scope",
+        "answer_source"
+      ],
+      "properties": {
+        "raw_user_scope_request": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "interpreted_scope": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "nscp_seismic_design_evidence",
+            "obo_structural_permit_review",
+            "latest_post_earthquake_status",
+            "latest_clearance_after_tag",
+            "all",
+            null
+          ]
+        },
+        "answer_source": {
+          "type": "string",
+          "enum": [
+            "not_answered",
+            "number",
+            "label",
+            "natural_language",
+            "all"
+          ]
+        }
+      }
+    },
+    "scope_menu": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "number",
+          "scope_id",
+          "label",
+          "lane_type"
+        ],
+        "properties": {
+          "number": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "scope_id": {
+            "type": "string",
+            "enum": [
+              "nscp_seismic_design_evidence",
+              "obo_structural_permit_review",
+              "latest_post_earthquake_status",
+              "latest_clearance_after_tag"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "lane_type": {
+            "type": "string",
+            "enum": [
+              "availability_only",
+              "availability_and_answer"
+            ]
+          }
+        }
+      }
+    },
+    "scope_confirmation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "locked_scope",
+        "user_facing_prompt",
+        "clarifying_questions",
+        "can_proceed_to_evidence_search",
+        "blockers"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "needs_user_scope_choice",
+            "needs_scope_clarification",
+            "scope_confirmed"
+          ]
+        },
+        "locked_scope": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "scope_ids",
+                "selected_lanes",
+                "requires_timeframe",
+                "requires_target_subscope",
+                "output_intent"
+              ],
+              "properties": {
+                "scope_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "selected_lanes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "requires_timeframe": {
+                  "type": "boolean"
+                },
+                "requires_target_subscope": {
+                  "type": "boolean"
+                },
+                "output_intent": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "user_facing_prompt": {
+          "type": "string"
+        },
+        "clarifying_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "can_proceed_to_evidence_search": {
+          "type": "boolean"
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_search_started",
+        "blocked_work"
+      ],
+      "properties": {
+        "evidence_search_started": {
+          "type": "boolean",
+          "const": false
+        },
+        "blocked_work": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

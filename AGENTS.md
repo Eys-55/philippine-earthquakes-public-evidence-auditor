@@ -17,6 +17,9 @@ lane so evidence, schemas, status notes, and safety boundaries do not mix.
   outputs should be new files or new rows, not destructive rewrites.
 - Workflow surface: put reusable workflows under `skills/` first. Avoid
   `commands/` unless a compatibility shim is explicitly needed.
+- Current implementation boundary: for the Philippines Building Code Evidence
+  Auditor, Gates 1-4 must be captured in the reusable skill surface before live
+  search, cron, or compatibility shims are added.
 
 ## ECC Agentic Workflow Contract
 
@@ -132,10 +135,14 @@ HTML page.
 
 - `philippines-building-code-evidence-auditor` - active. Audit-only public
   evidence workflow for Philippine buildings, establishments, malls, hotels, and
-  similar facilities. Current gate: confirm exact building identity before any
-  permit, contractor, incident, code, compliance, earthquake, or safety search.
+  similar facilities. Current build boundary: Gate 1 place lock, Gate 2
+  earthquake audit scope lock, Gate 3 evidence packet loop, and Gate 4
+  regression test gate. Confirm exact building identity before any permit,
+  contractor, incident, code, compliance, earthquake, or safety evidence search.
 - `address-disaster-risk-assessor` - paused/foundation. Address-in,
-  risk-packet-out workflow for Metro Manila / NCR hazard context.
+  risk-packet-out workflow for Metro Manila / NCR hazard context. It is
+  deprecated for the current build and should not be treated as the active
+  product lane.
 - `metro-manila-source-atlas` - foundation. Reusable source inventory and
   validation substrate.
 - `untitled-project` - exploring. Parking lane for the next workflow until the
@@ -147,6 +154,12 @@ Auditor**. Treat this as the active next workflow unless superseded. The
 disaster-risk work remains valid foundation context, but the current build goal
 is an audit-only public-evidence workflow for Philippine buildings,
 establishments, malls, hotels, and similar facilities.
+
+For this build, reusable behavior must land in
+`skills/philippines-building-code-evidence-auditor/SKILL.md` before scripts,
+cron, live web search, or compatibility shims. Live search and scheduled
+monitoring are deferred until the deterministic Python harness for Gates 1-4
+passes.
 
 Priority sources:
 

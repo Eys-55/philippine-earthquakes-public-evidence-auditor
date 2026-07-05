@@ -8,7 +8,7 @@ reports, and safety boundaries stay separate.
 
 | Lane | Status | Purpose | Start Here |
 | --- | --- | --- | --- |
-| `philippines-building-code-evidence-auditor` | active | Confirm a Philippine building, establishment, mall, hotel, or facility, then prepare audit-only public evidence about permits, occupancy, incidents, earthquake damage, contractors, and standards context. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
+| `philippines-building-code-evidence-auditor` | active | Confirm a Philippine building, establishment, mall, hotel, or facility, choose one earthquake audit question, then validate an evidence-only packet without safety or compliance certification. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
 | `address-disaster-risk-assessor` | paused/foundation | Given an address or coordinates, produce a source-attributed disaster-risk packet for Metro Manila / NCR. | `skills/address-disaster-risk-assessor/SKILL.md` |
 | `metro-manila-source-atlas` | foundation | Refresh or extend the reusable Metro Manila data-source inventory. | `skills/metro-manila-source-atlas/SKILL.md` |
 | `untitled-project` | exploring | Parking lane for the next workflow before the repeated job, input contract, and output artifact are named. | `skills/untitled-project/SKILL.md` |
@@ -44,13 +44,16 @@ Current active lane:
 - Status: `docs/status/2026-07-04-building-code-evidence-auditor-lock.md`
 - Decision: `docs/decisions/0003-lock-philippines-building-code-evidence-auditor.md`
 - Data: `data/building-code-auditor/`
-- Current gate: building identity confirmation before any permit, contractor,
-  incident, compliance, safety, or earthquake evidence search.
+- Current build boundary: Gate 1 place lock, Gate 2 earthquake audit scope
+  lock, Gate 3 evidence packet loop, and Gate 4 regression test gate.
 
-This lane is an evidence auditor, not a compliance certifier. It must not claim
-that a building is legally compliant, structurally safe, earthquake-safe, or fit
-for occupancy unless that exact claim is supported by authoritative public
-evidence.
+This lane is an evidence auditor, not a compliance certifier. It must not
+certify that a building is legally compliant, structurally safe,
+earthquake-safe, or fit for occupancy.
+
+Live web search, cron monitoring, and `.mjs` orchestration are deferred until
+Gates 1-4 pass the deterministic Python harness. This prevents automating
+unvalidated packet shapes or unsafe building-safety claims.
 
 ## Disaster Risk Assessor
 
@@ -108,6 +111,13 @@ python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/sourc
 python3 -m json.tool data/disaster-risk/source-priorities.json >/tmp/disaster-risk-source-priorities.json
 python3 -m json.tool data/disaster-risk/disaster-source-atlas.json >/tmp/disaster-source-atlas.json
 python3 -m json.tool data/disaster-risk/local-validation-summary.json >/tmp/disaster-local-validation-summary.json
+python3 -m json.tool data/building-code-auditor/building-identity-schema.json >/tmp/building-identity-schema.json
+python3 -m json.tool data/building-code-auditor/audit-scope-schema.json >/tmp/audit-scope-schema.json
+python3 -m json.tool data/building-code-auditor/audit-scope-test-cases.json >/tmp/audit-scope-test-cases.json
+python3 -m json.tool data/building-code-auditor/audit-scope-source-reality.json >/tmp/audit-scope-source-reality.json
+python3 -m json.tool data/building-code-auditor/evidence-packet-schema.json >/tmp/evidence-packet-schema.json
+python3 -m json.tool data/building-code-auditor/gate-4-regression-cases.json >/tmp/gate-4-regression-cases.json
+python3 scripts/validate_building_code_gate_suite.py
 python3 scripts/validate_progress_docs.py
 git diff --check
 ```

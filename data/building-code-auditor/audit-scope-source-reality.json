@@ -1,621 +1,304 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-04",
   "workflow_gate": "audit_scope_lock",
-  "purpose": "Map each Gate 2 audit scope to Philippine source realities before any building-specific evidence search starts.",
+  "purpose": "Gate 2 source-reality matrix for earthquake-only audit scope choices in the Philippines Building Code Evidence Auditor.",
   "source_status_values": [
-    "public_searchable",
+    "public_target_document_possible",
     "public_process_only",
-    "manual_or_foi_needed",
-    "name_required",
-    "not_publicly_provable"
+    "manual_request_likely",
+    "not_assessable_from_public_web"
   ],
-  "global_safety_rule": "Missing public evidence must produce not_found, manual_request_needed, or not_assessable_from_public_web; it must never be converted into a compliance, safety, or risk conclusion.",
   "scope_reality": [
     {
-      "scope_id": "permit_occupancy_records",
+      "scope_id": "nscp_seismic_design_evidence",
+      "question": "Is there public target-specific evidence that this building was designed or reviewed for NSCP earthquake or seismic requirements?",
+      "lane_type": "availability_only",
       "applicable_in_philippines": true,
       "primary_source_types": [
-        "national permit workflow law and joint memoranda",
-        "LGU Office or Department of the Building Official pages",
-        "LGU citizen charters and permit checklists",
-        "LGU online application or status portals",
-        "manual LGU certification or records request paths"
+        "OBO or Building Official records",
+        "signed and sealed structural design analysis or computations",
+        "approved civil/structural plans or permit attachments",
+        "official plan-review or evaluation records"
       ],
       "example_sources": [
         {
-          "name": "DILG-DPWH-DICT-DTI JMC 2018-01",
+          "name": "DILG-DPWH-DICT-DTI JMC No. 2018-01",
           "url": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/89926",
-          "source_type": "national_process_context",
-          "automation_status": "public_searchable",
-          "access_notes": "Public legal/process context for building permit, occupancy permit, FSEC, and FSIC workflow language."
-        },
-        {
-          "name": "Quezon City Department of the Building Official",
-          "url": "https://quezoncity.gov.ph/departments/department-of-the-building-official/",
-          "source_type": "lgu_obo_page",
+          "source_type": "official_national_process",
           "automation_status": "public_process_only",
-          "access_notes": "Public office page for services, contacts, and process orientation; not a general public building-specific permit registry."
+          "access_notes": "Public process context for permits and occupancy; not a target-specific NSCP compliance record."
         },
         {
-          "name": "Quezon City DBO Citizen's Charter 2026",
-          "url": "https://quezoncity.gov.ph/wp-content/uploads/2020/09/DBO-CITIZENS-CHARTER-2026.pdf",
-          "source_type": "lgu_citizen_charter",
+          "name": "Pasay City Building Permit Application PDF",
+          "url": "https://pasay.gov.ph/wp-content/uploads/2026/02/pasay-city-external-service-building-permit-application.pdf",
+          "source_type": "official_lgu_process",
           "automation_status": "public_process_only",
-          "access_notes": "Public PDF describing requirements and workflows for DBO services."
-        },
-        {
-          "name": "Davao City Office of the City Building Official",
-          "url": "https://davaocity.gov.ph/departments/infrastructure/office-of-the-building-official/",
-          "source_type": "lgu_obo_page",
-          "automation_status": "public_process_only",
-          "access_notes": "Public OCBO service page with building permit, occupancy permit, annual inspection, certification, and complaint functions."
-        },
-        {
-          "name": "Davao City Online Building Permit System application status",
-          "url": "https://obps.davaocity.gov.ph/applicationstatus/",
-          "source_type": "lgu_status_portal",
-          "automation_status": "name_required",
-          "access_notes": "Public-facing portal path, but useful building-specific status checks require application details."
-        },
-        {
-          "name": "Cebu City Office of the Building Official",
-          "url": "https://www.cebucity.gov.ph/office-of-the-building-official/",
-          "source_type": "lgu_obo_page",
-          "automation_status": "public_process_only",
-          "access_notes": "Public city office page for OBO context and local routing."
-        },
-        {
-          "name": "Pasig OBO Citizen's Charter",
-          "url": "https://assets.pasigcity.gov.ph/storage/attachments/office_of_the_building_official/686788cae06521751615690Citizen_s%20Charter%20English.pdf",
-          "source_type": "lgu_citizen_charter",
-          "automation_status": "public_process_only",
-          "access_notes": "Public charter for local OBO process and request paths."
-        },
-        {
-          "name": "PSA construction statistics",
-          "url": "https://psa.gov.ph/statistics/construction/pcs",
-          "source_type": "aggregate_statistics",
-          "automation_status": "public_searchable",
-          "access_notes": "Useful only for aggregate construction context, not proof about a named building."
+          "access_notes": "Names structural design analysis, computations, and related OBO requirements; not target-specific proof."
         }
       ],
       "automation_status": [
         "public_process_only",
-        "manual_or_foi_needed",
-        "name_required"
+        "manual_request_likely",
+        "not_assessable_from_public_web"
       ],
       "required_user_inputs": [
-        "confirmed exact building, branch, complex, or tenant target",
-        "city or LGU jurisdiction and full address or barangay",
-        "record type requested: building permit, occupancy permit, annual inspection, certification, or complaint",
-        "permit, occupancy, application, business permit, or tracking number if available",
-        "owner, developer, applicant, lessee, or authorized representative details if the user has them",
-        "year range or construction, renovation, occupancy, or inspection window"
+        "confirmed place",
+        "target_subscope"
       ],
       "expected_public_result_shape": [
-        "public process checklist, office, fees, forms, and contact route",
-        "portal status only when the user provides enough application identifiers",
-        "manual_request_needed when building-specific records are not publicly searchable",
-        "not_found when public web search finds no building-specific record after scoped search",
-        "citation-backed caveat that absence of a public result does not mean no permit or occupancy permit exists"
+        "target-specific official or professional document found",
+        "no public target-specific document found",
+        "manual OBO, owner/operator, or engineer request needed"
+      ],
+      "not_enough_if_only_found": [
+        "generic NSCP page",
+        "generic OBO process page",
+        "operator statement",
+        "booking availability",
+        "reopening or mall hours"
       ],
       "limitations": [
-        "There is no reliable nationwide public property-level search for building permits or occupancy permits.",
-        "LGU portals are often applicant-facing workflows rather than public audit databases.",
-        "Records may be offline, archived, restricted to authorized parties, or available only through certification requests.",
-        "PSA construction statistics are aggregate data and cannot prove anything about a named building.",
-        "LGU naming, office structure, and online maturity vary widely by city or municipality."
+        "Generic standards context cannot prove building-specific NSCP compliance.",
+        "Missing public documents do not prove noncompliance or unsafe conditions."
       ],
       "forbidden_claims": [
-        "Do not claim the place has no permit because no public web result was found.",
-        "Do not claim the place is code-compliant from a permit process page.",
-        "Do not claim the place is safe, unsafe, or fit for occupancy without a current official record that directly says so.",
-        "Do not treat a business listing, map listing, or operating storefront as proof of occupancy permit status.",
-        "Do not use aggregate PSA construction data as named-building evidence."
+        "earthquake-proof",
+        "NSCP compliant",
+        "structurally safe",
+        "structurally unsafe",
+        "fit for occupancy"
       ],
       "manual_follow_up_triggers": [
-        "user needs a certified true copy, official confirmation, or legal-grade permit finding",
-        "only process pages exist for the target LGU",
-        "portal requires application, owner, permit, or tracking identifiers",
-        "records involve owner, lessee, applicant, or authorized representative status",
-        "public evidence conflicts with user-provided records or building status"
+        "no public target-specific structural design analysis found",
+        "no public OBO record saying civil/structural plans or computations were reviewed",
+        "target is a complex and the exact tower, wing, or affected portion is unclear"
       ]
     },
     {
-      "scope_id": "incident_damage_history",
+      "scope_id": "obo_structural_permit_review",
+      "question": "Is there public target-specific evidence that this building went through official OBO structural permit or plan-review processing?",
+      "lane_type": "availability_only",
       "applicable_in_philippines": true,
       "primary_source_types": [
-        "LGU, OBO, OCBO, CDRRMO, or City Engineer incident posts",
-        "DPWH, PIA, PNA, or national agency situation reports",
-        "reputable Philippine news reports",
-        "official social media posts as leads when no durable page exists",
-        "manual LGU or engineering-office inspection report requests"
+        "issued building permit",
+        "issued civil/structural permit",
+        "OBO compliance evaluation sheet",
+        "approved civil/structural plans",
+        "certificate of occupancy referencing issued permit or approved structural scope"
+      ],
+      "example_sources": [
+        {
+          "name": "DILG-DPWH-DICT-DTI JMC No. 2018-01",
+          "url": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/89926",
+          "source_type": "official_national_process",
+          "automation_status": "public_process_only",
+          "access_notes": "Explains official building permit and occupancy process; target records are usually manual."
+        },
+        {
+          "name": "Muntinlupa Civil/Structural Permit PDF",
+          "url": "https://muntinlupacity.gov.ph/wp-content/uploads/2024/09/Civil-Structural-Permit.pdf",
+          "source_type": "official_lgu_process",
+          "automation_status": "public_process_only",
+          "access_notes": "Shows civil/structural permit language and conformity context; not a record for another target."
+        }
+      ],
+      "automation_status": [
+        "public_target_document_possible",
+        "public_process_only",
+        "manual_request_likely"
+      ],
+      "required_user_inputs": [
+        "confirmed place",
+        "target_subscope"
+      ],
+      "expected_public_result_shape": [
+        "target-specific OBO permit or review record found",
+        "only public process path found",
+        "manual OBO or owner/operator request needed"
+      ],
+      "not_enough_if_only_found": [
+        "blank application form",
+        "order of payment without issued permit",
+        "business permit",
+        "certificate of occupancy without relevant permit or structural scope reference"
+      ],
+      "limitations": [
+        "An application form is not an issued permit.",
+        "An issued permit record is document evidence, not a current safety certification."
+      ],
+      "forbidden_claims": [
+        "has no permit",
+        "unpermitted",
+        "NSCP compliant",
+        "structurally safe",
+        "fit for occupancy"
+      ],
+      "manual_follow_up_triggers": [
+        "no issued building permit or civil/structural permit is public",
+        "only application requirements are public",
+        "certificate of occupancy does not reference structural scope"
+      ]
+    },
+    {
+      "scope_id": "latest_post_earthquake_status",
+      "question": "After a specific earthquake, what is the official tag or inspection status for this building?",
+      "lane_type": "availability_and_answer",
+      "applicable_in_philippines": true,
+      "primary_source_types": [
+        "OCBO or OBO tag notice",
+        "LGU inspection or advisory",
+        "DPWH rapid visual screening placard or report",
+        "official rapid assessment list or report"
       ],
       "example_sources": [
         {
           "name": "Davao City red/yellow tag announcement",
           "url": "https://davaocity.gov.ph/local-government/davao-city-issues-red-yellow-tags-on-earthquake-affected-buildings/",
-          "source_type": "official_lgu_incident_report",
-          "automation_status": "public_searchable",
-          "access_notes": "Official OCBO/LGU page naming red and yellow tags, damage language, and clearance-before-reoccupancy requirements."
+          "source_type": "official_lgu_status",
+          "automation_status": "public_target_document_possible",
+          "access_notes": "Official Davao City source for red/yellow tag process and affected-building status language."
         },
         {
-          "name": "Davao OCBO tagged buildings safety requirements",
+          "name": "DPWH Department Order No. 027 s. 2023",
+          "url": "https://www.dpwh.gov.ph/dpwh/sites/default/files/issuances/do_027_s2023.pdf",
+          "source_type": "official_national_process",
+          "automation_status": "public_process_only",
+          "access_notes": "Defines rapid visual screening and green/yellow/red placard terminology."
+        }
+      ],
+      "automation_status": [
+        "public_target_document_possible",
+        "manual_request_likely"
+      ],
+      "required_user_inputs": [
+        "confirmed place",
+        "target_subscope",
+        "earthquake_event or timeframe"
+      ],
+      "expected_public_result_shape": [
+        "official tag or inspection status found and quoted with date and authority",
+        "no public official tag/status answer found",
+        "manual OCBO/OBO/LGU/DPWH request needed"
+      ],
+      "not_enough_if_only_found": [
+        "news without official source URL",
+        "operator says open",
+        "social post without official attribution",
+        "inspection happened but no result or tag is stated"
+      ],
+      "limitations": [
+        "News can be a lead but not the sole support for a serious tag/status answer.",
+        "Old inspection status may not answer the latest status question."
+      ],
+      "forbidden_claims": [
+        "earthquake-proof",
+        "structurally safe",
+        "structurally unsafe beyond official language",
+        "fit for occupancy beyond official language"
+      ],
+      "manual_follow_up_triggers": [
+        "no public official tag/status for the exact target",
+        "earthquake event or affected portion is unclear",
+        "only news or operator statements were found"
+      ]
+    },
+    {
+      "scope_id": "latest_clearance_after_tag",
+      "question": "If the building was yellow-tagged, red-tagged, damaged, closed, or restricted, has it later been officially cleared?",
+      "lane_type": "availability_and_answer",
+      "applicable_in_philippines": true,
+      "primary_source_types": [
+        "reoccupancy clearance",
+        "updated green tag",
+        "official lifting or clearance notice",
+        "accepted final inspection or repair/retrofit completion record",
+        "post-event structural stability or soundness certificate"
+      ],
+      "example_sources": [
+        {
+          "name": "Davao City tagged buildings compliance notice",
           "url": "https://davaocity.gov.ph/infrastructure-development/ocbo-tagged-buildings-must-comply-with-safety-requirements/",
-          "source_type": "official_lgu_incident_report",
-          "automation_status": "public_searchable",
-          "access_notes": "Official page explaining tag effects, comprehensive reports, repair methodology, and permit review requirements."
+          "source_type": "official_lgu_status",
+          "automation_status": "public_target_document_possible",
+          "access_notes": "Official language on restrictions, repair methodology, repair permit, and clearance before reoccupancy."
         },
         {
-          "name": "Davao City structural assessments continue",
-          "url": "https://davaocity.gov.ph/local-government/davao-city-lgu-continues-structural-assessments/",
-          "source_type": "official_lgu_incident_report",
-          "automation_status": "public_searchable",
-          "access_notes": "Official assessment-process page and public crack-report routing context."
-        },
-        {
-          "name": "Davao City Engineer unsafe occupancy list",
-          "url": "https://davaocity.gov.ph/infrastructure-development/ceo-identifies-buildings-unsafe-for-occupancy-after-october-4-quake/",
-          "source_type": "official_lgu_incident_report",
-          "automation_status": "public_searchable",
-          "access_notes": "Official page identifying unsafe public buildings after an earthquake and repair funding path."
-        },
-        {
-          "name": "PIA DPWH faster road repairs after quake",
-          "url": "https://pia.gov.ph/news/dpwh-vows-faster-road-repairs-after-7-8-magnitude-quake/",
-          "source_type": "official_government_news",
-          "automation_status": "public_searchable",
-          "access_notes": "Government news example for assessment, clearing, and infrastructure damage context."
-        },
-        {
-          "name": "DSWD DROMIC earthquake incident reports",
-          "url": "https://dromic.dswd.gov.ph/earthquake-incident-reports/",
-          "source_type": "official_incident_index",
-          "automation_status": "public_searchable",
-          "access_notes": "Useful for disaster context and damaged-house/displacement reporting, usually not named-building tag proof."
-        },
-        {
-          "name": "MindaNews Davao red/yellow tag map",
-          "url": "https://mindanews.com/top-stories/2026/06/map-of-buildings-issued-red-and-yellow-tags-by-davao-citys-ocbo-after-the-magnitude-7-8-earthquake/",
-          "source_type": "reputable_news",
-          "automation_status": "public_searchable",
-          "access_notes": "News mapping of tagged structures; should be reconciled to OCBO or LGU sources when possible."
-        },
-        {
-          "name": "GMA Regional TV unsafe buildings report",
-          "url": "https://www.gmanetwork.com/regionaltv/news/114400/7-buildings-in-davao-city-declared-unsafe-after-mindanao-earthquake/story/",
-          "source_type": "reputable_news",
-          "automation_status": "public_searchable",
-          "access_notes": "News example confirming tag meanings, repair, and OCBO clearance language."
-        },
-        {
-          "name": "Inquirer Mindanao's tallest building yellow tag report",
-          "url": "https://newsinfo.inquirer.net/2124598/mindanaos-tallest-building-gets-yellow-tag-after-davao-quakes",
-          "source_type": "reputable_news",
-          "automation_status": "public_searchable",
-          "access_notes": "Building-specific news example with restricted use until repair and fit-for-reoccupancy declaration."
+          "name": "DPWH Department Order No. 027 s. 2023",
+          "url": "https://www.dpwh.gov.ph/dpwh/sites/default/files/issuances/do_027_s2023.pdf",
+          "source_type": "official_national_process",
+          "automation_status": "public_process_only",
+          "access_notes": "Provides placard context, not target-specific clearance."
         }
       ],
       "automation_status": [
-        "public_searchable",
-        "manual_or_foi_needed",
-        "not_publicly_provable"
+        "public_target_document_possible",
+        "manual_request_likely"
       ],
       "required_user_inputs": [
-        "confirmed exact building, branch, wing, tower, or complex",
-        "city or LGU jurisdiction and address or barangay",
-        "incident type such as earthquake, fire, collapse, closure, repair, or retrofit",
-        "incident date, event name, or year range when known",
-        "known aliases, tenant names, tower names, school names, or mall wing names",
-        "target assertion: damage history, closure, reopening, repair, retrofit, unsafe tag, or clearance"
+        "confirmed place",
+        "target_subscope",
+        "previous damage, tag, closure, or restriction event"
       ],
       "expected_public_result_shape": [
-        "dated incident card with source URL, issuing or reporting body, and evidence strength",
-        "tag, closure, restricted-use, reopening, repair, retrofit, or assessment language when publicly reported",
-        "official-source priority ranking over reputable news, official social media, and private social posts",
-        "manual_request_needed when reports reference OCBO, OBO, City Engineer, or inspection documents not posted online",
-        "not_assessable_from_public_web when no public source can support the requested incident claim"
+        "official clearance or accepted repair/retrofit completion found",
+        "engineering stability certificate found with caveat",
+        "no public official clearance answer found",
+        "manual OCBO/OBO/LGU/owner/operator/professional request needed"
+      ],
+      "not_enough_if_only_found": [
+        "repair permit without completion or clearance",
+        "operator says repairs were done",
+        "booking availability",
+        "reopening or business activity",
+        "old green tag before the relevant event"
       ],
       "limitations": [
-        "Detailed structural assessment reports and repair methodologies are often not posted publicly.",
-        "Some official lists appear only on social media and may be less durable than LGU pages.",
-        "Search works best with a named building; address-only incident lookup is weaker.",
-        "Absence of a public incident record does not prove no incident, damage, closure, repair, or retrofit occurred.",
-        "Reopening or clearance is often harder to prove publicly than initial closure or tag issuance."
+        "A repair or retrofit permit alone does not prove clearance.",
+        "A structural certificate without official reoccupancy language must be reported with caveat."
       ],
       "forbidden_claims": [
-        "Do not claim the building is currently safe from old clearance, old reopening, or old news reports.",
-        "Do not claim the building is unsafe unless a current official source or clearly dated report directly says so.",
-        "Do not treat private social videos, photos, or comments as proof of structural damage.",
-        "Do not infer complete incident history from public search results.",
-        "Do not convert local red/yellow tag language into a nationwide uniform rating without local-source context."
+        "earthquake-proof",
+        "structurally safe",
+        "fit for occupancy beyond the document scope",
+        "no restrictions unless the authority says so"
       ],
       "manual_follow_up_triggers": [
-        "official source says inspection or assessment is ongoing",
-        "only news or social evidence exists for a named building",
-        "red or yellow tag exists but no lifting, reopening, or clearance source is public",
-        "source references OCBO, OBO, City Engineer, or inspection reports that are not attached online",
-        "target is high-occupancy use such as mall, hotel, school, hospital, condo, BPO, or transport terminal",
-        "user needs a compliance-grade or engineering conclusion rather than public-evidence screening"
-      ]
-    },
-    {
-      "scope_id": "contractor_professional_developer",
-      "applicable_in_philippines": true,
-      "primary_source_types": [
-        "PCAB contractor license verification",
-        "PRC professional license verification",
-        "SEC and DTI company or business-name lookup routes",
-        "DHSUD license-to-sell and project/developer lists",
-        "PhilGEPS and DPWH awarded-contract pages",
-        "developer, operator, project, and public procurement pages"
-      ],
-      "example_sources": [
-        {
-          "name": "CIAP listing for PCAB online license verification",
-          "url": "https://construction.gov.ph/directory-listings/directory-listings-pcab/pcab-online-license-verification-website/",
-          "source_type": "contractor_license_directory",
-          "automation_status": "public_searchable",
-          "access_notes": "Official route to PCAB contractor license verification."
-        },
-        {
-          "name": "PCAB contractor license verification",
-          "url": "https://pcabgovph.com/verify/",
-          "source_type": "contractor_license_portal",
-          "automation_status": "name_required",
-          "access_notes": "Can verify a named contractor or license record; cannot identify an unnamed contractor from an address alone."
-        },
-        {
-          "name": "PRC license verification",
-          "url": "https://verification.prc.gov.ph/",
-          "source_type": "professional_license_portal",
-          "automation_status": "name_required",
-          "access_notes": "Can verify a named professional when identifiers are sufficient; does not prove involvement in a building."
-        },
-        {
-          "name": "SEC Express System",
-          "url": "https://secexpress.ph/",
-          "source_type": "company_record_request",
-          "automation_status": "manual_or_foi_needed",
-          "access_notes": "Company documents may involve paid or manual request workflows; identity evidence only."
-        },
-        {
-          "name": "SEC API Marketplace",
-          "url": "https://portal.sec.gov.ph/",
-          "source_type": "company_lookup_route",
-          "automation_status": "public_process_only",
-          "access_notes": "Public route for company information access, subject to account/API/payment limits."
-        },
-        {
-          "name": "DTI Business Name Search",
-          "url": "https://bnrs.dti.gov.ph/search",
-          "source_type": "business_name_lookup",
-          "automation_status": "name_required",
-          "access_notes": "Can support business-name identity checks, not building compliance or construction involvement."
-        },
-        {
-          "name": "DHSUD list of license to sell",
-          "url": "https://dhsud.gov.ph/list-of-license-to-sell/",
-          "source_type": "developer_project_registry",
-          "automation_status": "public_searchable",
-          "access_notes": "Can support developer/project evidence for covered real-estate sales, not general building-code compliance."
-        },
-        {
-          "name": "DPWH awarded civil works contracts",
-          "url": "https://www.dpwh.gov.ph/dpwh/business/procurement/civil_works/awarded_contracts",
-          "source_type": "public_procurement_awards",
-          "automation_status": "public_searchable",
-          "access_notes": "Can link named public works projects and contractors when the target appears in procurement records."
-        }
-      ],
-      "automation_status": [
-        "name_required",
-        "public_searchable",
-        "manual_or_foi_needed",
-        "not_publicly_provable"
-      ],
-      "required_user_inputs": [
-        "confirmed exact place and jurisdiction",
-        "suspected contractor, architect, engineer, developer, operator, or company name",
-        "profession, license number, PCAB license number, SEC registration number, or DTI business name if available",
-        "project name, DHSUD license-to-sell project name, or procurement reference if available",
-        "source lead such as permit photo, project billboard, developer page, procurement award, press release, or plaque"
-      ],
-      "expected_public_result_shape": [
-        "named-party verification result with source URL, match confidence, and caveats",
-        "company or business-name identity evidence when public or manually requestable",
-        "project-specific linkage only when a source connects the party to the target building or project",
-        "name_required when no contractor, professional, developer, or operator name is known",
-        "not_publicly_provable when public records cannot link a named party to the exact building"
-      ],
-      "limitations": [
-        "Address-only searches are usually insufficient for contractor or professional verification.",
-        "PCAB, PRC, SEC, DTI, and DHSUD records verify identities or statuses; they do not prove building-specific compliance.",
-        "A contractor or professional license check does not prove that person or firm worked on the target building.",
-        "Developer marketing pages are self-published and need corroboration for regulated claims.",
-        "SEC and DTI records may identify entities but not current owner, operator, or permit responsibility."
-      ],
-      "forbidden_claims": [
-        "Do not claim a contractor, engineer, architect, developer, or operator worked on the building unless a project-specific source links them.",
-        "Do not claim the building is compliant or safe from PCAB, PRC, SEC, DTI, DHSUD, or developer-page evidence.",
-        "Do not claim a party is unlicensed from one failed search or spelling mismatch.",
-        "Do not treat developer marketing as government approval.",
-        "Do not claim current owner or operator solely from an SEC or DTI identity record."
-      ],
-      "manual_follow_up_triggers": [
-        "the user has no named contractor, professional, developer, or operator",
-        "public sources conflict on a party name or role",
-        "the target is private and not tied to public procurement or developer project pages",
-        "license search requires personal identifiers or exact spelling not available publicly",
-        "user needs legally reliable attribution, signed plans, permit attachments, or professional-of-record confirmation"
-      ]
-    },
-    {
-      "scope_id": "standards_context_only",
-      "applicable_in_philippines": true,
-      "primary_source_types": [
-        "PD 1096 National Building Code text and IRR references",
-        "DPWH and NBCDO reference pages and circulars",
-        "Philippine Green Building Code references",
-        "NSCP and ASEP publication context",
-        "Fire Code, accessibility, and referral-code context",
-        "LGU process pages when standards point to local implementation"
-      ],
-      "example_sources": [
-        {
-          "name": "Supreme Court E-Library PD 1096",
-          "url": "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/11/53320",
-          "source_type": "national_code_text",
-          "automation_status": "public_searchable",
-          "access_notes": "Public legal reference for the National Building Code."
-        },
-        {
-          "name": "DPWH PD 1096 reference page",
-          "url": "https://www.dpwh.gov.ph/dpwh/references/laws_codes_orders/PD1096",
-          "source_type": "national_code_reference",
-          "automation_status": "public_searchable",
-          "access_notes": "DPWH page for PD 1096 and related references."
-        },
-        {
-          "name": "DPWH National Building Code references",
-          "url": "https://www.dpwh.gov.ph/dpwh/nbc",
-          "source_type": "national_code_reference",
-          "automation_status": "public_searchable",
-          "access_notes": "DPWH NBC reference landing page."
-        },
-        {
-          "name": "Philippine Green Building Code booklet",
-          "url": "https://www.dpwh.gov.ph/dpwh/sites/default/files/laws_codes_orders/pgbcbooklet23march.pdf",
-          "source_type": "green_building_code_context",
-          "automation_status": "public_searchable",
-          "access_notes": "Public DPWH PDF for Philippine Green Building Code context."
-        },
-        {
-          "name": "NBCDO Memorandum Circular 01 s. 2016",
-          "url": "https://www.dpwh.gov.ph/DPWH/files/NBCDO%20MC/16-NBCDO%20MC/NBCDO%20MC_01_s2016.pdf",
-          "source_type": "nbcdo_circular",
-          "automation_status": "public_searchable",
-          "access_notes": "NBCDO circular related to Green Building Code implementation context."
-        },
-        {
-          "name": "ASEP",
-          "url": "https://aseponline.org/",
-          "source_type": "professional_standards_context",
-          "automation_status": "public_searchable",
-          "access_notes": "ASEP public site for structural engineering publication and professional context."
-        },
-        {
-          "name": "RA 9514 Fire Code",
-          "url": "https://lawphil.net/statutes/repacts/ra2008/ra_9514_2008.html",
-          "source_type": "fire_code_context",
-          "automation_status": "public_searchable",
-          "access_notes": "Public legal reference for Fire Code context."
-        },
-        {
-          "name": "NCDA revised 2024 BP 344 IRR",
-          "url": "https://ncda.gov.ph/revised-2024-rules-and-regulations-implementing-batas-pambansa-344/",
-          "source_type": "accessibility_context",
-          "automation_status": "public_searchable",
-          "access_notes": "Accessibility referral context; not proof of a building's accessibility compliance."
-        }
-      ],
-      "automation_status": [
-        "public_searchable",
-        "public_process_only",
-        "manual_or_foi_needed",
-        "not_publicly_provable"
-      ],
-      "required_user_inputs": [
-        "confirmed place if the user wants context framed around a particular building type",
-        "general question or standard category such as National Building Code, Fire Code, accessibility, green building, or structural code",
-        "building use type or occupancy class when the user wants standards framed generally",
-        "whether the user wants general standards context or building-specific evidence",
-        "gross floor area, project type, or new-versus-alteration context when screening Green Building Code applicability at a high level"
-      ],
-      "expected_public_result_shape": [
-        "standards-context summary with citations to laws, circulars, code references, or official process pages",
-        "separate note that context does not prove the target building complied",
-        "manual_request_needed when full plans, calculations, inspections, certificates, or professional review are needed",
-        "not_publicly_provable for building-specific compliance without official records or professional review",
-        "handoff to permit, incident, or professional scope when the user asks a building-specific question"
-      ],
-      "limitations": [
-        "Standards context cannot verify plan review, construction quality, inspections, or certificates for a named building.",
-        "Full professional standards or code texts may not be available as clean official free web documents.",
-        "Building-specific compliance requires signed and sealed plans, calculations, inspections, permits, certificates, or professional review.",
-        "LGU and BFP implementation details vary, so national context may not fully answer local process questions.",
-        "General standards cannot establish current safety or fitness for occupancy."
-      ],
-      "forbidden_claims": [
-        "Do not claim a named building is code-compliant from standards text alone.",
-        "Do not claim a named building is structurally safe, earthquake-safe, fire-safe, or fit for occupancy from standards context.",
-        "Do not claim a valid permit, occupancy permit, FSEC, or FSIC exists unless an official record directly supports it.",
-        "Do not claim NSCP design compliance without signed and sealed plans, calculations, review, or authoritative record.",
-        "Do not present standards context as legal or engineering certification."
-      ],
-      "manual_follow_up_triggers": [
-        "user asks whether the specific building is compliant, safe, or fit for occupancy",
-        "user needs plan, calculation, inspection, FSEC, FSIC, or occupancy certificate verification",
-        "question depends on local OBO, BFP, zoning, accessibility, or other implementation records",
-        "source text is not publicly available or is only summarized by a secondary source",
-        "the target is high occupancy or the claim could affect safety decisions"
-      ]
-    },
-    {
-      "scope_id": "broad_public_evidence_packet",
-      "applicable_in_philippines": true,
-      "primary_source_types": [
-        "standards context",
-        "LGU OBO and permit-process routes",
-        "BFP, FSEC, FSIC, and fire-safety process routes",
-        "contractor, professional, developer, and operator lookup routes",
-        "incident, damage, closure, repair, and retrofit public evidence",
-        "FOI and manual request paths",
-        "citation and overclaim review"
-      ],
-      "example_sources": [
-        {
-          "name": "DPWH National Building Code references",
-          "url": "https://www.dpwh.gov.ph/dpwh/nbc",
-          "source_type": "standards_context",
-          "automation_status": "public_searchable",
-          "access_notes": "Baseline standards context for the packet; not building-specific proof."
-        },
-        {
-          "name": "Quezon City Department of the Building Official",
-          "url": "https://quezoncity.gov.ph/departments/department-of-the-building-official/",
-          "source_type": "lgu_obo_process",
-          "automation_status": "public_process_only",
-          "access_notes": "Example LGU OBO route for permit/occupancy process and manual follow-up."
-        },
-        {
-          "name": "Davao City Office of the City Building Official",
-          "url": "https://davaocity.gov.ph/departments/infrastructure/office-of-the-building-official/",
-          "source_type": "lgu_obo_process",
-          "automation_status": "public_process_only",
-          "access_notes": "Example LGU OCBO route for permits, occupancy, annual inspections, certifications, and complaints."
-        },
-        {
-          "name": "BFP eFOI agency page",
-          "url": "https://www.foi.gov.ph/agencies/bfp/",
-          "source_type": "foi_manual_request_route",
-          "automation_status": "manual_or_foi_needed",
-          "access_notes": "BFP FOI route for fire-safety records and process questions; requests may be redirected to local fire stations."
-        },
-        {
-          "name": "BFP FSIC request example",
-          "url": "https://www.foi.gov.ph/agencies/bfp/fire-safety-inspection-certificate-bfp-465552131561/",
-          "source_type": "foi_manual_request_example",
-          "automation_status": "manual_or_foi_needed",
-          "access_notes": "Example showing FSIC requests may require local station routing and cannot be treated as a central public lookup."
-        },
-        {
-          "name": "PCAB contractor license verification",
-          "url": "https://pcabgovph.com/verify/",
-          "source_type": "contractor_license_portal",
-          "automation_status": "name_required",
-          "access_notes": "Use only when a contractor name or license identifier is available."
-        },
-        {
-          "name": "PRC license verification",
-          "url": "https://verification.prc.gov.ph/",
-          "source_type": "professional_license_portal",
-          "automation_status": "name_required",
-          "access_notes": "Use only when a professional name or identifier is available."
-        },
-        {
-          "name": "Davao City red/yellow tag announcement",
-          "url": "https://davaocity.gov.ph/local-government/davao-city-issues-red-yellow-tags-on-earthquake-affected-buildings/",
-          "source_type": "incident_history",
-          "automation_status": "public_searchable",
-          "access_notes": "Official incident-history example for tags, damage language, and reoccupancy caveats."
-        },
-        {
-          "name": "FOI FAQ",
-          "url": "https://www.foi.gov.ph/faqs/",
-          "source_type": "foi_process_context",
-          "automation_status": "public_process_only",
-          "access_notes": "Process context for FOI limitations, request paths, and requester obligations."
-        }
-      ],
-      "automation_status": [
-        "public_searchable",
-        "public_process_only",
-        "manual_or_foi_needed",
-        "name_required",
-        "not_publicly_provable"
-      ],
-      "required_user_inputs": [
-        "confirmed exact place packet from Gate 1",
-        "locked broad public-evidence scope from Gate 2",
-        "city or LGU jurisdiction, address, barangay, and any branch or wing detail",
-        "known owner, operator, developer, contractor, professional, permit, FSIC, FSEC, or application identifiers if available",
-        "time window for construction, occupancy, incident, repair, retrofit, or closure questions",
-        "whether the user wants public-web screening only or a manual follow-up checklist"
-      ],
-      "expected_public_result_shape": [
-        "multi-lane evidence packet with source URLs, evidence strength, source type, automation status, and caveats",
-        "standards context separated from building-specific evidence",
-        "manual_request_needed items listed as follow-up tasks, not treated as completed searches",
-        "not_found and not_assessable_from_public_web labels for gaps that public search cannot resolve",
-        "citation review that removes or weakens any unsupported compliance, safety, risk, or legal-status language"
-      ],
-      "limitations": [
-        "A broad packet can collect public evidence and gaps, but it still cannot certify compliance, safety, risk, or fitness for occupancy.",
-        "Some lanes require names, permit numbers, dates, or authorized-party details before they can be meaningfully searched.",
-        "Manual, FOI, paid, or local-office records must be represented as request paths unless the user explicitly authorizes a request.",
-        "Public search can be biased toward major cities, large incidents, prominent developers, and well-indexed LGUs.",
-        "Evidence from different lanes may refer to different entities: tenant, operator, developer, building owner, contractor, complex, wing, or tower."
-      ],
-      "forbidden_claims": [
-        "Do not claim code compliance, noncompliance, structural safety, earthquake safety, fire safety, or fitness for occupancy from a broad public packet.",
-        "Do not claim a place has no permit, no incident, no contractor, or no fire certificate from missing public results.",
-        "Do not collapse tenant, building, complex, owner, operator, developer, and contractor identities into one entity.",
-        "Do not publish accusations, personal data, or legal conclusions based on partial public evidence.",
-        "Do not perform FOI submissions, paid document requests, credentialed portal searches, agency contacts, or third-party writes without explicit approval."
-      ],
-      "manual_follow_up_triggers": [
-        "any lane returns only process pages, incomplete identifiers, or conflicting public evidence",
-        "the user asks for legal, engineering, insurance, financing, leasing, or safety-critical reliance",
-        "a public source points to an unpublished inspection, permit, certificate, repair methodology, or professional report",
-        "the target is a high-occupancy or high-consequence facility",
-        "the evidence packet would otherwise need to say compliant, noncompliant, safe, unsafe, fit for occupancy, or no permit"
+        "no public clearance or updated tag for the exact target",
+        "previous tag or damage event is unclear",
+        "only reopening or operator statements were found"
       ]
     }
   ],
   "ecc_review": {
-    "objective": "Gate 2 locks the public-evidence scope and maps it to source realities; it does not run building-specific research.",
+    "objective": "Lock source reality for the four earthquake audit questions before evidence collection starts.",
     "inputs": [
-      "confirmed Gate 1 place packet",
-      "user's scope choice or natural-language scope request",
-      "this source-reality matrix"
+      "confirmed place packet",
+      "user scope choice",
+      "earthquake answerability matrix",
+      "NSCP evidence map"
     ],
     "outputs": [
-      "locked audit scope",
-      "allowed evidence lanes",
-      "manual follow-up labels",
-      "blocked evidence lanes until scope confirmation"
+      "source-reality limits per Gate 2 scope",
+      "manual follow-up triggers",
+      "forbidden claims"
     ],
     "eval": [
-      "all five Gate 2 scopes are present",
-      "each scope declares at least one source type, limitation, forbidden claim, and automation status",
-      "example source URLs are valid HTTP or HTTPS URLs",
-      "no source-reality record claims building-specific evidence was searched during Gate 2"
+      "all four scopes present once",
+      "each scope has lane_type",
+      "manual follow-up triggers are present",
+      "forbidden claims block safety and compliance overclaims"
     ],
-    "handoff": "Gate 3 may use the locked scope and this matrix to define the public-evidence packet schema.",
     "human_boundary": [
-      "user must explicitly confirm the exact place before Gate 2 starts",
-      "user must explicitly confirm the audit scope before evidence search starts",
-      "manual or FOI requests, paid records, credentialed portals, uploads, and agency contacts require explicit approval"
+      "user must confirm exact place",
+      "user must choose the audit question",
+      "manual records require human request to custodian"
     ],
     "safety_risks": [
-      "turning missing public evidence into a negative compliance claim",
-      "treating standards context as building-specific proof",
-      "overstating old incident reports as current safety findings",
-      "exposing personal or sensitive requester data through FOI or manual forms",
-      "mixing tenant, building, complex, developer, operator, and contractor identities"
+      "generic standards treated as target proof",
+      "missing public evidence treated as unsafe or noncompliant",
+      "reopening treated as clearance"
     ],
-    "overclaim_boundary": "The auditor may report public evidence and gaps, but must not certify legal compliance, structural safety, earthquake safety, fire safety, or fitness for occupancy."
+    "handoff": "Gate 3 may search only the locked scope and must preserve these source-reality limits.",
+    "overclaim_boundary": "This matrix never certifies safety, NSCP compliance, legal compliance, or fitness for occupancy."
   }
 }

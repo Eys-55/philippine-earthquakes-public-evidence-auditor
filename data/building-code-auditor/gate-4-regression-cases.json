@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "gate_4_regression_cases",
+  "cases": [
+    {
+      "case_id": "gate4-gate1-confirmed-place-001",
+      "category": "gate_1_confirmed_place",
+      "description": "Gate 1 fixtures validate exact place identity before any audit evidence search.",
+      "input_packet_path": "data/building-code-auditor/test-cases.json",
+      "expected_result": "pass",
+      "expected_checks": [
+        "confirmed place packets use confirmed_by_user",
+        "ambiguous places ask one focused question",
+        "Gate 1 blocks permit, safety, compliance, incident, and earthquake evidence search"
+      ]
+    },
+    {
+      "case_id": "gate4-gate2-scope-lock-001",
+      "category": "gate_2_scope_lock",
+      "description": "Gate 2 fixtures lock one of the four earthquake audit questions or all lanes before Gate 3 starts.",
+      "input_packet_path": "data/building-code-auditor/audit-scope-test-cases.json",
+      "expected_result": "pass",
+      "expected_checks": [
+        "scope menu has exactly four earthquake questions",
+        "all maps to all four selected lanes",
+        "evidence_search_started remains false"
+      ]
+    },
+    {
+      "case_id": "gate4-q1-no-public-evidence-001",
+      "category": "gate_3_availability_only_no_public_evidence",
+      "description": "Lane 1 without public target-specific NSCP or seismic design-review evidence still produces an availability answer.",
+      "input_packet_path": "data/building-code-auditor/samples/evidence-packet-q1-no-public-evidence.json",
+      "expected_result": "pass",
+      "expected_checks": [
+        "answerability is answerable",
+        "answer_text records no public target-specific evidence found",
+        "manual_follow_up_needed is true",
+        "no unsupported safety or compliance claim"
+      ]
+    },
+    {
+      "case_id": "gate4-q3-no-public-answer-001",
+      "category": "gate_3_availability_and_answer_no_public_answer",
+      "description": "Lane 3 without official tag/status evidence is not answerable and requires manual OCBO/OBO follow-up.",
+      "input_packet_path": "data/building-code-auditor/samples/evidence-packet-q3-no-public-answer.json",
+      "expected_result": "pass",
+      "expected_checks": [
+        "answerability is not_answerable",
+        "manual_follow_up_needed is true",
+        "manual_custodians is not empty",
+        "no unsupported safety or compliance claim"
+      ]
+    },
+    {
+      "case_id": "gate4-q2-confirmed-public-evidence-001",
+      "category": "gate_3_confirmed_public_evidence",
+      "description": "Lane 2 with target-specific OBO structural permit or plan-review evidence is answerable without making a current safety claim.",
+      "input_packet_path": "data/building-code-auditor/samples/evidence-packet-q2-confirmed-obo-review.json",
+      "expected_result": "pass",
+      "expected_checks": [
+        "confirmed_public_evidence has a target-specific source",
+        "answer_found is true",
+        "stop_reason is answer_found",
+        "no current safety certification is stated"
+      ]
+    },
+    {
+      "case_id": "gate4-q4-manual-follow-up-001",
+      "category": "gate_3_manual_follow_up",
+      "description": "Gate 3 packets preserve manual follow-up custodians and documents when public evidence cannot settle the selected question.",
+      "input_packet_path": "data/building-code-auditor/samples/evidence-packet-q3-no-public-answer.json",
+      "expected_result": "pass",
+      "expected_checks": [
+        "manual_follow_up.required is true",
+        "custodians are listed",
+        "documents_to_request are listed"
+      ]
+    },
+    {
+      "case_id": "gate4-unsafe-claim-blocked-001",
+      "category": "unsafe_claim_blocked",
+      "description": "Unsupported earthquake-proof or NSCP-compliant language is blocked before a packet can pass.",
+      "input_packet_path": "data/building-code-auditor/samples/evidence-packet-invalid-overclaim.json",
+      "expected_result": "fail",
+      "expected_checks": [
+        "unsupported overclaim phrase is detected",
+        "packet validator exits non-zero"
+      ]
+    },
+    {
+      "case_id": "gate4-invalid-source-url-blocked-001",
+      "category": "invalid_source_url_blocked",
+      "description": "Source URLs must be HTTP or HTTPS URLs before a packet can pass.",
+      "input_packet_path": "data/building-code-auditor/samples/evidence-packet-invalid-source-url.json",
+      "expected_result": "fail",
+      "expected_checks": [
+        "invalid source URL is detected",
+        "packet validator exits non-zero"
+      ]
+    }
+  ]
+}

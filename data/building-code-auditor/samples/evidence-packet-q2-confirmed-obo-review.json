@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "earthquake_evidence_packet",
+  "confirmed_place": {
+    "display_name": "Fixture Tower Davao",
+    "candidate_id": "fixture-tower-davao",
+    "city": "Davao City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user"
+  },
+  "locked_scope": {
+    "scope_ids": [
+      "obo_structural_permit_review"
+    ],
+    "selected_lanes": [
+      "obo_structural_permit_review"
+    ],
+    "requires_timeframe": false,
+    "requires_target_subscope": true,
+    "output_intent": "Check whether public target-specific OBO structural permit or plan-review evidence exists."
+  },
+  "target_context": {
+    "target_subscope": "main tower",
+    "timeframe": null,
+    "earthquake_event": null,
+    "jurisdiction": {
+      "lgu": "Davao City",
+      "likely_obo_or_ocbo": "Davao City Office of the City Building Official",
+      "country": "Philippines"
+    },
+    "identity_caveats": [
+      "Fixture packet for validator coverage; not a live target claim."
+    ]
+  },
+  "lane_results": [
+    {
+      "lane_id": "obo_structural_permit_review",
+      "lane_type": "availability_only",
+      "question": "Is there evidence that this building went through official OBO structural permit or plan-review processing?",
+      "document_targets_searched": [
+        "issued building permit",
+        "civil/structural permit",
+        "OBO compliance evaluation sheet"
+      ],
+      "query_log": [
+        "\"Fixture Tower Davao\" \"building permit\"",
+        "\"Fixture Tower Davao\" \"civil/structural permit\"",
+        "\"Fixture Tower Davao\" \"OBO evaluation\""
+      ],
+      "best_sources": [
+        {
+          "title": "Fixture OBO permit review record",
+          "url": "https://example.local/fixtures/fixture-tower-davao-obo-review.pdf",
+          "source_type": "official_obo_ocbo",
+          "publisher": "Fixture Office of the Building Official",
+          "date_published_or_accessed": "2026-07-05",
+          "target_specific": true,
+          "supports": "Fixture target-specific record showing civil/structural plans were reviewed for the stated permit scope.",
+          "does_not_support": "Does not certify current condition outside the record date and scope."
+        }
+      ],
+      "answer_found": true,
+      "answerability": "answerable",
+      "answer_text": "Public target-specific OBO structural permit or plan-review evidence was found for the stated permit scope.",
+      "public_evidence_status": "confirmed_public_evidence",
+      "stop_reason": "answer_found",
+      "manual_follow_up_needed": false,
+      "manual_custodians": [],
+      "overclaim_risk": "medium"
+    }
+  ],
+  "integrated_answer": {
+    "summary": "Target-specific OBO structural permit or plan-review evidence was found for the fixture target.",
+    "selected_scope_ids": [
+      "obo_structural_permit_review"
+    ],
+    "answerable_scope_ids": [
+      "obo_structural_permit_review"
+    ],
+    "not_answerable_scope_ids": [],
+    "public_evidence_found": true,
+    "manual_follow_up_required": false,
+    "citizen_safe_summary": "Public target-specific OBO structural permit or plan-review evidence was found for the stated scope. This is document evidence only and does not certify current earthquake safety."
+  },
+  "manual_follow_up": {
+    "required": false,
+    "custodians": [],
+    "documents_to_request": []
+  },
+  "overclaim_boundary": {
+    "forbidden_claims": [
+      "earthquake-proof",
+      "NSCP compliant",
+      "structurally safe",
+      "fit for occupancy"
+    ],
+    "allowed_claim": "A target-specific OBO structural permit or plan-review evidence record was found for the stated scope."
+  },
+  "validation_summary": {
+    "status": "ready_for_gate_4",
+    "blocked_claims": [
+      "Do not convert OBO review evidence into current safety certification."
+    ]
+  }
+}

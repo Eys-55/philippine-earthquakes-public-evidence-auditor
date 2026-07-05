@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "earthquake_evidence_packet",
+  "confirmed_place": {
+    "display_name": "Invalid Fixture Building",
+    "candidate_id": "fixture-invalid",
+    "city": "Davao City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user"
+  },
+  "locked_scope": {
+    "scope_ids": [
+      "nscp_seismic_design_evidence"
+    ],
+    "selected_lanes": [
+      "nscp_seismic_design_evidence"
+    ],
+    "requires_timeframe": false,
+    "requires_target_subscope": true,
+    "output_intent": "Invalid overclaim fixture."
+  },
+  "target_context": {
+    "target_subscope": "whole building",
+    "timeframe": null,
+    "earthquake_event": null,
+    "jurisdiction": {
+      "lgu": "Davao City",
+      "likely_obo_or_ocbo": "Davao City Office of the City Building Official",
+      "country": "Philippines"
+    },
+    "identity_caveats": []
+  },
+  "lane_results": [
+    {
+      "lane_id": "nscp_seismic_design_evidence",
+      "lane_type": "availability_only",
+      "question": "Is there evidence that this building was designed or reviewed for NSCP earthquake or seismic requirements?",
+      "document_targets_searched": [
+        "Structural Design Analysis and Computations"
+      ],
+      "query_log": [
+        "\"Invalid Fixture Building\" \"NSCP\""
+      ],
+      "best_sources": [],
+      "answer_found": false,
+      "answerability": "answerable",
+      "answer_text": "This building is earthquake-proof and NSCP compliant.",
+      "public_evidence_status": "not_found",
+      "stop_reason": "no_more_useful_public_sources",
+      "manual_follow_up_needed": true,
+      "manual_custodians": [
+        "Davao City Office of the City Building Official"
+      ],
+      "overclaim_risk": "high"
+    }
+  ],
+  "integrated_answer": {
+    "summary": "Invalid fixture with unsupported overclaim.",
+    "selected_scope_ids": [
+      "nscp_seismic_design_evidence"
+    ],
+    "answerable_scope_ids": [
+      "nscp_seismic_design_evidence"
+    ],
+    "not_answerable_scope_ids": [],
+    "public_evidence_found": false,
+    "manual_follow_up_required": true,
+    "citizen_safe_summary": "This building is earthquake-proof.",
+    "blocked_claims": [
+      "This fixture is expected to fail."
+    ]
+  },
+  "manual_follow_up": {
+    "required": true,
+    "custodians": [
+      "Davao City Office of the City Building Official"
+    ],
+    "documents_to_request": [
+      "Structural Design Analysis and Computations"
+    ]
+  },
+  "overclaim_boundary": {
+    "forbidden_claims": [
+      "earthquake-proof",
+      "NSCP compliant"
+    ],
+    "allowed_claim": "Invalid fixture."
+  },
+  "validation_summary": {
+    "status": "invalid_fixture",
+    "blocked_claims": [
+      "Unsupported overclaim should be blocked."
+    ]
+  }
+}

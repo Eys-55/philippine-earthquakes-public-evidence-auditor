@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "earthquake_evidence_packet",
+  "confirmed_place": {
+    "display_name": "KCC Mall of GenSan",
+    "candidate_id": "fixture-kcc-gensan",
+    "city": "General Santos",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user"
+  },
+  "locked_scope": {
+    "scope_ids": [
+      "nscp_seismic_design_evidence"
+    ],
+    "selected_lanes": [
+      "nscp_seismic_design_evidence"
+    ],
+    "requires_timeframe": false,
+    "requires_target_subscope": true,
+    "output_intent": "Check whether public target-specific NSCP or seismic design-review evidence exists."
+  },
+  "target_context": {
+    "target_subscope": "whole mall or complex as confirmed by user",
+    "timeframe": null,
+    "earthquake_event": null,
+    "jurisdiction": {
+      "lgu": "General Santos City",
+      "likely_obo_or_ocbo": "General Santos City Office of the Building Official",
+      "country": "Philippines"
+    },
+    "identity_caveats": [
+      "Fixture packet only; not a live public evidence result."
+    ]
+  },
+  "lane_results": [
+    {
+      "lane_id": "nscp_seismic_design_evidence",
+      "lane_type": "availability_only",
+      "question": "Is there evidence that this building was designed or reviewed for NSCP earthquake or seismic requirements?",
+      "document_targets_searched": [
+        "Structural Design Analysis and Computations",
+        "Civil/Structural plans with OBO approval",
+        "OBO record saying structural plans or computations were reviewed"
+      ],
+      "query_log": [
+        "\"KCC Mall of GenSan\" \"structural design analysis\"",
+        "\"KCC Mall of GenSan\" \"NSCP\"",
+        "\"KCC Mall of GenSan\" \"civil/structural permit\""
+      ],
+      "best_sources": [
+        {
+          "title": "General Santos OBO building permit requirements",
+          "url": "https://www.filipizen.com/partners/gensan_gensan/obo/requirement/building",
+          "source_type": "manual_request_path",
+          "publisher": "General Santos City OBO service portal",
+          "date_published_or_accessed": "2026-07-05",
+          "target_specific": false,
+          "supports": "Identifies local OBO permit requirements and manual request path for structural documents.",
+          "does_not_support": "Does not prove KCC Mall of GenSan has target-specific NSCP or seismic design-review evidence."
+        }
+      ],
+      "answer_found": false,
+      "answerability": "answerable",
+      "answer_text": "No public target-specific NSCP or seismic design-review evidence was found in the searched public sources.",
+      "public_evidence_status": "not_found",
+      "stop_reason": "no_more_useful_public_sources",
+      "manual_follow_up_needed": true,
+      "manual_custodians": [
+        "General Santos City Office of the Building Official",
+        "owner or operator",
+        "engineer of record if identified"
+      ],
+      "overclaim_risk": "high"
+    }
+  ],
+  "integrated_answer": {
+    "summary": "For the selected NSCP/seismic evidence lane, no public target-specific evidence was found.",
+    "selected_scope_ids": [
+      "nscp_seismic_design_evidence"
+    ],
+    "answerable_scope_ids": [
+      "nscp_seismic_design_evidence"
+    ],
+    "not_answerable_scope_ids": [],
+    "public_evidence_found": false,
+    "manual_follow_up_required": true,
+    "citizen_safe_summary": "No public target-specific NSCP/seismic design-review evidence was found. Manual follow-up is needed with OBO, owner/operator, or engineer of record. This does not certify earthquake safety or NSCP compliance."
+  },
+  "manual_follow_up": {
+    "required": true,
+    "custodians": [
+      "General Santos City Office of the Building Official",
+      "owner or operator"
+    ],
+    "documents_to_request": [
+      "Structural Design Analysis and Computations",
+      "approved civil/structural plans",
+      "OBO structural plan-review or evaluation record"
+    ]
+  },
+  "overclaim_boundary": {
+    "forbidden_claims": [
+      "earthquake-proof",
+      "NSCP compliant",
+      "structurally safe",
+      "fit for occupancy"
+    ],
+    "allowed_claim": "No public target-specific NSCP/seismic design-review evidence was found in the searched sources."
+  },
+  "validation_summary": {
+    "status": "ready_for_gate_4",
+    "blocked_claims": [
+      "Do not infer noncompliance from missing public evidence."
+    ]
+  }
+}

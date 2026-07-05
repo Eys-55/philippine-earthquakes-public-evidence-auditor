@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Gate 2 source-reality research matrix."""
+"""Validate Gate 2 earthquake source-reality matrix."""
 
 from __future__ import annotations
 
@@ -13,29 +13,32 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE_REALITY_PATH = ROOT / "data/building-code-auditor/audit-scope-source-reality.json"
 
 SCOPE_IDS = {
-    "permit_occupancy_records",
-    "incident_damage_history",
-    "contractor_professional_developer",
-    "standards_context_only",
-    "broad_public_evidence_packet",
+    "nscp_seismic_design_evidence",
+    "obo_structural_permit_review",
+    "latest_post_earthquake_status",
+    "latest_clearance_after_tag",
 }
 
+LANE_TYPES = {"availability_only", "availability_and_answer"}
+
 STATUS_VALUES = {
-    "public_searchable",
+    "public_target_document_possible",
     "public_process_only",
-    "manual_or_foi_needed",
-    "name_required",
-    "not_publicly_provable",
+    "manual_request_likely",
+    "not_assessable_from_public_web",
 }
 
 REQUIRED_SCOPE_KEYS = {
     "scope_id",
+    "question",
+    "lane_type",
     "applicable_in_philippines",
     "primary_source_types",
     "example_sources",
     "automation_status",
     "required_user_inputs",
     "expected_public_result_shape",
+    "not_enough_if_only_found",
     "limitations",
     "forbidden_claims",
     "manual_follow_up_triggers",
@@ -62,10 +65,11 @@ OVERCLAIM_TERMS = {
     "compliant",
     "compliance",
     "safe",
-    "safety",
+    "unsafe",
     "fit for occupancy",
     "no permit",
-    "unlicensed",
+    "unpermitted",
+    "earthquake-proof",
 }
 
 
@@ -147,8 +151,13 @@ def validate_scope(scope: object, path: str, errors: list[str]) -> str | None:
     scope_id = scope.get("scope_id")
     if scope_id not in SCOPE_IDS:
         errors.append(f"{path}.scope_id: must be one of {sorted(SCOPE_IDS)!r}")
+    lane_type = scope.get("lane_type")
+    if lane_type not in LANE_TYPES:
+        errors.append(f"{path}.lane_type: must be one of {sorted(LANE_TYPES)!r}")
     if not isinstance(scope.get("applicable_in_philippines"), bool):
         errors.append(f"{path}.applicable_in_philippines: must be a boolean")
+    if not isinstance(scope.get("question"), str) or not scope.get("question", "").strip():
+        errors.append(f"{path}.question: must be a non-empty string")
 
     expect_string_array(scope.get("primary_source_types"), f"{path}.primary_source_types", errors)
     expect_string_array(
@@ -158,27 +167,23 @@ def validate_scope(scope: object, path: str, errors: list[str]) -> str | None:
         allowed=STATUS_VALUES,
     )
     expect_string_array(scope.get("required_user_inputs"), f"{path}.required_user_inputs", errors)
-    expect_string_array(
-        scope.get("expected_public_result_shape"),
-        f"{path}.expected_public_result_shape",
-        errors,
-    )
+    expect_string_array(scope.get("expected_public_result_shape"), f"{path}.expected_public_result_shape", errors)
+    expect_string_array(scope.get("not_enough_if_only_found"), f"{path}.not_enough_if_only_found", errors)
     expect_string_array(scope.get("limitations"), f"{path}.limitations", errors)
     expect_string_array(scope.get("forbidden_claims"), f"{path}.forbidden_claims", errors)
-    expect_string_array(
-        scope.get("manual_follow_up_triggers"),
-        f"{path}.manual_follow_up_triggers",
-        errors,
-    )
+    expect_string_array(scope.get("manual_follow_up_triggers"), f"{path}.manual_follow_up_triggers", errors)
 
     claims = scope.get("forbidden_claims")
     if isinstance(claims, list):
         joined = " ".join(item.lower() for item in claims if isinstance(item, str))
         if not any(term in joined for term in OVERCLAIM_TERMS):
-            errors.append(
-                f"{path}.forbidden_claims: must explicitly block at least one compliance, "
-                "safety, permit, or licensing overclaim"
-            )
+            errors.append(f"{path}.forbidden_claims: must block safety/compliance/permit overclaims")
+
+    if lane_type == "availability_and_answer":
+        required_text = "no public official"
+        joined_shape = " ".join(scope.get("expected_public_result_shape", [])).lower()
+        if required_text not in joined_shape:
+            errors.append(f"{path}.expected_public_result_shape: lanes 3-4 must include no-public-answer shape")
 
     sources = scope.get("example_sources")
     if not isinstance(sources, list) or not sources:
@@ -262,7 +267,7 @@ def main() -> int:
             print(error, file=sys.stderr)
         return fail(f"{len(errors)} error(s)")
 
-    print("validated Gate 2 source-reality matrix")
+    print("validated Gate 2 earthquake source-reality matrix")
     return 0
 
 

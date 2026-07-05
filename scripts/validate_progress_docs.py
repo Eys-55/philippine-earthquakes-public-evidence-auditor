@@ -15,12 +15,20 @@ VIEW_PATH = ROOT / "reports/building-code-progress-view.html"
 SVG_PATH = ROOT / "reports/assets/building-code-progress-chart.svg"
 
 REQUIRED_TABLE_PHRASES = (
-    "1. Place lock | Testing",
+    "1. Place lock | Implemented",
     "1a. Place-lock tests | Done",
     "1b. Place-lock samples | Done",
     "1c. Real-place run | Done",
-    "2. Audit scope lock | Testing",
+    "2. Audit scope lock | Implemented",
+    "3. Evidence packet | Implemented",
+    "4. Regression test gate | Implemented",
+    "9. Broader scanning | Deferred",
+    "data/building-code-auditor/audit-scope-schema.json",
     "data/building-code-auditor/audit-scope-source-reality.json",
+    "data/building-code-auditor/evidence-packet-schema.json",
+    "data/building-code-auditor/gate-4-regression-cases.json",
+    "scripts/validate_building_code_packet.py",
+    "scripts/validate_building_code_gate_suite.py",
     "scripts/validate_audit_scope_source_reality.py",
 )
 
@@ -164,7 +172,7 @@ def validate_table() -> int:
 
     for phrase in REQUIRED_TABLE_PHRASES:
         if phrase not in markdown:
-            return fail(f"table must keep place-lock testing explicit: missing {phrase!r}")
+            return fail(f"table must keep Gates 1-4 status explicit: missing {phrase!r}")
 
     return 0
 

@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "earthquake_evidence_packet",
+  "confirmed_place": {
+    "display_name": "Fixture Mall Davao",
+    "candidate_id": "fixture-mall-davao",
+    "city": "Davao City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user"
+  },
+  "locked_scope": {
+    "scope_ids": [
+      "latest_clearance_after_tag"
+    ],
+    "selected_lanes": [
+      "latest_clearance_after_tag"
+    ],
+    "requires_timeframe": true,
+    "requires_target_subscope": true,
+    "output_intent": "Check whether an official clearance or reoccupancy answer exists after damage, tag, closure, or restriction."
+  },
+  "target_context": {
+    "target_subscope": "main mall building",
+    "timeframe": "after fixture yellow-tag event",
+    "earthquake_event": "fixture earthquake event",
+    "jurisdiction": {
+      "lgu": "Davao City",
+      "likely_obo_or_ocbo": "Davao City Office of the City Building Official",
+      "country": "Philippines"
+    },
+    "identity_caveats": [
+      "Fixture packet for validator coverage; not a live target claim."
+    ]
+  },
+  "lane_results": [
+    {
+      "lane_id": "latest_clearance_after_tag",
+      "lane_type": "availability_and_answer",
+      "question": "If the building was yellow-tagged, red-tagged, damaged, closed, or restricted, has it later been officially cleared?",
+      "document_targets_searched": [
+        "reoccupancy clearance",
+        "updated green tag",
+        "official lifting notice",
+        "accepted repair completion with use language"
+      ],
+      "query_log": [
+        "\"Fixture Mall Davao\" \"reoccupancy clearance\"",
+        "\"Fixture Mall Davao\" \"green tag\"",
+        "\"Fixture Mall Davao\" \"OCBO clearance\""
+      ],
+      "best_sources": [
+        {
+          "title": "Fixture OCBO reoccupancy clearance",
+          "url": "https://example.local/fixtures/fixture-mall-davao-reoccupancy-clearance.pdf",
+          "source_type": "official_obo_ocbo",
+          "publisher": "Fixture Office of the City Building Official",
+          "date_published_or_accessed": "2026-07-05",
+          "target_specific": true,
+          "supports": "Fixture target-specific clearance allowing reoccupancy for the stated scope and date after required work was accepted.",
+          "does_not_support": "Does not certify conditions outside the stated scope, date, and official language."
+        }
+      ],
+      "answer_found": true,
+      "answerability": "answerable",
+      "answer_text": "Official clearance evidence was found for reoccupancy for the stated scope and date.",
+      "public_evidence_status": "confirmed_public_evidence",
+      "stop_reason": "answer_found",
+      "manual_follow_up_needed": false,
+      "manual_custodians": [],
+      "overclaim_risk": "medium"
+    }
+  ],
+  "integrated_answer": {
+    "summary": "Official clearance evidence was found for the stated post-tag scope and date.",
+    "selected_scope_ids": [
+      "latest_clearance_after_tag"
+    ],
+    "answerable_scope_ids": [
+      "latest_clearance_after_tag"
+    ],
+    "not_answerable_scope_ids": [],
+    "public_evidence_found": true,
+    "manual_follow_up_required": false,
+    "citizen_safe_summary": "Official clearance evidence was found for reoccupancy for the stated scope and date. Do not generalize it beyond the document's scope."
+  },
+  "manual_follow_up": {
+    "required": false,
+    "custodians": [],
+    "documents_to_request": []
+  },
+  "overclaim_boundary": {
+    "forbidden_claims": [
+      "earthquake-proof",
+      "structurally safe",
+      "fit for occupancy beyond the document scope"
+    ],
+    "allowed_claim": "Official clearance evidence was found for the stated scope and date."
+  },
+  "validation_summary": {
+    "status": "ready_for_gate_4",
+    "blocked_claims": [
+      "Do not generalize clearance beyond the stated scope and date."
+    ]
+  }
+}

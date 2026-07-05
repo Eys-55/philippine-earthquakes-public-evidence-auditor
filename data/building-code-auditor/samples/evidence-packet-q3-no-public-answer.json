@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_step": "earthquake_evidence_packet",
+  "confirmed_place": {
+    "display_name": "Avida Towers Davao",
+    "candidate_id": "fixture-avida-davao",
+    "city": "Davao City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user"
+  },
+  "locked_scope": {
+    "scope_ids": [
+      "latest_post_earthquake_status"
+    ],
+    "selected_lanes": [
+      "latest_post_earthquake_status"
+    ],
+    "requires_timeframe": true,
+    "requires_target_subscope": true,
+    "output_intent": "Check the latest official post-earthquake tag or inspection status for the target and event."
+  },
+  "target_context": {
+    "target_subscope": "specific tower not confirmed in public result",
+    "timeframe": "after the 2019 Davao del Sur earthquake sequence",
+    "earthquake_event": "2019 Davao del Sur earthquake sequence",
+    "jurisdiction": {
+      "lgu": "Davao City",
+      "likely_obo_or_ocbo": "Davao City Office of the City Building Official",
+      "country": "Philippines"
+    },
+    "identity_caveats": [
+      "Fixture packet only; public official result for the exact target is not attached."
+    ]
+  },
+  "lane_results": [
+    {
+      "lane_id": "latest_post_earthquake_status",
+      "lane_type": "availability_and_answer",
+      "question": "After a specific earthquake, what is the official tag or inspection status for this building?",
+      "document_targets_searched": [
+        "official green tag or inspected placard",
+        "official yellow tag or restricted-use disposition",
+        "official red tag or unsafe-for-occupancy disposition",
+        "official rapid visual inspection report"
+      ],
+      "query_log": [
+        "\"Avida Towers Davao\" \"red tag\"",
+        "\"Avida Towers Davao\" \"yellow tag\"",
+        "\"Avida Towers Davao\" \"OCBO\" \"earthquake\""
+      ],
+      "best_sources": [
+        {
+          "title": "Davao City issues red/yellow tags on earthquake affected buildings",
+          "url": "https://davaocity.gov.ph/local-government/davao-city-issues-red-yellow-tags-on-earthquake-affected-buildings/",
+          "source_type": "official_lgu",
+          "publisher": "City Government of Davao",
+          "date_published_or_accessed": "2026-07-05",
+          "target_specific": false,
+          "supports": "Official context for Davao City red/yellow tag and inspection process.",
+          "does_not_support": "Does not provide an official public tag/status answer for the exact fixture target."
+        }
+      ],
+      "answer_found": false,
+      "answerability": "not_answerable",
+      "answer_text": null,
+      "public_evidence_status": "manual_request_needed",
+      "stop_reason": "manual_record_needed",
+      "manual_follow_up_needed": true,
+      "manual_custodians": [
+        "Davao City Office of the City Building Official",
+        "Davao City LGU",
+        "building owner or property manager"
+      ],
+      "overclaim_risk": "high"
+    }
+  ],
+  "integrated_answer": {
+    "summary": "No public official tag or inspection-status answer was found for the exact target and event.",
+    "selected_scope_ids": [
+      "latest_post_earthquake_status"
+    ],
+    "answerable_scope_ids": [],
+    "not_answerable_scope_ids": [
+      "latest_post_earthquake_status"
+    ],
+    "public_evidence_found": false,
+    "manual_follow_up_required": true,
+    "citizen_safe_summary": "No public official tag or inspection-status answer was found for the exact target and event. Manual OCBO, LGU, owner, or property-manager follow-up is needed."
+  },
+  "manual_follow_up": {
+    "required": true,
+    "custodians": [
+      "Davao City Office of the City Building Official",
+      "Davao City LGU",
+      "building owner or property manager"
+    ],
+    "documents_to_request": [
+      "official post-earthquake tag notice",
+      "rapid visual inspection result",
+      "official occupancy restriction or clearance language"
+    ]
+  },
+  "overclaim_boundary": {
+    "forbidden_claims": [
+      "earthquake-proof",
+      "structurally safe",
+      "fit for occupancy",
+      "unsafe beyond official status language"
+    ],
+    "allowed_claim": "No public official post-earthquake tag/status answer was found for the exact target."
+  },
+  "validation_summary": {
+    "status": "ready_for_gate_4",
+    "blocked_claims": [
+      "Do not use business activity or reopening as inspection status."
+    ]
+  }
+}
