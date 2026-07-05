@@ -8,3 +8,5 @@ dist/
 build/
 *.log
 .worktrees/
+__pycache__/
+*.py[cod]
