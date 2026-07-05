@@ -3,8 +3,10 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 import json
 from pathlib import Path
+import subprocess
 from typing import Any
 
 
@@ -13,6 +15,24 @@ UPLOADED_STATUSES = {"clean", "uploaded", "verified"}
 PENDING_STATUS_PREFIXES = ("pending", "dirty", "ahead")
 DIRTY_COUNT_KEYS = ("untracked_file_count", "dirty_file_count", "ahead_count")
 JsonObject = dict[str, Any]
+
+
+class GitCommandError(RuntimeError):
+    """Raised when a read-only git status check fails."""
+
+
+@dataclass(frozen=True)
+class LiveGitCheck:
+    branch: str
+    local_head: str
+    remote_head: str
+    ahead_count: int | None
+    untracked_file_count: int
+    dirty_file_count: int
+
+    @property
+    def has_local_changes(self) -> bool:
+        return self.untracked_file_count > 0 or self.dirty_file_count > 0
 
 
 def read_json(path: Path) -> JsonObject:
@@ -47,6 +67,15 @@ def workstreams_by_project(workstreams_payload: JsonObject) -> dict[str, list[Js
     return by_project
 
 
+def repos_by_id(repos_payload: JsonObject) -> dict[str, JsonObject]:
+    repos: dict[str, JsonObject] = {}
+    for repo in as_records(repos_payload, "repos"):
+        repo_id = repo.get("id")
+        if isinstance(repo_id, str) and repo_id:
+            repos[repo_id] = repo
+    return repos
+
+
 def positive_int(value: object) -> bool:
     if isinstance(value, bool):
         return False
@@ -60,6 +89,72 @@ def positive_int(value: object) -> bool:
     return False
 
 
+def run_git(args: list[str]) -> str:
+    command = ["git", *args]
+    try:
+        result = subprocess.run(
+            command,
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+    except OSError as exc:
+        raise GitCommandError(str(exc)) from exc
+    if result.returncode != 0:
+        raise GitCommandError(result.stderr.strip() or f"{' '.join(command)} failed")
+    return result.stdout.strip()
+
+
+def status_counts(status_output: str) -> tuple[int, int]:
+    untracked_file_count = 0
+    dirty_file_count = 0
+    for line in status_output.splitlines():
+        if not line:
+            continue
+        if line.startswith("?? "):
+            untracked_file_count += 1
+        else:
+            dirty_file_count += 1
+    return untracked_file_count, dirty_file_count
+
+
+def parse_remote_head(ls_remote_output: str) -> str:
+    first_line = ls_remote_output.splitlines()[0] if ls_remote_output.splitlines() else ""
+    parts = first_line.split()
+    return parts[0] if parts else ""
+
+
+def ahead_count(local_head: str, remote_head: str) -> int | None:
+    if not local_head or not remote_head:
+        return None
+    try:
+        output = run_git(["rev-list", "--count", f"{remote_head}..{local_head}"])
+    except GitCommandError:
+        return None
+    try:
+        return int(output)
+    except ValueError:
+        return None
+
+
+def live_git_check() -> LiveGitCheck:
+    status_output = run_git(["status", "--short"])
+    untracked_file_count, dirty_file_count = status_counts(status_output)
+    branch = run_git(["rev-parse", "--abbrev-ref", "HEAD"])
+    local_head = run_git(["rev-parse", "HEAD"])
+    remote_head = parse_remote_head(run_git(["ls-remote", "origin", f"refs/heads/{branch}"]))
+    return LiveGitCheck(
+        branch=branch,
+        local_head=local_head,
+        remote_head=remote_head,
+        ahead_count=ahead_count(local_head, remote_head),
+        untracked_file_count=untracked_file_count,
+        dirty_file_count=dirty_file_count,
+    )
+
+
 def has_dirty_upload_indicator(state: JsonObject) -> bool:
     status = state.get("status")
     normalized_status = status.lower() if isinstance(status, str) else ""
@@ -68,6 +163,11 @@ def has_dirty_upload_indicator(state: JsonObject) -> bool:
     if any(positive_int(state.get(key)) for key in DIRTY_COUNT_KEYS):
         return True
     return bool(state.get("pending_reason"))
+
+
+def recorded_status(state: JsonObject) -> str:
+    status = state.get("status")
+    return status if isinstance(status, str) and status else "unknown"
 
 
 def upload_marker(state: JsonObject) -> str:
@@ -80,6 +180,50 @@ def upload_marker(state: JsonObject) -> str:
     if status in UPLOADED_STATUSES and same_head:
         return "uploaded"
     return "not uploaded"
+
+
+def live_upload_marker(check: LiveGitCheck) -> tuple[str, str]:
+    if check.has_local_changes:
+        return "pending", "dirty/untracked"
+    if not check.remote_head:
+        return "not uploaded", "remote branch missing"
+    if check.local_head == check.remote_head:
+        return "uploaded", "HEAD matches remote"
+    if check.ahead_count is not None and check.ahead_count > 0:
+        return "pending", "local HEAD ahead of remote"
+    return "not uploaded", "local HEAD differs from remote"
+
+
+def upload_source_marker(
+    *,
+    repo: JsonObject | None,
+    state: JsonObject,
+) -> tuple[str, str, str, str]:
+    local_branch = state.get("local_branch", "unknown")
+    remote_branch = state.get("remote_branch", "unknown")
+    if repo is not None and repo.get("path") == ".":
+        try:
+            check = live_git_check()
+        except GitCommandError:
+            return (
+                upload_marker(state),
+                f"recorded {recorded_status(state)}",
+                str(local_branch),
+                str(remote_branch),
+            )
+        marker, live_reason = live_upload_marker(check)
+        return (
+            marker,
+            f"live git check: {live_reason}; recorded {recorded_status(state)}",
+            check.branch,
+            check.branch,
+        )
+    return (
+        upload_marker(state),
+        f"recorded {recorded_status(state)}",
+        str(local_branch),
+        str(remote_branch),
+    )
 
 
 def project_workstreams(
@@ -142,33 +286,35 @@ def print_not_active_projects(projects_payload: JsonObject) -> None:
     print()
 
 
-def print_upload_state(upload_payload: JsonObject) -> None:
+def print_upload_state(upload_payload: JsonObject, repos_payload: JsonObject) -> None:
     print("## GitHub Upload State")
     repos = upload_payload.get("repos", {})
     if not isinstance(repos, dict) or not repos:
         print("- No upload state recorded.")
         return
 
+    registry_repos = repos_by_id(repos_payload)
     for repo_id in sorted(repos):
         state = repos[repo_id]
         if not isinstance(state, dict):
             print(f"- `{repo_id}`: not uploaded (invalid upload state)")
             continue
-        marker = upload_marker(state)
-        status = state.get("status", "unknown")
-        local_branch = state.get("local_branch", "unknown")
-        remote_branch = state.get("remote_branch", "unknown")
-        print(f"- `{repo_id}`: {marker} ({status}; {local_branch} -> {remote_branch})")
+        marker, source, local_branch, remote_branch = upload_source_marker(
+            repo=registry_repos.get(repo_id),
+            state=state,
+        )
+        print(f"- `{repo_id}`: {marker} ({source}; {local_branch} -> {remote_branch})")
 
 
 def main() -> int:
     projects_payload = read_json(ROOT / "ops/registry/projects.json")
+    repos_payload = read_json(ROOT / "ops/registry/repos.json")
     workstreams_payload = read_json(ROOT / "ops/registry/workstreams.json")
     upload_payload = read_json(ROOT / "ops/sync/github-upload-state.json")
 
     print_active_projects(projects_payload, workstreams_payload)
     print_not_active_projects(projects_payload)
-    print_upload_state(upload_payload)
+    print_upload_state(upload_payload, repos_payload)
     return 0
 
 
