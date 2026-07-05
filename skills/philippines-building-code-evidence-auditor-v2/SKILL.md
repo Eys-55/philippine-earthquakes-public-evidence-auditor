@@ -10,15 +10,16 @@ isolated copy-and-revamp of V1. V1 remains the broad building-code evidence
 auditor. V2 owns its own gates, schemas, fixtures, validators, and future
 changes.
 
-V2 has one permanent search scope: four earthquake evidence lanes. The only
-valid Gate 2 scope IDs are `nscp_seismic_design_evidence`,
+V2 has one permanent search scope: four earthquake evidence lanes. Gate 2
+defaults to all four lanes unless the user narrows to one or more lanes. The
+only valid Gate 2 scope IDs are `nscp_seismic_design_evidence`,
 `obo_structural_permit_review_evidence`, `post_earthquake_tag_status`, and
 `clearance_after_damage_or_tag`. Do not add a fifth lane, broad packet lane,
 generic permit lane, contractor lane, standards lane, fire-safety lane,
 accessibility lane, business-permit lane, or general building-code lane to V2.
 
-The Gate 3 evidence packet is an output format for the four lanes. It is not a
-Gate 2 menu option.
+The Gate 3 parent audit run is an output format for the selected lanes. It is
+not a Gate 2 menu option.
 
 ## ECC Gate Review Habit
 
@@ -51,7 +52,7 @@ Blocked in V2 unless tied to one of the four earthquake lanes:
 - broad public-evidence packet requests;
 - any conclusion that a building is compliant, noncompliant, safe, unsafe,
   earthquake-safe, earthquake-proof, fit for occupancy, cleared, unpermitted, or
-  unreviewed without exact authoritative evidence for the locked lane.
+  unreviewed without exact authoritative evidence for the selected lane.
 
 ## Gate 1 Contract
 
@@ -66,6 +67,9 @@ Keep these invariants:
 - `confirmation.can_proceed_to_audit` is `true` only when
   `confirmation.status` is `confirmed_by_user`.
 - Blocked turns ask exactly one focused clarifying question.
+- When a candidate is ready, show the user identity evidence such as Google
+  Maps, official site, address, branch, tenant, wing, complex, city, and
+  landmark clues before asking them to confirm.
 - Public identity evidence builds confidence only; it never proves earthquake
   safety, NSCP/seismic design, OBO structural review, tag status, clearance,
   compliance, permit status, ownership, or construction quality.
@@ -96,17 +100,18 @@ Blocked during Gate 1:
 Gate 2 is Earthquake Scope Lock. It starts only after Gate 1 has
 `confirmation.status` set to `confirmed_by_user`.
 
-Gate 2 answers one question: which of the four V2 earthquake evidence searches
-should run for the confirmed place?
+Gate 2 answers one question: should the auditor run all four earthquake
+evidence lanes by default, or should the user narrow to one or more lanes?
 
 Keep these invariants:
 
-- Ask exactly one four-option menu question when no scope is locked.
-- Accept an answer by number, label, or natural language.
+- Ask exactly one four-option menu question that says all four lanes will run by
+  default unless the user narrows the run.
+- Accept answers by number, label, natural language, or no narrowing.
 - If the answer is unclear, ask exactly one follow-up question and keep the
   evidence search blocked.
-- `can_proceed_to_evidence_search` is `true` only when one of the four scopes is
-  explicitly confirmed.
+- `can_proceed_to_evidence_search` is `true` when all four lanes are defaulted
+  or one or more of the four lanes are explicitly selected.
 - Do not search evidence during Gate 2.
 - Do not offer or accept a fifth scope.
 
@@ -119,7 +124,8 @@ The permanent V2 Gate 2 menu is:
 
 Prompt pattern:
 
-"For [confirmed place], which earthquake evidence search should run?
+"For [confirmed place], I can run all four earthquake evidence searches by
+default, or you can narrow this to one or more lanes:
 1. NSCP / seismic design evidence
 2. OBO structural permit or review evidence
 3. Latest post-earthquake tag / status
@@ -143,13 +149,33 @@ Use
 `data/philippines-building-code-evidence-auditor-v2/earthquake-source-reality.json`
 before designing or running evidence collection.
 
-## Gate 3 Evidence Packet
+## Gate 3 Parent Audit Run And Lane Packets
 
-Gate 3 collects and classifies public evidence for the locked earthquake lane.
-Use
-`data/philippines-building-code-evidence-auditor-v2/evidence-packet-schema.json`.
+Gate 3 creates a parent audit run for the selected earthquake lanes, then
+creates one child lane packet per selected lane. Use
+`data/philippines-building-code-evidence-auditor-v2/audit-run-schema.json` for
+the parent run and
+`data/philippines-building-code-evidence-auditor-v2/evidence-packet-schema.json`
+for each child lane packet.
 
-Gate 3 packets must record:
+Parent audit runs must record:
+
+- `confirmed_building`;
+- `selected_earthquake_lanes`;
+- `source_ingestion_policy`;
+- `lane_packets`;
+- `overall_summary`;
+- `unresolved_cross_lane_exceptions`;
+- `final_overclaim_status`.
+
+Public-source ingestion stores metadata plus short snippets only: URL, source
+label, source class, date or freshness signal when visible, short excerpt, query
+used, and lane relevance. Do not mirror whole public pages by default.
+
+Each child lane packet collects and classifies public evidence for exactly one
+selected earthquake lane.
+
+Child lane packets must record:
 
 - `confirmed_building`;
 - `locked_earthquake_lane`;
@@ -202,12 +228,13 @@ No-evidence semantics:
 
 ## Gate 4 Final Overclaim Audit
 
-Gate 4 audits the Gate 3 packet before presenting conclusions.
+Gate 4 audits every Gate 3 child lane packet and then audits the parent audit
+run summary before presenting conclusions.
 
 Checklist:
 
 - exact building match confirmed;
-- locked scope is one of the four earthquake lanes;
+- selected lanes are one or more of the four earthquake lanes;
 - every positive claim has a source URL;
 - official/professional evidence is separated from weak leads;
 - operator/corporate claims are not treated as official clearance;
@@ -215,10 +242,11 @@ Checklist:
   "noncompliant," "cleared," "no tag," "not reviewed," or "no permit";
 - red/yellow tag evidence is preserved when found;
 - unresolved exceptions are preserved;
-- query log is present for no-evidence outcomes.
+- query log is present for no-evidence outcomes;
+- parent summary does not overstate any child lane result.
 
-If Gate 4 finds an overclaim, revise the packet. Do not present the claim as a
-finding.
+If Gate 4 finds an overclaim, revise the affected child lane packet or parent
+summary. Do not present the claim as a finding.
 
 ## Source Curation Classes
 

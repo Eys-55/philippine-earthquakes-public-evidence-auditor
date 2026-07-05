@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.1.0",
+  "workflow_step": "earthquake_public_evidence_audit_run",
+  "confirmed_building": {
+    "display_name": "SM City Manila",
+    "candidate_id": "fixture-sm-city-manila",
+    "city": "Manila",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user",
+    "identity_confirmation_sources": [
+      {
+        "label": "Google Maps fixture",
+        "url": "https://example.com/maps/sm-city-manila",
+        "use": "Exact place and address confirmation."
+      }
+    ]
+  },
+  "selected_earthquake_lanes": [
+    "nscp_seismic_design_evidence",
+    "obo_structural_permit_review_evidence",
+    "post_earthquake_tag_status",
+    "clearance_after_damage_or_tag"
+  ],
+  "source_ingestion_policy": {
+    "mode": "metadata_plus_short_snippets",
+    "stored_fields": [
+      "url",
+      "source_label",
+      "source_class",
+      "date_or_freshness",
+      "short_excerpt",
+      "query_used",
+      "lane_relevance"
+    ],
+    "full_page_archive": false
+  },
+  "lane_packets": [
+    {
+      "lane_id": "nscp_seismic_design_evidence",
+      "packet_ref": "evidence-packet-fixtures/no-public-evidence-nscp-seismic.json",
+      "packet_result_status": "no_public_evidence_found",
+      "summary": "No public evidence found for NSCP/seismic design evidence after the recorded searches.",
+      "overclaim_status": "passed",
+      "requires_manual_request": true
+    },
+    {
+      "lane_id": "obo_structural_permit_review_evidence",
+      "packet_ref": "evidence-packet-fixtures/no-public-evidence-obo-structural-review.json",
+      "packet_result_status": "no_public_evidence_found",
+      "summary": "No public evidence found for OBO structural permit or review evidence after the recorded searches.",
+      "overclaim_status": "passed",
+      "requires_manual_request": true
+    },
+    {
+      "lane_id": "post_earthquake_tag_status",
+      "packet_ref": "evidence-packet-fixtures/no-public-answer-post-earthquake-tag.json",
+      "packet_result_status": "no_public_answer_found",
+      "summary": "No public answer found for latest post-earthquake tag or status after the recorded searches.",
+      "overclaim_status": "passed",
+      "requires_manual_request": true
+    },
+    {
+      "lane_id": "clearance_after_damage_or_tag",
+      "packet_ref": "evidence-packet-fixtures/no-public-answer-clearance.json",
+      "packet_result_status": "no_public_answer_found",
+      "summary": "No public answer found for latest clearance after damage or tag after the recorded searches.",
+      "overclaim_status": "passed",
+      "requires_manual_request": true
+    }
+  ],
+  "overall_summary": {
+    "status": "ready_for_operator_use",
+    "source_bounded_summary": "The parent packet records public evidence availability for all four earthquake lanes and preserves unresolved document gaps for manual request.",
+    "forbidden_conclusion_codes": [
+      "earthquake_safe",
+      "earthquake_unsafe",
+      "compliant",
+      "noncompliant",
+      "cleared",
+      "no_tag",
+      "no_permit"
+    ]
+  },
+  "unresolved_cross_lane_exceptions": [
+    {
+      "exception_id": "manual-record-custodian-needed",
+      "description": "Some target-specific records may exist with OBO, owner, operator, or engineer custodians even when not public.",
+      "resolution_route": "Use the lane packet manual request targets."
+    }
+  ],
+  "final_overclaim_status": {
+    "status": "passed",
+    "checked_lane_ids": [
+      "nscp_seismic_design_evidence",
+      "obo_structural_permit_review_evidence",
+      "post_earthquake_tag_status",
+      "clearance_after_damage_or_tag"
+    ],
+    "checklist": {
+      "exact_building_match_confirmed": true,
+      "each_lane_packet_audited": true,
+      "parent_summary_audited": true,
+      "missing_evidence_not_converted_to_conclusion": true,
+      "unresolved_exceptions_preserved": true
+    }
+  }
+}

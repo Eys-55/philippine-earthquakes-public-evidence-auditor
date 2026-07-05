@@ -127,6 +127,14 @@ CHECKLIST_KEYS = {
     "query_log_present_for_no_evidence",
 }
 
+PARENT_CHECKLIST_KEYS = {
+    "exact_building_match_confirmed",
+    "each_lane_packet_audited",
+    "parent_summary_audited",
+    "missing_evidence_not_converted_to_conclusion",
+    "unresolved_exceptions_preserved",
+}
+
 
 def fail(message: str) -> int:
     print(f"building-code v2 overclaim validation failed: {message}", file=sys.stderr)
@@ -469,6 +477,107 @@ def validate_packet(packet: dict, checklist: dict, path: str) -> list[tuple[str,
     return errors
 
 
+def validate_parent_audit_run(run: dict, checklist: dict, path: str) -> list[tuple[str, str]]:
+    errors: list[tuple[str, str]] = []
+
+    building = run.get("confirmed_building")
+    if not isinstance(building, dict) or building.get("gate_1_status") != "confirmed_by_user":
+        add_error(errors, "exact_building_match_not_confirmed", f"{path}: parent run must have confirmed building")
+    if checklist.get("exact_building_match_confirmed") is not True:
+        add_error(errors, "exact_building_match_not_confirmed", f"{path}: parent checklist did not confirm exact match")
+
+    selected = run.get("selected_earthquake_lanes")
+    if not isinstance(selected, list) or not selected:
+        add_error(errors, "invalid_locked_scope", f"{path}: parent run must select one or more lanes")
+        selected = []
+    invalid = sorted(set(selected) - ALLOWED_LANES)
+    if invalid:
+        add_error(errors, "invalid_locked_scope", f"{path}: unsupported parent lanes {invalid}")
+
+    packets = run.get("lane_packets")
+    if not isinstance(packets, list) or not packets:
+        add_error(errors, "parent_lane_packet_missing", f"{path}: parent run must include lane packet summaries")
+        packets = []
+    packet_lanes = [packet.get("lane_id") for packet in packets if isinstance(packet, dict)]
+    if sorted(packet_lanes) != sorted(selected):
+        add_error(errors, "parent_lane_packet_missing", f"{path}: lane packet summaries must match selected lanes")
+
+    if checklist.get("each_lane_packet_audited") is not True:
+        add_error(errors, "parent_lane_packet_missing", f"{path}: each lane packet audit checklist failed")
+    if checklist.get("parent_summary_audited") is not True:
+        add_error(errors, "parent_summary_overclaim", f"{path}: parent summary audit checklist failed")
+    if checklist.get("unresolved_exceptions_preserved") is not True:
+        add_error(errors, "unresolved_exceptions_erased", f"{path}: parent unresolved-exception checklist failed")
+
+    overall = run.get("overall_summary")
+    summary_text = ""
+    if not isinstance(overall, dict):
+        add_error(errors, "parent_summary_overclaim", f"{path}: missing parent overall_summary")
+    else:
+        summary_text = str(overall.get("source_bounded_summary", ""))
+        if not summary_text.strip():
+            add_error(errors, "parent_summary_overclaim", f"{path}: parent source_bounded_summary is required")
+
+    missing_evidence_result = any(
+        isinstance(packet, dict)
+        and packet.get("packet_result_status") in {"no_public_evidence_found", "no_public_answer_found"}
+        for packet in packets
+    )
+    if missing_evidence_result:
+        if checklist.get("missing_evidence_not_converted_to_conclusion") is not True:
+            add_error(errors, "missing_evidence_overclaim", f"{path}: parent missing-evidence checklist failed")
+        for phrase in sorted(FORBIDDEN_MISSING_EVIDENCE_PHRASES):
+            if contains_phrase(summary_text, phrase):
+                add_error(
+                    errors,
+                    "missing_evidence_overclaim",
+                    f"{path}: parent summary converts missing evidence into {phrase!r}",
+                )
+        for word in sorted(FORBIDDEN_MISSING_EVIDENCE_STATUS_WORDS):
+            if contains_phrase(summary_text, word):
+                add_error(
+                    errors,
+                    "missing_evidence_overclaim",
+                    f"{path}: parent summary converts missing evidence into {word!r}",
+                )
+
+    final = run.get("final_overclaim_status")
+    if not isinstance(final, dict):
+        add_error(errors, "parent_summary_overclaim", f"{path}: missing final_overclaim_status")
+    elif final.get("status") == "passed" and overall and overall.get("status") != "ready_for_operator_use":
+        add_error(errors, "parent_summary_overclaim", f"{path}: passed parent audit must be ready for operator use")
+
+    return errors
+
+
+def validate_parent_fixture_shape(
+    fixture: object,
+    path: str,
+    errors: list[tuple[str, str]],
+) -> tuple[dict, dict, dict] | None:
+    if not isinstance(fixture, dict):
+        add_error(errors, "fixture_shape", f"{path}: fixture must be an object")
+        return None
+    expected_valid = fixture.get("expected_valid")
+    if not isinstance(expected_valid, bool):
+        add_error(errors, "fixture_shape", f"{path}.expected_valid: must be boolean")
+    expected_codes = fixture.get("expected_error_codes")
+    if not isinstance(expected_codes, list) or not all(isinstance(code, str) for code in expected_codes):
+        add_error(errors, "fixture_shape", f"{path}.expected_error_codes: must be an array of strings")
+    checklist = fixture.get("gate4_checklist")
+    if not isinstance(checklist, dict):
+        add_error(errors, "fixture_shape", f"{path}.gate4_checklist: must be an object")
+        checklist = {}
+    missing_keys = sorted(PARENT_CHECKLIST_KEYS - set(checklist))
+    if missing_keys:
+        add_error(errors, "fixture_shape", f"{path}.gate4_checklist: missing parent keys {missing_keys}")
+    audit_run = fixture.get("audit_run")
+    if not isinstance(audit_run, dict):
+        add_error(errors, "fixture_shape", f"{path}.audit_run: must be an object")
+        audit_run = {}
+    return fixture, checklist, audit_run
+
+
 def validate_expected_result(
     fixture: dict,
     actual_errors: list[tuple[str, str]],
@@ -528,6 +637,8 @@ def main() -> int:
         "invalid-broad-v1-scope.json",
         "invalid-positive-without-sourced-evidence.json",
         "invalid-process-context-positive-evidence.json",
+        "valid-parent-audit-run.json",
+        "invalid-parent-summary-overclaim.json",
     }
     fixture_names = {path.name for path in fixture_paths}
     missing = sorted(expected_fixture_names - fixture_names)
@@ -546,14 +657,20 @@ def main() -> int:
             continue
 
         shape_errors: list[tuple[str, str]] = []
-        shaped = validate_fixture_shape(fixture, path, shape_errors)
-        if shaped is None:
-            harness_errors.extend(f"{path}: {code}: {message}" for code, message in shape_errors)
-            continue
-
-        fixture_obj, checklist, packet = shaped
-        packet_errors = validate_packet(packet, checklist, path)
-        actual_errors = shape_errors + packet_errors
+        if isinstance(fixture, dict) and "audit_run" in fixture:
+            shaped_parent = validate_parent_fixture_shape(fixture, path, shape_errors)
+            if shaped_parent is None:
+                harness_errors.extend(f"{path}: {code}: {message}" for code, message in shape_errors)
+                continue
+            fixture_obj, checklist, audit_run = shaped_parent
+            actual_errors = shape_errors + validate_parent_audit_run(audit_run, checklist, path)
+        else:
+            shaped = validate_fixture_shape(fixture, path, shape_errors)
+            if shaped is None:
+                harness_errors.extend(f"{path}: {code}: {message}" for code, message in shape_errors)
+                continue
+            fixture_obj, checklist, packet = shaped
+            actual_errors = shape_errors + validate_packet(packet, checklist, path)
 
         if fixture_obj.get("expected_valid") is True:
             expected_valid_count += 1

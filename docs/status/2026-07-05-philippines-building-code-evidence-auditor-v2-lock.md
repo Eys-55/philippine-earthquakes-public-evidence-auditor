@@ -33,8 +33,9 @@ fifth scope, broad packet lane, or general building-code search.
 
 - Gate 1: confirm the exact building, establishment, mall, hotel, tenant,
   complex, or facility before any earthquake evidence search.
-- Gate 2: lock exactly one of the four earthquake evidence lanes.
-- Gate 3: produce an evidence packet with document inventory, evidence
+- Gate 2: default to all four earthquake evidence lanes unless the user narrows
+  to one or more lanes.
+- Gate 3: produce a parent audit run with child lane packets, document inventory, evidence
   strength, source curation class, physical-condition public evidence,
   unresolved exceptions, manual request targets, overclaim boundary, query log,
   and packet result.

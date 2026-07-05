@@ -15,5 +15,5 @@
     "Post-earthquake tag and clearance lanes may validly end as no public answer found after sufficient search.",
     "No missing public evidence may become a safety, compliance, tag, clearance, or permit conclusion."
   ],
-  "guardrail": "Gate 2 locks one earthquake lane only. Gate 3 performs evidence collection and packet review."
+    "guardrail": "Gate 2 defaults to all four earthquake lanes unless the user narrows to one or more lanes. Gate 3 creates a parent audit run with child lane packets."
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "schema_version": "2.0.0",
+    "schema_version": "2.1.0",
   "title": "Philippines Building Code Evidence Auditor V2 Gate 3 Evidence Packet",
   "type": "object",
   "additionalProperties": false,
@@ -265,10 +265,34 @@
           ],
           "format": "uri"
         },
-        "source_name": {
-          "type": "string"
+                "source_name": {
+                    "type": "string"
+                },
+                "source_date": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "freshness_signal": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "source_excerpt": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "lane_relevance": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            }
         }
-      }
-    }
   }
 }

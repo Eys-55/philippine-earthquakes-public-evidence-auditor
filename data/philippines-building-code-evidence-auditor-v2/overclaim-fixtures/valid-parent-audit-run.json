@@ -1,0 +1,69 @@
+{
+  "expected_valid": true,
+  "expected_error_codes": [],
+  "gate4_checklist": {
+    "exact_building_match_confirmed": true,
+    "each_lane_packet_audited": true,
+    "parent_summary_audited": true,
+    "missing_evidence_not_converted_to_conclusion": true,
+    "unresolved_exceptions_preserved": true
+  },
+  "audit_run": {
+    "schema_version": "2.1.0",
+    "workflow_step": "earthquake_public_evidence_audit_run",
+    "confirmed_building": {
+      "display_name": "SM City Manila",
+      "candidate_id": "fixture-sm-city-manila",
+      "city": "Manila",
+      "country": "Philippines",
+      "gate_1_status": "confirmed_by_user",
+      "identity_confirmation_sources": [
+        {"label": "Google Maps fixture", "url": "https://example.com/maps/sm-city-manila", "use": "Exact place confirmation."}
+      ]
+    },
+    "selected_earthquake_lanes": [
+      "nscp_seismic_design_evidence",
+      "obo_structural_permit_review_evidence"
+    ],
+    "lane_packets": [
+      {
+        "lane_id": "nscp_seismic_design_evidence",
+        "packet_ref": "evidence-packet-fixtures/no-public-evidence-nscp-seismic.json",
+        "packet_result_status": "no_public_evidence_found",
+        "summary": "No public evidence found for NSCP/seismic design evidence after the recorded searches.",
+        "overclaim_status": "passed",
+        "requires_manual_request": true
+      },
+      {
+        "lane_id": "obo_structural_permit_review_evidence",
+        "packet_ref": "evidence-packet-fixtures/no-public-evidence-obo-structural-review.json",
+        "packet_result_status": "no_public_evidence_found",
+        "summary": "No public evidence found for OBO structural permit or review evidence after the recorded searches.",
+        "overclaim_status": "passed",
+        "requires_manual_request": true
+      }
+    ],
+    "overall_summary": {
+      "status": "ready_for_operator_use",
+      "source_bounded_summary": "The parent packet reports source-bounded evidence availability and preserves manual request targets for unresolved document gaps.",
+      "forbidden_conclusion_codes": ["earthquake_safe", "earthquake_unsafe", "compliant", "noncompliant"]
+    },
+    "unresolved_cross_lane_exceptions": [
+      {"exception_id": "manual-request-needed", "description": "Some records may not be public.", "resolution_route": "Use lane packet request targets."}
+    ],
+    "final_overclaim_status": {
+      "status": "passed",
+      "checked_lane_ids": [
+        "nscp_seismic_design_evidence",
+        "obo_structural_permit_review_evidence"
+      ],
+      "checklist": {
+        "exact_building_match_confirmed": true,
+        "each_lane_packet_audited": true,
+        "parent_summary_audited": true,
+        "missing_evidence_not_converted_to_conclusion": true,
+        "unresolved_exceptions_preserved": true
+      }
+    }
+  }
+}

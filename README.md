@@ -4,9 +4,9 @@
 
 A Codex/ECC workflow for checking what public evidence exists about a specific
 Philippine building's earthquake-related records. It does not certify safety,
-compliance, or fitness for occupancy. It locks the exact building first, narrows
-the question to one of four earthquake evidence lanes, then produces a
-source-bounded packet with unresolved gaps preserved.
+compliance, or fitness for occupancy. It locks the exact building first, runs
+all four earthquake evidence lanes by default unless the user narrows the run,
+then produces a source-bounded packet with unresolved gaps preserved.
 
 ## What It Audits
 
@@ -24,11 +24,12 @@ business permits, contractor research, or generic building-code compliance.
 ## How The Workflow Runs
 
 1. Gate 1 confirms the exact building, branch, tenant, wing, or complex.
-2. Gate 2 locks one of the four earthquake evidence lanes.
-3. Gate 3 builds an evidence packet with document inventory, evidence strength,
-   source class, unresolved exceptions, manual request targets, and query log.
-4. Gate 4 audits the packet for overclaims before anything is treated as a
-   finding.
+2. Gate 2 defaults to all four earthquake evidence lanes and lets the user
+   narrow to one or more lanes.
+3. Gate 3 builds a parent audit run with one child evidence packet per selected
+   lane.
+4. Gate 4 audits each lane packet and the parent summary for overclaims before
+   anything is treated as a finding.
 
 The workflow is intentionally narrow. Its job is to preserve what can be shown
 from public evidence and to keep missing, weak, or unresolved evidence visible.
@@ -66,10 +67,18 @@ unreviewed.
 
 ## Evidence Packet Output
 
-The packet is designed for operators who need to see what was searched, what was
-found, and what remains unresolved. It records:
+The output is designed for operators who need to see what was searched, what was
+found, and what remains unresolved. The parent audit run records:
 
 - confirmed building identity;
+- selected earthquake lanes;
+- source ingestion policy;
+- child lane packet summaries;
+- cross-lane unresolved exceptions;
+- final overclaim status.
+
+Each child lane packet records:
+
 - locked earthquake lane;
 - document inventory;
 - evidence strength;
@@ -81,6 +90,10 @@ found, and what remains unresolved. It records:
 - query log;
 - packet result.
 
+Public-source ingestion stores metadata plus short snippets only: URL, source
+label, source class, date or freshness signal when visible, short excerpt, query
+used, and lane relevance. It does not mirror whole public pages by default.
+
 This makes the output auditable. Another operator should be able to tell which
 claims are supported, which leads are weak, and which documents still need manual
 request or professional review.
@@ -90,12 +103,13 @@ request or professional review.
 Before presenting a packet, check that:
 
 - the exact building match is confirmed;
-- the locked lane is one of the four earthquake lanes;
+- selected lanes are one or more of the four earthquake lanes;
 - every positive finding has a source URL;
 - official and professional records are separated from weak leads;
 - operator or corporate claims are not treated as official clearance;
 - unresolved exceptions are preserved;
-- no missing evidence has been converted into a safety or compliance conclusion.
+- no missing evidence has been converted into a safety or compliance conclusion;
+- the parent summary does not overstate any child lane result.
 
 If any item fails, the packet should be revised before it is treated as a
 finding.
@@ -109,7 +123,7 @@ document family to request, instead of guessing.
 Common handoff targets include the relevant building official or structural
 record custodian, the owner or operator, and the professional record holder. The
 handoff should stay document-specific: ask for the record that would answer the
-locked lane, not for a general assurance that a building is safe.
+selected lane, not for a general assurance that a building is safe.
 
 ## Workspace Notes
 

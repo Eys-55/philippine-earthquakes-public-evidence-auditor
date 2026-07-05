@@ -1,14 +1,12 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "workflow_gate": "earthquake_scope_lock",
-  "purpose": "Regression fixtures for Gate 2 of the Philippines Building Code Evidence Auditor V2. These cases lock one of exactly four earthquake evidence lanes after a place is confirmed and before any evidence search begins.",
+  "purpose": "Regression fixtures for Gate 2. After exact identity confirmation, the auditor defaults to all four earthquake evidence lanes unless the user narrows to one or more lanes.",
   "fixture_notice": "All sample places and source links in this file are workflow fixtures. They are not public evidence about real buildings.",
   "required_case_categories": [
-    "menu_prompt",
-    "nscp_seismic_design_evidence",
-    "obo_structural_permit_review_evidence",
-    "post_earthquake_tag_status",
-    "clearance_after_damage_or_tag",
+    "default_all_lanes",
+    "narrowed_single_lane",
+    "narrowed_multiple_lanes",
     "ambiguous_scope",
     "unsupported_broad_scope"
   ],
@@ -26,68 +24,60 @@
   ],
   "cases": [
     {
-      "case_id": "earthquake-scope-menu-001",
-      "category": "menu_prompt",
-      "description": "After the exact place is confirmed, V2 asks the four-option earthquake menu and keeps evidence search blocked.",
-      "expected_status": "needs_user_scope_choice",
-      "expected_can_proceed_to_evidence_search": false,
-      "expected_blockers": [
-        "waiting_for_earthquake_scope_choice"
+      "case_id": "earthquake-scope-default-all-001",
+      "category": "default_all_lanes",
+      "description": "After identity confirmation, the auditor defaults to all four earthquake lanes and tells the user they may narrow the run.",
+      "expected_status": "all_lanes_defaulted",
+      "expected_selected_scope_ids": [
+        "nscp_seismic_design_evidence",
+        "obo_structural_permit_review_evidence",
+        "post_earthquake_tag_status",
+        "clearance_after_damage_or_tag"
       ],
+      "expected_can_proceed_to_evidence_search": true,
+      "expected_blockers": [],
       "sample_packet": {
-        "schema_version": "2.0.0",
+        "schema_version": "2.1.0",
         "workflow_step": "earthquake_scope_lock",
         "confirmed_place": {
-          "display_name": "KCC Mall of GenSan",
-          "candidate_id": "fixture-kcc-gensan",
-          "city": "General Santos",
+          "display_name": "SM City Manila",
+          "candidate_id": "fixture-sm-city-manila",
+          "city": "Manila",
           "country": "Philippines",
           "gate_1_status": "confirmed_by_user"
         },
         "user_intake": {
           "raw_user_scope_request": null,
-          "interpreted_scope": null,
-          "answer_source": "not_answered"
+          "interpreted_scopes": [
+            "nscp_seismic_design_evidence",
+            "obo_structural_permit_review_evidence",
+            "post_earthquake_tag_status",
+            "clearance_after_damage_or_tag"
+          ],
+          "answer_source": "not_answered_default_all"
         },
         "scope_menu": [
-          {
-            "number": 1,
-            "scope_id": "nscp_seismic_design_evidence",
-            "label": "NSCP / seismic design evidence"
-          },
-          {
-            "number": 2,
-            "scope_id": "obo_structural_permit_review_evidence",
-            "label": "OBO structural permit or review evidence"
-          },
-          {
-            "number": 3,
-            "scope_id": "post_earthquake_tag_status",
-            "label": "Latest post-earthquake tag / status"
-          },
-          {
-            "number": 4,
-            "scope_id": "clearance_after_damage_or_tag",
-            "label": "Latest clearance after damage or tag"
-          }
+          {"number": 1, "scope_id": "nscp_seismic_design_evidence", "label": "NSCP / seismic design evidence"},
+          {"number": 2, "scope_id": "obo_structural_permit_review_evidence", "label": "OBO structural permit or review evidence"},
+          {"number": 3, "scope_id": "post_earthquake_tag_status", "label": "Latest post-earthquake tag / status"},
+          {"number": 4, "scope_id": "clearance_after_damage_or_tag", "label": "Latest clearance after damage or tag"}
         ],
         "scope_confirmation": {
-          "status": "needs_user_scope_choice",
-          "locked_scope": null,
-          "user_facing_prompt": "For KCC Mall of GenSan, which earthquake evidence search should run? 1. NSCP / seismic design evidence 2. OBO structural permit or review evidence 3. Latest post-earthquake tag / status 4. Latest clearance after damage or tag",
-          "clarifying_questions": [
-            "For KCC Mall of GenSan, which earthquake evidence search should run: 1. NSCP / seismic design evidence, 2. OBO structural permit or review evidence, 3. Latest post-earthquake tag / status, or 4. Latest clearance after damage or tag?"
+          "status": "all_lanes_defaulted",
+          "selected_scopes": [
+            {"scope_id": "nscp_seismic_design_evidence", "label": "NSCP / seismic design evidence", "output_intent": "Find target-specific public NSCP, seismic design, structural calculations, or signed/sealed engineering review evidence."},
+            {"scope_id": "obo_structural_permit_review_evidence", "label": "OBO structural permit or review evidence", "output_intent": "Find target-specific public OBO or Building Official structural permit, plan review, correction, evaluation, inspection, or related record evidence."},
+            {"scope_id": "post_earthquake_tag_status", "label": "Latest post-earthquake tag / status", "output_intent": "Find the latest target-specific official post-earthquake tag, restriction, no-entry, inspection disposition, or equivalent status."},
+            {"scope_id": "clearance_after_damage_or_tag", "label": "Latest clearance after damage or tag", "output_intent": "Find the latest target-specific official clearance, lifting notice, updated green tag, reoccupancy clearance, or signed/sealed stability certificate after damage or tag context."}
           ],
-          "can_proceed_to_evidence_search": false,
-          "blockers": [
-            "waiting_for_earthquake_scope_choice"
-          ]
+          "user_facing_prompt": "For SM City Manila, I can run all four earthquake evidence searches by default: 1. NSCP / seismic design evidence, 2. OBO structural permit or review evidence, 3. Latest post-earthquake tag / status, and 4. Latest clearance after damage or tag. Tell me if you want to narrow this to one or more lanes.",
+          "clarifying_questions": [],
+          "can_proceed_to_evidence_search": true,
+          "blockers": []
         },
         "safety": {
           "evidence_search_started": false,
           "blocked_work": [
-            "public_evidence_search",
-            "document_inventory",
             "safety_claim",
             "compliance_claim",
             "clearance_claim"
@@ -96,15 +86,17 @@
       }
     },
     {
-      "case_id": "earthquake-scope-nscp-001",
-      "category": "nscp_seismic_design_evidence",
-      "description": "A numeric menu answer locks NSCP/seismic design evidence as the scope.",
-      "expected_status": "scope_confirmed",
-      "expected_locked_scope_id": "nscp_seismic_design_evidence",
+      "case_id": "earthquake-scope-narrow-one-001",
+      "category": "narrowed_single_lane",
+      "description": "The user narrows the default run to one lane.",
+      "expected_status": "selected_scopes_confirmed",
+      "expected_selected_scope_ids": [
+        "obo_structural_permit_review_evidence"
+      ],
       "expected_can_proceed_to_evidence_search": true,
       "expected_blockers": [],
       "sample_packet": {
-        "schema_version": "2.0.0",
+        "schema_version": "2.1.0",
         "workflow_step": "earthquake_scope_lock",
         "confirmed_place": {
           "display_name": "KCC Mall of GenSan",
@@ -114,174 +106,24 @@
           "gate_1_status": "confirmed_by_user"
         },
         "user_intake": {
-          "raw_user_scope_request": "1",
-          "interpreted_scope": "nscp_seismic_design_evidence",
-          "answer_source": "number"
-        },
-        "scope_menu": [
-          {
-            "number": 1,
-            "scope_id": "nscp_seismic_design_evidence",
-            "label": "NSCP / seismic design evidence"
-          },
-          {
-            "number": 2,
-            "scope_id": "obo_structural_permit_review_evidence",
-            "label": "OBO structural permit or review evidence"
-          },
-          {
-            "number": 3,
-            "scope_id": "post_earthquake_tag_status",
-            "label": "Latest post-earthquake tag / status"
-          },
-          {
-            "number": 4,
-            "scope_id": "clearance_after_damage_or_tag",
-            "label": "Latest clearance after damage or tag"
-          }
-        ],
-        "scope_confirmation": {
-          "status": "scope_confirmed",
-          "locked_scope": {
-            "scope_id": "nscp_seismic_design_evidence",
-            "label": "NSCP / seismic design evidence",
-            "output_intent": "Find target-specific public evidence that names NSCP, seismic design, structural calculations, or signed/sealed engineering review for the confirmed place."
-          },
-          "user_facing_prompt": "Got it. I will search only for public NSCP / seismic design evidence for KCC Mall of GenSan. If no target-specific public evidence is found, the answer is no public evidence found, not a safety or compliance conclusion.",
-          "clarifying_questions": [],
-          "can_proceed_to_evidence_search": true,
-          "blockers": []
-        },
-        "safety": {
-          "evidence_search_started": false,
-          "blocked_work": [
-            "safety_claim",
-            "compliance_claim",
-            "clearance_claim"
-          ]
-        }
-      }
-    },
-    {
-      "case_id": "earthquake-scope-obo-001",
-      "category": "obo_structural_permit_review_evidence",
-      "description": "A label answer locks OBO structural permit or review evidence as the scope.",
-      "expected_status": "scope_confirmed",
-      "expected_locked_scope_id": "obo_structural_permit_review_evidence",
-      "expected_can_proceed_to_evidence_search": true,
-      "expected_blockers": [],
-      "sample_packet": {
-        "schema_version": "2.0.0",
-        "workflow_step": "earthquake_scope_lock",
-        "confirmed_place": {
-          "display_name": "SM City General Santos",
-          "candidate_id": "fixture-sm-city-gensan",
-          "city": "General Santos",
-          "country": "Philippines",
-          "gate_1_status": "confirmed_by_user"
-        },
-        "user_intake": {
-          "raw_user_scope_request": "OBO structural review",
-          "interpreted_scope": "obo_structural_permit_review_evidence",
-          "answer_source": "label"
-        },
-        "scope_menu": [
-          {
-            "number": 1,
-            "scope_id": "nscp_seismic_design_evidence",
-            "label": "NSCP / seismic design evidence"
-          },
-          {
-            "number": 2,
-            "scope_id": "obo_structural_permit_review_evidence",
-            "label": "OBO structural permit or review evidence"
-          },
-          {
-            "number": 3,
-            "scope_id": "post_earthquake_tag_status",
-            "label": "Latest post-earthquake tag / status"
-          },
-          {
-            "number": 4,
-            "scope_id": "clearance_after_damage_or_tag",
-            "label": "Latest clearance after damage or tag"
-          }
-        ],
-        "scope_confirmation": {
-          "status": "scope_confirmed",
-          "locked_scope": {
-            "scope_id": "obo_structural_permit_review_evidence",
-            "label": "OBO structural permit or review evidence",
-            "output_intent": "Find target-specific public OBO or Building Official structural permit, plan review, correction, evaluation, inspection, or related record evidence."
-          },
-          "user_facing_prompt": "Got it. I will search only for public OBO structural permit or review evidence for SM City General Santos. If no target-specific public evidence is found, the answer is no public evidence found, not a conclusion that no review or permit exists.",
-          "clarifying_questions": [],
-          "can_proceed_to_evidence_search": true,
-          "blockers": []
-        },
-        "safety": {
-          "evidence_search_started": false,
-          "blocked_work": [
-            "safety_claim",
-            "compliance_claim",
-            "clearance_claim"
-          ]
-        }
-      }
-    },
-    {
-      "case_id": "earthquake-scope-tag-001",
-      "category": "post_earthquake_tag_status",
-      "description": "A natural-language answer locks latest post-earthquake tag or status as the scope.",
-      "expected_status": "scope_confirmed",
-      "expected_locked_scope_id": "post_earthquake_tag_status",
-      "expected_can_proceed_to_evidence_search": true,
-      "expected_blockers": [],
-      "sample_packet": {
-        "schema_version": "2.0.0",
-        "workflow_step": "earthquake_scope_lock",
-        "confirmed_place": {
-          "display_name": "RD Plaza Building",
-          "candidate_id": "fixture-rd-plaza-gensan",
-          "city": "General Santos",
-          "country": "Philippines",
-          "gate_1_status": "confirmed_by_user"
-        },
-        "user_intake": {
-          "raw_user_scope_request": "latest red or yellow tag after the quake",
-          "interpreted_scope": "post_earthquake_tag_status",
+          "raw_user_scope_request": "Just OBO structural review.",
+          "interpreted_scopes": [
+            "obo_structural_permit_review_evidence"
+          ],
           "answer_source": "natural_language"
         },
         "scope_menu": [
-          {
-            "number": 1,
-            "scope_id": "nscp_seismic_design_evidence",
-            "label": "NSCP / seismic design evidence"
-          },
-          {
-            "number": 2,
-            "scope_id": "obo_structural_permit_review_evidence",
-            "label": "OBO structural permit or review evidence"
-          },
-          {
-            "number": 3,
-            "scope_id": "post_earthquake_tag_status",
-            "label": "Latest post-earthquake tag / status"
-          },
-          {
-            "number": 4,
-            "scope_id": "clearance_after_damage_or_tag",
-            "label": "Latest clearance after damage or tag"
-          }
+          {"number": 1, "scope_id": "nscp_seismic_design_evidence", "label": "NSCP / seismic design evidence"},
+          {"number": 2, "scope_id": "obo_structural_permit_review_evidence", "label": "OBO structural permit or review evidence"},
+          {"number": 3, "scope_id": "post_earthquake_tag_status", "label": "Latest post-earthquake tag / status"},
+          {"number": 4, "scope_id": "clearance_after_damage_or_tag", "label": "Latest clearance after damage or tag"}
         ],
         "scope_confirmation": {
-          "status": "scope_confirmed",
-          "locked_scope": {
-            "scope_id": "post_earthquake_tag_status",
-            "label": "Latest post-earthquake tag / status",
-            "output_intent": "Find the latest target-specific public official tag, inspection status, occupancy restriction, or post-earthquake status statement."
-          },
-          "user_facing_prompt": "Got it. I will search only for the latest post-earthquake tag / status for RD Plaza Building. If no target-specific public answer is found, the answer is no public answer found, not no tag or cleared.",
+          "status": "selected_scopes_confirmed",
+          "selected_scopes": [
+            {"scope_id": "obo_structural_permit_review_evidence", "label": "OBO structural permit or review evidence", "output_intent": "Find target-specific public OBO or Building Official structural permit, plan review, correction, evaluation, inspection, or related record evidence."}
+          ],
+          "user_facing_prompt": "Got it. I will run only OBO structural permit or review evidence for KCC Mall of GenSan.",
           "clarifying_questions": [],
           "can_proceed_to_evidence_search": true,
           "blockers": []
@@ -297,58 +139,47 @@
       }
     },
     {
-      "case_id": "earthquake-scope-clearance-001",
-      "category": "clearance_after_damage_or_tag",
-      "description": "A natural-language answer locks latest clearance after damage or tag as the scope.",
-      "expected_status": "scope_confirmed",
-      "expected_locked_scope_id": "clearance_after_damage_or_tag",
+      "case_id": "earthquake-scope-narrow-two-001",
+      "category": "narrowed_multiple_lanes",
+      "description": "The user narrows the default run to two lanes.",
+      "expected_status": "selected_scopes_confirmed",
+      "expected_selected_scope_ids": [
+        "post_earthquake_tag_status",
+        "clearance_after_damage_or_tag"
+      ],
       "expected_can_proceed_to_evidence_search": true,
       "expected_blockers": [],
       "sample_packet": {
-        "schema_version": "2.0.0",
+        "schema_version": "2.1.0",
         "workflow_step": "earthquake_scope_lock",
         "confirmed_place": {
-          "display_name": "Gaisano Mall of GenSan",
-          "candidate_id": "fixture-gaisano-gensan",
+          "display_name": "Grand Summit Hotel General Santos",
+          "candidate_id": "fixture-grand-summit-gensan",
           "city": "General Santos",
           "country": "Philippines",
           "gate_1_status": "confirmed_by_user"
         },
         "user_intake": {
-          "raw_user_scope_request": "was there an official clearance after the yellow tag",
-          "interpreted_scope": "clearance_after_damage_or_tag",
+          "raw_user_scope_request": "Only post-earthquake tag and clearance.",
+          "interpreted_scopes": [
+            "post_earthquake_tag_status",
+            "clearance_after_damage_or_tag"
+          ],
           "answer_source": "natural_language"
         },
         "scope_menu": [
-          {
-            "number": 1,
-            "scope_id": "nscp_seismic_design_evidence",
-            "label": "NSCP / seismic design evidence"
-          },
-          {
-            "number": 2,
-            "scope_id": "obo_structural_permit_review_evidence",
-            "label": "OBO structural permit or review evidence"
-          },
-          {
-            "number": 3,
-            "scope_id": "post_earthquake_tag_status",
-            "label": "Latest post-earthquake tag / status"
-          },
-          {
-            "number": 4,
-            "scope_id": "clearance_after_damage_or_tag",
-            "label": "Latest clearance after damage or tag"
-          }
+          {"number": 1, "scope_id": "nscp_seismic_design_evidence", "label": "NSCP / seismic design evidence"},
+          {"number": 2, "scope_id": "obo_structural_permit_review_evidence", "label": "OBO structural permit or review evidence"},
+          {"number": 3, "scope_id": "post_earthquake_tag_status", "label": "Latest post-earthquake tag / status"},
+          {"number": 4, "scope_id": "clearance_after_damage_or_tag", "label": "Latest clearance after damage or tag"}
         ],
         "scope_confirmation": {
-          "status": "scope_confirmed",
-          "locked_scope": {
-            "scope_id": "clearance_after_damage_or_tag",
-            "label": "Latest clearance after damage or tag",
-            "output_intent": "Find target-specific public official clearance, lifting, reoccupancy, repair-completion acceptance, or signed/sealed stability evidence after damage or tag context."
-          },
-          "user_facing_prompt": "Got it. I will search only for latest clearance after damage or tag for Gaisano Mall of GenSan. If no target-specific public answer is found, the answer is no public answer found, not cleared.",
+          "status": "selected_scopes_confirmed",
+          "selected_scopes": [
+            {"scope_id": "post_earthquake_tag_status", "label": "Latest post-earthquake tag / status", "output_intent": "Find the latest target-specific official post-earthquake tag, restriction, no-entry, inspection disposition, or equivalent status."},
+            {"scope_id": "clearance_after_damage_or_tag", "label": "Latest clearance after damage or tag", "output_intent": "Find the latest target-specific official clearance, lifting notice, updated green tag, reoccupancy clearance, or signed/sealed stability certificate after damage or tag context."}
+          ],
+          "user_facing_prompt": "Got it. I will run the post-earthquake tag/status and clearance-after-damage/tag lanes for Grand Summit Hotel General Santos.",
           "clarifying_questions": [],
           "can_proceed_to_evidence_search": true,
           "blockers": []
@@ -366,55 +197,40 @@
     {
       "case_id": "earthquake-scope-ambiguous-001",
       "category": "ambiguous_scope",
-      "description": "A vague earthquake safety question is not accepted as a locked evidence lane until the user chooses one of the four searches.",
+      "description": "A vague earthquake-safety request must be mapped back to the four lanes instead of treated as a direct safety answer.",
       "expected_status": "needs_scope_clarification",
+      "expected_selected_scope_ids": [],
       "expected_can_proceed_to_evidence_search": false,
       "expected_blockers": [
         "ambiguous_earthquake_scope"
       ],
       "sample_packet": {
-        "schema_version": "2.0.0",
+        "schema_version": "2.1.0",
         "workflow_step": "earthquake_scope_lock",
         "confirmed_place": {
-          "display_name": "Grand Summit Hotel General Santos",
-          "candidate_id": "fixture-grand-summit-gensan",
-          "city": "General Santos",
+          "display_name": "SM City Manila",
+          "candidate_id": "fixture-sm-city-manila",
+          "city": "Manila",
           "country": "Philippines",
           "gate_1_status": "confirmed_by_user"
         },
         "user_intake": {
-          "raw_user_scope_request": "is it earthquake safe?",
-          "interpreted_scope": null,
+          "raw_user_scope_request": "Is it earthquake safe?",
+          "interpreted_scopes": [],
           "answer_source": "natural_language"
         },
         "scope_menu": [
-          {
-            "number": 1,
-            "scope_id": "nscp_seismic_design_evidence",
-            "label": "NSCP / seismic design evidence"
-          },
-          {
-            "number": 2,
-            "scope_id": "obo_structural_permit_review_evidence",
-            "label": "OBO structural permit or review evidence"
-          },
-          {
-            "number": 3,
-            "scope_id": "post_earthquake_tag_status",
-            "label": "Latest post-earthquake tag / status"
-          },
-          {
-            "number": 4,
-            "scope_id": "clearance_after_damage_or_tag",
-            "label": "Latest clearance after damage or tag"
-          }
+          {"number": 1, "scope_id": "nscp_seismic_design_evidence", "label": "NSCP / seismic design evidence"},
+          {"number": 2, "scope_id": "obo_structural_permit_review_evidence", "label": "OBO structural permit or review evidence"},
+          {"number": 3, "scope_id": "post_earthquake_tag_status", "label": "Latest post-earthquake tag / status"},
+          {"number": 4, "scope_id": "clearance_after_damage_or_tag", "label": "Latest clearance after damage or tag"}
         ],
         "scope_confirmation": {
           "status": "needs_scope_clarification",
-          "locked_scope": null,
-          "user_facing_prompt": "I cannot answer earthquake safety directly from public evidence. For Grand Summit Hotel General Santos, which earthquake evidence search should run? 1. NSCP / seismic design evidence 2. OBO structural permit or review evidence 3. Latest post-earthquake tag / status 4. Latest clearance after damage or tag",
+          "selected_scopes": [],
+          "user_facing_prompt": "I cannot answer earthquake safety directly from public evidence. For SM City Manila, I can run all four earthquake evidence searches by default or you can narrow to one or more of the four lanes.",
           "clarifying_questions": [
-            "Which earthquake evidence search should run for Grand Summit Hotel General Santos: 1. NSCP / seismic design evidence, 2. OBO structural permit or review evidence, 3. Latest post-earthquake tag / status, or 4. Latest clearance after damage or tag?"
+            "Should I run all four earthquake evidence lanes, or narrow to one or more of NSCP/seismic evidence, OBO structural review evidence, post-earthquake tag/status, and clearance after damage/tag?"
           ],
           "can_proceed_to_evidence_search": false,
           "blockers": [
@@ -425,6 +241,7 @@
           "evidence_search_started": false,
           "blocked_work": [
             "public_evidence_search",
+            "document_inventory",
             "safety_claim",
             "compliance_claim",
             "clearance_claim"
@@ -435,54 +252,41 @@
     {
       "case_id": "earthquake-scope-unsupported-001",
       "category": "unsupported_broad_scope",
-      "description": "A non-earthquake general building-code request is rejected by V2 and routed away without starting evidence search.",
+      "description": "A non-earthquake or broad building-code request is refused or routed outside the four-lane earthquake auditor.",
       "expected_status": "unsupported_scope",
+      "expected_selected_scope_ids": [],
       "expected_can_proceed_to_evidence_search": false,
       "expected_blockers": [
         "unsupported_non_earthquake_scope"
       ],
       "sample_packet": {
-        "schema_version": "2.0.0",
+        "schema_version": "2.1.0",
         "workflow_step": "earthquake_scope_lock",
         "confirmed_place": {
-          "display_name": "Robinsons Place General Santos",
-          "candidate_id": "fixture-robinsons-gensan",
-          "city": "General Santos",
+          "display_name": "SM City Manila",
+          "candidate_id": "fixture-sm-city-manila",
+          "city": "Manila",
           "country": "Philippines",
           "gate_1_status": "confirmed_by_user"
         },
         "user_intake": {
-          "raw_user_scope_request": "check general building permits and contractor records",
-          "interpreted_scope": null,
+          "raw_user_scope_request": "Check all building permits and fire safety.",
+          "interpreted_scopes": [],
           "answer_source": "natural_language"
         },
         "scope_menu": [
-          {
-            "number": 1,
-            "scope_id": "nscp_seismic_design_evidence",
-            "label": "NSCP / seismic design evidence"
-          },
-          {
-            "number": 2,
-            "scope_id": "obo_structural_permit_review_evidence",
-            "label": "OBO structural permit or review evidence"
-          },
-          {
-            "number": 3,
-            "scope_id": "post_earthquake_tag_status",
-            "label": "Latest post-earthquake tag / status"
-          },
-          {
-            "number": 4,
-            "scope_id": "clearance_after_damage_or_tag",
-            "label": "Latest clearance after damage or tag"
-          }
+          {"number": 1, "scope_id": "nscp_seismic_design_evidence", "label": "NSCP / seismic design evidence"},
+          {"number": 2, "scope_id": "obo_structural_permit_review_evidence", "label": "OBO structural permit or review evidence"},
+          {"number": 3, "scope_id": "post_earthquake_tag_status", "label": "Latest post-earthquake tag / status"},
+          {"number": 4, "scope_id": "clearance_after_damage_or_tag", "label": "Latest clearance after damage or tag"}
         ],
         "scope_confirmation": {
           "status": "unsupported_scope",
-          "locked_scope": null,
-          "user_facing_prompt": "That is outside V2. V2 only supports four earthquake evidence searches: 1. NSCP / seismic design evidence 2. OBO structural permit or review evidence 3. Latest post-earthquake tag / status 4. Latest clearance after damage or tag.",
-          "clarifying_questions": [],
+          "selected_scopes": [],
+          "user_facing_prompt": "That request is outside this earthquake-only auditor. I can run all four earthquake evidence lanes by default, or you can narrow to one or more of the four listed lanes.",
+          "clarifying_questions": [
+            "Do you want the earthquake-only auditor to run all four lanes for SM City Manila?"
+          ],
           "can_proceed_to_evidence_search": false,
           "blockers": [
             "unsupported_non_earthquake_scope"
@@ -492,9 +296,10 @@
           "evidence_search_started": false,
           "blocked_work": [
             "public_evidence_search",
-            "general_building_code_search",
+            "document_inventory",
             "safety_claim",
-            "compliance_claim"
+            "compliance_claim",
+            "clearance_claim"
           ]
         }
       }

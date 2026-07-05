@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-06T00:00:00+08:00",
+  "status": "audit_in_progress",
+  "user_stated_expected_current_project_count": 2,
+  "count_policy": "Only active_current projects count as current projects. Predecessors, deleted candidates, placeholders, shared old data, and generated run artifacts do not count.",
+  "current_projects_need_user_confirmation": true,
+  "active_current_projects": [
+    {
+      "slug": "philippines-building-code-evidence-auditor-v2",
+      "name": "Philippines Building Code Evidence Auditor V2",
+      "confidence": "high",
+      "reason": "README and skill identify this as the current earthquake-only auditor, with data, fixtures, validators, and status lock.",
+      "skill": "skills/philippines-building-code-evidence-auditor-v2/SKILL.md",
+      "owned_paths": [
+        "data/philippines-building-code-evidence-auditor-v2/",
+        "scripts/validate_building_code_v2_identity_gate.py",
+        "scripts/validate_building_code_v2_earthquake_scope_gate.py",
+        "scripts/validate_building_code_v2_evidence_packet.py",
+        "scripts/validate_building_code_v2_overclaim.py",
+        "docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md"
+      ],
+      "notes": [
+        "V1 building-code auditor appears to be a predecessor or maintainer copy, not a separate current project unless the user confirms otherwise.",
+        "There are untracked V2 audit-run files that appear related and should be reviewed before staging."
+      ]
+    },
+    {
+      "slug": "agent-workflow-project-maker",
+      "name": "Agent Workflow Project Maker",
+      "confidence": "medium",
+      "reason": "User expected this project to be visible; repo contains substantial workflow catalog, router, query, and build artifacts but previously lacked a skill/project surface.",
+      "skill": "skills/agent-workflow-project-maker/SKILL.md",
+      "owned_paths": [
+        "data/agentic-repos/",
+        "reports/workflow-agent-comparison.md",
+        "reports/workflow-catalog-cli-readiness.md",
+        "reports/workflow-door-catalog.md",
+        "reports/workflow-expansion-pilot-earthquake-public-evidence.md",
+        "reports/workflow-link-seed.md",
+        "reports/workflow-router-table-revamp-sample.md",
+        "reports/workflow-router.md",
+        "reports/workflow-search-index.md",
+        "scripts/build_workflow_door_catalog.py",
+        "scripts/build_workflow_router.py",
+        "scripts/build_workflow_search_index.py",
+        "scripts/query_workflow_catalog.py",
+        "scripts/query_workflow_router.py",
+        "scripts/workflow_catalog_cli_run.py",
+        "scripts/workflow_catalog_remaining_cli_run.py",
+        "scripts/workflow_catalog_tools.py"
+      ],
+      "notes": [
+        "Most owned paths are currently untracked.",
+        "The exact public name may need user confirmation; this inventory uses the user's phrase as the slug."
+      ]
+    }
+  ],
+  "non_current_surfaces": [
+    {
+      "slug": "philippines-building-code-evidence-auditor",
+      "classification": "predecessor_or_duplicate",
+      "confidence": "medium",
+      "reason": "V1 broad auditor remains tracked with skill, data, reports, and validators, but V2 is documented as the current auditor.",
+      "paths": [
+        "skills/philippines-building-code-evidence-auditor/",
+        "data/building-code-auditor/",
+        "scripts/validate_building_identity_gate.py",
+        "scripts/validate_audit_scope_gate.py",
+        "scripts/validate_audit_scope_source_reality.py",
+        "docs/status/2026-07-04-building-code-evidence-auditor-lock.md",
+        "docs/decisions/0003-lock-philippines-building-code-evidence-auditor.md"
+      ],
+      "recommended_action": "Decide whether to archive V1 into V2 history or keep it as maintainer-only reference outside the current project count."
+    },
+    {
+      "slug": "address-disaster-risk-assessor",
+      "classification": "obsolete_deleted_candidate",
+      "confidence": "high",
+      "reason": "User stated this is deleted. It is still tracked as a skill, data series, plan, status, decision, and reports.",
+      "paths": [
+        "skills/address-disaster-risk-assessor/",
+        "data/disaster-risk/",
+        "docs/plans/2026-07-03-address-disaster-risk-assessor-design.md",
+        "docs/decisions/0002-lock-address-disaster-risk-assessor.md",
+        "docs/status/2026-07-03-project-pause-handoff.md",
+        "reports/disaster-risk-data-source-atlas.md"
+      ],
+      "recommended_action": "Delete or archive as one explicit cleanup batch after user approval."
+    },
+    {
+      "slug": "metro-manila-source-atlas",
+      "classification": "obsolete_deleted_candidate",
+      "confidence": "high",
+      "reason": "User rejected this as a project/foundation. It is still tracked in data, skill, reports, and old validation outputs.",
+      "paths": [
+        "skills/metro-manila-source-atlas/",
+        "data/metro-manila-source-atlas.json",
+        "data/agent-findings/",
+        "data/deep-dive/",
+        "data/source-schema.json",
+        "data/verification-log.md",
+        "reports/metro-manila-data-source-atlas.md",
+        "reports/metro-manila-source-deep-dive.md"
+      ],
+      "recommended_action": "Delete or archive as one explicit cleanup batch after user approval."
+    },
+    {
+      "slug": "untitled-project",
+      "classification": "placeholder_delete_candidate",
+      "confidence": "high",
+      "reason": "Placeholder lane exists without a real repeated job and user rejected it.",
+      "paths": [
+        "skills/untitled-project/",
+        "data/untitled-project/"
+      ],
+      "recommended_action": "Delete in cleanup unless user explicitly wants a placeholder lane."
+    },
+    {
+      "slug": "multi-lane-foundation-model",
+      "classification": "stale_policy_delete_candidate",
+      "confidence": "high",
+      "reason": "The foundation/lane taxonomy is the source of false project listings.",
+      "paths": [
+        "docs/decisions/0004-adopt-project-lanes.md",
+        "docs/status/2026-07-04-project-lanes-workspace-status.md",
+        "README.md",
+        "AGENTS.md"
+      ],
+      "recommended_action": "Rewrite README and AGENTS.md around the confirmed project inventory, then delete or supersede the stale lane docs."
+    }
+  ],
+  "generated_or_review_needed": [
+    {
+      "slug": "workflow-catalog-runs",
+      "classification": "generated_run_artifact",
+      "paths": [
+        "data/agentic-repos/workflow-catalog-runs/"
+      ],
+      "recommended_action": "Keep if the workflow project maker needs reproducibility; otherwise reduce to final indexes and reports."
+    },
+    {
+      "slug": "building-code-v2-audit-run-fixtures",
+      "classification": "active_project_untracked_review_needed",
+      "paths": [
+        "data/philippines-building-code-evidence-auditor-v2/audit-run-schema.json",
+        "data/philippines-building-code-evidence-auditor-v2/audit-run-fixtures/"
+      ],
+      "recommended_action": "Review with V2 validators before staging."
+    }
+  ],
+  "audit_skill": "skills/project-surface-auditor/SKILL.md",
+  "validator": "scripts/validate_project_surface_inventory.py"
+}

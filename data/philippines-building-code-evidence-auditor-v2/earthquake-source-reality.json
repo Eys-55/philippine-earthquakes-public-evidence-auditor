@@ -217,26 +217,26 @@
     }
   ],
   "ecc_review": {
-    "objective": "Keep V2 Gate 2 locked to four earthquake evidence searches and prevent evidence collection before a scope is confirmed.",
+        "objective": "Keep V2 Gate 2 limited to the four earthquake evidence searches and prevent evidence collection before selected lanes are confirmed.",
     "inputs": [
       "confirmed exact building identity from Gate 1",
-      "one user-selected earthquake evidence lane",
+            "default-all or user-selected earthquake evidence lanes",
       "optional earthquake date, location, tag color, permit number, owner, or sublocation clues"
     ],
     "outputs": [
-      "one locked earthquake scope ID",
+            "one or more selected earthquake scope IDs",
       "source-reality caveats for that lane",
       "Gate 3 readiness without any evidence search results"
     ],
     "eval": [
       "menu has exactly four options",
-      "locked scope is one of the four required IDs",
+            "selected lanes are one or more of the four required IDs",
       "unsupported non-earthquake requests do not proceed",
       "Gate 2 packets do not include search results or claims"
     ],
     "human_boundary": [
-      "user chooses the earthquake lane",
-      "manual custodians are identified only after the lane is locked",
+            "user accepts all four lanes or narrows to one or more lanes",
+            "manual custodians are identified only after lanes are selected",
       "legal-grade records require user-authorized manual request outside public search"
     ],
     "safety_risks": [

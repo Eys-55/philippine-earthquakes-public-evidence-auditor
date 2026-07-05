@@ -13,7 +13,9 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 V2_DATA_DIR = ROOT / "data/philippines-building-code-evidence-auditor-v2"
 SCHEMA_PATH = V2_DATA_DIR / "evidence-packet-schema.json"
+AUDIT_RUN_SCHEMA_PATH = V2_DATA_DIR / "audit-run-schema.json"
 FIXTURE_DIR = V2_DATA_DIR / "evidence-packet-fixtures"
+AUDIT_RUN_FIXTURE_DIR = V2_DATA_DIR / "audit-run-fixtures"
 GATE3_POINTER_PATH = V2_DATA_DIR / "gate-3-sm-moa-document-target-matrix.json"
 
 REQUIRED_FIELDS = [
@@ -28,6 +30,18 @@ REQUIRED_FIELDS = [
     "overclaim_boundary",
     "query_log",
     "packet_result",
+]
+
+REQUIRED_AUDIT_RUN_FIELDS = [
+    "schema_version",
+    "workflow_step",
+    "confirmed_building",
+    "selected_earthquake_lanes",
+    "source_ingestion_policy",
+    "lane_packets",
+    "overall_summary",
+    "unresolved_cross_lane_exceptions",
+    "final_overclaim_status",
 ]
 
 ALLOWED_LANES = {
@@ -140,6 +154,7 @@ POINTER_ALLOWED_KEYS = {
     "purpose",
     "active_scope_ids",
     "required_packet_fields",
+    "required_parent_audit_fields",
     "guardrail",
 }
 
@@ -479,10 +494,10 @@ def validate_gate3_pointer(value: object, errors: list[str]) -> None:
         errors.append(f"gate3_pointer: must not contain active copied Gate 3 keys {active_keys}")
     if obj.get("workflow_gate") != "evidence_packet":
         errors.append("gate3_pointer.workflow_gate: must be 'evidence_packet'")
-    if obj.get("status") != "redirected_to_v2_evidence_packet":
-        errors.append("gate3_pointer.status: must be 'redirected_to_v2_evidence_packet'")
-    if obj.get("canonical_file") != "evidence-packet-schema.json":
-        errors.append("gate3_pointer.canonical_file: must point to evidence-packet-schema.json")
+    if obj.get("status") != "redirected_to_v2_parent_audit_run":
+        errors.append("gate3_pointer.status: must be 'redirected_to_v2_parent_audit_run'")
+    if obj.get("canonical_file") != "audit-run-schema.json":
+        errors.append("gate3_pointer.canonical_file: must point to audit-run-schema.json")
     if obj.get("active_scope_ids") != [
         "nscp_seismic_design_evidence",
         "obo_structural_permit_review_evidence",
@@ -491,7 +506,145 @@ def validate_gate3_pointer(value: object, errors: list[str]) -> None:
     ]:
         errors.append("gate3_pointer.active_scope_ids: must equal the four V2 lanes")
     if obj.get("required_packet_fields") != REQUIRED_FIELDS:
-        errors.append("gate3_pointer.required_packet_fields: must equal the V2 packet fields")
+        errors.append("gate3_pointer.required_packet_fields: must equal the V2 child lane packet fields")
+    if obj.get("required_parent_audit_fields") != REQUIRED_AUDIT_RUN_FIELDS:
+        errors.append("gate3_pointer.required_parent_audit_fields: must equal the V2 parent audit fields")
+
+
+def validate_audit_run_schema(schema: object, errors: list[str]) -> None:
+    obj = require_object(schema, "audit_run_schema", errors)
+    if obj is None:
+        return
+    if obj.get("schema_version") != "2.1.0":
+        errors.append("audit_run_schema.schema_version: must be '2.1.0'")
+    if obj.get("required") != REQUIRED_AUDIT_RUN_FIELDS:
+        errors.append("audit_run_schema.required: must equal the parent audit-run field list")
+
+
+def validate_source_ingestion_policy(value: object, path: str, errors: list[str]) -> None:
+    obj = require_object(value, path, errors)
+    if obj is None:
+        return
+    if obj.get("mode") != "metadata_plus_short_snippets":
+        errors.append(f"{path}.mode: must be metadata_plus_short_snippets")
+    if obj.get("full_page_archive") is not False:
+        errors.append(f"{path}.full_page_archive: must be false")
+    stored_fields = obj.get("stored_fields")
+    required = {"url", "source_label", "source_class", "date_or_freshness", "short_excerpt", "query_used", "lane_relevance"}
+    if not isinstance(stored_fields, list):
+        errors.append(f"{path}.stored_fields: must be an array")
+    elif not required.issubset(set(stored_fields)):
+        errors.append(f"{path}.stored_fields: must include {sorted(required)!r}")
+
+
+def validate_lane_packet_summary(value: object, path: str, errors: list[str]) -> str | None:
+    obj = require_object(value, path, errors)
+    if obj is None:
+        return None
+    lane_id = obj.get("lane_id")
+    if lane_id not in ALLOWED_LANES:
+        errors.append(f"{path}.lane_id: must be one of {sorted(ALLOWED_LANES)!r}")
+        return None
+    expect_string(obj.get("packet_ref"), f"{path}.packet_ref", errors)
+    expect_string(obj.get("summary"), f"{path}.summary", errors)
+    if obj.get("packet_result_status") not in {
+        "no_public_evidence_found",
+        "no_public_answer_found",
+        "positive_evidence_found",
+        "weak_lead_only",
+    }:
+        errors.append(f"{path}.packet_result_status: unsupported value {obj.get('packet_result_status')!r}")
+    if obj.get("overclaim_status") not in {"passed", "blocked_for_revision"}:
+        errors.append(f"{path}.overclaim_status: must be passed or blocked_for_revision")
+    if not isinstance(obj.get("requires_manual_request"), bool):
+        errors.append(f"{path}.requires_manual_request: must be boolean")
+
+    normalized_summary = normalize_for_boundary_check(str(obj.get("summary", "")))
+    if lane_id in EVIDENCE_EXISTENCE_LANES and obj.get("packet_result_status") == "no_public_evidence_found":
+        if "no public evidence found" not in normalized_summary:
+            errors.append(f"{path}.summary: NSCP/OBO no-findings must say 'No public evidence found'")
+    if lane_id in STATUS_ANSWER_LANES and obj.get("packet_result_status") == "no_public_answer_found":
+        if "no public answer found" not in normalized_summary:
+            errors.append(f"{path}.summary: tag/clearance no-findings must say 'No public answer found'")
+    return lane_id
+
+
+def validate_audit_run(run: object, path: str, errors: list[str]) -> None:
+    obj = require_object(run, path, errors)
+    if obj is None:
+        return
+    missing = sorted(set(REQUIRED_AUDIT_RUN_FIELDS) - set(obj))
+    if missing:
+        errors.append(f"{path}: missing required parent audit fields {missing}")
+    if obj.get("schema_version") != "2.1.0":
+        errors.append(f"{path}.schema_version: must be '2.1.0'")
+    if obj.get("workflow_step") != "earthquake_public_evidence_audit_run":
+        errors.append(f"{path}.workflow_step: must be earthquake_public_evidence_audit_run")
+    validate_confirmed_building(obj.get("confirmed_building"), f"{path}.confirmed_building", errors)
+    validate_source_ingestion_policy(obj.get("source_ingestion_policy"), f"{path}.source_ingestion_policy", errors)
+
+    selected = obj.get("selected_earthquake_lanes")
+    if not isinstance(selected, list) or not selected:
+        errors.append(f"{path}.selected_earthquake_lanes: must be a non-empty array")
+        selected_ids: list[str] = []
+    else:
+        selected_ids = [lane for lane in selected if isinstance(lane, str)]
+        if selected_ids != selected:
+            errors.append(f"{path}.selected_earthquake_lanes: must contain strings only")
+        invalid = sorted(set(selected_ids) - ALLOWED_LANES)
+        if invalid:
+            errors.append(f"{path}.selected_earthquake_lanes: unsupported lanes {invalid}")
+        if len(selected_ids) != len(set(selected_ids)):
+            errors.append(f"{path}.selected_earthquake_lanes: duplicate lanes are not allowed")
+
+    lane_packets = require_array(obj.get("lane_packets"), f"{path}.lane_packets", errors)
+    packet_lane_ids: list[str] = []
+    if lane_packets is not None:
+        for index, packet in enumerate(lane_packets):
+            lane_id = validate_lane_packet_summary(packet, f"{path}.lane_packets[{index}]", errors)
+            if lane_id:
+                packet_lane_ids.append(lane_id)
+    if sorted(packet_lane_ids) != sorted(selected_ids):
+        errors.append(f"{path}.lane_packets: lane IDs must match selected_earthquake_lanes")
+
+    overall = require_object(obj.get("overall_summary"), f"{path}.overall_summary", errors)
+    if overall is not None:
+        if overall.get("status") not in {"ready_for_operator_use", "blocked_for_revision"}:
+            errors.append(f"{path}.overall_summary.status: unsupported value {overall.get('status')!r}")
+        expect_string(overall.get("source_bounded_summary"), f"{path}.overall_summary.source_bounded_summary", errors)
+        result_text = str(overall.get("source_bounded_summary", ""))
+        for phrase in sorted(FORBIDDEN_MISSING_EVIDENCE_PHRASES):
+            if contains_normalized_phrase(result_text, phrase):
+                errors.append(f"{path}.overall_summary: parent summary overclaims missing evidence as {phrase!r}")
+        for status_word in sorted(FORBIDDEN_MISSING_EVIDENCE_STATUS_CONCLUSIONS):
+            if contains_normalized_phrase(result_text, status_word):
+                errors.append(f"{path}.overall_summary: parent summary overclaims missing evidence as {status_word!r}")
+
+    validate_unresolved_exceptions(
+        obj.get("unresolved_cross_lane_exceptions"),
+        f"{path}.unresolved_cross_lane_exceptions",
+        errors,
+    )
+    final = require_object(obj.get("final_overclaim_status"), f"{path}.final_overclaim_status", errors)
+    if final is not None:
+        if final.get("status") not in {"passed", "blocked_for_revision"}:
+            errors.append(f"{path}.final_overclaim_status.status: unsupported value {final.get('status')!r}")
+        checked = final.get("checked_lane_ids")
+        if sorted(checked if isinstance(checked, list) else []) != sorted(selected_ids):
+            errors.append(f"{path}.final_overclaim_status.checked_lane_ids: must match selected lanes")
+        checklist = require_object(final.get("checklist"), f"{path}.final_overclaim_status.checklist", errors)
+        if checklist is not None:
+            required_true = {
+                "exact_building_match_confirmed",
+                "each_lane_packet_audited",
+                "parent_summary_audited",
+                "missing_evidence_not_converted_to_conclusion",
+                "unresolved_exceptions_preserved",
+            }
+            if final.get("status") == "passed":
+                failed = sorted(key for key in required_true if checklist.get(key) is not True)
+                if failed:
+                    errors.append(f"{path}.final_overclaim_status.checklist: passed audit requires true for {failed}")
 
 
 def main() -> int:
@@ -505,6 +658,15 @@ def main() -> int:
         errors.append(f"{SCHEMA_PATH.relative_to(ROOT)}: missing schema file")
     except json.JSONDecodeError as exc:
         errors.append(f"{SCHEMA_PATH.relative_to(ROOT)}: invalid JSON: {exc}")
+
+    try:
+        audit_run_schema = read_json(AUDIT_RUN_SCHEMA_PATH)
+        validate_audit_run_schema(audit_run_schema, errors)
+        scan_file_for_forbidden_terms(AUDIT_RUN_SCHEMA_PATH, errors)
+    except FileNotFoundError:
+        errors.append(f"{AUDIT_RUN_SCHEMA_PATH.relative_to(ROOT)}: missing parent audit-run schema file")
+    except json.JSONDecodeError as exc:
+        errors.append(f"{AUDIT_RUN_SCHEMA_PATH.relative_to(ROOT)}: invalid JSON: {exc}")
 
     fixture_paths = sorted(FIXTURE_DIR.glob("*.json"))
     if not fixture_paths:
@@ -532,6 +694,34 @@ def main() -> int:
         except json.JSONDecodeError as exc:
             errors.append(f"{fixture_path.relative_to(ROOT)}: invalid JSON: {exc}")
 
+    audit_run_paths = sorted(AUDIT_RUN_FIXTURE_DIR.glob("*.json"))
+    if not audit_run_paths:
+        errors.append(f"{AUDIT_RUN_FIXTURE_DIR.relative_to(ROOT)}: must contain parent audit-run fixtures")
+
+    audit_run_names = {path.name for path in audit_run_paths}
+    required_audit_runs = {
+        "all-four-lanes-default.json",
+        "narrowed-single-lane.json",
+        "narrowed-two-lanes.json",
+        "ambiguous-identity-resolved.json",
+        "no-public-evidence-nscp-obo.json",
+        "no-public-answer-tag-clearance.json",
+        "operator-corporate-claim-only.json",
+        "official-professional-positive-evidence.json",
+        "overclaim-blocked-parent-summary.json",
+    }
+    missing_audit_runs = sorted(required_audit_runs - audit_run_names)
+    if missing_audit_runs:
+        errors.append(f"{AUDIT_RUN_FIXTURE_DIR.relative_to(ROOT)}: missing parent fixtures {missing_audit_runs}")
+
+    for fixture_path in audit_run_paths:
+        try:
+            audit_run = read_json(fixture_path)
+            scan_file_for_forbidden_terms(fixture_path, errors)
+            validate_audit_run(audit_run, fixture_path.relative_to(ROOT).as_posix(), errors)
+        except json.JSONDecodeError as exc:
+            errors.append(f"{fixture_path.relative_to(ROOT)}: invalid JSON: {exc}")
+
     try:
         pointer = read_json(GATE3_POINTER_PATH)
         scan_file_for_forbidden_terms(GATE3_POINTER_PATH, errors)
@@ -546,7 +736,7 @@ def main() -> int:
 
     print(
         "validated V2 Gate 3 evidence packet: "
-        f"{len(fixture_paths)} fixtures, {len(REQUIRED_FIELDS)} required fields"
+        f"{len(fixture_paths)} lane fixtures, {len(audit_run_paths)} parent audit-run fixtures"
     )
     return 0
 

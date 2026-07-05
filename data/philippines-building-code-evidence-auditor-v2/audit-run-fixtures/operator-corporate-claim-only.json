@@ -1,0 +1,49 @@
+{
+  "schema_version": "2.1.0",
+  "workflow_step": "earthquake_public_evidence_audit_run",
+  "confirmed_building": {
+    "display_name": "Fixture Corporate Mall",
+    "candidate_id": "fixture-corporate-mall",
+    "city": "Davao City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user",
+    "identity_confirmation_sources": [
+      {"label": "Operator page fixture", "url": "https://example.com/fixture-corporate-mall", "use": "Exact operator and building identity confirmation."}
+    ]
+  },
+  "selected_earthquake_lanes": ["clearance_after_damage_or_tag"],
+  "source_ingestion_policy": {
+    "mode": "metadata_plus_short_snippets",
+    "stored_fields": ["url", "source_label", "source_class", "date_or_freshness", "short_excerpt", "query_used", "lane_relevance"],
+    "full_page_archive": false
+  },
+  "lane_packets": [
+    {
+      "lane_id": "clearance_after_damage_or_tag",
+      "packet_ref": "evidence-packet-fixtures/corporate-operator-claim-only.json",
+      "packet_result_status": "weak_lead_only",
+      "summary": "An operator claim was recorded as a weak lead only and not as official clearance evidence.",
+      "overclaim_status": "passed",
+      "requires_manual_request": true
+    }
+  ],
+  "overall_summary": {
+    "status": "ready_for_operator_use",
+    "source_bounded_summary": "The parent packet keeps the operator statement as a weak lead and preserves the need for official or professional records.",
+    "forbidden_conclusion_codes": ["earthquake_safe", "earthquake_unsafe", "cleared", "official_clearance"]
+  },
+  "unresolved_cross_lane_exceptions": [
+    {"exception_id": "operator-claim-needs-official-record", "description": "The public source is an operator statement rather than an official or professional record.", "resolution_route": "Request official clearance or signed professional stability documentation."}
+  ],
+  "final_overclaim_status": {
+    "status": "passed",
+    "checked_lane_ids": ["clearance_after_damage_or_tag"],
+    "checklist": {
+      "exact_building_match_confirmed": true,
+      "each_lane_packet_audited": true,
+      "parent_summary_audited": true,
+      "missing_evidence_not_converted_to_conclusion": true,
+      "unresolved_exceptions_preserved": true
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.1.0",
+  "workflow_step": "earthquake_public_evidence_audit_run",
+  "confirmed_building": {
+    "display_name": "Fixture Mall With Draft Overclaim",
+    "candidate_id": "fixture-parent-overclaim",
+    "city": "Davao City",
+    "country": "Philippines",
+    "gate_1_status": "confirmed_by_user",
+    "identity_confirmation_sources": [
+      {"label": "Map fixture", "url": "https://example.com/maps/fixture-parent-overclaim", "use": "Exact target confirmation."}
+    ]
+  },
+  "selected_earthquake_lanes": ["nscp_seismic_design_evidence", "obo_structural_permit_review_evidence"],
+  "source_ingestion_policy": {
+    "mode": "metadata_plus_short_snippets",
+    "stored_fields": ["url", "source_label", "source_class", "date_or_freshness", "short_excerpt", "query_used", "lane_relevance"],
+    "full_page_archive": false
+  },
+  "lane_packets": [
+    {"lane_id": "nscp_seismic_design_evidence", "packet_ref": "evidence-packet-fixtures/no-public-evidence-nscp-seismic.json", "packet_result_status": "no_public_evidence_found", "summary": "No public evidence found for NSCP/seismic design evidence after the recorded searches.", "overclaim_status": "passed", "requires_manual_request": true},
+    {"lane_id": "obo_structural_permit_review_evidence", "packet_ref": "evidence-packet-fixtures/no-public-evidence-obo-structural-review.json", "packet_result_status": "no_public_evidence_found", "summary": "No public evidence found for OBO structural permit or review evidence after the recorded searches.", "overclaim_status": "passed", "requires_manual_request": true}
+  ],
+  "overall_summary": {
+    "status": "blocked_for_revision",
+    "source_bounded_summary": "The parent packet is blocked for revision because the draft exceeded the source-bounded evidence available.",
+    "forbidden_conclusion_codes": ["earthquake_safe", "earthquake_unsafe", "compliant", "noncompliant", "no_permit"]
+  },
+  "unresolved_cross_lane_exceptions": [
+    {"exception_id": "parent-summary-overclaim", "description": "The parent-level summary must be revised before presentation.", "resolution_route": "Return to Gate 3 and restate the result as evidence availability only."}
+  ],
+  "final_overclaim_status": {
+    "status": "blocked_for_revision",
+    "checked_lane_ids": ["nscp_seismic_design_evidence", "obo_structural_permit_review_evidence"],
+    "checklist": {
+      "exact_building_match_confirmed": true,
+      "each_lane_packet_audited": true,
+      "parent_summary_audited": true,
+      "missing_evidence_not_converted_to_conclusion": false,
+      "unresolved_exceptions_preserved": true
+    }
+  }
+}
