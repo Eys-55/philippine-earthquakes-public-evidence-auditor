@@ -19,12 +19,14 @@
       "repo_id": "market-research-agent-control",
       "status": "active",
       "objective": "Build a tracker for projects, repos, sessions, and GitHub upload state.",
-      "session_ids": [],
+      "session_ids": [
+        "20260706-021920-fe10"
+      ],
       "handoff": "ops/handoffs/latest.md",
       "open_decisions": [
         "Decide whether command shims should live under commands/."
       ],
-      "next_action": "Implement tracker status and event logging scripts."
+      "next_action": "Continue implementing upload gate, daily rollup, and repo audit."
     }
   ]
 }
