@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:11:57+08:00",
-      "next_action": "Ask where workflow contract drafts should be stored before promotion to skill files.",
+      "last_checkpoint_at": "2026-07-06T14:12:24+08:00",
+      "next_action": "Ask what approval criteria promote a contract draft into canonical workflow files.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "New workflow creation enters workflow_contract first. The router drafts repeated job, trigger/refusal scope, input contract, output artifact, agent lanes, validation loop, safety boundary, and owned paths before creating skill files or scripts."
+      "decision": "Store new workflow contract drafts at docs/contracts/YYYY-MM-DD-<rough-workflow-slug>-contract.md. Promote only after approval into skills/<workflow-slug>/SKILL.md, data/<workflow-slug>/, and optional validation scripts."
     }
   ]
 }
