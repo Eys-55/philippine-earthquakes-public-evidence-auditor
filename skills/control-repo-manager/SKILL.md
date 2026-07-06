@@ -39,6 +39,12 @@ audit evidence and use tracker status as the active project answer.
 
 ## Internal Adapter Actions
 
+The tracker owns a callable command suite. Codex may inspect it internally with
+the `tracker-command-list` and `tracker-command-describe` adapters, but the
+suite is not a user terminal surface. Each callable command must stay
+skills-owned by this skill and must remain marked as internal-only tracker
+machinery.
+
 Before answering project status, Codex internally checks tracker status:
 
 ```bash

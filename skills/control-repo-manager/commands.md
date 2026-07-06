@@ -4,6 +4,21 @@ This is an Internal Adapter Reference, not operator instructions. Do not tell th
 surface; these adapters exist only so Codex can persist and verify tracker
 state internally.
 
+## Callable Command Suite
+
+The tracker command suite is durable metadata in `scripts/control-repo.mjs`.
+Codex can inspect it internally with:
+
+- `tracker-command-list`
+- `tracker-command-describe`
+
+Every listed command must be:
+
+- owned by `control-repo-manager`;
+- marked `internal_only`;
+- exposed through Codex chat plus repo skills, not through user terminal work;
+- covered by regression tests before new commands are treated as available.
+
 ## /project-status
 
 Codex internal adapter: inspect tracker status with

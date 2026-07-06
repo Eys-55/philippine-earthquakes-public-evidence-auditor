@@ -12,6 +12,85 @@ const VALID_RUN_STATUSES = new Set([
   "handed_off",
   "abandoned",
 ]);
+const TRACKER_COMMAND_SUITE = [
+  {
+    id: "tracker.status",
+    adapter: "tracker-status",
+    category: "status",
+    purpose: "Read tracker-owned project, workstream, skill-run, and upload status before answering in Codex chat.",
+    required_args: [],
+  },
+  {
+    id: "tracker.upload_gate",
+    adapter: "tracker-upload-gate",
+    category: "closeout",
+    purpose: "Verify live git cleanliness and remote upload truth before claiming the repo is synced.",
+    required_args: [],
+  },
+  {
+    id: "tracker.session_start",
+    adapter: "tracker-session-start",
+    category: "intake",
+    purpose: "Create or lock a tracker session for a repo skill workflow before work continues.",
+    required_args: ["project-id", "repo-id", "workstream-id", "objective"],
+  },
+  {
+    id: "tracker.workflow_start",
+    adapter: "tracker-workflow-start",
+    category: "intake",
+    purpose: "Create a skill-first workflow run with repo skill identity, phase skill, owned paths, and validation gates.",
+    required_args: ["project-id", "session-id", "skill-id", "title", "flow-id", "current-skill", "owned-path", "validation-command", "next-action"],
+  },
+  {
+    id: "tracker.workflow_checkpoint",
+    adapter: "tracker-workflow-checkpoint",
+    category: "checkpoint",
+    purpose: "Record a durable workflow checkpoint without closing the skill run.",
+    required_args: ["workflow-run-id", "next-action"],
+  },
+  {
+    id: "tracker.workflow_close",
+    adapter: "tracker-workflow-close",
+    category: "closeout",
+    purpose: "Close a skill run only after validation evidence and next-action state are recorded.",
+    required_args: ["workflow-run-id", "next-action"],
+  },
+  {
+    id: "tracker.validate",
+    adapter: "validate-tracker",
+    category: "validation",
+    purpose: "Fail closed when tracker runs lack skill identity, context manifests, owned paths, or valid state.",
+    required_args: [],
+  },
+  {
+    id: "tracker.validate_all",
+    adapter: "validate-all",
+    category: "validation",
+    purpose: "Run the repo tracker, inventory, progress-doc, and active-lane validators together.",
+    required_args: [],
+  },
+  {
+    id: "tracker.dashboard_export",
+    adapter: "export-tracker-ui-data",
+    category: "view",
+    purpose: "Export read-only tracker data for the lightweight Astro tracker monitor.",
+    required_args: [],
+  },
+  {
+    id: "tracker.command_list",
+    adapter: "tracker-command-list",
+    category: "discovery",
+    purpose: "List the callable tracker command suite available to Codex skills.",
+    required_args: [],
+  },
+  {
+    id: "tracker.command_describe",
+    adapter: "tracker-command-describe",
+    category: "discovery",
+    purpose: "Describe one callable tracker command, including its adapter, skill ownership, and required args.",
+    required_args: ["command"],
+  },
+];
 
 function repoPath(...parts) {
   return path.join(ROOT, ...parts);
@@ -133,6 +212,55 @@ function visibleValue(value) {
     return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, visibleValue(item)]));
   }
   return value;
+}
+
+function trackerCommandRecords() {
+  return TRACKER_COMMAND_SUITE.map((command) => ({
+    ...command,
+    skill_id: "control-repo-manager",
+    skill_path: "skills/control-repo-manager/SKILL.md",
+    operator_surface: "Codex chat plus repo skills",
+    internal_only: true,
+    user_runs_terminal: false,
+  }));
+}
+
+function printJson(value) {
+  console.log(JSON.stringify(value, null, 2));
+}
+
+function trackerCommandList(args) {
+  const commands = trackerCommandRecords();
+  if (args.json) {
+    printJson({ commands });
+    return 0;
+  }
+  console.log("# Callable Tracker Command Suite\n");
+  console.log("Skills are the operator interface. Codex chat is the operator surface. The user never runs tracker scripts.\n");
+  for (const command of commands) {
+    console.log(`- ${command.id}: ${command.purpose}`);
+    console.log(`  adapter: ${command.adapter}`);
+    console.log(`  category: ${command.category}`);
+  }
+  return 0;
+}
+
+function trackerCommandDescribe(args) {
+  const id = required(args, "command");
+  const command = trackerCommandRecords().find((item) => item.id === id || item.adapter === id);
+  if (!command) throw new Error(`unknown tracker command ${id}`);
+  if (args.json) {
+    printJson(command);
+    return 0;
+  }
+  console.log(`# ${command.id}\n`);
+  console.log(`Adapter: ${command.adapter}`);
+  console.log(`Category: ${command.category}`);
+  console.log(`Skill: ${command.skill_id} (${command.skill_path})`);
+  console.log(`Internal only: ${command.internal_only}`);
+  console.log(`Purpose: ${command.purpose}`);
+  console.log(`Required args: ${command.required_args.length ? command.required_args.join(", ") : "none"}`);
+  return 0;
 }
 
 function contextManifestErrors(run, manifestPath) {
@@ -374,6 +502,7 @@ function buildDashboard() {
     workstreams: (project.workstreams || []).map((id) => workstreamsById.get(id)).filter(Boolean),
   }));
   const workflowRuns = records(runsPayload, "workflow_runs").map((run) => visibleValue(run));
+  const trackerCommands = trackerCommandRecords();
   const trackedSkills = [...new Map(workflowRuns.filter((run) => run.skill_id && run.skill_path).map((run) => [run.skill_id, {
     id: run.skill_id,
     path: run.skill_path,
@@ -390,6 +519,7 @@ function buildDashboard() {
     summary: {
       active_projects: projects.filter((project) => project.status === "active").length,
       tracked_skills: trackedSkills.length,
+      tracker_commands: trackerCommands.length,
       workstreams: workstreams.length,
       workflow_runs: workflowRuns.length,
       open_workflow_runs: workflowRuns.filter((run) => ["open", "waiting_on_user", "blocked"].includes(run.status)).length,
@@ -398,6 +528,7 @@ function buildDashboard() {
     },
     projects,
     tracked_skills: trackedSkills,
+    tracker_commands: trackerCommands,
     workflow_runs: workflowRuns,
     upload_repos: uploadRepos,
     non_projects: projectsPayload.non_projects || [],
@@ -591,6 +722,8 @@ const commands = {
   "validate-all": runValidateAll,
   "tracker-status": trackerStatus,
   "tracker-upload-gate": trackerUploadGate,
+  "tracker-command-list": trackerCommandList,
+  "tracker-command-describe": trackerCommandDescribe,
   "tracker-session-start": sessionStart,
   "tracker-workflow-start": workflowStart,
   "tracker-workflow-checkpoint": (args) => updateWorkflow(args, false),

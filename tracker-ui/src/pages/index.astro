@@ -20,6 +20,7 @@ const toneForStatus = (status: unknown): BadgeTone => {
 const summary = dashboard.summary;
 const projects = dashboard.projects;
 const trackedSkills = dashboard.tracked_skills;
+const trackerCommands = dashboard.tracker_commands;
 const workflowRuns = dashboard.workflow_runs;
 const uploadRepos = dashboard.upload_repos;
 const nonProjects = dashboard.non_projects;
@@ -62,6 +63,10 @@ const nonProjects = dashboard.non_projects;
             <div class="metric">
               <span>Workflow Runs</span>
               <strong>{summary.workflow_runs}</strong>
+            </div>
+            <div class="metric">
+              <span>Callable Commands</span>
+              <strong>{summary.tracker_commands}</strong>
             </div>
             <div class="metric">
               <span>Open Runs</span>
@@ -167,6 +172,39 @@ const nonProjects = dashboard.non_projects;
                     </div>
                   </div>
                 ))
+              )
+            }
+          </section>
+
+          <section class="panel" aria-labelledby="commands-heading">
+            <h2 id="commands-heading">Callable Tracker Commands</h2>
+            {
+              trackerCommands.length === 0 ? (
+                <div class="empty">No tracker commands in the exported snapshot.</div>
+              ) : (
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Command</th>
+                      <th>Adapter</th>
+                      <th>Category</th>
+                      <th>Skill</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {trackerCommands.map((command) => (
+                      <tr>
+                        <td>
+                          <strong>{command.id}</strong>
+                          <div class="meta">{command.purpose}</div>
+                        </td>
+                        <td class="mono">{command.adapter}</td>
+                        <td>{command.category}</td>
+                        <td class="mono">{command.skill_id}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               )
             }
           </section>

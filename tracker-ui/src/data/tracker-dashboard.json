@@ -4,10 +4,11 @@
   "source_root": ".",
   "summary": {
     "active_projects": 2,
-    "tracked_skills": 3,
+    "tracked_skills": 4,
+    "tracker_commands": 11,
     "workstreams": 2,
-    "workflow_runs": 10,
-    "open_workflow_runs": 1,
+    "workflow_runs": 12,
+    "open_workflow_runs": 2,
     "upload_status": "pending_local_changes",
     "repos": 1
   },
@@ -25,7 +26,9 @@
           "repo_id": "market-research-agent-control",
           "status": "active",
           "objective": "Maintain the Philippine building earthquake evidence audit workflow.",
-          "session_ids": [],
+          "session_ids": [
+            "20260706084047-1655"
+          ],
           "handoff": "docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md",
           "open_decisions": [],
           "next_action": "Confirm exact building identity before permit, contractor, incident, code, compliance, earthquake, or safety search."
@@ -56,7 +59,8 @@
             "20260706-155032-7519",
             "20260706080128-7bd0",
             "20260706080949-92de",
-            "20260706083323-ab4b"
+            "20260706083323-ab4b",
+            "20260706083846-c638"
           ],
           "handoff": "ops/handoffs/latest.md",
           "open_decisions": [],
@@ -70,7 +74,7 @@
       "id": "agent-workflow-project-maker",
       "path": "skills/agent-workflow-project-maker/SKILL.md",
       "open_runs": 0,
-      "total_runs": 8
+      "total_runs": 9
     },
     {
       "id": "control-repo-manager",
@@ -79,10 +83,173 @@
       "total_runs": 1
     },
     {
+      "id": "philippines-building-code-evidence-auditor-v2",
+      "path": "skills/philippines-building-code-evidence-auditor-v2/SKILL.md",
+      "open_runs": 1,
+      "total_runs": 1
+    },
+    {
       "id": "tracker-astro-monitor",
       "path": "skills/tracker-astro-monitor/SKILL.md",
       "open_runs": 1,
       "total_runs": 1
+    }
+  ],
+  "tracker_commands": [
+    {
+      "id": "tracker.status",
+      "adapter": "tracker-status",
+      "category": "status",
+      "purpose": "Read tracker-owned project, workstream, skill-run, and upload status before answering in Codex chat.",
+      "required_args": [],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.upload_gate",
+      "adapter": "tracker-upload-gate",
+      "category": "closeout",
+      "purpose": "Verify live git cleanliness and remote upload truth before claiming the repo is synced.",
+      "required_args": [],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.session_start",
+      "adapter": "tracker-session-start",
+      "category": "intake",
+      "purpose": "Create or lock a tracker session for a repo skill workflow before work continues.",
+      "required_args": [
+        "project-id",
+        "repo-id",
+        "workstream-id",
+        "objective"
+      ],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.workflow_start",
+      "adapter": "tracker-workflow-start",
+      "category": "intake",
+      "purpose": "Create a skill-first workflow run with repo skill identity, phase skill, owned paths, and validation gates.",
+      "required_args": [
+        "project-id",
+        "session-id",
+        "skill-id",
+        "title",
+        "flow-id",
+        "current-skill",
+        "owned-path",
+        "validation-command",
+        "next-action"
+      ],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.workflow_checkpoint",
+      "adapter": "tracker-workflow-checkpoint",
+      "category": "checkpoint",
+      "purpose": "Record a durable workflow checkpoint without closing the skill run.",
+      "required_args": [
+        "workflow-run-id",
+        "next-action"
+      ],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.workflow_close",
+      "adapter": "tracker-workflow-close",
+      "category": "closeout",
+      "purpose": "Close a skill run only after validation evidence and next-action state are recorded.",
+      "required_args": [
+        "workflow-run-id",
+        "next-action"
+      ],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.validate",
+      "adapter": "validate-tracker",
+      "category": "validation",
+      "purpose": "Fail closed when tracker runs lack skill identity, context manifests, owned paths, or valid state.",
+      "required_args": [],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.validate_all",
+      "adapter": "validate-all",
+      "category": "validation",
+      "purpose": "Run the repo tracker, inventory, progress-doc, and active-lane validators together.",
+      "required_args": [],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.dashboard_export",
+      "adapter": "export-tracker-ui-data",
+      "category": "view",
+      "purpose": "Export read-only tracker data for the lightweight Astro tracker monitor.",
+      "required_args": [],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.command_list",
+      "adapter": "tracker-command-list",
+      "category": "discovery",
+      "purpose": "List the callable tracker command suite available to Codex skills.",
+      "required_args": [],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
+    },
+    {
+      "id": "tracker.command_describe",
+      "adapter": "tracker-command-describe",
+      "category": "discovery",
+      "purpose": "Describe one callable tracker command, including its adapter, skill ownership, and required args.",
+      "required_args": [
+        "command"
+      ],
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md",
+      "operator_surface": "Codex chat plus repo skills",
+      "internal_only": true,
+      "user_runs_terminal": false
     }
   ],
   "workflow_runs": [
@@ -561,6 +728,86 @@
         "git diff --check: passed"
       ],
       "review_state": "self-reviewed exact screenshot trigger gap"
+    },
+    {
+      "id": "wfr-20260706083846-c6a6",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706083846-c638",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "title": "Create callable tracker command suite",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "workflow_intake",
+      "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "skills/control-repo-manager/SKILL.md",
+        "skills/control-repo-manager/commands.md",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:38:46.729Z",
+      "last_checkpoint_at": "2026-07-06T08:42:20.305Z",
+      "next_action": "Use the callable command suite from control-repo-manager when Codex needs tracker status, intake, checkpoint, closeout, validation, upload, or dashboard export.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706083846-c6a6.jsonl",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706083846-c6a6-context.md",
+      "artifacts": [
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "skills/control-repo-manager/SKILL.md",
+        "skills/control-repo-manager/commands.md",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "tracker-ui/src/pages/index.astro",
+        "tracker-ui/src/styles/global.css",
+        "tracker-ui/src/data/tracker-dashboard.json",
+        "ops/workflow-runs/2026-07-06/wfr-20260706083846-c6a6-context.md"
+      ],
+      "final_summary": "Added a skills-first callable tracker command suite with list/describe discovery, dashboard export visibility, docs, and regression tests. The suite is internal-only and owned by control-repo-manager so Codex can call tracker capabilities without telling the user to run terminal commands.",
+      "closed_at": "2026-07-06T08:42:20.305Z",
+      "validation_results": [
+        "npm test: passed 19 tests",
+        "npm run validate: passed",
+        "npm run build: passed",
+        "git diff --check: passed"
+      ],
+      "review_state": "self-reviewed command metadata, skill ownership, UI export, and no Python regression"
+    },
+    {
+      "id": "wfr-20260706084054-cfbd",
+      "project_id": "philippines-building-code-evidence-auditor-v2",
+      "session_id": "20260706084047-1655",
+      "skill_id": "philippines-building-code-evidence-auditor-v2",
+      "skill_path": "skills/philippines-building-code-evidence-auditor-v2/SKILL.md",
+      "title": "Intake earthquake project edit",
+      "flow_id": "philippines_building_code_evidence_auditor_v2",
+      "status": "open",
+      "current_skill": "workflow_intake",
+      "owned_paths": [
+        "skills/philippines-building-code-evidence-auditor-v2/SKILL.md",
+        "data/philippines-building-code-evidence-auditor-v2",
+        "docs/plans/building-code-progress-chart.md",
+        "docs/plans/building-code-progress-table.md"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:40:54.736Z",
+      "last_checkpoint_at": "2026-07-06T08:40:54.736Z",
+      "next_action": "Ask for the exact earthquake project edit target before changing V2 workflow files.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706084054-cfbd.jsonl",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706084054-cfbd-context.md",
+      "artifacts": [
+        "ops/workflow-runs/2026-07-06/wfr-20260706084054-cfbd-context.md"
+      ]
     }
   ],
   "upload_repos": [

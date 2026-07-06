@@ -205,6 +205,49 @@ test("control adapter validates tracker and inventory", () => {
   }
 });
 
+test("tracker exposes a skills-first callable command suite", () => {
+  const result = runControl(["tracker-command-list", "--json"]);
+  assert.equal(result.status, 0, result.stderr);
+  const payload = JSON.parse(result.stdout);
+  const ids = payload.commands.map((command) => command.id);
+
+  for (const id of [
+    "tracker.status",
+    "tracker.upload_gate",
+    "tracker.session_start",
+    "tracker.workflow_start",
+    "tracker.workflow_checkpoint",
+    "tracker.workflow_close",
+    "tracker.validate",
+    "tracker.validate_all",
+    "tracker.dashboard_export",
+    "tracker.command_list",
+    "tracker.command_describe",
+  ]) {
+    assert(ids.includes(id), id);
+  }
+  assert(payload.commands.every((command) => command.internal_only === true));
+  assert(payload.commands.every((command) => command.user_runs_terminal === false));
+  assert(payload.commands.every((command) => command.operator_surface === "Codex chat plus repo skills"));
+  assert(payload.commands.every((command) => command.skill_id === "control-repo-manager"));
+  assert(payload.commands.every((command) => command.skill_path === "skills/control-repo-manager/SKILL.md"));
+});
+
+test("tracker command describe resolves ids and adapters", () => {
+  for (const commandName of ["tracker.status", "tracker-status"]) {
+    const result = runControl(["tracker-command-describe", "--command", commandName, "--json"]);
+    assert.equal(result.status, 0, result.stderr);
+    const command = JSON.parse(result.stdout);
+    assert.equal(command.id, "tracker.status");
+    assert.equal(command.adapter, "tracker-status");
+    assert.equal(command.internal_only, true);
+  }
+
+  const missing = runControl(["tracker-command-describe", "--command", "tracker.missing", "--json"]);
+  assert.notEqual(missing.status, 0);
+  assert(missing.stderr.includes("unknown tracker command tracker.missing"));
+});
+
 test("tracker dashboard export is consumable by Astro page", () => {
   const output = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "tracker-dashboard-")), "tracker-dashboard.json");
   const result = runControl(["export-tracker-ui-data", "--output", output]);
@@ -214,8 +257,12 @@ test("tracker dashboard export is consumable by Astro page", () => {
 
   assert.equal(dashboard.kind, "tracker_astro_monitor_dashboard");
   assert(dashboard.summary.tracked_skills >= 1);
+  assert(dashboard.summary.tracker_commands >= 1);
   assert(Array.isArray(dashboard.tracked_skills));
+  assert(Array.isArray(dashboard.tracker_commands));
   assert(dashboard.tracked_skills.every((skill) => skill.path.startsWith("skills/")));
+  assert(dashboard.tracker_commands.every((command) => command.internal_only === true));
+  assert(dashboard.tracker_commands.every((command) => command.skill_path === "skills/control-repo-manager/SKILL.md"));
   assert(dashboard.summary.active_projects >= 1);
   assert(Array.isArray(dashboard.workflow_runs));
   assert(dashboard.workflow_runs.every((run) => run.skill_id && run.skill_path));
@@ -225,6 +272,7 @@ test("tracker dashboard export is consumable by Astro page", () => {
   assert(page.includes("Skills Being Built"));
   assert(page.includes("Skill Runs"));
   assert(page.includes("Active Skill Lanes"));
+  assert(page.includes("Callable Tracker Commands"));
   assert(page.includes("Skill Lanes And Workstreams"));
   assert(page.includes("Inactive Surfaces"));
 });

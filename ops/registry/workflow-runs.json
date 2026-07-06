@@ -477,6 +477,86 @@
         "git diff --check: passed"
       ],
       "review_state": "self-reviewed exact screenshot trigger gap"
+    },
+    {
+      "id": "wfr-20260706083846-c6a6",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706083846-c638",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "title": "Create callable tracker command suite",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "workflow_intake",
+      "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "skills/control-repo-manager/SKILL.md",
+        "skills/control-repo-manager/commands.md",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:38:46.729Z",
+      "last_checkpoint_at": "2026-07-06T08:42:20.305Z",
+      "next_action": "Use the callable command suite from control-repo-manager when Codex needs tracker status, intake, checkpoint, closeout, validation, upload, or dashboard export.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706083846-c6a6.jsonl",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706083846-c6a6-context.md",
+      "artifacts": [
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "skills/control-repo-manager/SKILL.md",
+        "skills/control-repo-manager/commands.md",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "tracker-ui/src/pages/index.astro",
+        "tracker-ui/src/styles/global.css",
+        "tracker-ui/src/data/tracker-dashboard.json",
+        "ops/workflow-runs/2026-07-06/wfr-20260706083846-c6a6-context.md"
+      ],
+      "final_summary": "Added a skills-first callable tracker command suite with list/describe discovery, dashboard export visibility, docs, and regression tests. The suite is internal-only and owned by control-repo-manager so Codex can call tracker capabilities without telling the user to run terminal commands.",
+      "closed_at": "2026-07-06T08:42:20.305Z",
+      "validation_results": [
+        "npm test: passed 19 tests",
+        "npm run validate: passed",
+        "npm run build: passed",
+        "git diff --check: passed"
+      ],
+      "review_state": "self-reviewed command metadata, skill ownership, UI export, and no Python regression"
+    },
+    {
+      "id": "wfr-20260706084054-cfbd",
+      "project_id": "philippines-building-code-evidence-auditor-v2",
+      "session_id": "20260706084047-1655",
+      "skill_id": "philippines-building-code-evidence-auditor-v2",
+      "skill_path": "skills/philippines-building-code-evidence-auditor-v2/SKILL.md",
+      "title": "Intake earthquake project edit",
+      "flow_id": "philippines_building_code_evidence_auditor_v2",
+      "status": "open",
+      "current_skill": "workflow_intake",
+      "owned_paths": [
+        "skills/philippines-building-code-evidence-auditor-v2/SKILL.md",
+        "data/philippines-building-code-evidence-auditor-v2",
+        "docs/plans/building-code-progress-chart.md",
+        "docs/plans/building-code-progress-table.md"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:40:54.736Z",
+      "last_checkpoint_at": "2026-07-06T08:40:54.736Z",
+      "next_action": "Ask for the exact earthquake project edit target before changing V2 workflow files.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706084054-cfbd.jsonl",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706084054-cfbd-context.md",
+      "artifacts": [
+        "ops/workflow-runs/2026-07-06/wfr-20260706084054-cfbd-context.md"
+      ]
     }
   ]
 }

@@ -31,6 +31,9 @@ When one of these intents appears, do not present a terminal command. Load ECC,
 load this skill and the relevant project/workflow context, create or lock the
 tracker run internally, write the context manifest internally, then answer with
 the ECC proof, premise lock, and first context-aware grilling question.
+If tracker command capability is needed, use the skills-owned callable command
+suite documented by `skills/control-repo-manager/SKILL.md`; do not invent a new
+operator-facing command surface.
 
 Any edit, change, fix, update, revise, work-on, or touch intent for a tracked
 project, lane, skill, or workflow counts as a workflow start. Do not ask "what

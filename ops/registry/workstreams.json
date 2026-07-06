@@ -8,7 +8,9 @@
       "repo_id": "market-research-agent-control",
       "status": "active",
       "objective": "Maintain the Philippine building earthquake evidence audit workflow.",
-      "session_ids": [],
+      "session_ids": [
+        "20260706084047-1655"
+      ],
       "handoff": "docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md",
       "open_decisions": [],
       "next_action": "Confirm exact building identity before permit, contractor, incident, code, compliance, earthquake, or safety search."
@@ -30,7 +32,8 @@
         "20260706-155032-7519",
         "20260706080128-7bd0",
         "20260706080949-92de",
-        "20260706083323-ab4b"
+        "20260706083323-ab4b",
+        "20260706083846-c638"
       ],
       "handoff": "ops/handoffs/latest.md",
       "open_decisions": [],
