@@ -4,6 +4,25 @@ This repo is an ECC-aligned multi-project workspace. Multiple agentic workflows
 may live here at the same time, but each workflow must stay in its own project
 lane so evidence, schemas, status notes, and safety boundaries do not mix.
 
+## Skills-First Chat Contract
+
+Contract phrase: Skills are the operator interface. Codex chat is the operator surface. The user never runs tracker scripts; scripts are internal adapters.
+
+Skills are the operator interface. Codex chat is the operator surface. The user
+never runs tracker scripts; scripts are internal adapters that Codex may invoke
+to persist state, validate gates, or inspect tracker truth.
+
+When the user says anything like "I found a bug in my workflow", "I am building
+a workflow", "create a workflow", or "continue this workflow", Codex must treat
+the chat message as the workflow trigger. Load ECC and the relevant skill files,
+start or lock tracker state internally, record the context manifest internally,
+then answer with the loaded-context proof, premise lock, and the first
+context-aware workflow question.
+
+Do not tell the user to open a terminal, run Python, start a tracker command, or
+copy a shell command to create workflow state. If a script is needed, Codex runs
+it as an implementation detail and reports the resulting state in chat.
+
 ## Core Rules
 
 - Agent-first: split broad research into independent source categories before
@@ -94,8 +113,8 @@ daily rollup, and sync status comes from `ops/registry/*.json` and
 
 Folder scans, lane tables, README sections, AGENTS.md sections, and project
 surface inventories are audit evidence only. Deleted or stale surfaces must not
-be reported as active projects. Run `python3 scripts/tracker_status.py` before
-answering what projects are active.
+be reported as active projects. Codex must check tracker status internally
+before answering what projects are active.
 
 ## Agent skills
 
@@ -162,8 +181,8 @@ HTML page.
 ## Historical Project Surface Notes
 
 Do not use this section to determine current project status. It is historical
-background for old workspace surfaces. Run `python3 scripts/tracker_status.py`
-before reporting which projects are current.
+background for old workspace surfaces. Codex must check tracker status
+internally before reporting which projects are current.
 
 - `philippines-building-code-evidence-auditor-v2` - tracker-listed current
   project; verify live status with `tracker_status.py`.
@@ -238,9 +257,10 @@ Statuses should use: `active`, `reachable but stale`, `manual-only`,
 - `skills/untitled-project/` - placeholder lane for the next project until it is
   named and promoted.
 
-## Verification
+## Internal Verification Gates For Codex Agents
 
-Before committing, run:
+Before committing, Codex runs the relevant gates internally. These are not
+operator instructions and must not be presented as required user actions.
 
 ```bash
 python3 scripts/validate_tracker.py

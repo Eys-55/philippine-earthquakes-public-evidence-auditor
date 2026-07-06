@@ -8,6 +8,18 @@ description: Use before answering project status or ending any session in this r
 Use this skill before answering project status in this repo. Use it before
 ending any session in this repo.
 
+## Skills-First Chat Contract
+
+Contract phrase: Skills are the operator interface. Codex chat is the operator surface. The user never runs tracker scripts; scripts are internal adapters.
+
+Skills are the operator interface. Codex chat is the operator surface. The user
+never runs tracker scripts; scripts are internal adapters that Codex may invoke
+after this skill decides tracker state is required.
+
+Do not tell the user to run tracker commands, open a terminal, or execute
+Python. Codex performs tracker checks internally and reports the project status,
+sync status, blockers, and next workflow action in chat.
+
 ## Source Of Truth
 
 Project, repo, workstream, session, handoff, daily rollup, and sync status comes
@@ -25,16 +37,16 @@ Deleted or stale surfaces must not be reported as active projects. If an old
 folder or stale lane table disagrees with the tracker, say that it is stale
 audit evidence and use tracker status as the active project answer.
 
-## Required Commands
+## Internal Adapter Actions
 
-Before answering project status, run:
+Before answering project status, Codex internally checks tracker status:
 
 ```bash
 python3 scripts/tracker_status.py
 ```
 
-Before starting implementation work, run a project situation check for the
-target project and proposed owned paths:
+Before starting implementation work, Codex internally checks the project
+situation for the target project and proposed owned paths:
 
 ```bash
 python3 scripts/tracker_project_situation.py --project-id <project-id> --owned-path <path>
@@ -43,7 +55,7 @@ python3 scripts/tracker_project_situation.py --project-id <project-id> --owned-p
 If the situation check reports risky parallel work, pause and ask the user
 whether to continue, join the existing run, or wait.
 
-Use these Workflow Run commands for Matt Pocock workflow work:
+Use these Workflow Run internal adapters for Matt Pocock workflow work:
 
 ```bash
 python3 scripts/tracker_start_work.py --project-id <project-id> --objective <objective>
@@ -52,13 +64,14 @@ python3 scripts/tracker_workflow_checkpoint.py ...
 python3 scripts/tracker_workflow_close.py ...
 ```
 
-When auditing stale project surfaces, run:
+When auditing stale project surfaces, Codex internally runs:
 
 ```bash
 python3 scripts/tracker_repo_audit.py
 ```
 
-Before ending a session, run the tracker gates that match the work performed:
+Before ending a session, Codex internally runs the tracker gates that match the
+work performed:
 
 ```bash
 python3 scripts/validate_tracker.py

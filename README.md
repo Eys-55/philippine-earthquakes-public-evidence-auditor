@@ -131,19 +131,27 @@ This repo is an ECC-aligned multi-lane workspace. Multiple agentic workflows may
 live here at the same time, but each workflow stays in its own project lane so
 instructions, schemas, evidence, reports, and safety boundaries do not mix.
 
+Skills are the operator interface. Codex chat is the operator surface. The user
+never runs tracker scripts; scripts are internal adapters. Natural chat such as
+"I found a bug in my workflow" or "I am building a workflow" is enough for Codex
+to load ECC, start or lock tracker state internally, and continue the workflow
+through the relevant skill.
+
 ## Control Repo Tracker
 
 This repo uses `ops/` as the authoritative tracker for projects, repos,
 workstreams, sessions, handoffs, daily rollups, and sync evidence. Use
-`python3 scripts/tracker_status.py` before answering what projects are current.
+Codex's internal tracker-status adapter before answering what projects are
+current.
 For upload completion, the live checks in `tracker_status.py` and
 `tracker_upload_gate.py` are the truth; `ops/sync` is recorded evidence, not a
 self-certifying upload result. Folder names, stale lane tables, and project
 surface scans are not project authority; they are audit evidence only.
 
-## Run The Validators
+## Internal Validator Gates
 
-Use these checks for the current auditor:
+Codex runs these checks for the current auditor. They are maintainer gates, not
+operator instructions:
 
 ```bash
 find data/philippines-building-code-evidence-auditor-v2 -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool >/tmp/building-code-v2-json-parse.txt
@@ -176,6 +184,7 @@ python3 scripts/validate_audit_scope_source_reality.py
 The control repo tracker is the source of truth for current project status.
 Treat this table as background workspace documentation, not as project
 authority. Run `python3 scripts/tracker_status.py` before reporting which
+authority. Codex checks tracker status internally before reporting which
 projects are current.
 
 | Surface | Tracker Relationship | Purpose | Start Here |

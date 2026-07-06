@@ -1,7 +1,15 @@
-# Agent Workflow Project Maker Commands
+# Agent Workflow Project Maker Internal Adapter Reference
 
-skills/ is canonical. These slash names are a compatibility surface for
-operators, not a second workflow source of truth.
+This is an Internal Adapter Reference, not operator instructions. Do not tell the user to run these commands. Skills are the operator interface. Codex chat is
+the operator surface. The user never runs tracker scripts; scripts are internal
+adapters.
+
+Plain chat is the primary workflow trigger. Codex should treat messages such as
+"I am building a workflow", "I found a bug in my workflow", "create a workflow",
+and "continue this workflow" as workflow-intake requests.
+
+skills/ is canonical. These slash names are compatibility metadata for Codex and
+cross-harness parity, not a second workflow source of truth.
 
 | Slash | Mode | Purpose |
 | --- | --- | --- |
@@ -15,10 +23,12 @@ operators, not a second workflow source of truth.
 | `/workflow-status` | status | Show tracker-backed workflow status and current next actions. |
 | `/workflow-closeout` | closeout | Check validation, GitHub upload safety, and continuation readiness. |
 
-Use `scripts/workflow_skill_slash_surface.py --command <slash> --json` to
-inspect one command definition.
+Codex internal adapter: use
+`scripts/workflow_skill_slash_surface.py --command <slash> --json` to inspect
+one command definition.
 
-Use `/tracker workflow` through:
+Codex internal adapter: when workflow intake needs durable state, compose the
+tracker primitives behind the skill surface:
 
 ```bash
 python3 scripts/tracker_workflow_intake_start.py \
@@ -28,7 +38,7 @@ python3 scripts/tracker_workflow_intake_start.py \
 
 This starts a tracker session, creates a workflow run in `workflow_intake`,
 writes the required context manifest, and returns visible ECC proof plus the
-first context-aware grilling question.
+first context-aware grilling question. It is not a user instruction.
 
 ## Router Contract
 

@@ -8,6 +8,28 @@ description: Use the repo's real-world workflow catalog to turn a repeated job i
 This skill owns the workflow-catalog/project-maker surface in this repo. It
 should be treated as a real project surface, not as loose research output.
 
+## Skills-First Chat Contract
+
+Contract phrase: Skills are the operator interface. Codex chat is the operator surface. The user never runs tracker scripts; scripts are internal adapters.
+
+Skills are the operator interface. Codex chat is the operator surface. The user
+never runs tracker scripts; scripts are internal adapters that Codex may invoke
+to create durable state, load context, validate gates, or inspect workflow
+status.
+
+Plain chat is the primary trigger. Treat these user messages as workflow intake
+signals:
+
+- "I am building a workflow"
+- "I found a bug in my workflow"
+- "create a workflow"
+- "continue this workflow"
+
+When one of these intents appears, do not present a terminal command. Load ECC,
+load this skill and the relevant project/workflow context, create or lock the
+tracker run internally, write the context manifest internally, then answer with
+the ECC proof, premise lock, and first context-aware grilling question.
+
 ## Owned Surfaces
 
 - Catalog data: `data/agentic-repos/`
@@ -25,13 +47,7 @@ and Codex/ECC config-package references. Use that as the starting point.
 ## Workflow
 
 1. Name the repeated real-world job.
-2. Query the catalog for comparable workflows:
-
-   ```bash
-   python3 scripts/query_workflow_catalog.py "<job or domain phrase>"
-   python3 scripts/query_workflow_router.py "<job or domain phrase>"
-   ```
-
+2. Query the catalog for comparable workflows through Codex internal adapters.
 3. Inspect only the relevant catalog rows and source references.
 4. Draft the project contract:
    - trigger and refusal scope;
@@ -71,7 +87,7 @@ Required sequence:
 Do not ask blank questions. Do not rely on generic Codex assumptions about
 agentic workflows. ECC is the operating model.
 
-Fail-closed enforcement lives in `python3 scripts/validate_tracker.py`.
+Fail-closed enforcement lives in the internal tracker validation adapter.
 Workflow runs in `workflow_intake`, and all `workflow_specific_bug` runs, must
 have a context manifest under `ops/workflow-runs/` with loaded ECC context and
 a premise marker. If that proof is missing, tracker validation must fail before
@@ -120,9 +136,11 @@ create files.
 
 ## Slash Compatibility Surface
 
-`skills/` remains canonical. The compatibility commands are documented in
-`skills/agent-workflow-project-maker/commands.md` and exposed by
-`scripts/workflow_skill_slash_surface.py`.
+`skills/` remains canonical. Slash names are compatibility metadata only; they
+are not the operator interface and they must not be presented as something the
+user has to run. The compatibility entries are documented in
+`skills/agent-workflow-project-maker/commands.md` and exposed to Codex internal
+adapters by `scripts/workflow_skill_slash_surface.py`.
 
 - `/tracker workflow`
 - `/tracker status`

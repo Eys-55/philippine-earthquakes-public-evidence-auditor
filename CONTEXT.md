@@ -3,6 +3,21 @@
 This context defines the operating language for the control repo tracker and
 workflow project surfaces in this workspace.
 
+## Operator Surface
+
+Contract phrase: Skills are the operator interface. Codex chat is the operator surface. The user never runs tracker scripts; scripts are internal adapters.
+
+Skills are the operator interface. Codex chat is the operator surface. The user
+never runs tracker scripts; scripts are internal adapters that Codex may invoke
+while serving the chat workflow.
+
+Plain chat is enough to start workflow intake. Messages such as "I found a bug
+in my workflow", "I am building a workflow", "create a workflow", or "continue
+this workflow" are workflow-intent signals. Codex loads ECC and the relevant
+skill context, creates or locks durable tracker state internally, writes the
+context manifest internally, and asks the first context-aware grilling question
+in chat.
+
 ## Language
 
 **Workflow Run**:
@@ -61,9 +76,9 @@ _Avoid_: Scope notes, files probably touched
 The tracker must refuse to start a workflow run without at least one declared owned path.
 _Avoid_: Unknown scope, unspecified files
 
-**Validation Command**:
-A command declared at workflow start that can verify the run's intended change or artifact. At least one validation command is required before a workflow run may start.
-_Avoid_: Check later, manual confidence
+**Validation Gate**:
+A Codex-run internal adapter, test, validator, or review action declared at workflow start that can verify the run's intended change or artifact. At least one validation gate is required before a workflow run may start.
+_Avoid_: Check later, manual confidence, user-run terminal command
 
 **Workflow Completion**:
 A workflow run is complete when its flow-specific final stage is reached, required validation passes, and review is recorded when the flow calls for it. The containing tracked work session is not complete until session changes are committed.
@@ -89,13 +104,13 @@ _Avoid_: Stale, blocked
 A committed tracked work session whose changes have also been uploaded and verified against the expected remote branch.
 _Avoid_: Completed session, local commit
 
-**Work Start Command**:
-The friendly command that starts a tracked work session for a named project before workflow runs are added.
-_Avoid_: Session primitive, manual note
+**Work Start Skill Action**:
+The chat-triggered skill action that starts a tracked work session for a named project before workflow runs are added.
+_Avoid_: Session primitive, manual note, user-run command
 
-**Workflow Run Commands**:
-The tracker command family that starts, checkpoints, closes, and assesses workflow runs: tracker_workflow_start, tracker_workflow_checkpoint, tracker_workflow_close, and tracker_project_situation.
-_Avoid_: Generic event commands, ad hoc notes
+**Workflow Run Internal Adapters**:
+The tracker adapter family that Codex may call to start, checkpoint, close, and assess workflow runs: tracker_workflow_start, tracker_workflow_checkpoint, tracker_workflow_close, and tracker_project_situation.
+_Avoid_: Generic event commands, ad hoc notes, operator-facing terminal UX
 
 **Matt Pocock Workflow Currency**:
 The repo's tracker workflow should be framed around the installed Matt Pocock skills and their flows, not around Superpowers planning or execution skills.
