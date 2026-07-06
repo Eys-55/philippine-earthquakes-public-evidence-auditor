@@ -19,6 +19,12 @@ start or lock tracker state internally, record the context manifest internally,
 then answer with the loaded-context proof, premise lock, and the first
 context-aware workflow question.
 
+Edit intent is also a workflow trigger. If the user says they will edit, change,
+fix, update, revise, work on, or touch a tracked project, lane, skill, workflow,
+or "earthquake project", Codex must create or lock the tracked skill run before
+asking what the edit is. Do not stop at loaded context plus a clarification
+question.
+
 Do not tell the user to open a terminal, run Python, start a tracker command, or
 copy a shell command to create workflow state. If a script is needed, Codex runs
 it as an implementation detail and reports the resulting state in chat.

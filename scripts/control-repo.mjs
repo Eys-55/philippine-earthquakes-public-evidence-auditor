@@ -161,7 +161,9 @@ function intentRequiresWorkflowIntake(run) {
     run.flow_id,
     run.current_skill,
   ].filter(Boolean).join(" ").toLowerCase();
-  return /\bworkflow\b/.test(haystack) && /\b(bug|problem|issue|intake|continue|continuation|router|flow)\b/.test(haystack);
+  const explicitWorkflowIntent = /\bworkflow\b/.test(haystack) && /\b(bug|problem|issue|intake|continue|continuation|router|flow)\b/.test(haystack);
+  const editIntent = /\b(edit|change|fix|update|revise|work on|touch)\b/.test(haystack) && /\b(project|proj|lane|skill|workflow|earthquake)\b/.test(haystack);
+  return explicitWorkflowIntent || editIntent;
 }
 
 function trackerState() {

@@ -144,6 +144,25 @@ test("skills-first chat contract remains authoritative", () => {
   }
 });
 
+test("edit intent to tracked projects is a workflow trigger", () => {
+  const files = [
+    "AGENTS.md",
+    "CONTEXT.md",
+    "skills/agent-workflow-project-maker/SKILL.md",
+    "skills/control-repo-manager/SKILL.md",
+  ];
+  for (const file of files) {
+    const text = read(file);
+    const normalized = text.replace(/\s+/g, " ");
+    assert(normalized.includes("edit, change"), file);
+    assert(normalized.includes("tracked project"), file);
+    assert(normalized.includes("before asking what the edit is"), file);
+  }
+
+  const skill = read("skills/agent-workflow-project-maker/SKILL.md");
+  assert(skill.includes("I will make an edit to my earthquake project"));
+});
+
 test("tracker runs are skill-first records", () => {
   const registry = JSON.parse(read("ops/registry/workflow-runs.json"));
   const runs = registry.workflow_runs;
@@ -345,6 +364,20 @@ test("tracker validation rejects fake context manifests and workflow bugs that s
   writeJson(registryPath, registry);
   validated = runControl(["validate-tracker"], { env });
   assert.equal(validated.status, 0, validated.stderr);
+});
+
+test("tracker validation rejects edit-intent project runs that skip intake", () => {
+  const root = makeTrackerRoot();
+  const { env, result } = startFixtureRun(root, {
+    title: "I will make an edit to my earthquake proj",
+    currentSkill: "implement",
+    nextAction: "Ask what edit the user is planning.",
+  });
+  assert.equal(result.status, 0, result.stderr);
+
+  const validated = runControl(["validate-tracker"], { env });
+  assert.notEqual(validated.status, 0);
+  assert(validated.stderr.includes("workflow intake requires context manifest"));
 });
 
 test("tracker workflow update rejects unknown runs and invalid statuses before mutation", () => {

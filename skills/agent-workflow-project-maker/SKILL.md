@@ -24,11 +24,19 @@ signals:
 - "I found a bug in my workflow"
 - "create a workflow"
 - "continue this workflow"
+- "I will make an edit to my earthquake project"
+- "I need to update/fix/change this project"
 
 When one of these intents appears, do not present a terminal command. Load ECC,
 load this skill and the relevant project/workflow context, create or lock the
 tracker run internally, write the context manifest internally, then answer with
 the ECC proof, premise lock, and first context-aware grilling question.
+
+Any edit, change, fix, update, revise, work-on, or touch intent for a tracked
+project, lane, skill, or workflow counts as a workflow start. Do not ask "what
+edit are you planning?" until the tracked skill run exists and the context
+manifest is attached.
+Create or lock tracker state before asking what the edit is.
 
 Contract phrase: create or lock the tracker run internally.
 

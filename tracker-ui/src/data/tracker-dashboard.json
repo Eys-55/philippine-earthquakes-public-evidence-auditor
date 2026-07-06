@@ -6,7 +6,7 @@
     "active_projects": 2,
     "tracked_skills": 3,
     "workstreams": 2,
-    "workflow_runs": 9,
+    "workflow_runs": 10,
     "open_workflow_runs": 1,
     "upload_status": "pending_local_changes",
     "repos": 1
@@ -55,7 +55,8 @@
             "20260706-152915-2d00",
             "20260706-155032-7519",
             "20260706080128-7bd0",
-            "20260706080949-92de"
+            "20260706080949-92de",
+            "20260706083323-ab4b"
           ],
           "handoff": "ops/handoffs/latest.md",
           "open_decisions": [],
@@ -69,7 +70,7 @@
       "id": "agent-workflow-project-maker",
       "path": "skills/agent-workflow-project-maker/SKILL.md",
       "open_runs": 0,
-      "total_runs": 7
+      "total_runs": 8
     },
     {
       "id": "control-repo-manager",
@@ -511,6 +512,55 @@
         "git diff --check: passed"
       ],
       "review_state": "subagent-reviewed and self-reviewed"
+    },
+    {
+      "id": "wfr-20260706083323-4cdd",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706083323-ab4b",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "title": "Fix workflow bug where edit intent skips tracked intake",
+      "flow_id": "workflow_specific_bug",
+      "status": "completed",
+      "current_skill": "workflow_intake",
+      "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "AGENTS.md",
+        "CONTEXT.md",
+        "skills/control-repo-manager/SKILL.md",
+        "tests/control-repo.test.mjs",
+        "scripts/control-repo.mjs",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:33:23.431Z",
+      "last_checkpoint_at": "2026-07-06T08:36:07.788Z",
+      "next_action": "For future tracked project edits, create or lock the skill run before asking what the edit is.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706083323-4cdd.jsonl",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706083323-4cdd-context.md",
+      "artifacts": [
+        "AGENTS.md",
+        "CONTEXT.md",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "skills/control-repo-manager/SKILL.md",
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "ops/workflow-runs/2026-07-06/wfr-20260706083323-4cdd-context.md"
+      ],
+      "final_summary": "Fixed the screenshot regression: edit/change/fix/update intent for a tracked project now explicitly starts or locks a tracked skill run before clarification. Added regression tests for the exact phrase 'I will make an edit to my earthquake proj' and updated the adapter intent detector.",
+      "closed_at": "2026-07-06T08:36:07.789Z",
+      "validation_results": [
+        "npm test: passed 17 tests",
+        "npm run validate: passed",
+        "npm run build: passed",
+        "git diff --check: passed"
+      ],
+      "review_state": "self-reviewed exact screenshot trigger gap"
     }
   ],
   "upload_repos": [

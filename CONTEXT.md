@@ -18,6 +18,12 @@ skill context, creates or locks durable tracker state internally, writes the
 context manifest internally, and asks the first context-aware grilling question
 in chat.
 
+**Edit Intent Trigger**:
+A user saying they will edit, change, fix, update, revise, work on, or touch a
+tracked project, lane, skill, or workflow is already starting a workflow run.
+Codex creates or locks the tracked skill run before asking what the edit is.
+_Avoid_: ask what edit before tracker state, loaded-context-only response
+
 ## Language
 
 **Workflow Run**:

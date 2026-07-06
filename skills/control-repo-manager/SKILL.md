@@ -52,6 +52,10 @@ situation for the target project and proposed owned paths:
 node scripts/control-repo.mjs tracker-status
 ```
 
+If the user says they will edit, change, fix, update, revise, work on, or touch
+a tracked project, lane, skill, or workflow, Codex must create or lock a tracked
+skill run before asking what the edit is. Loaded context alone is not enough.
+
 If the situation check reports risky parallel work, pause and ask the user
 whether to continue, join the existing run, or wait.
 
