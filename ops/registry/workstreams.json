@@ -20,7 +20,8 @@
       "status": "active",
       "objective": "Build a tracker for projects, repos, sessions, and GitHub upload state.",
       "session_ids": [
-        "20260706-021920-fe10"
+        "20260706-021920-fe10",
+        "20260706-133456-18ea"
       ],
       "handoff": "ops/handoffs/latest.md",
       "open_decisions": [

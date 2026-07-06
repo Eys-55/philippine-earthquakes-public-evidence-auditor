@@ -1,5 +1,35 @@
 {
   "schema_version": 1,
   "generated_at": "2026-07-06T00:00:00+08:00",
-  "workflow_runs": []
+  "workflow_runs": [
+    {
+      "id": "wfr-20260706-133546-1157",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706-133456-18ea",
+      "title": "Implement issue 9 skills-first slash workflow surface",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "open",
+      "current_skill": "grilling",
+      "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "skills/agent-workflow-project-maker/commands.md",
+        "scripts/workflow_skill_slash_surface.py",
+        "tests/test_workflow_skill_slash_surface.py",
+        "CONTEXT.md",
+        "docs/agents/issue-tracker.md"
+      ],
+      "validation_commands": [
+        "python3 -m unittest tests.test_workflow_skill_slash_surface",
+        "python3 scripts/validate_tracker.py"
+      ],
+      "started_at": "2026-07-06T13:35:46+08:00",
+      "last_checkpoint_at": "2026-07-06T14:05:09+08:00",
+      "next_action": "Continue grilling remaining router contract decisions before implementation.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
+      "artifacts": [
+        "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
+      ],
+      "decision": "For this repo, routine commits and pushes for tracker/workflow work are pre-approved by the user; still report what was pushed and keep closeout honest if validation fails."
+    }
+  ]
 }
