@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:05:09+08:00",
+      "last_checkpoint_at": "2026-07-06T14:06:20+08:00",
       "next_action": "Continue grilling remaining router contract decisions before implementation.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "For this repo, routine commits and pushes for tracker/workflow work are pre-approved by the user; still report what was pushed and keep closeout honest if validation fails."
+      "decision": "Workflow/session closeout and continuation require GitHub push/upload verification. If changes are not pushed, report that and stop before treating the work as continue-safe."
     }
   ]
 }
