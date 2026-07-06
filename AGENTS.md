@@ -38,6 +38,7 @@ still lives in `skills/`, tracker state, and the Matt Pocock phase skill files.
 
 Required workflow slash prompts:
 
+- `/workflow-help`
 - `/workflow-router`
 - `/workflow-intake`
 - `/workflow-grilling`

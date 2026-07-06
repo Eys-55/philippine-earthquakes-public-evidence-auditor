@@ -134,6 +134,7 @@ test("repo-local Codex slash prompts expose workflow commands", () => {
     "tracker-workflow.md",
     "tracker-status.md",
     "tracker-closeout.md",
+    "workflow-help.md",
     "workflow-router.md",
     "workflow-intake.md",
     "workflow-grilling.md",
