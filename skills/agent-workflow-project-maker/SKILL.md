@@ -46,6 +46,46 @@ and Codex/ECC config-package references. Use that as the starting point.
    clear.
 7. Update `data/project-surface-inventory.json` so the new project is tracked.
 
+## Workflow Intake Router
+
+For workflow bugs, workflow problems, continuations, and new workflow requests,
+do not jump directly to implementation. Start from ECC-loaded workflow intake.
+
+Required sequence:
+
+1. Create or lock a tracked workflow run immediately.
+2. Set the first phase to `workflow_intake`.
+3. Load ECC, Matt Pocock flow, tracker status, workflow-specific skill files,
+   status/handoff docs, tests, validators, and relevant workflow-run logs.
+4. If the report names an ECC concept such as loop, gate, lane, eval, handoff,
+   source evidence, or human boundary, load the local docs for that concept.
+5. Write or attach a context manifest under `ops/workflow-runs/`.
+6. Show visible ECC proof before grilling:
+   - ECC files loaded;
+   - workflow/concept files loaded;
+   - ECC concept meaning from the loaded files;
+   - premise lock;
+   - first context-aware grilling question.
+7. Grill only after the loaded-context proof exists.
+
+Do not ask blank questions. Do not rely on generic Codex assumptions about
+agentic workflows. ECC is the operating model.
+
+New workflow creation requires explicit confirmation, such as:
+
+- "Create a new workflow for this"
+- "This is not a continuation. Start a new workflow."
+
+After explicit confirmation, create the draft scaffold immediately:
+
+- `skills/<workflow-slug>/SKILL.md`
+- `data/<workflow-slug>/.gitkeep`
+- `docs/status/YYYY-MM-DD-<workflow-slug>-status.md`
+- `ops/workflow-runs/YYYY-MM-DD/<workflow-run-id>-context.md`
+
+Draft scaffold files must include visible progress markers, current phase, next
+action, and explicit "Not reached yet" markers for untouched sections.
+
 ## Rules
 
 - Do not create placeholder projects. If the repeated job is vague, ask for the
@@ -71,3 +111,16 @@ For a new project, produce:
 
 When the user only wants ideation, stop at a project contract draft and do not
 create files.
+
+## Slash Compatibility Surface
+
+`skills/` remains canonical. The compatibility commands are documented in
+`skills/agent-workflow-project-maker/commands.md` and exposed by
+`scripts/workflow_skill_slash_surface.py`.
+
+- `/workflow-find`
+- `/workflow-router`
+- `/workflow-contract`
+- `/workflow-create-skill`
+- `/workflow-status`
+- `/workflow-closeout`
