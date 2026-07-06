@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:11:13+08:00",
-      "next_action": "Ask what happens after the user explicitly confirms new workflow creation.",
+      "last_checkpoint_at": "2026-07-06T14:11:57+08:00",
+      "next_action": "Ask where workflow contract drafts should be stored before promotion to skill files.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "Accept explicit new-workflow confirmation phrases: 'Create a new workflow for this' and 'This is not a continuation. Start a new workflow.' Without explicit confirmation, remain in workflow identification/intake."
+      "decision": "New workflow creation enters workflow_contract first. The router drafts repeated job, trigger/refusal scope, input contract, output artifact, agent lanes, validation loop, safety boundary, and owned paths before creating skill files or scripts."
     }
   ]
 }
