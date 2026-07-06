@@ -9,7 +9,7 @@
       "title": "Implement issue 9 skills-first slash workflow surface",
       "flow_id": "agent_workflow_project_maker",
       "status": "open",
-      "current_skill": "to-prd",
+      "current_skill": "to-issues",
       "owned_paths": [
         "skills/agent-workflow-project-maker/SKILL.md",
         "skills/agent-workflow-project-maker/commands.md",
@@ -23,12 +23,11 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:28:32+08:00",
-      "next_action": "Synthesize PRD from the locked workflow-router decisions and confirm testing seams before publishing.",
+      "last_checkpoint_at": "2026-07-06T14:30:29+08:00",
+      "next_action": "Break PRD issue #11 into independently implementable vertical slices.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
-        "docs/plans/2026-07-05-building-code-agent-loop.md",
-        ".agents/skills/loop-me/SKILL.md"
+        "https://github.com/Eys-55/philippine-earthquakes-public-evidence-auditor/issues/11"
       ],
       "decision": "End grilling for the workflow-router contract and move to PRD synthesis. The accepted contract covers immediate workflow creation, workflow-specific loaded intake, visible ECC proof, context manifest, premise lock, informed grilling, scaffold behavior, and GitHub-pushed durability."
     }
