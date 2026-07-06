@@ -15,7 +15,7 @@ import tempfile
 from typing import Any
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get("TRACKER_ROOT", Path(__file__).resolve().parents[1])).resolve()
 SESSION_START_LOCK_PATH = ROOT / "ops/sessions/.session-start.lock"
 JsonObject = dict[str, Any]
 

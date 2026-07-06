@@ -123,6 +123,33 @@ NEW_WORKFLOW_CONFIRMATIONS = {
 def command_registry() -> list[dict[str, Any]]:
     return [
         {
+            "slash": "/tracker workflow",
+            "purpose": (
+                "Start tracker-backed workflow intake for an operator who is "
+                "building or debugging a workflow."
+            ),
+            "mode": "start",
+            "canonical_skill": CANONICAL_SKILL,
+            "operator_command": True,
+            "approval_boundary": "none",
+        },
+        {
+            "slash": "/tracker status",
+            "purpose": "Alias tracker-backed project and workflow status.",
+            "mode": "status",
+            "canonical_skill": CANONICAL_SKILL,
+            "operator_command": True,
+            "approval_boundary": "none",
+        },
+        {
+            "slash": "/tracker closeout",
+            "purpose": "Alias tracker validation, upload safety, and continuation closeout.",
+            "mode": "closeout",
+            "canonical_skill": CANONICAL_SKILL,
+            "operator_command": True,
+            "approval_boundary": "before-external-action",
+        },
+        {
             "slash": "/workflow-find",
             "purpose": "Find existing workflow surfaces before creating anything new.",
             "mode": "read",

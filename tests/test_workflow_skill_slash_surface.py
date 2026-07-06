@@ -18,6 +18,9 @@ class WorkflowSkillSlashSurfaceTests(unittest.TestCase):
 
         self.assertEqual(
             [
+                "/tracker workflow",
+                "/tracker status",
+                "/tracker closeout",
                 "/workflow-find",
                 "/workflow-router",
                 "/workflow-contract",
@@ -30,7 +33,7 @@ class WorkflowSkillSlashSurfaceTests(unittest.TestCase):
         for command in commands:
             self.assertEqual("skills/agent-workflow-project-maker/SKILL.md", command["canonical_skill"])
             self.assertTrue(command["operator_command"])
-            self.assertIn(command["mode"], {"read", "draft", "write", "status", "closeout"})
+            self.assertIn(command["mode"], {"start", "read", "draft", "write", "status", "closeout"})
             self.assertIn(command["approval_boundary"], {"none", "before-file-write", "before-external-action"})
 
     def test_command_lookup_emits_json_for_one_slash(self) -> None:
@@ -55,6 +58,29 @@ class WorkflowSkillSlashSurfaceTests(unittest.TestCase):
         self.assertEqual("/workflow-contract", payload["slash"])
         self.assertEqual("draft", payload["mode"])
         self.assertIn("workflow contract", payload["purpose"].lower())
+
+    def test_tracker_workflow_command_lookup_emits_json(self) -> None:
+        result = subprocess.run(
+            [
+                "python3",
+                "scripts/workflow_skill_slash_surface.py",
+                "--command",
+                "/tracker workflow",
+                "--json",
+            ],
+            cwd=REPO_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+        self.assertEqual("", result.stderr)
+        self.assertEqual(0, result.returncode)
+        payload = json.loads(result.stdout)
+        self.assertEqual("/tracker workflow", payload["slash"])
+        self.assertEqual("start", payload["mode"])
+        self.assertIn("workflow intake", payload["purpose"].lower())
 
     def test_command_docs_and_skill_cross_reference_every_slash(self) -> None:
         commands = workflow_skill_slash_surface.command_registry()

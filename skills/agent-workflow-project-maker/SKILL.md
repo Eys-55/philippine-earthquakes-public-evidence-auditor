@@ -124,6 +124,9 @@ create files.
 `skills/agent-workflow-project-maker/commands.md` and exposed by
 `scripts/workflow_skill_slash_surface.py`.
 
+- `/tracker workflow`
+- `/tracker status`
+- `/tracker closeout`
 - `/workflow-find`
 - `/workflow-router`
 - `/workflow-contract`

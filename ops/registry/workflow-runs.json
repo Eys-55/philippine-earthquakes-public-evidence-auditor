@@ -119,6 +119,53 @@
         "git diff --check: passed"
       ],
       "review_state": "self-review completed; no blocking findings"
+    },
+    {
+      "id": "wfr-20260706-150920-f0c8",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706-150915-5f75",
+      "title": "Implement tracker workflow slash intake surface",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "implement",
+      "owned_paths": [
+        "scripts/workflow_skill_slash_surface.py",
+        "scripts/tracker_workflow_intake_start.py",
+        "tests/test_workflow_skill_slash_surface.py",
+        "tests/test_workflow_run_commands.py",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "skills/agent-workflow-project-maker/commands.md"
+      ],
+      "validation_commands": [
+        "python3 -m unittest tests.test_workflow_skill_slash_surface",
+        "python3 -m unittest tests.test_workflow_run_commands",
+        "python3 scripts/validate_tracker.py"
+      ],
+      "started_at": "2026-07-06T15:09:20+08:00",
+      "last_checkpoint_at": "2026-07-06T15:12:24+08:00",
+      "next_action": "Use /tracker workflow via scripts/tracker_workflow_intake_start.py for workflow-building intake.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-150920-f0c8.jsonl",
+      "final_summary": "Implemented tracker workflow slash intake start surface with session creation, workflow_intake run creation, context manifest writing, docs, and regression tests.",
+      "closed_at": "2026-07-06T15:12:24+08:00",
+      "artifacts": [
+        "scripts/tracker_workflow_intake_start.py",
+        "scripts/workflow_skill_slash_surface.py",
+        "scripts/tracker_session_start.py",
+        "skills/agent-workflow-project-maker/commands.md",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "tests/test_workflow_run_commands.py",
+        "tests/test_workflow_skill_slash_surface.py"
+      ],
+      "validation_results": [
+        "python3 -m unittest tests.test_workflow_skill_slash_surface: passed",
+        "python3 -m unittest tests.test_workflow_run_commands: passed",
+        "python3 -m unittest tests.test_validate_tracker: passed",
+        "python3 -m unittest discover: passed",
+        "python3 scripts/validate_tracker.py: passed",
+        "git diff --check: passed",
+        "npm run build: passed"
+      ],
+      "review_state": "self-review completed; no blocking findings"
     }
   ]
 }
