@@ -140,7 +140,7 @@ through the relevant skill.
 ## Control Repo Tracker
 
 This repo uses `ops/` as the authoritative tracker for projects, repos,
-workstreams, sessions, handoffs, daily rollups, and sync evidence. Use
+workstreams, sessions, workflow runs, handoffs, and sync evidence. Use
 Codex's internal tracker-status adapter before answering what projects are
 current.
 For upload completion, the live checks in `tracker_status.py` and
@@ -163,14 +163,6 @@ python3 scripts/validate_progress_docs.py
 git diff --check
 ```
 
-For maintainer checks that preserve the earlier broad building-code workflow:
-
-```bash
-python3 scripts/validate_building_identity_gate.py
-python3 scripts/validate_audit_scope_gate.py
-python3 scripts/validate_audit_scope_source_reality.py
-```
-
 ## Repo Map
 
 - Current auditor skill: `skills/philippines-building-code-evidence-auditor-v2/SKILL.md`
@@ -183,14 +175,13 @@ python3 scripts/validate_audit_scope_source_reality.py
 
 The control repo tracker is the source of truth for current project status.
 Treat this table as background workspace documentation, not as project
-authority. Run `python3 scripts/tracker_status.py` before reporting which
 authority. Codex checks tracker status internally before reporting which
 projects are current.
 
 | Surface | Tracker Relationship | Purpose | Start Here |
 | --- | --- | --- | --- |
 | `philippines-building-code-evidence-auditor-v2` | Tracker-listed current project; verify live status with `tracker_status.py`. | Four-lane earthquake public-evidence auditor for NSCP/seismic evidence, OBO structural review, post-earthquake tag/status, and clearance after damage or tag. | `skills/philippines-building-code-evidence-auditor-v2/SKILL.md` |
-| `philippines-building-code-evidence-auditor` | Predecessor surface; do not report as current while V2 is the tracker-listed auditor. | Broad building-code public-evidence auditor for Philippine buildings, establishments, malls, hotels, and facilities. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
+| `philippines-building-code-evidence-auditor` | Predecessor surface; do not report as current while V2 is the tracker-listed auditor. | Broad building-code public-evidence auditor retained as historical skill text only; its Python gate scripts were removed. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
 | `address-disaster-risk-assessor` | Obsolete historical surface; do not report as current unless explicitly reopened and tracker-listed. | Given an address or coordinates, produce a source-attributed disaster-risk packet for Metro Manila / NCR. | `skills/address-disaster-risk-assessor/SKILL.md` |
 | `metro-manila-source-atlas` | Stale source-atlas surface; do not report as current. | Refresh or extend the reusable Metro Manila data-source inventory. | `skills/metro-manila-source-atlas/SKILL.md` |
 | `untitled-project` | Placeholder surface; do not report as current. | Parking lane for the next workflow before the repeated job, input contract, and output artifact are named. | `skills/untitled-project/SKILL.md` |
@@ -292,7 +283,10 @@ Before promoting it, lock:
 Then rename `skills/untitled-project/` and `data/untitled-project/` to the final
 slug and add a decision note.
 
-## Workspace Verification
+## Internal Workspace Verification
+
+Codex runs these checks as internal maintainer gates. They are not operator
+instructions.
 
 ```bash
 python3 scripts/validate_tracker.py

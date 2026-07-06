@@ -40,15 +40,7 @@
         "reports/workflow-link-seed.md",
         "reports/workflow-router-table-revamp-sample.md",
         "reports/workflow-router.md",
-        "reports/workflow-search-index.md",
-        "scripts/build_workflow_door_catalog.py",
-        "scripts/build_workflow_router.py",
-        "scripts/build_workflow_search_index.py",
-        "scripts/query_workflow_catalog.py",
-        "scripts/query_workflow_router.py",
-        "scripts/workflow_catalog_cli_run.py",
-        "scripts/workflow_catalog_remaining_cli_run.py",
-        "scripts/workflow_catalog_tools.py"
+        "reports/workflow-search-index.md"
       ],
       "notes": [
         "Most owned paths are currently untracked.",
@@ -65,9 +57,6 @@
       "paths": [
         "skills/philippines-building-code-evidence-auditor/",
         "data/building-code-auditor/",
-        "scripts/validate_building_identity_gate.py",
-        "scripts/validate_audit_scope_gate.py",
-        "scripts/validate_audit_scope_source_reality.py",
         "docs/status/2026-07-04-building-code-evidence-auditor-lock.md",
         "docs/decisions/0003-lock-philippines-building-code-evidence-auditor.md"
       ],

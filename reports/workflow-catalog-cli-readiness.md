@@ -2,7 +2,9 @@
 
 Generated: 2026-07-05
 
-Status: paused before external Codex CLI classification agents.
+Status: superseded by skills-first catalog lookup. The Python CLI preparation
+tooling was removed on 2026-07-06 because workflow catalog operation now lives
+through Codex chat, skills, and committed JSON indexes.
 
 ## Current Seed
 
@@ -32,9 +34,9 @@ verified.
 - `data/agentic-repos/workflow-catalog-cli/prompts/agent-001.json` through `agent-018.json`
 - `reports/workflow-link-seed.md`
 
-## Later Launch Shape
+## Superseded Launch Shape
 
-Run only after explicit approval:
+Historical shape only; do not use this as the current workflow surface.
 
 ```bash
 codex exec \
@@ -51,11 +53,7 @@ codex exec \
 Each prompt file owns at most 10 seed links. The current seed requires 18 CLI
 classification agents, not 30, because the deduped seed is 171 links.
 
-## Readiness Checks Passed
+## Historical Readiness Checks
 
-- `python3 -m py_compile scripts/workflow_catalog_tools.py`
-- `python3 scripts/workflow_catalog_tools.py seed`
-- `python3 scripts/workflow_catalog_tools.py cli-prompts --size 10`
 - `python3 -m json.tool data/agentic-repos/workflow-link-seed.raw.json`
 - `python3 -m json.tool data/agentic-repos/workflow-link-seed.json`
-- `python3 scripts/workflow_catalog_tools.py validate`

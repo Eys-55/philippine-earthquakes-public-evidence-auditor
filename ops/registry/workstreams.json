@@ -18,20 +18,19 @@
       "project_id": "agent-workflow-project-maker",
       "repo_id": "market-research-agent-control",
       "status": "active",
-      "objective": "Build a tracker for projects, repos, sessions, and GitHub upload state.",
+      "objective": "Build a skills-first tracker for projects, repos, sessions, workflow runs, and GitHub upload state.",
       "session_ids": [
         "20260706-021920-fe10",
         "20260706-133456-18ea",
         "20260706-145212-67df",
         "20260706-145952-b653",
         "20260706-150915-5f75",
-        "20260706-152220-b923"
+        "20260706-152220-b923",
+        "20260706-152915-2d00"
       ],
       "handoff": "ops/handoffs/latest.md",
-      "open_decisions": [
-        "Decide whether command shims should live under commands/."
-      ],
-      "next_action": "Continue implementing upload gate, daily rollup, and repo audit."
+      "open_decisions": [],
+      "next_action": "Keep workflow operation in Codex chat and skills; preserve only essential internal tracker, validation, and upload adapters."
     }
   ]
 }

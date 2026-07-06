@@ -9,7 +9,6 @@ from pathlib import Path
 
 from tests.test_validate_tracker import seed_valid_tracker
 from tests.test_validate_tracker import write_json
-from scripts.validate_tracker import validate_tracker_root
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -209,108 +208,16 @@ class WorkflowRunCommandTests(unittest.TestCase):
             self.assertIn("Result: risky", situation.stdout)
             self.assertIn("User approval: required", situation.stdout)
 
-    def test_tracker_workflow_intake_start_creates_session_run_and_manifest(self) -> None:
-        with tempfile.TemporaryDirectory() as raw_tmp:
-            root = Path(raw_tmp)
-            seed_tracker_with_session(root)
+    def test_workflow_intake_is_not_a_python_command_surface(self) -> None:
+        self.assertFalse((REPO_ROOT / "scripts/tracker_workflow_intake_start.py").exists())
+        self.assertFalse((REPO_ROOT / "scripts/workflow_skill_slash_surface.py").exists())
 
-            result = run_script(
-                "tracker_workflow_intake_start.py",
-                root,
-                "--objective",
-                "I am building a workflow for public permit evidence.",
-                "--raw-report",
-                "I am building a workflow for public permit evidence.",
-                "--new-workflow-slug",
-                "public-permit-evidence",
-                "--json",
-            )
-
-            self.assertEqual("", result.stderr)
-            self.assertEqual(0, result.returncode)
-            payload = json.loads(result.stdout)
-            self.assertEqual("workflow_intake", payload["current_skill"])
-            self.assertEqual("agent_workflow_project_maker", payload["flow_id"])
-            self.assertIn("session_id", payload)
-            self.assertIn("workflow_run_id", payload)
-            self.assertIn("context_manifest_path", payload)
-            self.assertIn("next_command", payload)
-            self.assertIn("AGENTS.md", payload["visible_ecc_proof"]["ecc_files_loaded"])
-            self.assertIn("Premise", payload["manifest_preview"])
-
-            workstreams = read_json(root / "ops/registry/workstreams.json")
-            session_ids = workstreams["workstreams"][0]["session_ids"]
-            self.assertIn(payload["session_id"], session_ids)
-
-            registry = read_json(root / "ops/registry/workflow-runs.json")
-            runs = registry["workflow_runs"]
-            self.assertEqual(1, len(runs))
-            self.assertEqual(payload["workflow_run_id"], runs[0]["id"])
-            self.assertEqual("workflow_intake", runs[0]["current_skill"])
-            self.assertEqual(payload["context_manifest_path"], runs[0]["context_manifest_path"])
-            self.assertTrue((root / payload["context_manifest_path"]).is_file())
-            self.assertTrue(validate_tracker_root(root).ok)
-
-    def test_tracker_workflow_intake_start_uses_bug_flow_for_existing_workflow_issue(self) -> None:
-        with tempfile.TemporaryDirectory() as raw_tmp:
-            root = Path(raw_tmp)
-            seed_tracker_with_session(root)
-
-            result = run_script(
-                "tracker_workflow_intake_start.py",
-                root,
-                "--objective",
-                "Investigate workflow router bug.",
-                "--raw-report",
-                "There is a bug in the workflow router loop.",
-                "--affected-workflow",
-                "agent-workflow-project-maker",
-                "--json",
-            )
-
-            self.assertEqual("", result.stderr)
-            self.assertEqual(0, result.returncode)
-            payload = json.loads(result.stdout)
-            self.assertEqual("workflow_specific_bug", payload["flow_id"])
-            self.assertEqual("workflow_intake", payload["current_skill"])
-            self.assertIn("loop", [item["id"] for item in payload["visible_ecc_proof"]["ecc_concepts_loaded"]])
-            self.assertTrue(validate_tracker_root(root).ok)
-
-    def test_tracker_workflow_intake_start_requires_raw_report_before_mutating(self) -> None:
-        with tempfile.TemporaryDirectory() as raw_tmp:
-            root = Path(raw_tmp)
-            seed_tracker_with_session(root)
-
-            result = run_script(
-                "tracker_workflow_intake_start.py",
-                root,
-                "--objective",
-                "I am building a workflow.",
-            )
-
-            self.assertNotEqual(0, result.returncode)
-            registry = read_json(root / "ops/registry/workflow-runs.json")
-            self.assertEqual([], registry["workflow_runs"])
-
-    def test_tracker_workflow_intake_start_rejects_invalid_project_without_run(self) -> None:
-        with tempfile.TemporaryDirectory() as raw_tmp:
-            root = Path(raw_tmp)
-            seed_tracker_with_session(root)
-
-            result = run_script(
-                "tracker_workflow_intake_start.py",
-                root,
-                "--project-id",
-                "missing-project",
-                "--objective",
-                "I am building a workflow.",
-                "--raw-report",
-                "I am building a workflow.",
-            )
-
-            self.assertNotEqual(0, result.returncode)
-            registry = read_json(root / "ops/registry/workflow-runs.json")
-            self.assertEqual([], registry["workflow_runs"])
+        skill = (REPO_ROOT / "skills/agent-workflow-project-maker/SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("Plain chat is the primary trigger", skill)
+        self.assertIn("create or lock the tracker run internally", skill)
+        self.assertIn("first context-aware grilling question", skill)
 
 
 if __name__ == "__main__":

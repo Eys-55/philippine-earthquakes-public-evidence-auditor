@@ -2,11 +2,8 @@
 
 Generated: 2026-07-05
 
-Query:
-
-```bash
-python3 scripts/query_workflow_router.py "workflow like my earthquake thing" --limit 8
-```
+Query source: `data/agentic-repos/workflow-router.json`, read through the
+agent-workflow-project-maker skill.
 
 ## Result
 

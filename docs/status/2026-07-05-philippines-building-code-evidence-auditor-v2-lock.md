@@ -5,8 +5,9 @@ Date: 2026-07-05
 ## Status
 
 V2 was created by copying V1 first, then editing the V2 copy into a separate
-four-lane earthquake public-evidence workflow. V1 remains untouched and keeps
-its own skill, data path, fixtures, and validators.
+four-lane earthquake public-evidence workflow. V1 remains as historical skill
+text and data; the old V1 Python validators were removed during the
+2026-07-06 skills-first Python reduction.
 
 ## Paths
 
@@ -51,12 +52,6 @@ V2 uses separate validators from V1:
 - `scripts/validate_building_code_v2_earthquake_scope_gate.py`
 - `scripts/validate_building_code_v2_evidence_packet.py`
 - `scripts/validate_building_code_v2_overclaim.py`
-
-V1 validators remain separate:
-
-- `scripts/validate_building_identity_gate.py`
-- `scripts/validate_audit_scope_gate.py`
-- `scripts/validate_audit_scope_source_reality.py`
 
 ## No-Overclaim Boundary
 

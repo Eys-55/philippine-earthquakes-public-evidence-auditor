@@ -16,12 +16,11 @@ SVG_PATH = ROOT / "reports/assets/building-code-progress-chart.svg"
 
 REQUIRED_TABLE_PHRASES = (
     "1. Place lock | Testing",
-    "1a. Place-lock tests | Done",
+    "1a. Place-lock tests | Archived",
     "1b. Place-lock samples | Done",
     "1c. Real-place run | Done",
-    "2. Audit scope lock | Testing",
+    "2. Audit scope lock | Archived",
     "data/building-code-auditor/audit-scope-source-reality.json",
-    "scripts/validate_audit_scope_source_reality.py",
 )
 
 DISALLOWED_CHART_PATTERNS = {

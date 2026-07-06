@@ -13,7 +13,7 @@ cross-harness parity, not a second workflow source of truth.
 
 | Slash | Mode | Purpose |
 | --- | --- | --- |
-| `/tracker workflow` | start | Start tracker-backed workflow intake for an operator who is building or debugging a workflow. |
+| `/tracker workflow` | start | Compatibility phrase for tracker-backed workflow intake in chat. |
 | `/tracker status` | status | Show tracker-backed workflow status and current next actions. |
 | `/tracker closeout` | closeout | Check validation, GitHub upload safety, and continuation readiness. |
 | `/workflow-find` | read | Find existing workflow surfaces before creating anything new. |
@@ -23,22 +23,9 @@ cross-harness parity, not a second workflow source of truth.
 | `/workflow-status` | status | Show tracker-backed workflow status and current next actions. |
 | `/workflow-closeout` | closeout | Check validation, GitHub upload safety, and continuation readiness. |
 
-Codex internal adapter: use
-`scripts/workflow_skill_slash_surface.py --command <slash> --json` to inspect
-one command definition.
-
-Codex internal adapter: when workflow intake needs durable state, compose the
-tracker primitives behind the skill surface:
-
-```bash
-python3 scripts/tracker_workflow_intake_start.py \
-  --objective "I am building a workflow for <thing>" \
-  --raw-report "<user's first message or workflow description>"
-```
-
-This starts a tracker session, creates a workflow run in `workflow_intake`,
-writes the required context manifest, and returns visible ECC proof plus the
-first context-aware grilling question. It is not a user instruction.
+There is no Python slash registry and no Python workflow-intake command. Codex
+uses this document as compatibility vocabulary, then follows the canonical skill
+contract in chat.
 
 ## Router Contract
 

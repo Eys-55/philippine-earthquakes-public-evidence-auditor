@@ -15,13 +15,9 @@ This is the clean lookup layer over all 171 classified workflow doors. Use it as
 
 ## How To Query
 
-```bash
-python3 scripts/query_workflow_catalog.py "healthcare referral packet"
-python3 scripts/query_workflow_catalog.py "real estate due diligence"
-python3 scripts/query_workflow_catalog.py "document processing human review"
-python3 scripts/query_workflow_catalog.py "education workflow"
-python3 scripts/query_workflow_catalog.py "Codex config package"
-```
+Codex reads `data/agentic-repos/workflow-search-index.json` and
+`data/agentic-repos/workflow-search-index-by-domain.json` directly through the
+agent-workflow-project-maker skill.
 
 ## Quality Tiers
 

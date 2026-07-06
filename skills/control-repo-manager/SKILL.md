@@ -22,11 +22,11 @@ sync status, blockers, and next workflow action in chat.
 
 ## Source Of Truth
 
-Project, repo, workstream, session, handoff, daily rollup, and sync status comes
+Project, repo, workstream, session, workflow-run, handoff, and sync status comes
 from:
 
 - `ops/registry/*.json`
-- `ops/events/*.jsonl`
+- `ops/sessions/*.jsonl`
 - `ops/workflow-runs/*.jsonl`
 
 Folder scans, lane tables, README sections, AGENTS.md sections, and project
@@ -58,7 +58,7 @@ whether to continue, join the existing run, or wait.
 Use these Workflow Run internal adapters for Matt Pocock workflow work:
 
 ```bash
-python3 scripts/tracker_start_work.py --project-id <project-id> --objective <objective>
+python3 scripts/tracker_session_start.py --project-id <project-id> --repo-id <repo-id> --workstream-id <workstream-id> --objective <objective>
 python3 scripts/tracker_workflow_start.py ...
 python3 scripts/tracker_workflow_checkpoint.py ...
 python3 scripts/tracker_workflow_close.py ...

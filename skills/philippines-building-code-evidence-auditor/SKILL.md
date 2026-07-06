@@ -327,12 +327,6 @@ The four earthquake-only questions are:
 
 ## Validation
 
-Before treating pre-search gate changes as complete, run:
-
-```bash
-python3 scripts/validate_building_identity_gate.py
-python3 scripts/validate_audit_scope_gate.py
-python3 scripts/validate_audit_scope_source_reality.py
-python3 scripts/validate_progress_docs.py
-git diff --check
-```
+This is a predecessor skill. Its former Python gate scripts were removed during
+the 2026-07-06 Python-surface reduction. Use the active V2 skill for current
+validation.

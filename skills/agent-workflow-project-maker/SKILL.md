@@ -30,16 +30,14 @@ load this skill and the relevant project/workflow context, create or lock the
 tracker run internally, write the context manifest internally, then answer with
 the ECC proof, premise lock, and first context-aware grilling question.
 
+Contract phrase: create or lock the tracker run internally.
+
 ## Owned Surfaces
 
 - Catalog data: `data/agentic-repos/`
 - Main index: `data/agentic-repos/workflow-search-index.json`
 - Domain index: `data/agentic-repos/workflow-search-index-by-domain.json`
 - Human reports: `reports/workflow-*.md`
-- Query tools: `scripts/query_workflow_catalog.py`,
-  `scripts/query_workflow_router.py`
-- Build tools: `scripts/build_workflow_*.py`,
-  `scripts/workflow_catalog_*.py`
 
 The current catalog says it is a lookup layer for real-world workflow patterns
 and Codex/ECC config-package references. Use that as the starting point.
@@ -47,7 +45,7 @@ and Codex/ECC config-package references. Use that as the starting point.
 ## Workflow
 
 1. Name the repeated real-world job.
-2. Query the catalog for comparable workflows through Codex internal adapters.
+2. Query the catalog by reading the committed JSON indexes directly.
 3. Inspect only the relevant catalog rows and source references.
 4. Draft the project contract:
    - trigger and refusal scope;
@@ -73,7 +71,7 @@ Required sequence:
 2. Set the first phase to `workflow_intake`.
 3. Load ECC, Matt Pocock flow, tracker status, workflow-specific skill files,
    status/handoff docs, tests, validators, and relevant workflow-run logs.
-4. If the report names an ECC concept such as loop, gate, lane, eval, handoff,
+4. If the report names ECC concepts such as loop, gate, lane, eval, handoff,
    source evidence, or human boundary, load the local docs for that concept.
 5. Write or attach a context manifest under `ops/workflow-runs/`.
 6. Show visible ECC proof before grilling:
@@ -139,8 +137,8 @@ create files.
 `skills/` remains canonical. Slash names are compatibility metadata only; they
 are not the operator interface and they must not be presented as something the
 user has to run. The compatibility entries are documented in
-`skills/agent-workflow-project-maker/commands.md` and exposed to Codex internal
-adapters by `scripts/workflow_skill_slash_surface.py`.
+`skills/agent-workflow-project-maker/commands.md`; there is no Python slash
+registry for this surface.
 
 - `/tracker workflow`
 - `/tracker status`

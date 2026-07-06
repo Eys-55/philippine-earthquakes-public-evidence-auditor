@@ -108,8 +108,8 @@ memory only as a reminder for future Codex sessions.
 
 Use `skills/control-repo-manager/SKILL.md` before answering project status or
 ending a session in this repo. Project, repo, workstream, session, handoff,
-daily rollup, and sync status comes from `ops/registry/*.json` and
-`ops/events/*.jsonl`.
+workflow-run, and sync status comes from `ops/registry/*.json`,
+`ops/sessions/*.jsonl`, and `ops/workflow-runs/*.jsonl`.
 
 Folder scans, lane tables, README sections, AGENTS.md sections, and project
 surface inventories are audit evidence only. Deleted or stale surfaces must not

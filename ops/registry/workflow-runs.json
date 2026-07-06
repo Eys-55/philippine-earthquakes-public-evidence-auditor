@@ -216,6 +216,55 @@
       ],
       "review_state": "self-reviewed diff for command-first regression risk",
       "decision": "User-facing workflow interface is Codex chat plus skills; tracker scripts are internal adapters only."
+    },
+    {
+      "id": "wfr-20260706-152928-b37a",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706-152915-2d00",
+      "title": "Reduce Python surfaces to minimum skills-first adapters",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "implement",
+      "owned_paths": [
+        "scripts",
+        "tests",
+        "skills",
+        "docs",
+        "AGENTS.md",
+        "CONTEXT.md",
+        "README.md"
+      ],
+      "validation_commands": [
+        "python3 -m unittest discover",
+        "python3 scripts/validate_tracker.py",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T15:29:28+08:00",
+      "last_checkpoint_at": "2026-07-06T15:37:12+08:00",
+      "next_action": "Keep workflow operation in Codex chat and skills; add new Python only for internal adapters, validators, UI export, or tests.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-152928-b37a.jsonl",
+      "artifacts": [
+        "docs/plans/2026-07-06-python-surface-minimization-audit.md",
+        "tests/test_python_surface_minimum.py",
+        "AGENTS.md",
+        "README.md",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "skills/control-repo-manager/SKILL.md",
+        "data/project-surface-inventory.json"
+      ],
+      "final_summary": "Reduced Python surface from 41 files to 26 total Python files, with 18 remaining internal script adapters and skills as the workflow/catalog/intake surface.",
+      "closed_at": "2026-07-06T15:37:12+08:00",
+      "validation_results": [
+        "python3 -m unittest discover: passed",
+        "python3 scripts/validate_tracker.py: passed",
+        "python3 scripts/validate_project_surface_inventory.py: passed with existing stale-surface warnings",
+        "python3 scripts/validate_progress_docs.py: passed",
+        "git diff --check: passed",
+        "npm run build: passed"
+      ],
+      "review_state": "self-reviewed remaining Python inventory and deletion references",
+      "decision": "Workflow intake, slash routing, catalog query/build, V1 validators, generic event logging, and daily rollups no longer live as Python command surfaces."
     }
   ]
 }

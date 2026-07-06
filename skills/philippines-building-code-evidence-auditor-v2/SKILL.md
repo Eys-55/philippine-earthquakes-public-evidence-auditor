@@ -281,9 +281,6 @@ Use these values:
 Before treating V2 changes as complete, run:
 
 ```bash
-python3 scripts/validate_building_identity_gate.py
-python3 scripts/validate_audit_scope_gate.py
-python3 scripts/validate_audit_scope_source_reality.py
 python3 scripts/validate_building_code_v2_identity_gate.py
 python3 scripts/validate_building_code_v2_earthquake_scope_gate.py
 python3 scripts/validate_building_code_v2_evidence_packet.py

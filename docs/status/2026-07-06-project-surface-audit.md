@@ -50,16 +50,15 @@ These surfaces should not be counted as current projects:
 ## Duplicate Or Predecessor Surface
 
 `philippines-building-code-evidence-auditor` V1 remains tracked with its own
-skill, data, reports, and validators. It appears to be a predecessor or
-maintainer copy of the V2 auditor, not a separate current project unless the
-user confirms it should count.
+skill, data, and reports. Its old Python validators were removed during the
+skills-first Python reduction. It appears to be a predecessor or maintainer copy
+of the V2 auditor, not a separate current project unless the user confirms it
+should count.
 
 Representative paths:
 
 - `skills/philippines-building-code-evidence-auditor/`
 - `data/building-code-auditor/`
-- `scripts/validate_building_identity_gate.py`
-- `scripts/validate_audit_scope_gate.py`
 - `docs/status/2026-07-04-building-code-evidence-auditor-lock.md`
 
 ## Generated Or Review-Needed Output

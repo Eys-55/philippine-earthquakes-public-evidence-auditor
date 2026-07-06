@@ -1,11 +1,11 @@
 {
   "kind": "tracker_astro_monitor_dashboard",
-  "generated_at": "2026-07-06T15:27:01+08:00",
+  "generated_at": "2026-07-06T15:37:44+08:00",
   "source_root": ".",
   "summary": {
     "active_projects": 2,
     "workstreams": 2,
-    "workflow_runs": 5,
+    "workflow_runs": 6,
     "open_workflow_runs": 1,
     "upload_status": "pending_local_changes",
     "repos": 1
@@ -43,20 +43,19 @@
           "project_id": "agent-workflow-project-maker",
           "repo_id": "market-research-agent-control",
           "status": "active",
-          "objective": "Build a tracker for projects, repos, sessions, and GitHub upload state.",
+          "objective": "Build a skills-first tracker for projects, repos, sessions, workflow runs, and GitHub upload state.",
           "session_ids": [
             "20260706-021920-fe10",
             "20260706-133456-18ea",
             "20260706-145212-67df",
             "20260706-145952-b653",
             "20260706-150915-5f75",
-            "20260706-152220-b923"
+            "20260706-152220-b923",
+            "20260706-152915-2d00"
           ],
           "handoff": "ops/handoffs/latest.md",
-          "open_decisions": [
-            "Decide whether command shims should live under commands/."
-          ],
-          "next_action": "Continue implementing upload gate, daily rollup, and repo audit."
+          "open_decisions": [],
+          "next_action": "Keep workflow operation in Codex chat and skills; preserve only essential internal tracker, validation, and upload adapters."
         }
       ]
     }
@@ -276,6 +275,55 @@
       ],
       "review_state": "self-reviewed diff for command-first regression risk",
       "decision": "User-facing workflow interface is Codex chat plus skills; tracker scripts are internal adapters only."
+    },
+    {
+      "id": "wfr-20260706-152928-b37a",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706-152915-2d00",
+      "title": "Reduce Python surfaces to minimum skills-first adapters",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "implement",
+      "owned_paths": [
+        "scripts",
+        "tests",
+        "skills",
+        "docs",
+        "AGENTS.md",
+        "CONTEXT.md",
+        "README.md"
+      ],
+      "validation_commands": [
+        "python3 -m unittest discover",
+        "python3 scripts/validate_tracker.py",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T15:29:28+08:00",
+      "last_checkpoint_at": "2026-07-06T15:37:12+08:00",
+      "next_action": "Keep workflow operation in Codex chat and skills; add new Python only for internal adapters, validators, UI export, or tests.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-152928-b37a.jsonl",
+      "artifacts": [
+        "docs/plans/2026-07-06-python-surface-minimization-audit.md",
+        "tests/test_python_surface_minimum.py",
+        "AGENTS.md",
+        "README.md",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "skills/control-repo-manager/SKILL.md",
+        "data/project-surface-inventory.json"
+      ],
+      "final_summary": "Reduced Python surface from 41 files to 26 total Python files, with 18 remaining internal script adapters and skills as the workflow/catalog/intake surface.",
+      "closed_at": "2026-07-06T15:37:12+08:00",
+      "validation_results": [
+        "python3 -m unittest discover: passed",
+        "python3 scripts/validate_tracker.py: passed",
+        "python3 scripts/validate_project_surface_inventory.py: passed with existing stale-surface warnings",
+        "python3 scripts/validate_progress_docs.py: passed",
+        "git diff --check: passed",
+        "npm run build: passed"
+      ],
+      "review_state": "self-reviewed remaining Python inventory and deletion references",
+      "decision": "Workflow intake, slash routing, catalog query/build, V1 validators, generic event logging, and daily rollups no longer live as Python command surfaces."
     }
   ],
   "upload_repos": [
