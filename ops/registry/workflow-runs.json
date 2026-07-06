@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:18:03+08:00",
-      "next_action": "Ask what the workflow dashboard UI must show first.",
+      "last_checkpoint_at": "2026-07-06T14:18:55+08:00",
+      "next_action": "Ask what the table rows should represent: workflow lanes, workflow runs, or scaffold files.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "Scaffold files must include progress markers such as Progress, Current phase, and Next action. Add a future lightweight UI/dashboard requirement that displays all workflows for every project and makes status, progress, and stopping points visible."
+      "decision": "The lightweight workflow UI should be table-first and plain: spreadsheet-like rows and columns, no cards, no dropdown-heavy interactions, no shadows, no decorative styling. It should prioritize scanability over app polish."
     }
   ]
 }
