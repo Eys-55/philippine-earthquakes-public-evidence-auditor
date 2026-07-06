@@ -42,14 +42,14 @@ audit evidence and use tracker status as the active project answer.
 Before answering project status, Codex internally checks tracker status:
 
 ```bash
-python3 scripts/tracker_status.py
+npm run tracker:status
 ```
 
 Before starting implementation work, Codex internally checks the project
 situation for the target project and proposed owned paths:
 
 ```bash
-python3 scripts/tracker_project_situation.py --project-id <project-id> --owned-path <path>
+node scripts/control-repo.mjs tracker-status
 ```
 
 If the situation check reports risky parallel work, pause and ask the user
@@ -58,25 +58,25 @@ whether to continue, join the existing run, or wait.
 Use these Workflow Run internal adapters for Matt Pocock workflow work:
 
 ```bash
-python3 scripts/tracker_session_start.py --project-id <project-id> --repo-id <repo-id> --workstream-id <workstream-id> --objective <objective>
-python3 scripts/tracker_workflow_start.py ...
-python3 scripts/tracker_workflow_checkpoint.py ...
-python3 scripts/tracker_workflow_close.py ...
+node scripts/control-repo.mjs tracker-session-start ...
+node scripts/control-repo.mjs tracker-workflow-start ...
+node scripts/control-repo.mjs tracker-workflow-checkpoint ...
+node scripts/control-repo.mjs tracker-workflow-close ...
 ```
 
 When auditing stale project surfaces, Codex internally runs:
 
 ```bash
-python3 scripts/tracker_repo_audit.py
+npm run validate
 ```
 
 Before ending a session, Codex internally runs the tracker gates that match the
 work performed:
 
 ```bash
-python3 scripts/validate_tracker.py
-python3 scripts/tracker_status.py
-python3 scripts/tracker_upload_gate.py
+npm test
+npm run validate
+npm run tracker:upload-gate
 ```
 
 ## Session Completion Rule
@@ -93,7 +93,7 @@ Do not treat a local clean tree or a recorded sync event as enough by itself.
 
 ## Upload Truth
 
-`python3 scripts/tracker_status.py` may use live git state for upload truth.
+`npm run tracker:status` may use live git state for upload truth.
 Recorded `ops/sync` state is evidence, not self-certifying truth.
 
 Use this distinction when reporting status:
@@ -103,7 +103,7 @@ Use this distinction when reporting status:
   verification;
 - local folders or stale docs: audit evidence only.
 
-If `python3 scripts/tracker_upload_gate.py` reports local changes still need
+If `npm run tracker:upload-gate` reports local changes still need
 upload, say the session is not uploaded yet and do not report upload completion.
 
 ## Workflow Currency

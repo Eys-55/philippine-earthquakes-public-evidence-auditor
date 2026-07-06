@@ -46,12 +46,9 @@ fifth scope, broad packet lane, or general building-code search.
 
 ## Validators
 
-V2 uses separate validators from V1:
+V2 validation now runs through the Node control adapter:
 
-- `scripts/validate_building_code_v2_identity_gate.py`
-- `scripts/validate_building_code_v2_earthquake_scope_gate.py`
-- `scripts/validate_building_code_v2_evidence_packet.py`
-- `scripts/validate_building_code_v2_overclaim.py`
+- `npm run validate`
 
 ## No-Overclaim Boundary
 

@@ -7,30 +7,30 @@ state internally.
 ## /project-status
 
 Codex internal adapter: inspect tracker status with
-`python3 scripts/tracker_status.py`.
+`npm run tracker:status`.
 
 ## /session-start
 
 Codex internal adapter: start or lock a session with
-`python3 scripts/tracker_session_start.py ...`.
+`node scripts/control-repo.mjs tracker-session-start ...`.
 
 ## /sync-now
 
 Codex internal adapter: run validation, commit intended changes, upload to
-GitHub, then verify with `python3 scripts/tracker_upload_gate.py`.
+GitHub, then verify with `npm run tracker:upload-gate`.
 
 ## /session-handoff
 
 Codex internal adapter: write the handoff with
-`python3 scripts/tracker_session_handoff.py ...`, then perform the internal
+the Node control adapter, then perform the internal
 sync flow.
 
 ## /repo-register
 
 Codex internal adapter: add a repo to `ops/registry/repos.json`, then validate
-with `python3 scripts/validate_tracker.py`.
+with `npm run validate`.
 
 ## /repo-audit
 
 Codex internal adapter: audit repo surfaces with
-`python3 scripts/tracker_repo_audit.py`.
+`npm run validate`.

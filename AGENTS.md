@@ -80,7 +80,8 @@ For new lanes, use one stable slug per workflow across the repo:
 - `docs/plans/YYYY-MM-DD-<project-slug>-*.md` - design and execution plans.
 - `docs/decisions/000X-*.md` - durable scope and architecture decisions.
 - `docs/status/YYYY-MM-DD-<project-slug>-*.md` - handoff and resume state.
-- `scripts/validate_<project_slug>*.py` - validation gates when useful.
+- `scripts/control-repo.mjs` - internal Node adapter for tracker, validation,
+  upload, and UI-export gates.
 
 Existing lanes with documented historical data surfaces, such as
 `data/building-code-auditor/`, may keep those paths. The lane table and README
@@ -185,7 +186,7 @@ background for old workspace surfaces. Codex must check tracker status
 internally before reporting which projects are current.
 
 - `philippines-building-code-evidence-auditor-v2` - tracker-listed current
-  project; verify live status with `tracker_status.py`.
+  project; verify live status with `npm run tracker:status`.
 - `philippines-building-code-evidence-auditor` - predecessor surface; do not
   report as current while V2 is the tracker-listed auditor.
 - `address-disaster-risk-assessor` - obsolete historical surface; do not report
@@ -263,15 +264,9 @@ Before committing, Codex runs the relevant gates internally. These are not
 operator instructions and must not be presented as required user actions.
 
 ```bash
-python3 scripts/validate_tracker.py
-python3 scripts/tracker_status.py
-python3 scripts/tracker_upload_gate.py
-python3 scripts/tracker_repo_audit.py
-python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-source-atlas.json
-python3 -m json.tool data/deep-dive/local-validation-summary.json >/tmp/local-validation-summary.json
-python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/source-qualification-matrix.json
-python3 -m json.tool data/disaster-risk/source-priorities.json >/tmp/disaster-risk-source-priorities.json
-python3 scripts/validate_progress_docs.py
+npm test
+npm run validate
+npm run build
 git diff --check
 ```
 

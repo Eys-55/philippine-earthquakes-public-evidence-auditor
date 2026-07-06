@@ -139,8 +139,6 @@ Secondary or manual sources:
 Before committing changes to this workflow:
 
 ```bash
-python3 -m json.tool data/disaster-risk/source-priorities.json >/tmp/disaster-risk-source-priorities.json
-python3 -m json.tool data/disaster-risk/disaster-source-atlas.json >/tmp/disaster-source-atlas.json
-python3 -m json.tool data/disaster-risk/local-validation-summary.json >/tmp/disaster-local-validation-summary.json
+npm run validate
 git diff --check
 ```

@@ -4,7 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare:tracker-ui": "python3 scripts/export_tracker_ui_data.py",
+    "prepare:tracker-ui": "node scripts/control-repo.mjs export-tracker-ui-data",
+    "test": "node --test tests/*.test.mjs",
+    "validate": "node scripts/control-repo.mjs validate-all",
+    "tracker:status": "node scripts/control-repo.mjs tracker-status",
+    "tracker:upload-gate": "node scripts/control-repo.mjs tracker-upload-gate",
     "dev": "npm run prepare:tracker-ui && astro dev",
     "build": "npm run prepare:tracker-ui && astro build",
     "preview": "astro preview"

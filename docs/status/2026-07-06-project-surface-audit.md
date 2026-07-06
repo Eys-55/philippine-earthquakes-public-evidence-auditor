@@ -81,8 +81,9 @@ current auditor, but they need validator review before staging:
 This audit added the following surfaces:
 
 - `data/project-surface-inventory.json` - machine-readable project inventory.
-- `scripts/validate_project_surface_inventory.py` - validates active project
-  count, active project skill paths, owned paths, and known stale surfaces.
+- `scripts/control-repo.mjs` - internal Node adapter that validates active
+  project count, active project skill paths, owned paths, and known stale
+  surfaces.
 - `skills/project-surface-auditor/SKILL.md` - tells future Codex runs how to
   audit project ownership before answering project-list questions.
 - `skills/agent-workflow-project-maker/SKILL.md` - promotes the hidden workflow
@@ -114,7 +115,6 @@ Recommended batches:
 Run:
 
 ```bash
-python3 -m json.tool data/project-surface-inventory.json >/tmp/project-surface-inventory.json
-python3 scripts/validate_project_surface_inventory.py
+npm run validate
 git diff --check
 ```

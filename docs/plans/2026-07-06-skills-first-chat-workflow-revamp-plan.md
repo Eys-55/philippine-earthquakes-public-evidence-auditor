@@ -84,7 +84,7 @@ commands as the operator interface.
 
 Acceptance:
 
-- `tests/test_skills_first_chat_contract.py` verifies the four contract phrases
+- `tests/control-repo.test.mjs` verifies the four contract phrases
   in authoritative docs.
 - The test verifies command docs are internal adapter references.
 - The test verifies the workflow-maker skill triggers on the exact plain-chat
@@ -110,10 +110,9 @@ Proposed gates:
 Codex should run these gates internally before closeout:
 
 ```bash
-python3 -m unittest tests.test_skills_first_chat_contract
-python3 -m unittest discover
-python3 scripts/validate_tracker.py
-python3 scripts/tracker_status.py
+npm test
+npm run validate
+npm run build
 git diff --check
 ```
 

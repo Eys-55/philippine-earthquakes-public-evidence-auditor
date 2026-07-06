@@ -28,7 +28,7 @@ git status --short
 git ls-files | sort
 git ls-files --others --exclude-standard | sort
 find skills data docs reports scripts -maxdepth 4 -type f | sort
-python3 scripts/validate_project_surface_inventory.py
+npm run validate
 ```
 
 Use `rg` for targeted checks:

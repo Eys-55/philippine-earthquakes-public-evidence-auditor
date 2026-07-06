@@ -55,19 +55,18 @@
       "current_skill": "workflow_intake",
       "owned_paths": [
         "skills/tracker-astro-monitor",
-        "data/tracker-astro-monitor",
         "docs/status/2026-07-06-tracker-astro-monitor-status.md",
         "ops/workflow-runs",
         "tracker-ui",
         "package.json",
         "astro.config.mjs",
-        "tests/test_tracker_astro_monitor.py",
-        "scripts/export_tracker_ui_data.py"
+        "tests/control-repo.test.mjs",
+        "scripts/control-repo.mjs"
       ],
       "validation_commands": [
-        "python3 -m unittest tests.test_tracker_astro_monitor",
+        "npm test",
+        "npm run validate",
         "npm run build",
-        "python3 scripts/validate_tracker.py",
         "git diff --check"
       ],
       "started_at": "2026-07-06T14:52:20+08:00",
@@ -75,10 +74,12 @@
       "next_action": "Ask the first context-aware grilling question for the Tracker Astro Monitor workflow.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-145220-3a02.jsonl",
       "artifacts": [
-        "tests/test_tracker_astro_monitor.py"
+        "ops/workflow-runs/2026-07-06/wfr-20260706-145220-3a02-context.md",
+        "tests/control-repo.test.mjs"
       ],
       "waiting_reason": "Need user confirmation of workflow contract before continuing implementation.",
-      "decision": "Do not continue implementation until the tracker monitor workflow contract is grilled and accepted."
+      "decision": "Do not continue implementation until the tracker monitor workflow contract is grilled and accepted.",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706-145220-3a02-context.md"
     },
     {
       "id": "wfr-20260706-150015-a321",
@@ -265,6 +266,51 @@
       ],
       "review_state": "self-reviewed remaining Python inventory and deletion references",
       "decision": "Workflow intake, slash routing, catalog query/build, V1 validators, generic event logging, and daily rollups no longer live as Python command surfaces."
+    },
+    {
+      "id": "wfr-20260706-155039-502f",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706-155032-7519",
+      "title": "Reduce Python runtime to near-zero Node and skills",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "implement",
+      "owned_paths": [
+        "scripts",
+        "tests",
+        "package.json",
+        "AGENTS.md",
+        "README.md",
+        "skills",
+        "docs",
+        "ops/registry",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T15:50:39+08:00",
+      "last_checkpoint_at": "2026-07-06T07:56:53.735Z",
+      "next_action": "Use Codex chat and skills for workflow operation; Codex internally persists tracker state through the Node control adapter.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-155039-502f.jsonl",
+      "final_summary": "Removed Python runtime surface from current workflow operations. Replaced tracker, validation, upload, and dashboard adapters with scripts/control-repo.mjs; converted tests to Node; updated skills and current docs so Codex chat plus skills are the operator surface.",
+      "closed_at": "2026-07-06T07:56:53.735Z",
+      "artifacts": [
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "docs/plans/2026-07-06-python-surface-minimization-audit.md",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_results": [
+        "npm test: passed",
+        "npm run validate: passed",
+        "npm run build: passed",
+        "git diff --check: passed"
+      ],
+      "review_state": "self-reviewed"
     }
   ]
 }

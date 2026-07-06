@@ -14,10 +14,7 @@
       "skill": "skills/philippines-building-code-evidence-auditor-v2/SKILL.md",
       "owned_paths": [
         "data/philippines-building-code-evidence-auditor-v2/",
-        "scripts/validate_building_code_v2_identity_gate.py",
-        "scripts/validate_building_code_v2_earthquake_scope_gate.py",
-        "scripts/validate_building_code_v2_evidence_packet.py",
-        "scripts/validate_building_code_v2_overclaim.py",
+        "scripts/control-repo.mjs",
         "docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md"
       ],
       "notes": [
@@ -139,5 +136,5 @@
     }
   ],
   "audit_skill": "skills/project-surface-auditor/SKILL.md",
-  "validator": "scripts/validate_project_surface_inventory.py"
+  "validator": "node scripts/control-repo.mjs validate-project-surface-inventory"
 }

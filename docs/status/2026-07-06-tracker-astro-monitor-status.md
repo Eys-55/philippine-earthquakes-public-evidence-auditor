@@ -4,7 +4,7 @@ Date: 2026-07-06
 
 ## Current Phase
 
-Implementation started.
+Implemented and moved behind the Node control adapter.
 
 ## Workflow Run
 
@@ -21,12 +21,12 @@ Build a read-only, 2D Astro dashboard that monitors local tracker state from
 ## Implemented Surface
 
 - `skills/tracker-astro-monitor/SKILL.md`
-- `scripts/export_tracker_ui_data.py`
+- `scripts/control-repo.mjs`
 - `tracker-ui/src/pages/index.astro`
 - `tracker-ui/src/styles/global.css`
-- `tests/test_tracker_astro_monitor.py`
+- `tests/control-repo.test.mjs`
 
 ## Next Action
 
-Run the exporter, build the Astro app, and keep the workflow run checkpointed
-until validation passes.
+Keep the dashboard export and Astro build behind `npm run build`. Codex runs
+that gate internally before closeout; the operator does not run tracker scripts.

@@ -143,8 +143,8 @@ This repo uses `ops/` as the authoritative tracker for projects, repos,
 workstreams, sessions, workflow runs, handoffs, and sync evidence. Use
 Codex's internal tracker-status adapter before answering what projects are
 current.
-For upload completion, the live checks in `tracker_status.py` and
-`tracker_upload_gate.py` are the truth; `ops/sync` is recorded evidence, not a
+For upload completion, the live checks behind `npm run tracker:status` and
+`npm run tracker:upload-gate` are the truth; `ops/sync` is recorded evidence, not a
 self-certifying upload result. Folder names, stale lane tables, and project
 surface scans are not project authority; they are audit evidence only.
 
@@ -154,12 +154,9 @@ Codex runs these checks for the current auditor. They are maintainer gates, not
 operator instructions:
 
 ```bash
-find data/philippines-building-code-evidence-auditor-v2 -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool >/tmp/building-code-v2-json-parse.txt
-python3 scripts/validate_building_code_v2_identity_gate.py
-python3 scripts/validate_building_code_v2_earthquake_scope_gate.py
-python3 scripts/validate_building_code_v2_evidence_packet.py
-python3 scripts/validate_building_code_v2_overclaim.py
-python3 scripts/validate_progress_docs.py
+npm test
+npm run validate
+npm run build
 git diff --check
 ```
 
@@ -180,7 +177,7 @@ projects are current.
 
 | Surface | Tracker Relationship | Purpose | Start Here |
 | --- | --- | --- | --- |
-| `philippines-building-code-evidence-auditor-v2` | Tracker-listed current project; verify live status with `tracker_status.py`. | Four-lane earthquake public-evidence auditor for NSCP/seismic evidence, OBO structural review, post-earthquake tag/status, and clearance after damage or tag. | `skills/philippines-building-code-evidence-auditor-v2/SKILL.md` |
+| `philippines-building-code-evidence-auditor-v2` | Tracker-listed current project; verify live status with `npm run tracker:status`. | Four-lane earthquake public-evidence auditor for NSCP/seismic evidence, OBO structural review, post-earthquake tag/status, and clearance after damage or tag. | `skills/philippines-building-code-evidence-auditor-v2/SKILL.md` |
 | `philippines-building-code-evidence-auditor` | Predecessor surface; do not report as current while V2 is the tracker-listed auditor. | Broad building-code public-evidence auditor retained as historical skill text only; its Python gate scripts were removed. | `skills/philippines-building-code-evidence-auditor/SKILL.md` |
 | `address-disaster-risk-assessor` | Obsolete historical surface; do not report as current unless explicitly reopened and tracker-listed. | Given an address or coordinates, produce a source-attributed disaster-risk packet for Metro Manila / NCR. | `skills/address-disaster-risk-assessor/SKILL.md` |
 | `metro-manila-source-atlas` | Stale source-atlas surface; do not report as current. | Refresh or extend the reusable Metro Manila data-source inventory. | `skills/metro-manila-source-atlas/SKILL.md` |
@@ -200,7 +197,8 @@ For new lanes, use one stable slug per workflow:
 - `docs/plans/YYYY-MM-DD-<project-slug>-*.md` - design and execution plans.
 - `docs/decisions/000X-*.md` - durable decisions.
 - `docs/status/YYYY-MM-DD-<project-slug>-*.md` - handoff and resume notes.
-- `scripts/validate_<project_slug>*.py` - validation gates when useful.
+- `scripts/control-repo.mjs` - internal Node adapter for tracker, validation,
+  upload, and UI-export gates.
 
 Existing lanes with documented historical data surfaces can keep those paths.
 For example, the V1 Building Code Evidence Auditor currently uses
@@ -289,17 +287,9 @@ Codex runs these checks as internal maintainer gates. They are not operator
 instructions.
 
 ```bash
-python3 scripts/validate_tracker.py
-python3 scripts/tracker_status.py
-python3 scripts/tracker_upload_gate.py
-python3 scripts/tracker_repo_audit.py
-python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-source-atlas.json
-python3 -m json.tool data/deep-dive/local-validation-summary.json >/tmp/local-validation-summary.json
-python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/source-qualification-matrix.json
-python3 -m json.tool data/disaster-risk/source-priorities.json >/tmp/disaster-risk-source-priorities.json
-python3 -m json.tool data/disaster-risk/disaster-source-atlas.json >/tmp/disaster-source-atlas.json
-python3 -m json.tool data/disaster-risk/local-validation-summary.json >/tmp/disaster-local-validation-summary.json
-python3 scripts/validate_progress_docs.py
+npm test
+npm run validate
+npm run build
 git diff --check
 ```
 

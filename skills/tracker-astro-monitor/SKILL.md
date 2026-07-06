@@ -47,11 +47,11 @@ old lane docs. Tracker registry state remains authoritative.
 
 The current output is a static Astro dashboard:
 
-- export script: `scripts/export_tracker_ui_data.py`;
+- export adapter: `node scripts/control-repo.mjs export-tracker-ui-data`;
 - dashboard snapshot: `tracker-ui/src/data/tracker-dashboard.json`;
 - Astro route: `tracker-ui/src/pages/index.astro`;
 - styles: `tracker-ui/src/styles/global.css`;
-- validation: `tests/test_tracker_astro_monitor.py`.
+- validation: `tests/control-repo.test.mjs`.
 
 ## Agent Lanes
 
@@ -65,9 +65,9 @@ The current output is a static Astro dashboard:
 Before treating monitor changes as complete, run:
 
 ```bash
-python3 -m unittest tests.test_tracker_astro_monitor
+npm test
 npm run build
-python3 scripts/validate_tracker.py
+npm run validate
 git diff --check
 ```
 

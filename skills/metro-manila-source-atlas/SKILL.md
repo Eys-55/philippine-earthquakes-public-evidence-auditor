@@ -97,8 +97,6 @@ Use these paths unless the user requests a different target:
 ## Verification Commands
 
 ```bash
-python3 -m json.tool data/metro-manila-source-atlas.json >/tmp/metro-manila-source-atlas.json
-python3 -m json.tool data/deep-dive/local-validation-summary.json >/tmp/local-validation-summary.json
-python3 -m json.tool data/deep-dive/source-qualification-matrix.json >/tmp/source-qualification-matrix.json
+npm run validate
 git diff --check
 ```

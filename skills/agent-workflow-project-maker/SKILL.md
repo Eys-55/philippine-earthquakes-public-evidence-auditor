@@ -125,7 +125,7 @@ For a new project, produce:
 
 - `skills/<project-slug>/SKILL.md`;
 - `data/<project-slug>/` for schemas, fixtures, examples, and raw evidence;
-- optional `scripts/validate_<project_slug>*.py`;
+- optional Node validation command in `scripts/control-repo.mjs`;
 - `docs/status/YYYY-MM-DD-<project-slug>-status.md`;
 - inventory entry in `data/project-surface-inventory.json`.
 
