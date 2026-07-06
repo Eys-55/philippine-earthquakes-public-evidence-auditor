@@ -48,7 +48,7 @@ const nonProjects = dashboard.non_projects;
         <div>
           <section class="summary" aria-label="Tracker summary">
             <div class="metric">
-              <span>Active Projects</span>
+              <span>Active Skill Lanes</span>
               <strong>{summary.active_projects}</strong>
             </div>
             <div class="metric">
@@ -74,7 +74,7 @@ const nonProjects = dashboard.non_projects;
           </section>
 
           <section class="panel" aria-labelledby="projects-heading">
-            <h2 id="projects-heading">Projects And Workstreams</h2>
+            <h2 id="projects-heading">Skill Lanes And Workstreams</h2>
             {
               projects.length === 0 ? (
                 <div class="empty">No tracked projects in the exported snapshot.</div>
@@ -191,7 +191,7 @@ const nonProjects = dashboard.non_projects;
           </section>
 
           <section class="panel" aria-labelledby="non-projects-heading">
-            <h2 id="non-projects-heading">Not Active Projects</h2>
+            <h2 id="non-projects-heading">Inactive Surfaces</h2>
             {
               nonProjects.length === 0 ? (
                 <div class="empty">No non-project surfaces recorded.</div>

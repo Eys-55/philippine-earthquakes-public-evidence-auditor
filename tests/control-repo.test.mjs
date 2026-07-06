@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
 
@@ -21,11 +22,93 @@ function listFiles(dir) {
   return out.sort();
 }
 
-function runControl(command) {
+function runControl(command, options = {}) {
   return spawnSync("node", ["scripts/control-repo.mjs", ...command], {
     cwd: ROOT,
+    env: { ...process.env, ...(options.env || {}) },
     encoding: "utf8",
   });
+}
+
+function writeJson(file, value) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function makeTrackerRoot() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "skill-tracker-"));
+  fs.mkdirSync(path.join(root, "skills/agent-workflow-project-maker"), { recursive: true });
+  fs.writeFileSync(path.join(root, "skills/agent-workflow-project-maker/SKILL.md"), "# Agent Workflow Project Maker\n");
+  writeJson(path.join(root, "ops/registry/projects.json"), {
+    projects: [{
+      id: "agent-workflow-project-maker",
+      title: "Agent Workflow Project Maker",
+      status: "active",
+      repos: ["market-research-agent-control"],
+      workstreams: ["control-repo-tracker"],
+    }],
+  });
+  writeJson(path.join(root, "ops/registry/repos.json"), {
+    repos: [{ id: "market-research-agent-control", path: "." }],
+  });
+  writeJson(path.join(root, "ops/registry/workstreams.json"), {
+    workstreams: [{
+      id: "control-repo-tracker",
+      project_id: "agent-workflow-project-maker",
+      repo_id: "market-research-agent-control",
+      status: "active",
+      session_ids: [],
+    }],
+  });
+  writeJson(path.join(root, "ops/registry/workflow-runs.json"), { workflow_runs: [] });
+  return root;
+}
+
+function startFixtureRun(root, overrides = {}) {
+  const env = { TRACKER_ROOT: root };
+  const session = runControl([
+    "tracker-session-start",
+    "--project-id", "agent-workflow-project-maker",
+    "--repo-id", "market-research-agent-control",
+    "--workstream-id", "control-repo-tracker",
+    "--objective", "Battle test fixture",
+  ], { env });
+  assert.equal(session.status, 0, session.stderr);
+  const sessionId = path.basename(session.stdout.trim()).replace(/^session-/, "").replace(/\.jsonl$/, "");
+  const args = [
+    "tracker-workflow-start",
+    "--project-id", overrides.projectId || "agent-workflow-project-maker",
+    "--session-id", overrides.sessionId || sessionId,
+    "--skill-id", overrides.skillId || "agent-workflow-project-maker",
+    "--title", overrides.title || "Skill identity fixture",
+    "--flow-id", overrides.flowId || "agent_workflow_project_maker",
+    "--current-skill", overrides.currentSkill || "implement",
+    "--owned-path", "tests/control-repo.test.mjs",
+    "--validation-command", "npm test",
+    "--next-action", overrides.nextAction || "Verify skill-first tracker behavior.",
+  ];
+  if (overrides.skillPath) args.splice(7, 0, "--skill-path", overrides.skillPath);
+  return { env, sessionId, result: runControl(args, { env }) };
+}
+
+function goodContextManifest(root, runId, skillId = "agent-workflow-project-maker") {
+  const file = path.join(root, "ops/workflow-runs/2026-07-06", `${runId}-context.md`);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, [
+    `# Context Manifest: ${runId}`,
+    "",
+    "## Loaded ECC Context",
+    "- `AGENTS.md`",
+    `- \`skills/${skillId}/SKILL.md\``,
+    "",
+    "## Premise Lock",
+    "A workflow bug must start with ECC-loaded intake before implementation.",
+    "",
+    "## First Context-Aware Question",
+    "Which skill is being built or debugged?",
+    "",
+  ].join("\n"));
+  return path.relative(root, file).split(path.sep).join("/");
 }
 
 test("repo contains no Python files", () => {
@@ -104,9 +187,10 @@ test("control adapter validates tracker and inventory", () => {
 });
 
 test("tracker dashboard export is consumable by Astro page", () => {
-  const result = runControl(["export-tracker-ui-data", "--output", "tracker-ui/src/data/tracker-dashboard.json"]);
+  const output = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "tracker-dashboard-")), "tracker-dashboard.json");
+  const result = runControl(["export-tracker-ui-data", "--output", output]);
   assert.equal(result.status, 0, result.stderr);
-  const dashboard = JSON.parse(read("tracker-ui/src/data/tracker-dashboard.json"));
+  const dashboard = JSON.parse(fs.readFileSync(output, "utf8"));
   const page = read("tracker-ui/src/pages/index.astro");
 
   assert.equal(dashboard.kind, "tracker_astro_monitor_dashboard");
@@ -116,9 +200,14 @@ test("tracker dashboard export is consumable by Astro page", () => {
   assert(dashboard.summary.active_projects >= 1);
   assert(Array.isArray(dashboard.workflow_runs));
   assert(dashboard.workflow_runs.every((run) => run.skill_id && run.skill_path));
+  assert(!JSON.stringify(dashboard).includes(".py"));
+  assert(!JSON.stringify(dashboard).includes("/tracker workflow"));
   assert(page.includes("../data/tracker-dashboard.json"));
   assert(page.includes("Skills Being Built"));
   assert(page.includes("Skill Runs"));
+  assert(page.includes("Active Skill Lanes"));
+  assert(page.includes("Skill Lanes And Workstreams"));
+  assert(page.includes("Inactive Surfaces"));
 });
 
 test("new tracker workflow runs require repo skill identity", () => {
@@ -136,4 +225,150 @@ test("new tracker workflow runs require repo skill identity", () => {
 
   assert.notEqual(result.status, 0);
   assert(result.stderr.includes("missing --skill-id"));
+});
+
+test("new tracker workflow runs persist and own repo skill identity", () => {
+  const root = makeTrackerRoot();
+  const { env, result: started } = startFixtureRun(root);
+  assert.equal(started.status, 0, started.stderr);
+
+  const registry = JSON.parse(fs.readFileSync(path.join(root, "ops/registry/workflow-runs.json"), "utf8"));
+  assert.equal(registry.workflow_runs.length, 1);
+  const [run] = registry.workflow_runs;
+  assert.equal(run.skill_id, "agent-workflow-project-maker");
+  assert.equal(run.skill_path, "skills/agent-workflow-project-maker/SKILL.md");
+  assert(run.owned_paths.includes("skills/agent-workflow-project-maker/SKILL.md"));
+  assert(run.owned_paths.includes("tests/control-repo.test.mjs"));
+
+  const validated = runControl(["validate-tracker"], { env });
+  assert.equal(validated.status, 0, validated.stderr);
+});
+
+test("tracker workflow start rejects missing skill files before mutation", () => {
+  const root = makeTrackerRoot();
+  const env = { TRACKER_ROOT: root };
+  const before = fs.readFileSync(path.join(root, "ops/registry/workflow-runs.json"), "utf8");
+  const result = runControl([
+    "tracker-workflow-start",
+    "--project-id", "agent-workflow-project-maker",
+    "--session-id", "any-session",
+    "--skill-id", "missing-skill",
+    "--title", "Missing skill fixture",
+    "--flow-id", "agent_workflow_project_maker",
+    "--current-skill", "implement",
+    "--owned-path", "tests/control-repo.test.mjs",
+    "--validation-command", "npm test",
+    "--next-action", "This must not mutate registry.",
+  ], { env });
+
+  assert.notEqual(result.status, 0);
+  assert(result.stderr.includes("missing skill file skills/missing-skill/SKILL.md"));
+  assert.equal(fs.readFileSync(path.join(root, "ops/registry/workflow-runs.json"), "utf8"), before);
+});
+
+test("tracker workflow start rejects skill path traversal and mismatches before mutation", () => {
+  for (const skillPath of [
+    "skills/../.agents/skills/code-review/SKILL.md",
+    "skills/control-repo-manager/SKILL.md",
+  ]) {
+    const root = makeTrackerRoot();
+    fs.mkdirSync(path.join(root, ".agents/skills/code-review"), { recursive: true });
+    fs.writeFileSync(path.join(root, ".agents/skills/code-review/SKILL.md"), "# Outside Skill\n");
+    fs.mkdirSync(path.join(root, "skills/control-repo-manager"), { recursive: true });
+    fs.writeFileSync(path.join(root, "skills/control-repo-manager/SKILL.md"), "# Control Repo Manager\n");
+    const before = fs.readFileSync(path.join(root, "ops/registry/workflow-runs.json"), "utf8");
+    const { result } = startFixtureRun(root, { skillPath });
+
+    assert.notEqual(result.status, 0);
+    assert(result.stderr.includes("skill_path must equal skills/agent-workflow-project-maker/SKILL.md"));
+    assert.equal(fs.readFileSync(path.join(root, "ops/registry/workflow-runs.json"), "utf8"), before);
+  }
+});
+
+test("tracker workflow start rejects unknown project or session before mutation", () => {
+  for (const overrides of [
+    { projectId: "missing-project" },
+    { sessionId: "missing-session" },
+  ]) {
+    const root = makeTrackerRoot();
+    const before = fs.readFileSync(path.join(root, "ops/registry/workflow-runs.json"), "utf8");
+    const { result } = startFixtureRun(root, overrides);
+
+    assert.notEqual(result.status, 0);
+    assert(result.stderr.includes(overrides.projectId ? "unknown project_id" : "unknown session_id"));
+    assert.equal(fs.readFileSync(path.join(root, "ops/registry/workflow-runs.json"), "utf8"), before);
+  }
+});
+
+test("tracker validation rejects mismatched skill identity in existing registry", () => {
+  const root = makeTrackerRoot();
+  const { env, result } = startFixtureRun(root);
+  assert.equal(result.status, 0, result.stderr);
+  const registryPath = path.join(root, "ops/registry/workflow-runs.json");
+  const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
+  registry.workflow_runs[0].skill_path = "skills/control-repo-manager/SKILL.md";
+  fs.mkdirSync(path.join(root, "skills/control-repo-manager"), { recursive: true });
+  fs.writeFileSync(path.join(root, "skills/control-repo-manager/SKILL.md"), "# Control Repo Manager\n");
+  writeJson(registryPath, registry);
+
+  const validated = runControl(["validate-tracker"], { env });
+  assert.notEqual(validated.status, 0);
+  assert(validated.stderr.includes("skill_path must equal skills/agent-workflow-project-maker/SKILL.md"));
+});
+
+test("tracker validation rejects fake context manifests and workflow bugs that skip intake", () => {
+  const root = makeTrackerRoot();
+  const { env, result } = startFixtureRun(root, {
+    title: "Adversarial workflow bug without intake",
+    currentSkill: "implement",
+    nextAction: "Fix the workflow problem directly.",
+  });
+  assert.equal(result.status, 0, result.stderr);
+  let validated = runControl(["validate-tracker"], { env });
+  assert.notEqual(validated.status, 0);
+  assert(validated.stderr.includes("workflow intake requires context manifest"));
+
+  const registryPath = path.join(root, "ops/registry/workflow-runs.json");
+  const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
+  const run = registry.workflow_runs[0];
+  const fakePath = `ops/workflow-runs/2026-07-06/${run.id}-context.md`;
+  fs.mkdirSync(path.dirname(path.join(root, fakePath)), { recursive: true });
+  fs.writeFileSync(path.join(root, fakePath), "fake context only\n");
+  run.artifacts = [fakePath];
+  writeJson(registryPath, registry);
+
+  validated = runControl(["validate-tracker"], { env });
+  assert.notEqual(validated.status, 0);
+  assert(validated.stderr.includes("context manifest missing marker Loaded Context"));
+
+  run.artifacts = [goodContextManifest(root, run.id)];
+  writeJson(registryPath, registry);
+  validated = runControl(["validate-tracker"], { env });
+  assert.equal(validated.status, 0, validated.stderr);
+});
+
+test("tracker workflow update rejects unknown runs and invalid statuses before mutation", () => {
+  const root = makeTrackerRoot();
+  const { env, result } = startFixtureRun(root);
+  assert.equal(result.status, 0, result.stderr);
+  const registryPath = path.join(root, "ops/registry/workflow-runs.json");
+  const before = fs.readFileSync(registryPath, "utf8");
+  const invalidStatus = runControl([
+    "tracker-workflow-close",
+    "--workflow-run-id", result.stdout.trim(),
+    "--status", "done-ish",
+    "--next-action", "Should fail.",
+  ], { env });
+  assert.notEqual(invalidStatus.status, 0);
+  assert(invalidStatus.stderr.includes("invalid status done-ish"));
+  assert.equal(fs.readFileSync(registryPath, "utf8"), before);
+
+  const unknown = runControl([
+    "tracker-workflow-checkpoint",
+    "--workflow-run-id", "missing-run",
+    "--next-action", "Should fail.",
+  ], { env });
+  assert.notEqual(unknown.status, 0);
+  assert(unknown.stderr.includes("unknown workflow_run_id missing-run"));
+  assert.equal(fs.readFileSync(registryPath, "utf8"), before);
 });

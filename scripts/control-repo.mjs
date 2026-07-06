@@ -81,12 +81,101 @@ function records(payload, key) {
   return Array.isArray(payload[key]) ? payload[key].filter((item) => item && typeof item === "object") : [];
 }
 
+function expectedSkillPath(skillId) {
+  return `skills/${skillId}/SKILL.md`;
+}
+
 function resolveSkillPath(skillId, explicitPath) {
-  const candidate = explicitPath || `skills/${skillId}/SKILL.md`;
-  if (!candidate.startsWith("skills/") || !candidate.endsWith("/SKILL.md")) {
-    throw new Error(`invalid skill path ${candidate}`);
+  const candidate = explicitPath || expectedSkillPath(skillId);
+  const expected = expectedSkillPath(skillId);
+  if (candidate !== expected) {
+    throw new Error(`skill_path must equal ${expected}`);
+  }
+  if (!fs.existsSync(repoPath(candidate))) {
+    throw new Error(`missing skill file ${candidate}`);
   }
   return candidate;
+}
+
+function skillIdentityErrors(run) {
+  const errors = [];
+  if (typeof run.skill_id !== "string" || !run.skill_id.trim()) {
+    errors.push(`${run.id}: missing skill_id`);
+    return errors;
+  }
+  if (typeof run.skill_path !== "string" || !run.skill_path.trim()) {
+    errors.push(`${run.id}: missing skill_path`);
+    return errors;
+  }
+  const expected = expectedSkillPath(run.skill_id);
+  if (run.skill_path !== expected) errors.push(`${run.id}: skill_path must equal ${expected}`);
+  if (path.resolve(ROOT, run.skill_path) !== path.resolve(ROOT, expected)) errors.push(`${run.id}: skill_path escapes canonical skill path`);
+  if (!fs.existsSync(repoPath(expected))) errors.push(`${run.id}: missing skill file ${expected}`);
+  return errors;
+}
+
+function visibleText(value) {
+  if (typeof value !== "string") return value;
+  return value
+    .replace(/python3\s+scripts\/[^\s,;]+/g, "current Node tracker adapter")
+    .replace(/python3\s+-m\s+unittest\s+[^\s,;]+/g, "npm test")
+    .replace(/scripts\/[A-Za-z0-9_/-]+\.py/g, "superseded internal adapter")
+    .replace(/tests\/test_[A-Za-z0-9_/-]+\.py/g, "current Node regression tests")
+    .replace(/validate_tracker\.py/g, "current Node tracker validation")
+    .replace(/\/tracker workflow/g, "plain Codex chat workflow intake")
+    .replace(/add new Python only for internal adapters, validators, UI export, or tests/g, "do not add Python; use skills plus the Node internal adapter");
+}
+
+function visibleValue(value) {
+  if (typeof value === "string") return visibleText(value);
+  if (Array.isArray(value)) return value.map(visibleValue);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, visibleValue(item)]));
+  }
+  return value;
+}
+
+function contextManifestErrors(run, manifestPath) {
+  const errors = [];
+  const text = fs.readFileSync(repoPath(manifestPath), "utf8");
+  const markerGroups = [
+    ["Loaded Context", "Loaded ECC Context"],
+    ["Premise", "Premise Lock", "Current Premise"],
+    ["Question", "First Context-Aware Question", "Next Question"],
+  ];
+  for (const group of markerGroups) {
+    if (!group.some((marker) => text.includes(marker))) {
+      errors.push(`${run.id}: context manifest missing marker ${group[0]}`);
+    }
+  }
+  if (!text.includes(run.skill_id) && !text.includes(run.skill_path)) {
+    errors.push(`${run.id}: context manifest missing repo skill identity`);
+  }
+  return errors;
+}
+
+function intentRequiresWorkflowIntake(run) {
+  const haystack = [
+    run.title,
+    run.next_action,
+    run.flow_id,
+    run.current_skill,
+  ].filter(Boolean).join(" ").toLowerCase();
+  return /\bworkflow\b/.test(haystack) && /\b(bug|problem|issue|intake|continue|continuation|router|flow)\b/.test(haystack);
+}
+
+function trackerState() {
+  const projects = records(readJson(repoPath("ops/registry/projects.json")), "projects");
+  const workstreams = records(readJson(repoPath("ops/registry/workstreams.json")), "workstreams");
+  const projectIds = new Set(projects.map((item) => item.id));
+  const sessionIds = new Set(workstreams.flatMap((item) => item.session_ids || []));
+  return { projects, workstreams, projectIds, sessionIds };
+}
+
+function assertKnownProjectAndSession(projectId, sessionId) {
+  const state = trackerState();
+  if (!state.projectIds.has(projectId)) throw new Error(`unknown project_id ${projectId}`);
+  if (!state.sessionIds.has(sessionId)) throw new Error(`unknown session_id ${sessionId}`);
 }
 
 function byId(items) {
@@ -165,20 +254,18 @@ function validateTrackerRoot() {
     if (!projectIds.has(run.project_id)) errors.push(`${run.id}: unknown project_id ${run.project_id}`);
     if (run.session_id && !sessionIds.has(run.session_id)) errors.push(`${run.id}: unknown session_id ${run.session_id}`);
     if (!VALID_RUN_STATUSES.has(run.status)) errors.push(`${run.id}: invalid status ${run.status}`);
-    if (typeof run.skill_id !== "string" || !run.skill_id.trim()) errors.push(`${run.id}: missing skill_id`);
-    if (typeof run.skill_path !== "string" || !run.skill_path.trim()) errors.push(`${run.id}: missing skill_path`);
-    if (run.skill_path) {
-      if (!run.skill_path.startsWith("skills/") || !run.skill_path.endsWith("/SKILL.md")) errors.push(`${run.id}: invalid skill_path ${run.skill_path}`);
-      else if (!fs.existsSync(repoPath(run.skill_path))) errors.push(`${run.id}: missing skill file ${run.skill_path}`);
-    }
+    errors.push(...skillIdentityErrors(run));
     if (!Array.isArray(run.owned_paths) || run.owned_paths.length === 0) errors.push(`${run.id}: owned_paths must contain at least one entry`);
+    if (run.skill_path && Array.isArray(run.owned_paths) && !run.owned_paths.includes(run.skill_path)) errors.push(`${run.id}: owned_paths must include skill_path ${run.skill_path}`);
     if (!Array.isArray(run.validation_commands) || run.validation_commands.length === 0) errors.push(`${run.id}: validation_commands must contain at least one entry`);
     const manifestPath = run.context_manifest_path || (run.artifacts || []).find((item) => typeof item === "string" && item.endsWith("-context.md"));
-    if ((run.current_skill === "workflow_intake" || run.flow_id === "workflow_specific_bug") && !manifestPath) {
+    if ((run.current_skill === "workflow_intake" || run.flow_id === "workflow_specific_bug" || intentRequiresWorkflowIntake(run)) && !manifestPath) {
       errors.push(`${run.id}: workflow intake requires context manifest`);
     }
     if (manifestPath && !fs.existsSync(repoPath(manifestPath))) {
       errors.push(`${run.id}: missing context manifest ${manifestPath}`);
+    } else if (manifestPath && (run.current_skill === "workflow_intake" || run.flow_id === "workflow_specific_bug" || intentRequiresWorkflowIntake(run))) {
+      errors.push(...contextManifestErrors(run, manifestPath));
     }
   }
   for (const folder of ["ops/sessions", "ops/workflow-runs"]) {
@@ -284,7 +371,7 @@ function buildDashboard() {
     current_goal: project.current_goal,
     workstreams: (project.workstreams || []).map((id) => workstreamsById.get(id)).filter(Boolean),
   }));
-  const workflowRuns = records(runsPayload, "workflow_runs");
+  const workflowRuns = records(runsPayload, "workflow_runs").map((run) => visibleValue(run));
   const trackedSkills = [...new Map(workflowRuns.filter((run) => run.skill_id && run.skill_path).map((run) => [run.skill_id, {
     id: run.skill_id,
     path: run.skill_path,
@@ -349,11 +436,11 @@ function trackerStatus() {
       console.log(`- Workstream \`${workstream.id}\`: ${workstream.status}; next action: ${workstream.next_action}`);
     }
     const projectRuns = runs.filter((run) => run.project_id === project.id);
-    if (!projectRuns.length) console.log("- Workflow Runs: none recorded");
+    if (!projectRuns.length) console.log("- Skill Runs: none recorded");
     else {
       console.log("- Skill Runs:");
       for (const run of projectRuns) {
-        console.log(`  - Skill \`${run.skill_id || "missing"}\` (${run.skill_path || "missing"}): \`${run.id}\` ${run.status} - ${run.title}; phase: ${run.current_skill}; next action: ${run.next_action}`);
+        console.log(`  - Skill \`${run.skill_id || "missing"}\` (${run.skill_path || "missing"}): \`${run.id}\` ${run.status} - ${visibleText(run.title)}; phase: ${run.current_skill}; next action: ${visibleText(run.next_action)}`);
       }
     }
     console.log("");
@@ -416,6 +503,7 @@ function workflowStart(args) {
   const sessionId = required(args, "session-id");
   const skillId = required(args, "skill-id");
   const skillPath = resolveSkillPath(skillId, args["skill-path"]);
+  assertKnownProjectAndSession(projectId, sessionId);
   const id = `wfr-${compactStamp()}-${suffix()}`;
   const logPath = `ops/workflow-runs/${dateStamp()}/${id}.jsonl`;
   const run = {
@@ -428,7 +516,7 @@ function workflowStart(args) {
     flow_id: required(args, "flow-id"),
     status: "open",
     current_skill: required(args, "current-skill"),
-    owned_paths: many(args, "owned-path"),
+    owned_paths: [...new Set([skillPath, ...many(args, "owned-path")])],
     validation_commands: many(args, "validation-command"),
     started_at: now(),
     last_checkpoint_at: now(),
@@ -448,6 +536,11 @@ function updateWorkflow(args, close = false) {
   const id = required(args, "workflow-run-id");
   const registryPath = repoPath("ops/registry/workflow-runs.json");
   const registry = readJson(registryPath);
+  const existing = records(registry, "workflow_runs").find((item) => item.id === id);
+  if (!existing) throw new Error(`unknown workflow_run_id ${id}`);
+  const identityErrors = skillIdentityErrors(existing);
+  if (identityErrors.length) throw new Error(identityErrors.join("; "));
+  if (args.status && !VALID_RUN_STATUSES.has(args.status)) throw new Error(`invalid status ${args.status}`);
   const updates = {
     last_checkpoint_at: now(),
     next_action: required(args, "next-action"),

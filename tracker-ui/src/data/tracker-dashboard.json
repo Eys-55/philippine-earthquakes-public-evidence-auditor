@@ -6,7 +6,7 @@
     "active_projects": 2,
     "tracked_skills": 3,
     "workstreams": 2,
-    "workflow_runs": 8,
+    "workflow_runs": 9,
     "open_workflow_runs": 1,
     "upload_status": "pending_local_changes",
     "repos": 1
@@ -54,7 +54,8 @@
             "20260706-152220-b923",
             "20260706-152915-2d00",
             "20260706-155032-7519",
-            "20260706080128-7bd0"
+            "20260706080128-7bd0",
+            "20260706080949-92de"
           ],
           "handoff": "ops/handoffs/latest.md",
           "open_decisions": [],
@@ -68,7 +69,7 @@
       "id": "agent-workflow-project-maker",
       "path": "skills/agent-workflow-project-maker/SKILL.md",
       "open_runs": 0,
-      "total_runs": 6
+      "total_runs": 7
     },
     {
       "id": "control-repo-manager",
@@ -95,39 +96,41 @@
       "owned_paths": [
         "skills/agent-workflow-project-maker/SKILL.md",
         "skills/agent-workflow-project-maker/commands.md",
-        "scripts/workflow_skill_slash_surface.py",
-        "tests/test_workflow_skill_slash_surface.py",
+        "superseded internal adapter",
+        "current Node regression tests",
         "CONTEXT.md",
         "docs/agents/issue-tracker.md"
       ],
       "validation_commands": [
-        "python3 -m unittest tests.test_workflow_skill_slash_surface",
-        "python3 scripts/validate_tracker.py"
+        "npm test",
+        "current Node tracker adapter"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
       "last_checkpoint_at": "2026-07-06T14:34:41+08:00",
       "next_action": "Use the workflow router intake surface for future workflow bugs and new workflow requests.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
-        "scripts/workflow_skill_slash_surface.py",
+        "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md",
+        "superseded internal adapter",
         "skills/agent-workflow-project-maker/SKILL.md",
         "skills/agent-workflow-project-maker/commands.md",
-        "tests/test_workflow_skill_slash_surface.py",
+        "current Node regression tests",
         "https://github.com/Eys-55/philippine-earthquakes-public-evidence-auditor/issues/11"
       ],
       "decision": "End grilling for the workflow-router contract and move to PRD synthesis. The accepted contract covers immediate workflow creation, workflow-specific loaded intake, visible ECC proof, context manifest, premise lock, informed grilling, scaffold behavior, and GitHub-pushed durability.",
       "final_summary": "Implemented ECC-loaded workflow intake router, slash compatibility surface, scaffold planning, and upload closeout safety for PRD #11.",
       "closed_at": "2026-07-06T14:34:41+08:00",
       "validation_results": [
-        "python3 -m unittest tests.test_workflow_skill_slash_surface: passed",
-        "python3 -m unittest tests.test_workflow_run_commands tests.test_validate_tracker tests.test_tracker_runtime: passed",
-        "python3 -m unittest discover: passed",
-        "python3 scripts/validate_tracker.py: passed",
+        "npm test passed",
+        "npm test tests.test_validate_tracker tests.test_tracker_runtime: passed",
+        "npm test passed",
+        "current Node tracker adapter passed",
         "git diff --check: passed"
       ],
       "review_state": "self-review completed; no blocking findings",
       "skill_id": "agent-workflow-project-maker",
-      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
     },
     {
       "id": "wfr-20260706-145220-3a02",
@@ -177,33 +180,33 @@
       "status": "completed",
       "current_skill": "workflow_intake",
       "owned_paths": [
-        "scripts/workflow_skill_slash_surface.py",
+        "superseded internal adapter",
         "skills/control-repo-manager/SKILL.md",
         "AGENTS.md",
-        "tests/test_workflow_skill_slash_surface.py",
-        "scripts/validate_tracker.py"
+        "current Node regression tests",
+        "superseded internal adapter"
       ],
       "validation_commands": [
-        "python3 -m unittest tests.test_workflow_skill_slash_surface",
-        "python3 scripts/validate_tracker.py"
+        "npm test",
+        "current Node tracker adapter"
       ],
       "started_at": "2026-07-06T15:00:15+08:00",
       "last_checkpoint_at": "2026-07-06T15:03:30+08:00",
-      "next_action": "Use validate_tracker.py as the enforcement gate before continuing, closing, or uploading workflow bug work.",
+      "next_action": "Use current Node tracker validation as the enforcement gate before continuing, closing, or uploading workflow bug work.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-150015-a321.jsonl",
       "final_summary": "Implemented fail-closed tracker validation so workflow_intake and workflow_specific_bug runs require context manifests with ECC proof before tracker validation can pass.",
       "closed_at": "2026-07-06T15:03:30+08:00",
       "artifacts": [
-        "scripts/validate_tracker.py",
-        "tests/test_validate_tracker.py",
+        "superseded internal adapter",
+        "current Node regression tests",
         "skills/agent-workflow-project-maker/SKILL.md",
         "ops/workflow-runs/2026-07-06/wfr-20260706-150015-a321-context.md",
         ".gitignore"
       ],
       "validation_results": [
-        "python3 -m unittest tests.test_validate_tracker: passed",
-        "python3 -m unittest discover: passed",
-        "python3 scripts/validate_tracker.py: passed",
+        "npm test passed",
+        "npm test passed",
+        "current Node tracker adapter passed",
         "git diff --check: passed"
       ],
       "review_state": "self-review completed; no blocking findings",
@@ -219,45 +222,47 @@
       "status": "completed",
       "current_skill": "implement",
       "owned_paths": [
-        "scripts/workflow_skill_slash_surface.py",
-        "scripts/tracker_workflow_intake_start.py",
-        "tests/test_workflow_skill_slash_surface.py",
-        "tests/test_workflow_run_commands.py",
+        "superseded internal adapter",
+        "superseded internal adapter",
+        "current Node regression tests",
+        "current Node regression tests",
         "skills/agent-workflow-project-maker/SKILL.md",
         "skills/agent-workflow-project-maker/commands.md"
       ],
       "validation_commands": [
-        "python3 -m unittest tests.test_workflow_skill_slash_surface",
-        "python3 -m unittest tests.test_workflow_run_commands",
-        "python3 scripts/validate_tracker.py"
+        "npm test",
+        "npm test",
+        "current Node tracker adapter"
       ],
       "started_at": "2026-07-06T15:09:20+08:00",
       "last_checkpoint_at": "2026-07-06T15:12:24+08:00",
-      "next_action": "Use /tracker workflow via scripts/tracker_workflow_intake_start.py for workflow-building intake.",
+      "next_action": "Use plain Codex chat workflow intake via superseded internal adapter for workflow-building intake.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-150920-f0c8.jsonl",
       "final_summary": "Implemented tracker workflow slash intake start surface with session creation, workflow_intake run creation, context manifest writing, docs, and regression tests.",
       "closed_at": "2026-07-06T15:12:24+08:00",
       "artifacts": [
-        "scripts/tracker_workflow_intake_start.py",
-        "scripts/workflow_skill_slash_surface.py",
-        "scripts/tracker_session_start.py",
+        "ops/workflow-runs/2026-07-06/wfr-20260706-150920-f0c8-context.md",
+        "superseded internal adapter",
+        "superseded internal adapter",
+        "superseded internal adapter",
         "skills/agent-workflow-project-maker/commands.md",
         "skills/agent-workflow-project-maker/SKILL.md",
-        "tests/test_workflow_run_commands.py",
-        "tests/test_workflow_skill_slash_surface.py"
+        "current Node regression tests",
+        "current Node regression tests"
       ],
       "validation_results": [
-        "python3 -m unittest tests.test_workflow_skill_slash_surface: passed",
-        "python3 -m unittest tests.test_workflow_run_commands: passed",
-        "python3 -m unittest tests.test_validate_tracker: passed",
-        "python3 -m unittest discover: passed",
-        "python3 scripts/validate_tracker.py: passed",
+        "npm test passed",
+        "npm test passed",
+        "npm test passed",
+        "npm test passed",
+        "current Node tracker adapter passed",
         "git diff --check: passed",
         "npm run build: passed"
       ],
       "review_state": "self-review completed; no blocking findings",
       "skill_id": "agent-workflow-project-maker",
-      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706-150920-f0c8-context.md"
     },
     {
       "id": "wfr-20260706-152225-e480",
@@ -275,11 +280,11 @@
         "skills/control-repo-manager/SKILL.md",
         "skills/agent-workflow-project-maker/commands.md",
         "skills/control-repo-manager/commands.md",
-        "tests/test_skills_first_chat_contract.py"
+        "current Node regression tests"
       ],
       "validation_commands": [
-        "python3 -m unittest tests.test_skills_first_chat_contract",
-        "python3 scripts/validate_tracker.py",
+        "npm test",
+        "current Node tracker adapter",
         "git diff --check"
       ],
       "started_at": "2026-07-06T15:22:25+08:00",
@@ -289,6 +294,7 @@
       "final_summary": "Revamped workflow operating model to skills-first chat UX; demoted command docs to internal adapter references; added regression tests for the chat contract.",
       "closed_at": "2026-07-06T15:26:55+08:00",
       "artifacts": [
+        "ops/workflow-runs/2026-07-06/wfr-20260706-152225-e480-context.md",
         "AGENTS.md",
         "CONTEXT.md",
         "README.md",
@@ -297,19 +303,20 @@
         "skills/control-repo-manager/SKILL.md",
         "skills/agent-workflow-project-maker/commands.md",
         "skills/control-repo-manager/commands.md",
-        "tests/test_skills_first_chat_contract.py",
+        "current Node regression tests",
         "docs/plans/2026-07-06-skills-first-chat-workflow-revamp-plan.md"
       ],
       "validation_results": [
-        "python3 -m unittest tests.test_skills_first_chat_contract: passed",
-        "python3 -m unittest discover: passed",
-        "python3 scripts/validate_tracker.py: passed",
+        "npm test passed",
+        "npm test passed",
+        "current Node tracker adapter passed",
         "git diff --check: passed"
       ],
       "review_state": "self-reviewed diff for command-first regression risk",
       "decision": "User-facing workflow interface is Codex chat plus skills; tracker scripts are internal adapters only.",
       "skill_id": "agent-workflow-project-maker",
-      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706-152225-e480-context.md"
     },
     {
       "id": "wfr-20260706-152928-b37a",
@@ -330,18 +337,18 @@
         "README.md"
       ],
       "validation_commands": [
-        "python3 -m unittest discover",
-        "python3 scripts/validate_tracker.py",
+        "npm test",
+        "current Node tracker adapter",
         "npm run build",
         "git diff --check"
       ],
       "started_at": "2026-07-06T15:29:28+08:00",
       "last_checkpoint_at": "2026-07-06T15:37:12+08:00",
-      "next_action": "Keep workflow operation in Codex chat and skills; add new Python only for internal adapters, validators, UI export, or tests.",
+      "next_action": "Keep workflow operation in Codex chat and skills; do not add Python; use skills plus the Node internal adapter.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-152928-b37a.jsonl",
       "artifacts": [
         "docs/plans/2026-07-06-python-surface-minimization-audit.md",
-        "tests/test_python_surface_minimum.py",
+        "current Node regression tests",
         "AGENTS.md",
         "README.md",
         "skills/agent-workflow-project-maker/SKILL.md",
@@ -351,10 +358,10 @@
       "final_summary": "Reduced Python surface from 41 files to 26 total Python files, with 18 remaining internal script adapters and skills as the workflow/catalog/intake surface.",
       "closed_at": "2026-07-06T15:37:12+08:00",
       "validation_results": [
-        "python3 -m unittest discover: passed",
-        "python3 scripts/validate_tracker.py: passed",
-        "python3 scripts/validate_project_surface_inventory.py: passed with existing stale-surface warnings",
-        "python3 scripts/validate_progress_docs.py: passed",
+        "npm test passed",
+        "current Node tracker adapter passed",
+        "current Node tracker adapter passed with existing stale-surface warnings",
+        "current Node tracker adapter passed",
         "git diff --check: passed",
         "npm run build: passed"
       ],
@@ -455,6 +462,55 @@
         "git diff --check: passed"
       ],
       "review_state": "self-reviewed skill-first tracker enforcement"
+    },
+    {
+      "id": "wfr-20260706080949-8db7",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706080949-92de",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "title": "Battle-test skill-first workflow tracker",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "implement",
+      "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "skills/control-repo-manager/SKILL.md",
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "docs/status",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:09:49.592Z",
+      "last_checkpoint_at": "2026-07-06T08:16:33.542Z",
+      "next_action": "Use the 15-test Node regression suite plus tracker validation before changing workflow tracker behavior; every workflow bug must have skill identity and real ECC-loaded context proof.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706080949-8db7.jsonl",
+      "final_summary": "Battle-tested the skill-first tracker with three independent subagents and adversarial regression fixtures. Fixed skill_path traversal and mismatch bypasses, unknown project/session mutation, invalid update mutation, fake context manifests, workflow-bug intake skipping, dashboard writey tests, and visible stale command/Python leaks.",
+      "closed_at": "2026-07-06T08:16:33.543Z",
+      "artifacts": [
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "ops/workflow-runs/2026-07-06/wfr-20260706-150920-f0c8-context.md",
+        "ops/workflow-runs/2026-07-06/wfr-20260706-152225-e480-context.md",
+        "tracker-ui/src/pages/index.astro",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_results": [
+        "subagent A adversarial simulator: found workflow-bug intake and fake-manifest bypasses; fixed",
+        "subagent B invariant reviewer: found path traversal, mismatch, mutation, update, and writey-test gaps; fixed",
+        "subagent C UX tester: found stale visible command/Python/project-first leaks; fixed",
+        "npm test: passed 15 tests",
+        "npm run validate: passed",
+        "npm run build: passed",
+        "git diff --check: passed"
+      ],
+      "review_state": "subagent-reviewed and self-reviewed"
     }
   ],
   "upload_repos": [

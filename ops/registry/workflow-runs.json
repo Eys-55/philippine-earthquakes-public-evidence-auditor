@@ -27,6 +27,7 @@
       "next_action": "Use the workflow router intake surface for future workflow bugs and new workflow requests.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
+        "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md",
         "scripts/workflow_skill_slash_surface.py",
         "skills/agent-workflow-project-maker/SKILL.md",
         "skills/agent-workflow-project-maker/commands.md",
@@ -45,7 +46,8 @@
       ],
       "review_state": "self-review completed; no blocking findings",
       "skill_id": "agent-workflow-project-maker",
-      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
     },
     {
       "id": "wfr-20260706-145220-3a02",
@@ -156,6 +158,7 @@
       "final_summary": "Implemented tracker workflow slash intake start surface with session creation, workflow_intake run creation, context manifest writing, docs, and regression tests.",
       "closed_at": "2026-07-06T15:12:24+08:00",
       "artifacts": [
+        "ops/workflow-runs/2026-07-06/wfr-20260706-150920-f0c8-context.md",
         "scripts/tracker_workflow_intake_start.py",
         "scripts/workflow_skill_slash_surface.py",
         "scripts/tracker_session_start.py",
@@ -175,7 +178,8 @@
       ],
       "review_state": "self-review completed; no blocking findings",
       "skill_id": "agent-workflow-project-maker",
-      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706-150920-f0c8-context.md"
     },
     {
       "id": "wfr-20260706-152225-e480",
@@ -207,6 +211,7 @@
       "final_summary": "Revamped workflow operating model to skills-first chat UX; demoted command docs to internal adapter references; added regression tests for the chat contract.",
       "closed_at": "2026-07-06T15:26:55+08:00",
       "artifacts": [
+        "ops/workflow-runs/2026-07-06/wfr-20260706-152225-e480-context.md",
         "AGENTS.md",
         "CONTEXT.md",
         "README.md",
@@ -227,7 +232,8 @@
       "review_state": "self-reviewed diff for command-first regression risk",
       "decision": "User-facing workflow interface is Codex chat plus skills; tracker scripts are internal adapters only.",
       "skill_id": "agent-workflow-project-maker",
-      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706-152225-e480-context.md"
     },
     {
       "id": "wfr-20260706-152928-b37a",
@@ -373,6 +379,55 @@
         "git diff --check: passed"
       ],
       "review_state": "self-reviewed skill-first tracker enforcement"
+    },
+    {
+      "id": "wfr-20260706080949-8db7",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706080949-92de",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "title": "Battle-test skill-first workflow tracker",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "implement",
+      "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "skills/control-repo-manager/SKILL.md",
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "docs/status",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:09:49.592Z",
+      "last_checkpoint_at": "2026-07-06T08:16:33.542Z",
+      "next_action": "Use the 15-test Node regression suite plus tracker validation before changing workflow tracker behavior; every workflow bug must have skill identity and real ECC-loaded context proof.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706080949-8db7.jsonl",
+      "final_summary": "Battle-tested the skill-first tracker with three independent subagents and adversarial regression fixtures. Fixed skill_path traversal and mismatch bypasses, unknown project/session mutation, invalid update mutation, fake context manifests, workflow-bug intake skipping, dashboard writey tests, and visible stale command/Python leaks.",
+      "closed_at": "2026-07-06T08:16:33.543Z",
+      "artifacts": [
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "ops/workflow-runs/2026-07-06/wfr-20260706-150920-f0c8-context.md",
+        "ops/workflow-runs/2026-07-06/wfr-20260706-152225-e480-context.md",
+        "tracker-ui/src/pages/index.astro",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_results": [
+        "subagent A adversarial simulator: found workflow-bug intake and fake-manifest bypasses; fixed",
+        "subagent B invariant reviewer: found path traversal, mismatch, mutation, update, and writey-test gaps; fixed",
+        "subagent C UX tester: found stale visible command/Python/project-first leaks; fixed",
+        "npm test: passed 15 tests",
+        "npm run validate: passed",
+        "npm run build: passed",
+        "git diff --check: passed"
+      ],
+      "review_state": "subagent-reviewed and self-reviewed"
     }
   ]
 }
