@@ -1,6 +1,6 @@
 {
   "kind": "tracker_astro_monitor_dashboard",
-  "generated_at": "2026-07-06T07:56:59.835Z",
+  "generated_at": "2026-07-06T15:50:39+08:00",
   "source_root": ".",
   "summary": {
     "active_projects": 2,
@@ -353,21 +353,19 @@
         "git diff --check"
       ],
       "started_at": "2026-07-06T15:50:39+08:00",
-      "last_checkpoint_at": "2026-07-06T07:56:53.735Z",
-      "next_action": "Use Codex chat and skills for workflow operation; Codex internally persists tracker state through the Node control adapter.",
+      "last_checkpoint_at": "2026-07-06T07:58:57.657Z",
+      "next_action": "Python runtime removal is pushed; deterministic dashboard export follow-up is being committed so post-push build and upload checks stay clean.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-155039-502f.jsonl",
       "final_summary": "Removed Python runtime surface from current workflow operations. Replaced tracker, validation, upload, and dashboard adapters with scripts/control-repo.mjs; converted tests to Node; updated skills and current docs so Codex chat plus skills are the operator surface.",
       "closed_at": "2026-07-06T07:56:53.735Z",
       "artifacts": [
         "scripts/control-repo.mjs",
-        "tests/control-repo.test.mjs",
-        "docs/plans/2026-07-06-python-surface-minimization-audit.md",
         "tracker-ui/src/data/tracker-dashboard.json"
       ],
       "validation_results": [
+        "second npm run build stayed stable",
         "npm test: passed",
         "npm run validate: passed",
-        "npm run build: passed",
         "git diff --check: passed"
       ],
       "review_state": "self-reviewed"

@@ -276,7 +276,7 @@ function buildDashboard() {
   const uploadStatus = statuses.size === 1 ? [...statuses][0] : statuses.has("pending_local_changes") ? "pending_local_changes" : "mixed";
   return {
     kind: "tracker_astro_monitor_dashboard",
-    generated_at: new Date().toISOString(),
+    generated_at: latestTrackerTimestamp(projectsPayload, workstreamsPayload, runsPayload),
     source_root: ".",
     summary: {
       active_projects: projects.filter((project) => project.status === "active").length,
@@ -291,6 +291,17 @@ function buildDashboard() {
     upload_repos: uploadRepos,
     non_projects: projectsPayload.non_projects || [],
   };
+}
+
+function latestTrackerTimestamp(...payloads) {
+  const values = [];
+  const visit = (value) => {
+    if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}T/.test(value)) values.push(value);
+    else if (Array.isArray(value)) value.forEach(visit);
+    else if (value && typeof value === "object") Object.values(value).forEach(visit);
+  };
+  payloads.forEach(visit);
+  return values.sort().at(-1) || "unknown";
 }
 
 function exportDashboard(args) {
@@ -337,7 +348,6 @@ function trackerUploadGate(args = {}) {
   const remote = remoteHead(branch);
   const counts = statusCounts();
   const uploaded = counts.dirty === 0 && counts.untracked === 0 && localHead === remote;
-  const uploadPath = repoPath("ops/sync/github-upload-state.json");
   const state = {
     schema_version: 1,
     generated_at: now(),
@@ -356,7 +366,7 @@ function trackerUploadGate(args = {}) {
       },
     },
   };
-  writeJson(uploadPath, state);
+  if (args.write || args.record) writeJson(repoPath("ops/sync/github-upload-state.json"), state);
   if (!args.quiet) console.log(uploaded ? "uploaded to GitHub" : "local changes still need upload");
   return uploaded ? 0 : 1;
 }
