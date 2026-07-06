@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:10:31+08:00",
-      "next_action": "Ask what exact confirmation phrase should unlock new workflow creation.",
+      "last_checkpoint_at": "2026-07-06T14:11:13+08:00",
+      "next_action": "Ask what happens after the user explicitly confirms new workflow creation.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "After loaded workflow identification, the router must ask for explicit confirmation before creating a new workflow. The user must say or confirm this is the project/workflow to create, and that it is not a continuation of an existing workflow."
+      "decision": "Accept explicit new-workflow confirmation phrases: 'Create a new workflow for this' and 'This is not a continuation. Start a new workflow.' Without explicit confirmation, remain in workflow identification/intake."
     }
   ]
 }
