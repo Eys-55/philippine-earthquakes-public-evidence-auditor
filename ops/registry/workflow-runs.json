@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:20:12+08:00",
-      "next_action": "Ask what happens after workflow-specific context loading finishes.",
+      "last_checkpoint_at": "2026-07-06T14:21:23+08:00",
+      "next_action": "Ask what counts as enough context loaded before the first grilling question.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "UI/dashboard work is deferred. Keep current grilling focused on the workflow router, immediate tracking, loaded intake, workflow-specific routing, and draft scaffold behavior."
+      "decision": "Do not begin grilling from a blank slate. The sequence is: create or lock workflow run, run workflow_intake, load all relevant workflow/project context, write context manifest, produce premise lock, then grill with context-aware questions."
     }
   ]
 }
