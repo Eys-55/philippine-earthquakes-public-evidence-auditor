@@ -1,6 +1,6 @@
 {
   "kind": "tracker_astro_monitor_dashboard",
-  "generated_at": "2026-07-06T15:03:36+08:00",
+  "generated_at": "2026-07-06T15:04:35+08:00",
   "source_root": ".",
   "summary": {
     "active_projects": 2,
@@ -184,11 +184,11 @@
       "id": "market-research-agent-control",
       "status": "pending_local_changes",
       "local_branch": "main",
-      "local_head": "688585589f41a78d1049edf569fc685731232849",
+      "local_head": "e204e353d3d217f85d52ba3d0ccc57f2d92aa404",
       "remote_branch": "main",
-      "remote_head": "688585589f41a78d1049edf569fc685731232849",
+      "remote_head": "e204e353d3d217f85d52ba3d0ccc57f2d92aa404",
       "dirty": null,
-      "untracked_file_count": 22,
+      "untracked_file_count": 3,
       "last_verified_at": null,
       "verification_command": null
     }

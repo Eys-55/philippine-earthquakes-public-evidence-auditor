@@ -144,6 +144,21 @@ class TrackerAstroMonitorTests(unittest.TestCase):
             self.assertEqual("wfr-test", payload["workflow_runs"][0]["id"])
             self.assertEqual("untitled-project", payload["non_projects"][0]["id"])
 
+    def test_export_command_is_stable_when_inputs_are_unchanged(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_tmp:
+            root = Path(raw_tmp)
+            seed_tracker(root)
+            output = root / "tracker-ui/src/data/tracker-dashboard.json"
+
+            first_result = run_export(root, output)
+            first_payload = output.read_text(encoding="utf-8")
+            second_result = run_export(root, output)
+            second_payload = output.read_text(encoding="utf-8")
+
+            self.assertEqual(0, first_result.returncode)
+            self.assertEqual(0, second_result.returncode)
+            self.assertEqual(first_payload, second_payload)
+
     def test_astro_route_uses_exported_dashboard_snapshot(self) -> None:
         page = (REPO_ROOT / "tracker-ui/src/pages/index.astro").read_text(encoding="utf-8")
 

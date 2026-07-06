@@ -150,6 +150,28 @@ def build_dashboard(root: Path = ROOT) -> JsonObject:
     }
 
 
+def without_generated_at(payload: JsonObject) -> JsonObject:
+    return {key: value for key, value in payload.items() if key != "generated_at"}
+
+
+def preserve_generated_at_when_unchanged(output: Path, dashboard: JsonObject) -> JsonObject:
+    if not output.exists():
+        return dashboard
+    try:
+        existing = json.loads(output.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return dashboard
+    if not isinstance(existing, dict):
+        return dashboard
+    existing_generated_at = existing.get("generated_at")
+    if (
+        isinstance(existing_generated_at, str)
+        and without_generated_at(existing) == without_generated_at(dashboard)
+    ):
+        return {**dashboard, "generated_at": existing_generated_at}
+    return dashboard
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", default=DEFAULT_OUTPUT.as_posix())
@@ -163,7 +185,7 @@ def main() -> int:
         output = ROOT / output
 
     try:
-        dashboard = build_dashboard(ROOT)
+        dashboard = preserve_generated_at_when_unchanged(output, build_dashboard(ROOT))
     except ValueError as exc:
         print(str(exc), file=os.sys.stderr)
         return 1
