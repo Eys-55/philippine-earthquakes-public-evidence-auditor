@@ -61,6 +61,21 @@ test("skills-first chat contract remains authoritative", () => {
   }
 });
 
+test("tracker runs are skill-first records", () => {
+  const registry = JSON.parse(read("ops/registry/workflow-runs.json"));
+  const runs = registry.workflow_runs;
+
+  assert(runs.length > 0);
+  for (const run of runs) {
+    assert.equal(typeof run.skill_id, "string", run.id);
+    assert(run.skill_id.length > 0, run.id);
+    assert.equal(typeof run.skill_path, "string", run.id);
+    assert(run.skill_path.startsWith("skills/"), run.id);
+    assert(run.skill_path.endsWith("/SKILL.md"), run.id);
+    assert(fs.existsSync(path.join(ROOT, run.skill_path)), run.id);
+  }
+});
+
 test("workflow command-era Python surfaces are absent", () => {
   const forbidden = [
     "tracker_workflow_intake_start",
@@ -95,7 +110,30 @@ test("tracker dashboard export is consumable by Astro page", () => {
   const page = read("tracker-ui/src/pages/index.astro");
 
   assert.equal(dashboard.kind, "tracker_astro_monitor_dashboard");
+  assert(dashboard.summary.tracked_skills >= 1);
+  assert(Array.isArray(dashboard.tracked_skills));
+  assert(dashboard.tracked_skills.every((skill) => skill.path.startsWith("skills/")));
   assert(dashboard.summary.active_projects >= 1);
   assert(Array.isArray(dashboard.workflow_runs));
+  assert(dashboard.workflow_runs.every((run) => run.skill_id && run.skill_path));
   assert(page.includes("../data/tracker-dashboard.json"));
+  assert(page.includes("Skills Being Built"));
+  assert(page.includes("Skill Runs"));
+});
+
+test("new tracker workflow runs require repo skill identity", () => {
+  const result = runControl([
+    "tracker-workflow-start",
+    "--project-id", "agent-workflow-project-maker",
+    "--session-id", "missing-session",
+    "--title", "Missing skill identity fixture",
+    "--flow-id", "agent_workflow_project_maker",
+    "--current-skill", "implement",
+    "--owned-path", "scripts/control-repo.mjs",
+    "--validation-command", "npm test",
+    "--next-action", "This should fail before mutating tracker state.",
+  ]);
+
+  assert.notEqual(result.status, 0);
+  assert(result.stderr.includes("missing --skill-id"));
 });

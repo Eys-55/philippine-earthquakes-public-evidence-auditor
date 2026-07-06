@@ -81,6 +81,14 @@ function records(payload, key) {
   return Array.isArray(payload[key]) ? payload[key].filter((item) => item && typeof item === "object") : [];
 }
 
+function resolveSkillPath(skillId, explicitPath) {
+  const candidate = explicitPath || `skills/${skillId}/SKILL.md`;
+  if (!candidate.startsWith("skills/") || !candidate.endsWith("/SKILL.md")) {
+    throw new Error(`invalid skill path ${candidate}`);
+  }
+  return candidate;
+}
+
 function byId(items) {
   return new Map(items.filter((item) => typeof item.id === "string").map((item) => [item.id, item]));
 }
@@ -157,6 +165,12 @@ function validateTrackerRoot() {
     if (!projectIds.has(run.project_id)) errors.push(`${run.id}: unknown project_id ${run.project_id}`);
     if (run.session_id && !sessionIds.has(run.session_id)) errors.push(`${run.id}: unknown session_id ${run.session_id}`);
     if (!VALID_RUN_STATUSES.has(run.status)) errors.push(`${run.id}: invalid status ${run.status}`);
+    if (typeof run.skill_id !== "string" || !run.skill_id.trim()) errors.push(`${run.id}: missing skill_id`);
+    if (typeof run.skill_path !== "string" || !run.skill_path.trim()) errors.push(`${run.id}: missing skill_path`);
+    if (run.skill_path) {
+      if (!run.skill_path.startsWith("skills/") || !run.skill_path.endsWith("/SKILL.md")) errors.push(`${run.id}: invalid skill_path ${run.skill_path}`);
+      else if (!fs.existsSync(repoPath(run.skill_path))) errors.push(`${run.id}: missing skill file ${run.skill_path}`);
+    }
     if (!Array.isArray(run.owned_paths) || run.owned_paths.length === 0) errors.push(`${run.id}: owned_paths must contain at least one entry`);
     if (!Array.isArray(run.validation_commands) || run.validation_commands.length === 0) errors.push(`${run.id}: validation_commands must contain at least one entry`);
     const manifestPath = run.context_manifest_path || (run.artifacts || []).find((item) => typeof item === "string" && item.endsWith("-context.md"));
@@ -271,6 +285,12 @@ function buildDashboard() {
     workstreams: (project.workstreams || []).map((id) => workstreamsById.get(id)).filter(Boolean),
   }));
   const workflowRuns = records(runsPayload, "workflow_runs");
+  const trackedSkills = [...new Map(workflowRuns.filter((run) => run.skill_id && run.skill_path).map((run) => [run.skill_id, {
+    id: run.skill_id,
+    path: run.skill_path,
+    open_runs: workflowRuns.filter((item) => item.skill_id === run.skill_id && ["open", "waiting_on_user", "blocked"].includes(item.status)).length,
+    total_runs: workflowRuns.filter((item) => item.skill_id === run.skill_id).length,
+  }])).values()].sort((a, b) => a.id.localeCompare(b.id));
   const uploadRepos = Object.entries(uploadPayload.repos || {}).map(([id, repo]) => ({ id, ...repo }));
   const statuses = new Set(uploadRepos.map((repo) => repo.status || "unknown"));
   const uploadStatus = statuses.size === 1 ? [...statuses][0] : statuses.has("pending_local_changes") ? "pending_local_changes" : "mixed";
@@ -280,6 +300,7 @@ function buildDashboard() {
     source_root: ".",
     summary: {
       active_projects: projects.filter((project) => project.status === "active").length,
+      tracked_skills: trackedSkills.length,
       workstreams: workstreams.length,
       workflow_runs: workflowRuns.length,
       open_workflow_runs: workflowRuns.filter((run) => ["open", "waiting_on_user", "blocked"].includes(run.status)).length,
@@ -287,6 +308,7 @@ function buildDashboard() {
       repos: uploadRepos.length,
     },
     projects,
+    tracked_skills: trackedSkills,
     workflow_runs: workflowRuns,
     upload_repos: uploadRepos,
     non_projects: projectsPayload.non_projects || [],
@@ -329,8 +351,10 @@ function trackerStatus() {
     const projectRuns = runs.filter((run) => run.project_id === project.id);
     if (!projectRuns.length) console.log("- Workflow Runs: none recorded");
     else {
-      console.log("- Workflow Runs:");
-      for (const run of projectRuns) console.log(`  - \`${run.id}\`: ${run.status} - ${run.title}; next action: ${run.next_action}`);
+      console.log("- Skill Runs:");
+      for (const run of projectRuns) {
+        console.log(`  - Skill \`${run.skill_id || "missing"}\` (${run.skill_path || "missing"}): \`${run.id}\` ${run.status} - ${run.title}; phase: ${run.current_skill}; next action: ${run.next_action}`);
+      }
     }
     console.log("");
   }
@@ -390,12 +414,16 @@ function sessionStart(args) {
 function workflowStart(args) {
   const projectId = required(args, "project-id");
   const sessionId = required(args, "session-id");
+  const skillId = required(args, "skill-id");
+  const skillPath = resolveSkillPath(skillId, args["skill-path"]);
   const id = `wfr-${compactStamp()}-${suffix()}`;
   const logPath = `ops/workflow-runs/${dateStamp()}/${id}.jsonl`;
   const run = {
     id,
     project_id: projectId,
     session_id: sessionId,
+    skill_id: skillId,
+    skill_path: skillPath,
     title: required(args, "title"),
     flow_id: required(args, "flow-id"),
     status: "open",

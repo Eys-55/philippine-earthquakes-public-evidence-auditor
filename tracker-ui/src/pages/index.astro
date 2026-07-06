@@ -19,6 +19,7 @@ const toneForStatus = (status: unknown): BadgeTone => {
 
 const summary = dashboard.summary;
 const projects = dashboard.projects;
+const trackedSkills = dashboard.tracked_skills;
 const workflowRuns = dashboard.workflow_runs;
 const uploadRepos = dashboard.upload_repos;
 const nonProjects = dashboard.non_projects;
@@ -35,7 +36,7 @@ const nonProjects = dashboard.non_projects;
       <header class="topbar">
         <div>
           <h1>Tracker Monitor</h1>
-          <p>Read-only Astro view over local control repo tracker state.</p>
+          <p>Read-only Astro view over skill-first tracker state.</p>
         </div>
         <div class="status-chip">
           <span>No 3D</span>
@@ -49,6 +50,10 @@ const nonProjects = dashboard.non_projects;
             <div class="metric">
               <span>Active Projects</span>
               <strong>{summary.active_projects}</strong>
+            </div>
+            <div class="metric">
+              <span>Tracked Skills</span>
+              <strong>{summary.tracked_skills}</strong>
             </div>
             <div class="metric">
               <span>Workstreams</span>
@@ -98,10 +103,10 @@ const nonProjects = dashboard.non_projects;
           </section>
 
           <section class="panel" aria-labelledby="runs-heading">
-            <h2 id="runs-heading">Workflow Runs</h2>
+            <h2 id="runs-heading">Skill Runs</h2>
             {
               workflowRuns.length === 0 ? (
-                <div class="empty">No workflow runs recorded.</div>
+                <div class="empty">No skill runs recorded.</div>
               ) : (
                 workflowRuns.map((run) => (
                   <article class="run">
@@ -116,7 +121,14 @@ const nonProjects = dashboard.non_projects;
                     <table class="table">
                       <tbody>
                         <tr>
-                          <th>Skill</th>
+                          <th>Repo Skill</th>
+                          <td>
+                            <strong>{run.skill_id}</strong>
+                            <div class="meta mono">{run.skill_path}</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Phase Skill</th>
                           <td>{run.current_skill}</td>
                         </tr>
                         <tr>
@@ -137,6 +149,28 @@ const nonProjects = dashboard.non_projects;
         </div>
 
         <aside>
+          <section class="panel" aria-labelledby="skills-heading">
+            <h2 id="skills-heading">Skills Being Built</h2>
+            {
+              trackedSkills.length === 0 ? (
+                <div class="empty">No tracked skills in the exported snapshot.</div>
+              ) : (
+                trackedSkills.map((skill) => (
+                  <div class="skill-row">
+                    <div>
+                      <div class="title">{skill.id}</div>
+                      <div class="meta mono">{skill.path}</div>
+                    </div>
+                    <div class="skill-counts">
+                      <span>{skill.open_runs} open</span>
+                      <span>{skill.total_runs} total</span>
+                    </div>
+                  </div>
+                ))
+              )
+            }
+          </section>
+
           <section class="panel" aria-labelledby="upload-heading">
             <h2 id="upload-heading">Upload State</h2>
             <span class={`badge ${toneForStatus(summary.upload_status)}`}>

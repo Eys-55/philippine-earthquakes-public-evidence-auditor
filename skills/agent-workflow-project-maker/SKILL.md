@@ -68,28 +68,33 @@ do not jump directly to implementation. Start from ECC-loaded workflow intake.
 Required sequence:
 
 1. Create or lock a tracked workflow run immediately.
-2. Set the first phase to `workflow_intake`.
-3. Load ECC, Matt Pocock flow, tracker status, workflow-specific skill files,
+2. Record `skill_id` and `skill_path` for the repo skill being built or
+   operated.
+3. Set the first phase to `workflow_intake`.
+4. Load ECC, Matt Pocock flow, tracker status, workflow-specific skill files,
    status/handoff docs, tests, validators, and relevant workflow-run logs.
-4. If the report names ECC concepts such as loop, gate, lane, eval, handoff,
+5. If the report names ECC concepts such as loop, gate, lane, eval, handoff,
    source evidence, or human boundary, load the local docs for that concept.
-5. Write or attach a context manifest under `ops/workflow-runs/`.
-6. Show visible ECC proof before grilling:
+6. Write or attach a context manifest under `ops/workflow-runs/`.
+7. Show visible ECC proof before grilling:
    - ECC files loaded;
    - workflow/concept files loaded;
    - ECC concept meaning from the loaded files;
+   - repo skill being built or operated;
    - premise lock;
    - first context-aware grilling question.
-7. Grill only after the loaded-context proof exists.
+8. Grill only after the loaded-context proof exists.
 
 Do not ask blank questions. Do not rely on generic Codex assumptions about
 agentic workflows. ECC is the operating model.
 
-Fail-closed enforcement lives in the internal tracker validation adapter.
+Fail-closed enforcement lives in the internal tracker validation adapter. Every
+workflow run must have a repo skill identity via `skill_id` and `skill_path`.
 Workflow runs in `workflow_intake`, and all `workflow_specific_bug` runs, must
-have a context manifest under `ops/workflow-runs/` with loaded ECC context and
-a premise marker. If that proof is missing, tracker validation must fail before
-the session can be treated as safe to continue, close, or upload.
+also have a context manifest under `ops/workflow-runs/` with loaded ECC context
+and a premise marker. If skill identity or context proof is missing, tracker
+validation must fail before the session can be treated as safe to continue,
+close, or upload.
 
 New workflow creation requires explicit confirmation, such as:
 

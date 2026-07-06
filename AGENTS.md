@@ -112,6 +112,10 @@ ending a session in this repo. Project, repo, workstream, session, handoff,
 workflow-run, and sync status comes from `ops/registry/*.json`,
 `ops/sessions/*.jsonl`, and `ops/workflow-runs/*.jsonl`.
 
+Tracker workflow runs are skill-first records. Every run must name the repo
+skill being used or built with `skill_id` and `skill_path`; `current_skill`
+only names the current Matt Pocock phase skill.
+
 Folder scans, lane tables, README sections, AGENTS.md sections, and project
 surface inventories are audit evidence only. Deleted or stale surfaces must not
 be reported as active projects. Codex must check tracker status internally

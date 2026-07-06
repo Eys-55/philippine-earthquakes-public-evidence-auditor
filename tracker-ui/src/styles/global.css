@@ -78,7 +78,7 @@ a {
 .summary {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   margin-bottom: 18px;
 }
 
@@ -86,6 +86,7 @@ a {
 .panel,
 .project,
 .run,
+.skill-row,
 .upload-row,
 .non-project {
   background: var(--panel);
@@ -126,6 +127,7 @@ a {
 
 .project,
 .run,
+.skill-row,
 .upload-row,
 .non-project {
   margin-top: 10px;
@@ -134,11 +136,21 @@ a {
 
 .project-header,
 .run-header,
+.skill-row,
 .upload-row {
   align-items: flex-start;
   display: flex;
   gap: 12px;
   justify-content: space-between;
+}
+
+.skill-counts {
+  color: var(--muted);
+  display: grid;
+  flex-shrink: 0;
+  font-size: 12px;
+  gap: 5px;
+  justify-items: end;
 }
 
 .title {
@@ -239,6 +251,7 @@ a {
   .topbar,
   .project-header,
   .run-header,
+  .skill-row,
   .upload-row {
     align-items: flex-start;
     flex-direction: column;

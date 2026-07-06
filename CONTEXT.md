@@ -61,8 +61,12 @@ Parallel workflow runs are risky when they touch the same owned paths, registry 
 _Avoid_: Merge conflict only, vague overlap
 
 **Workflow Run Registry**:
-The current-state JSON surface that lists workflow runs and their active status, current skill, owned paths, last checkpoint, and next action for status reporting.
+The current-state JSON surface that lists workflow runs and their active status, repo skill identity, current phase skill, owned paths, last checkpoint, and next action for status reporting.
 _Avoid_: Run log, audit trail
+
+**Skill Run Identity**:
+Every workflow run must name the repo skill it is using or building with `skill_id` and `skill_path`. The `current_skill` field is the Matt Pocock phase skill, not a replacement for the repo skill identity.
+_Avoid_: Generic run, command run, script task
 
 **Workflow Run Log**:
 The append-only JSONL history for a workflow run, recording starts, checkpoints, parallel assessments, handoffs, completions, blockers, and abandon decisions.

@@ -14,6 +14,15 @@ Codex internal adapter: inspect tracker status with
 Codex internal adapter: start or lock a session with
 `node scripts/control-repo.mjs tracker-session-start ...`.
 
+## /workflow-start
+
+Codex internal adapter: start a skill run with
+`node scripts/control-repo.mjs tracker-workflow-start ...`.
+
+The adapter must include `--skill-id` and should use the canonical
+`skills/<skill-id>/SKILL.md` path unless a different repo skill path is
+explicitly required.
+
 ## /sync-now
 
 Codex internal adapter: run validation, commit intended changes, upload to

@@ -111,5 +111,20 @@ upload, say the session is not uploaded yet and do not report upload completion.
 This repo uses the installed Matt Pocock skills as the tracker workflow
 currency. Do not use Superpowers planning or execution skills as the default
 process for tracker work. Workflow runs should record the Matt Pocock flow ID,
-current skill, owned paths, validation commands, checkpoints, and closeout
-state.
+phase skill, owned paths, validation commands, checkpoints, and closeout state.
+
+Tracker records are skill-first. Every workflow run must answer these two
+questions before it can be valid:
+
+1. Which repo skill are we using or building?
+2. Which Matt Pocock phase skill are we currently in?
+
+The repo skill is recorded as `skill_id` and `skill_path`, such as
+`agent-workflow-project-maker` and
+`skills/agent-workflow-project-maker/SKILL.md`. The phase skill remains
+`current_skill`, such as `grilling`, `to-prd`, `to-issues`, `implement`, or
+`code-review`.
+
+If a tracker run does not have `skill_id` and `skill_path`, treat it as invalid
+tracker state. The answer is not "make a command"; the answer is "name the
+skill being built, then persist the run."

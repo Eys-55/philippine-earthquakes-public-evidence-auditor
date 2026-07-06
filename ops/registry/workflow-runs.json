@@ -43,7 +43,9 @@
         "python3 scripts/validate_tracker.py: passed",
         "git diff --check: passed"
       ],
-      "review_state": "self-review completed; no blocking findings"
+      "review_state": "self-review completed; no blocking findings",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
     },
     {
       "id": "wfr-20260706-145220-3a02",
@@ -54,6 +56,7 @@
       "status": "waiting_on_user",
       "current_skill": "workflow_intake",
       "owned_paths": [
+        "skills/tracker-astro-monitor/SKILL.md",
         "skills/tracker-astro-monitor",
         "docs/status/2026-07-06-tracker-astro-monitor-status.md",
         "ops/workflow-runs",
@@ -79,7 +82,9 @@
       ],
       "waiting_reason": "Need user confirmation of workflow contract before continuing implementation.",
       "decision": "Do not continue implementation until the tracker monitor workflow contract is grilled and accepted.",
-      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706-145220-3a02-context.md"
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706-145220-3a02-context.md",
+      "skill_id": "tracker-astro-monitor",
+      "skill_path": "skills/tracker-astro-monitor/SKILL.md"
     },
     {
       "id": "wfr-20260706-150015-a321",
@@ -119,7 +124,9 @@
         "python3 scripts/validate_tracker.py: passed",
         "git diff --check: passed"
       ],
-      "review_state": "self-review completed; no blocking findings"
+      "review_state": "self-review completed; no blocking findings",
+      "skill_id": "control-repo-manager",
+      "skill_path": "skills/control-repo-manager/SKILL.md"
     },
     {
       "id": "wfr-20260706-150920-f0c8",
@@ -166,7 +173,9 @@
         "git diff --check: passed",
         "npm run build: passed"
       ],
-      "review_state": "self-review completed; no blocking findings"
+      "review_state": "self-review completed; no blocking findings",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
     },
     {
       "id": "wfr-20260706-152225-e480",
@@ -216,7 +225,9 @@
         "git diff --check: passed"
       ],
       "review_state": "self-reviewed diff for command-first regression risk",
-      "decision": "User-facing workflow interface is Codex chat plus skills; tracker scripts are internal adapters only."
+      "decision": "User-facing workflow interface is Codex chat plus skills; tracker scripts are internal adapters only.",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
     },
     {
       "id": "wfr-20260706-152928-b37a",
@@ -227,6 +238,7 @@
       "status": "completed",
       "current_skill": "implement",
       "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
         "scripts",
         "tests",
         "skills",
@@ -265,7 +277,9 @@
         "npm run build: passed"
       ],
       "review_state": "self-reviewed remaining Python inventory and deletion references",
-      "decision": "Workflow intake, slash routing, catalog query/build, V1 validators, generic event logging, and daily rollups no longer live as Python command surfaces."
+      "decision": "Workflow intake, slash routing, catalog query/build, V1 validators, generic event logging, and daily rollups no longer live as Python command surfaces.",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
     },
     {
       "id": "wfr-20260706-155039-502f",
@@ -276,6 +290,7 @@
       "status": "completed",
       "current_skill": "implement",
       "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
         "scripts",
         "tests",
         "package.json",
@@ -308,7 +323,56 @@
         "npm run validate: passed",
         "git diff --check: passed"
       ],
-      "review_state": "self-reviewed"
+      "review_state": "self-reviewed",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md"
+    },
+    {
+      "id": "wfr-20260706080128-baa1",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706080128-7bd0",
+      "title": "Optimize tracker for skill-first workflow building",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "implement",
+      "owned_paths": [
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "skills/control-repo-manager/SKILL.md",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "tracker-ui/src/pages/index.astro",
+        "tracker-ui/src/data/tracker-dashboard.json",
+        "ops/registry/workflow-runs.json"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:01:28.863Z",
+      "last_checkpoint_at": "2026-07-06T08:04:16.016Z",
+      "next_action": "Use skill_id and skill_path on every tracker run before recording phase skill, owned paths, validation, or closeout.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706080128-baa1.jsonl",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "final_summary": "Optimized tracker state around skills: every workflow run now requires skill_id and skill_path, status output shows Skill Runs, dashboard tracks Skills Being Built, and tests enforce skill-first tracker records.",
+      "closed_at": "2026-07-06T08:04:16.017Z",
+      "artifacts": [
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "skills/control-repo-manager/SKILL.md",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "tracker-ui/src/pages/index.astro",
+        "tracker-ui/src/data/tracker-dashboard.json"
+      ],
+      "validation_results": [
+        "npm test: passed",
+        "npm run validate: passed",
+        "npm run build: passed",
+        "git diff --check: passed"
+      ],
+      "review_state": "self-reviewed skill-first tracker enforcement"
     }
   ]
 }
