@@ -138,3 +138,10 @@ The repo skill is recorded as `skill_id` and `skill_path`, such as
 If a tracker run does not have `skill_id` and `skill_path`, treat it as invalid
 tracker state. The answer is not "make a command"; the answer is "name the
 skill being built, then persist the run."
+
+Workflow intake is an entry phase, not a waiting state after context is loaded.
+Once a context manifest exists and the first context-aware question is ready,
+checkpoint the run to `current_skill=grilling` before asking the user. If an
+active run remains in `workflow_intake` with a context manifest attached,
+tracker validation must fail and Codex must migrate the run to `grilling`
+before continuing.

@@ -56,7 +56,7 @@
       "title": "Create Astro tracker monitor workflow and UI",
       "flow_id": "agent_workflow_project_maker",
       "status": "waiting_on_user",
-      "current_skill": "workflow_intake",
+      "current_skill": "grilling",
       "owned_paths": [
         "skills/tracker-astro-monitor/SKILL.md",
         "skills/tracker-astro-monitor",
@@ -75,8 +75,8 @@
         "git diff --check"
       ],
       "started_at": "2026-07-06T14:52:20+08:00",
-      "last_checkpoint_at": "2026-07-06T14:56:54+08:00",
-      "next_action": "Ask the first context-aware grilling question for the Tracker Astro Monitor workflow.",
+      "last_checkpoint_at": "2026-07-06T08:47:31.372Z",
+      "next_action": "Ask one context-aware grilling question for the Tracker Astro Monitor workflow and wait for the user's answer before implementation.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-145220-3a02.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-145220-3a02-context.md",
@@ -537,7 +537,7 @@
       "title": "Intake earthquake project edit",
       "flow_id": "philippines_building_code_evidence_auditor_v2",
       "status": "open",
-      "current_skill": "workflow_intake",
+      "current_skill": "grilling",
       "owned_paths": [
         "skills/philippines-building-code-evidence-auditor-v2/SKILL.md",
         "data/philippines-building-code-evidence-auditor-v2",
@@ -550,13 +550,58 @@
         "git diff --check"
       ],
       "started_at": "2026-07-06T08:40:54.736Z",
-      "last_checkpoint_at": "2026-07-06T08:40:54.736Z",
-      "next_action": "Ask for the exact earthquake project edit target before changing V2 workflow files.",
+      "last_checkpoint_at": "2026-07-06T08:47:31.404Z",
+      "next_action": "Continue grilling the earthquake project edit one question at a time; do not implement until shared understanding is confirmed.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706084054-cfbd.jsonl",
       "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706084054-cfbd-context.md",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706084054-cfbd-context.md"
       ]
+    },
+    {
+      "id": "wfr-20260706084604-e52d",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706084558-7196",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "title": "Fix intake failing to enter grilling",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "grilling",
+      "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "skills/control-repo-manager/SKILL.md",
+        "ops/registry/workflow-runs.json"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:46:04.455Z",
+      "last_checkpoint_at": "2026-07-06T08:48:16.554Z",
+      "next_action": "For any workflow intake with loaded context, checkpoint to grilling before asking the first question; validation now rejects active intake runs that stay in workflow_intake.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706084604-e52d.jsonl",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706084604-e52d-context.md",
+      "artifacts": [
+        "scripts/control-repo.mjs",
+        "tests/control-repo.test.mjs",
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "skills/control-repo-manager/SKILL.md",
+        "ops/workflow-runs/2026-07-06/wfr-20260706084604-e52d-context.md"
+      ],
+      "final_summary": "Fixed the workflow failure where context-loaded intake did not enter grilling. The tracker checkpoint adapter can now update current_skill, validation rejects active workflow_intake runs with context manifests, active stuck runs were migrated to grilling, and the workflow-maker skill now says the first context-aware question is a grilling question.",
+      "closed_at": "2026-07-06T08:48:16.555Z",
+      "validation_results": [
+        "npm test: passed 20 tests",
+        "npm run validate: passed",
+        "npm run build: passed",
+        "git diff --check: passed"
+      ],
+      "review_state": "self-reviewed against attached failed transcript and added regression coverage"
     }
   ]
 }

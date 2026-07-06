@@ -282,6 +282,10 @@ function contextManifestErrors(run, manifestPath) {
   return errors;
 }
 
+function activeRun(status) {
+  return ["open", "waiting_on_user", "blocked"].includes(status);
+}
+
 function intentRequiresWorkflowIntake(run) {
   const haystack = [
     run.title,
@@ -396,6 +400,9 @@ function validateTrackerRoot() {
       errors.push(`${run.id}: missing context manifest ${manifestPath}`);
     } else if (manifestPath && (run.current_skill === "workflow_intake" || run.flow_id === "workflow_specific_bug" || intentRequiresWorkflowIntake(run))) {
       errors.push(...contextManifestErrors(run, manifestPath));
+    }
+    if (activeRun(run.status) && run.current_skill === "workflow_intake" && manifestPath) {
+      errors.push(`${run.id}: workflow_intake with context manifest must checkpoint to grilling before asking the user`);
     }
   }
   for (const folder of ["ops/sessions", "ops/workflow-runs"]) {
@@ -679,6 +686,7 @@ function updateWorkflow(args, close = false) {
     next_action: required(args, "next-action"),
   };
   if (args.status) updates.status = args.status;
+  if (args["current-skill"]) updates.current_skill = required(args, "current-skill");
   if (args.summary) updates.final_summary = args.summary;
   if (close) updates.closed_at = now();
   for (const key of ["artifact", "validation-result"]) {

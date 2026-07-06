@@ -428,6 +428,41 @@ test("tracker validation rejects edit-intent project runs that skip intake", () 
   assert(validated.stderr.includes("workflow intake requires context manifest"));
 });
 
+test("tracker validation rejects active intake runs that never enter grilling", () => {
+  const root = makeTrackerRoot();
+  const { env, result } = startFixtureRun(root, {
+    title: "Workflow intake with first grilling question",
+    currentSkill: "workflow_intake",
+    nextAction: "Ask the first context-aware grilling question.",
+  });
+  assert.equal(result.status, 0, result.stderr);
+  const runId = result.stdout.trim();
+  const registryPath = path.join(root, "ops/registry/workflow-runs.json");
+  const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
+  const run = registry.workflow_runs[0];
+  const manifestPath = goodContextManifest(root, runId);
+  run.context_manifest_path = manifestPath;
+  run.artifacts = [manifestPath];
+  writeJson(registryPath, registry);
+
+  let validated = runControl(["validate-tracker"], { env });
+  assert.notEqual(validated.status, 0);
+  assert(validated.stderr.includes("workflow_intake with context manifest must checkpoint to grilling"));
+
+  const checkpointed = runControl([
+    "tracker-workflow-checkpoint",
+    "--workflow-run-id", runId,
+    "--current-skill", "grilling",
+    "--next-action", "Ask one context-aware grilling question and wait for the answer.",
+  ], { env });
+  assert.equal(checkpointed.status, 0, checkpointed.stderr);
+  const updated = JSON.parse(fs.readFileSync(registryPath, "utf8")).workflow_runs[0];
+  assert.equal(updated.current_skill, "grilling");
+
+  validated = runControl(["validate-tracker"], { env });
+  assert.equal(validated.status, 0, validated.stderr);
+});
+
 test("tracker workflow update rejects unknown runs and invalid statuses before mutation", () => {
   const root = makeTrackerRoot();
   const { env, result } = startFixtureRun(root);

@@ -87,14 +87,22 @@ Required sequence:
 5. If the report names ECC concepts such as loop, gate, lane, eval, handoff,
    source evidence, or human boundary, load the local docs for that concept.
 6. Write or attach a context manifest under `ops/workflow-runs/`.
-7. Show visible ECC proof before grilling:
+7. Immediately checkpoint the run from `workflow_intake` to `grilling`.
+   The first context-aware question is a grilling question, so the tracker must
+   record `current_skill=grilling` before asking the user.
+8. Show visible ECC proof before grilling:
    - ECC files loaded;
    - workflow/concept files loaded;
    - ECC concept meaning from the loaded files;
    - repo skill being built or operated;
    - premise lock;
    - first context-aware grilling question.
-8. Grill only after the loaded-context proof exists.
+9. Grill only after the loaded-context proof exists.
+
+While the run is in `grilling`, ask one question at a time and wait for the
+answer. A user answer to the first grilling question does not authorize
+implementation. Continue grilling until the user explicitly confirms shared
+understanding or asks to move to PRD, issues, implementation, or code review.
 
 Do not ask blank questions. Do not rely on generic Codex assumptions about
 agentic workflows. ECC is the operating model.
@@ -106,6 +114,9 @@ also have a context manifest under `ops/workflow-runs/` with loaded ECC context
 and a premise marker. If skill identity or context proof is missing, tracker
 validation must fail before the session can be treated as safe to continue,
 close, or upload.
+Active workflow-intake runs with context manifests must not remain in
+`workflow_intake`. If validation reports that intake must checkpoint to
+`grilling`, update the run phase before continuing the conversation.
 
 New workflow creation requires explicit confirmation, such as:
 
