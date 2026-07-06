@@ -129,6 +129,33 @@ test("package scripts use Node control adapter", () => {
   assert(!JSON.stringify(pkg.scripts).includes("python"));
 });
 
+test("repo-local Codex slash prompts expose workflow commands", () => {
+  const expected = [
+    "tracker-workflow.md",
+    "tracker-status.md",
+    "tracker-closeout.md",
+    "workflow-router.md",
+    "workflow-intake.md",
+    "workflow-grilling.md",
+    "workflow-to-prd.md",
+    "workflow-to-issues.md",
+    "workflow-implement.md",
+    "workflow-code-review.md",
+    "workflow-closeout.md",
+  ];
+  const files = listFiles(".codex/prompts").map((file) => path.basename(file));
+
+  for (const file of expected) assert(files.includes(file), file);
+  for (const file of expected) {
+    const text = read(`.codex/prompts/${file}`);
+    assert(text.includes("Codex-facing slash prompt") || text.includes("Codex-facing command"), file);
+    assert(text.includes("node scripts/control-repo.mjs") || text.includes("npm run"), file);
+    assert(!text.includes("python"), file);
+    assert(!text.includes("tracker_workflow_intake_start"), file);
+    assert(!text.includes("validate_tracker.py"), file);
+  }
+});
+
 test("skills-first chat contract remains authoritative", () => {
   const files = [
     "AGENTS.md",

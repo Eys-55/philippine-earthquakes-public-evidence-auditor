@@ -29,6 +29,31 @@ Do not tell the user to open a terminal, run Python, start a tracker command, or
 copy a shell command to create workflow state. If a script is needed, Codex runs
 it as an implementation detail and reports the resulting state in chat.
 
+## Codex Slash Prompt Surface
+
+Codex slash prompts for this repo live in `.codex/prompts/` and may also be
+installed in the user-level prompt folder `~/.codex/prompts/` for immediate app
+visibility. These prompts are entry shims only. The canonical workflow logic
+still lives in `skills/`, tracker state, and the Matt Pocock phase skill files.
+
+Required workflow slash prompts:
+
+- `/workflow-router`
+- `/workflow-intake`
+- `/workflow-grilling`
+- `/workflow-to-prd`
+- `/workflow-to-issues`
+- `/workflow-implement`
+- `/workflow-code-review`
+- `/workflow-closeout`
+- `/tracker-workflow`
+- `/tracker-status`
+- `/tracker-closeout`
+
+Slash prompts must not call Python, must not tell the user to run terminal
+commands, and must load the relevant Matt Pocock phase skill file before moving
+phase state forward.
+
 ## Core Rules
 
 - Agent-first: split broad research into independent source categories before

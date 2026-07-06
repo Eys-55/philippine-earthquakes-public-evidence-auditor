@@ -7,7 +7,7 @@
     "tracked_skills": 4,
     "tracker_commands": 11,
     "workstreams": 2,
-    "workflow_runs": 13,
+    "workflow_runs": 14,
     "open_workflow_runs": 2,
     "upload_status": "pending_local_changes",
     "repos": 1
@@ -61,7 +61,8 @@
             "20260706080949-92de",
             "20260706083323-ab4b",
             "20260706083846-c638",
-            "20260706084558-7196"
+            "20260706084558-7196",
+            "20260706085524-4595"
           ],
           "handoff": "ops/handoffs/latest.md",
           "open_decisions": [],
@@ -75,7 +76,7 @@
       "id": "agent-workflow-project-maker",
       "path": "skills/agent-workflow-project-maker/SKILL.md",
       "open_runs": 0,
-      "total_runs": 10
+      "total_runs": 11
     },
     {
       "id": "control-repo-manager",
@@ -854,6 +855,51 @@
         "git diff --check: passed"
       ],
       "review_state": "self-reviewed against attached failed transcript and added regression coverage"
+    },
+    {
+      "id": "wfr-20260706085539-213f",
+      "project_id": "agent-workflow-project-maker",
+      "session_id": "20260706085524-4595",
+      "skill_id": "agent-workflow-project-maker",
+      "skill_path": "skills/agent-workflow-project-maker/SKILL.md",
+      "title": "Install callable workflow slash prompts",
+      "flow_id": "agent_workflow_project_maker",
+      "status": "completed",
+      "current_skill": "code-review",
+      "owned_paths": [
+        "skills/agent-workflow-project-maker/SKILL.md",
+        "AGENTS.md",
+        ".codex/prompts",
+        "tests/control-repo.test.mjs",
+        "skills/control-repo-manager/SKILL.md",
+        "ops/registry/workflow-runs.json"
+      ],
+      "validation_commands": [
+        "npm test",
+        "npm run validate",
+        "npm run build",
+        "git diff --check"
+      ],
+      "started_at": "2026-07-06T08:55:39.539Z",
+      "last_checkpoint_at": "2026-07-06T09:05:57.889Z",
+      "next_action": "Use /workflow-router or /tracker-workflow from the Codex slash picker to start tracked workflow mode; use the phase slashes to move through grilling, PRD, issues, implementation, review, and closeout.",
+      "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706085539-213f.jsonl",
+      "context_manifest_path": "ops/workflow-runs/2026-07-06/wfr-20260706085539-213f-context.md",
+      "artifacts": [
+        ".codex/prompts",
+        "AGENTS.md",
+        "tests/control-repo.test.mjs",
+        "ops/workflow-runs/2026-07-06/wfr-20260706085539-213f-context.md"
+      ],
+      "final_summary": "Installed callable Codex slash prompts globally in ~/.codex/prompts and versioned copies in .codex/prompts. Replaced stale Python tracker prompt instructions with Node/skills instructions, added workflow phase slash prompts, documented the slash surface in AGENTS.md, and added tests guarding prompt presence and no-Python regressions.",
+      "closed_at": "2026-07-06T09:05:57.890Z",
+      "validation_results": [
+        "npm test: passed 21 tests",
+        "npm run validate: passed",
+        "npm run build: passed",
+        "git diff --check: passed"
+      ],
+      "review_state": "self-reviewed slash prompt files, global and repo-local copies, and no-Python routing"
     }
   ],
   "upload_repos": [
