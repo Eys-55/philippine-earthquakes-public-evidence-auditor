@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:15:01+08:00",
-      "next_action": "Ask what minimum scaffold files are required at creation time.",
+      "last_checkpoint_at": "2026-07-06T14:15:41+08:00",
+      "next_action": "Ask how much content each scaffold file must contain at creation time.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "After explicit new-workflow confirmation, create draft scaffold files immediately: skills/<workflow-slug>/SKILL.md, data/<workflow-slug>/, docs/status/YYYY-MM-DD-<workflow-slug>-status.md, and the workflow-run context manifest. Mark scaffold surfaces as draft and fill them progressively."
+      "decision": "Minimum immediate scaffold: skills/<workflow-slug>/SKILL.md, data/<workflow-slug>/.gitkeep, docs/status/YYYY-MM-DD-<workflow-slug>-status.md, and ops/workflow-runs/YYYY-MM-DD/<workflow-run-id>-context.md. All scaffold files start as draft."
     }
   ]
 }
