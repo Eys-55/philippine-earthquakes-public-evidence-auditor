@@ -80,6 +80,14 @@ def seed_valid_tracker(root: Path) -> None:
         },
     )
     write_json(
+        root / "ops/registry/workflow-runs.json",
+        {
+            "schema_version": 1,
+            "generated_at": "2026-07-06T00:00:00Z",
+            "workflow_runs": [],
+        },
+    )
+    write_json(
         root / "ops/sync/github-upload-state.json",
         {
             "repos": {
@@ -98,6 +106,7 @@ def seed_valid_tracker(root: Path) -> None:
     )
     (root / "ops/events").mkdir(parents=True)
     (root / "ops/sessions").mkdir(parents=True)
+    (root / "ops/workflow-runs").mkdir(parents=True)
 
 
 class ValidateTrackerTests(unittest.TestCase):
@@ -235,6 +244,7 @@ class ValidateTrackerTests(unittest.TestCase):
             write_json(root / "ops/registry/projects.json", {"non_projects": []})
             write_json(root / "ops/registry/repos.json", {"schema_version": 1})
             write_json(root / "ops/registry/workstreams.json", {"schema_version": 1})
+            write_json(root / "ops/registry/workflow-runs.json", {"schema_version": 1})
 
             result = validate_tracker_root(root)
 
@@ -248,6 +258,124 @@ class ValidateTrackerTests(unittest.TestCase):
             )
             self.assertIn(
                 "ops/registry/workstreams.json: missing required workstreams array",
+                result.errors,
+            )
+            self.assertIn(
+                "ops/registry/workflow-runs.json: missing required workflow_runs array",
+                result.errors,
+            )
+
+    def test_valid_workflow_run_passes(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_tmp:
+            root = Path(raw_tmp)
+            seed_valid_tracker(root)
+            write_json(
+                root / "ops/registry/workstreams.json",
+                {
+                    "workstreams": [
+                        {
+                            "id": "tracker-build",
+                            "project_id": "agent-workflow-project-maker",
+                            "repo_id": "control-repo",
+                            "status": "active",
+                            "objective": "Build the control repo tracker.",
+                            "session_ids": ["session-1"],
+                            "handoff": "ops/handoffs/latest.md",
+                            "open_decisions": [],
+                            "next_action": "Implement tracker scripts.",
+                        }
+                    ]
+                },
+            )
+            write_text(
+                root / "ops/workflow-runs/2026-07-06/wfr-1.jsonl",
+                '{"event_type": "workflow_started", "workflow_run_id": "wfr-1"}\n',
+            )
+            write_json(
+                root / "ops/registry/workflow-runs.json",
+                {
+                    "schema_version": 1,
+                    "generated_at": "2026-07-06T00:00:00Z",
+                    "workflow_runs": [
+                        {
+                            "id": "wfr-1",
+                            "project_id": "agent-workflow-project-maker",
+                            "session_id": "session-1",
+                            "title": "Add Workflow Run registry validation",
+                            "flow_id": "tracker_ops",
+                            "status": "open",
+                            "current_skill": "implement",
+                            "owned_paths": ["ops/registry/workflow-runs.json"],
+                            "validation_commands": ["python3 scripts/validate_tracker.py"],
+                            "started_at": "2026-07-06T00:00:00Z",
+                            "last_checkpoint_at": "2026-07-06T00:00:00Z",
+                            "next_action": "Implement validation.",
+                            "log_path": "ops/workflow-runs/2026-07-06/wfr-1.jsonl",
+                        }
+                    ],
+                },
+            )
+
+            result = validate_tracker_root(root)
+
+            self.assertTrue(result.ok)
+            self.assertEqual([], result.errors)
+
+    def test_workflow_run_required_fields_are_validated(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_tmp:
+            root = Path(raw_tmp)
+            seed_valid_tracker(root)
+            write_json(
+                root / "ops/registry/workflow-runs.json",
+                {
+                    "schema_version": 1,
+                    "generated_at": "2026-07-06T00:00:00Z",
+                    "workflow_runs": [
+                        {
+                            "id": "wfr-bad",
+                            "project_id": "missing-project",
+                            "session_id": "missing-session",
+                            "title": "Broken workflow run",
+                            "flow_id": "",
+                            "status": "unknown",
+                            "current_skill": "implement",
+                            "owned_paths": [],
+                            "validation_commands": [],
+                            "started_at": "2026-07-06T00:00:00Z",
+                            "last_checkpoint_at": "2026-07-06T00:00:00Z",
+                            "next_action": "Fix it.",
+                            "log_path": "ops/workflow-runs/2026-07-06/missing.jsonl",
+                        }
+                    ],
+                },
+            )
+
+            result = validate_tracker_root(root)
+
+            self.assertIn("wfr-bad: unknown project_id missing-project", result.errors)
+            self.assertIn("wfr-bad: unknown session_id missing-session", result.errors)
+            self.assertIn("wfr-bad: flow_id must be a non-empty string", result.errors)
+            self.assertIn("wfr-bad: invalid status unknown", result.errors)
+            self.assertIn("wfr-bad: owned_paths must contain at least one entry", result.errors)
+            self.assertIn(
+                "wfr-bad: validation_commands must contain at least one entry",
+                result.errors,
+            )
+            self.assertIn(
+                "wfr-bad: log_path does not exist: ops/workflow-runs/2026-07-06/missing.jsonl",
+                result.errors,
+            )
+
+    def test_workflow_run_logs_are_validated(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_tmp:
+            root = Path(raw_tmp)
+            seed_valid_tracker(root)
+            write_text(root / "ops/workflow-runs/2026-07-06/bad.jsonl", "not-json\n")
+
+            result = validate_tracker_root(root)
+
+            self.assertIn(
+                "ops/workflow-runs/2026-07-06/bad.jsonl:1: invalid JSONL",
                 result.errors,
             )
 

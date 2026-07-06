@@ -18,6 +18,14 @@ PENDING_UPLOAD_STATUSES = {
     "remote_missing",
     "pending_local_changes",
 }
+WORKFLOW_RUN_STATUSES = {
+    "open",
+    "waiting_on_user",
+    "blocked",
+    "completed",
+    "handed_off",
+    "abandoned",
+}
 
 
 @dataclass(frozen=True)
@@ -95,6 +103,31 @@ def string_list(record: JsonObject, key: str, owner_id: str, errors: list[str]) 
             continue
         strings.append(value)
     return strings
+
+
+def non_empty_string(
+    record: JsonObject,
+    key: str,
+    owner_id: str,
+    errors: list[str],
+) -> str | None:
+    value = record.get(key)
+    if not isinstance(value, str) or not value:
+        errors.append(f"{owner_id}: {key} must be a non-empty string")
+        return None
+    return value
+
+
+def non_empty_string_list(
+    record: JsonObject,
+    key: str,
+    owner_id: str,
+    errors: list[str],
+) -> list[str]:
+    values = string_list(record, key, owner_id, errors)
+    if not values:
+        errors.append(f"{owner_id}: {key} must contain at least one entry")
+    return values
 
 
 def validate_json_file(path: Path, root: Path, errors: list[str]) -> None:
@@ -206,6 +239,77 @@ def validate_workstream_records(
             errors.append(f"{workstream_id}: unknown repo_id {repo_id}")
 
 
+def session_ids_for(workstreams: object, errors: list[str]) -> set[str]:
+    session_ids: set[str] = set()
+    if not isinstance(workstreams, list):
+        return session_ids
+    for workstream in workstreams:
+        if not isinstance(workstream, dict):
+            continue
+        workstream_id = workstream.get("id")
+        owner_id = workstream_id if isinstance(workstream_id, str) else "workstream"
+        for session_id in string_list(workstream, "session_ids", owner_id, errors):
+            session_ids.add(session_id)
+    return session_ids
+
+
+def validate_workflow_run_records(
+    workflow_runs: object,
+    project_ids: set[str],
+    session_ids: set[str],
+    root: Path,
+    errors: list[str],
+) -> None:
+    if not isinstance(workflow_runs, list):
+        return
+
+    for workflow_run in workflow_runs:
+        if not isinstance(workflow_run, dict):
+            continue
+        workflow_run_id = workflow_run.get("id")
+        if not isinstance(workflow_run_id, str) or not workflow_run_id:
+            continue
+
+        project_id = non_empty_string(workflow_run, "project_id", workflow_run_id, errors)
+        if project_id is not None and project_id not in project_ids:
+            errors.append(f"{workflow_run_id}: unknown project_id {project_id}")
+
+        session_id = non_empty_string(workflow_run, "session_id", workflow_run_id, errors)
+        if session_id is not None and session_id not in session_ids:
+            errors.append(f"{workflow_run_id}: unknown session_id {session_id}")
+
+        for key in (
+            "title",
+            "flow_id",
+            "current_skill",
+            "started_at",
+            "last_checkpoint_at",
+            "next_action",
+            "log_path",
+        ):
+            non_empty_string(workflow_run, key, workflow_run_id, errors)
+
+        status = non_empty_string(workflow_run, "status", workflow_run_id, errors)
+        if status is not None and status not in WORKFLOW_RUN_STATUSES:
+            errors.append(f"{workflow_run_id}: invalid status {status}")
+
+        non_empty_string_list(workflow_run, "owned_paths", workflow_run_id, errors)
+        non_empty_string_list(
+            workflow_run,
+            "validation_commands",
+            workflow_run_id,
+            errors,
+        )
+
+        log_path = workflow_run.get("log_path")
+        if isinstance(log_path, str) and log_path:
+            candidate = Path(log_path)
+            if candidate.is_absolute() or ".." in candidate.parts:
+                errors.append(f"{workflow_run_id}: log_path must be repo-relative")
+            elif not (root / candidate).is_file():
+                errors.append(f"{workflow_run_id}: log_path does not exist: {log_path}")
+
+
 def validate_non_projects(projects_payload: JsonObject, project_ids: set[str], errors: list[str]) -> None:
     non_projects = projects_payload.get("non_projects", [])
     if not isinstance(non_projects, list):
@@ -280,6 +384,11 @@ def validate_tracker_root(root: Path = ROOT) -> ValidationResult:
     projects_payload = read_json(root / "ops/registry/projects.json", root, errors)
     repos_payload = read_json(root / "ops/registry/repos.json", root, errors)
     workstreams_payload = read_json(root / "ops/registry/workstreams.json", root, errors)
+    workflow_runs_payload = read_json(
+        root / "ops/registry/workflow-runs.json",
+        root,
+        errors,
+    )
     upload_payload = read_json(root / "ops/sync/github-upload-state.json", root, errors)
 
     projects = required_array(
@@ -303,19 +412,30 @@ def validate_tracker_root(root: Path = ROOT) -> ValidationResult:
         root,
         errors,
     )
+    workflow_runs = required_array(
+        workflow_runs_payload,
+        "workflow_runs",
+        root / "ops/registry/workflow-runs.json",
+        root,
+        errors,
+    )
 
     project_ids = ids_for(projects, "id", "project", errors)
     repo_ids = ids_for(repos, "id", "repo", errors)
     workstream_ids = ids_for(workstreams, "id", "workstream", errors)
+    ids_for(workflow_runs, "id", "workflow_run", errors)
+    session_ids = session_ids_for(workstreams, errors)
 
     validate_non_projects(projects_payload, project_ids, errors)
     validate_project_records(projects, project_ids, repo_ids, workstream_ids, errors)
     validate_repo_records(repos, project_ids, errors)
     validate_workstream_records(workstreams, project_ids, repo_ids, errors)
+    validate_workflow_run_records(workflow_runs, project_ids, session_ids, root, errors)
     validate_upload_state(repos, repo_ids, upload_payload, errors)
 
     validate_log_folder(root, "events", errors, warnings)
     validate_log_folder(root, "sessions", errors, warnings)
+    validate_log_folder(root, "workflow-runs", errors, warnings)
 
     return ValidationResult(errors=errors, warnings=warnings)
 

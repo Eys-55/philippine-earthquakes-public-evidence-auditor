@@ -66,5 +66,37 @@ A command declared at workflow start that can verify the run's intended change o
 _Avoid_: Check later, manual confidence
 
 **Workflow Completion**:
-A workflow run is complete only after its flow-specific final stage is reached, required validation passes, review is recorded when the flow calls for it, and the work is committed.
-_Avoid_: Code written, locally done
+A workflow run is complete when its flow-specific final stage is reached, required validation passes, and review is recorded when the flow calls for it. The containing tracked work session is not complete until session changes are committed.
+_Avoid_: Code written, locally done, committed run
+
+**Session Completion**:
+A tracked work session is complete only after its workflow runs are completed, handed off, blocked, or abandoned; required tracker state is updated; required validation passes; and the session changes are committed.
+_Avoid_: Chat done, run completed
+
+**Flow ID**:
+The explicit workflow template selected for a workflow run, such as idea_to_ship, bugfix, research, review, or tracker_ops. A workflow run may not start with an unspecified flow.
+_Avoid_: Implicit process, ad hoc flow
+
+**Parallel Approval**:
+An explicit user approval that allows a workflow run to proceed after the project situation check reports risky parallel work.
+_Avoid_: Proceed anyway, warning only
+
+**Waiting Work**:
+A workflow run or session state that is waiting on user input and should be reported separately from stale work.
+_Avoid_: Stale, blocked
+
+**Synced Session**:
+A committed tracked work session whose changes have also been uploaded and verified against the expected remote branch.
+_Avoid_: Completed session, local commit
+
+**Work Start Command**:
+The friendly command that starts a tracked work session for a named project before workflow runs are added.
+_Avoid_: Session primitive, manual note
+
+**Workflow Run Commands**:
+The tracker command family that starts, checkpoints, closes, and assesses workflow runs: tracker_workflow_start, tracker_workflow_checkpoint, tracker_workflow_close, and tracker_project_situation.
+_Avoid_: Generic event commands, ad hoc notes
+
+**Matt Pocock Workflow Currency**:
+The repo's tracker workflow should be framed around the installed Matt Pocock skills and their flows, not around Superpowers planning or execution skills.
+_Avoid_: Superpowers workflow currency, mixed planning currency

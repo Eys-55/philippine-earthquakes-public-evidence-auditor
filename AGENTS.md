@@ -97,6 +97,25 @@ surface inventories are audit evidence only. Deleted or stale surfaces must not
 be reported as active projects. Run `python3 scripts/tracker_status.py` before
 answering what projects are active.
 
+## Agent skills
+
+### Issue tracker
+
+Issues, PRDs, and implementation slices for this repo live in GitHub Issues.
+External PRs are not a request surface because this is a solo-developed control
+repo. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the default Matt Pocock triage label vocabulary: `needs-triage`,
+`needs-info`, `ready-for-agent`, `ready-for-human`, and `wontfix`. See
+`docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This is a single-context repo. Use root `CONTEXT.md` for domain language and
+root `docs/adr/` for architecture decisions. See `docs/agents/domain.md`.
+
 ## Visualization Default
 
 Draw.io / diagrams.net is sidelined indefinitely for this repo. Do not use the
