@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:06:20+08:00",
-      "next_action": "Continue grilling remaining router contract decisions before implementation.",
+      "last_checkpoint_at": "2026-07-06T14:08:22+08:00",
+      "next_action": "Ask how the router should behave when the affected workflow cannot be identified from the first message.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "Workflow/session closeout and continuation require GitHub push/upload verification. If changes are not pushed, report that and stop before treating the work as continue-safe."
+      "decision": "All bugs and problems in this repo are routed through workflow-specific agentic workflow steps. The immediate run should identify the affected workflow as early as possible, load its context, and proceed through the full workflow sequence rather than a generic bugfix shortcut."
     }
   ]
 }
