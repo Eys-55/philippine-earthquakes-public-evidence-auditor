@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import io
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from contextlib import redirect_stdout
 from unittest import mock
 
 from scripts import tracker_repo_audit
@@ -162,6 +164,54 @@ class TrackerRuntimeTests(unittest.TestCase):
         self.assertEqual("not uploaded", marker)
         self.assertEqual("origin remote differs from expected GitHub remote", reason)
         self.assertIn(["status", "--porcelain=v1", "--untracked-files=all"], calls)
+
+    def test_status_prints_workflow_runs_for_active_projects(self) -> None:
+        projects_payload = {
+            "projects": [
+                {
+                    "id": "agent-workflow-project-maker",
+                    "title": "Agent Workflow Project Maker",
+                    "status": "active",
+                    "current_goal": "Build tracker workflow runs.",
+                    "workstreams": ["control-repo-tracker"],
+                }
+            ]
+        }
+        workstreams_payload = {
+            "workstreams": [
+                {
+                    "id": "control-repo-tracker",
+                    "project_id": "agent-workflow-project-maker",
+                    "status": "active",
+                    "next_action": "Implement workflow run commands.",
+                }
+            ]
+        }
+        workflow_runs_payload = {
+            "workflow_runs": [
+                {
+                    "id": "wfr-1",
+                    "project_id": "agent-workflow-project-maker",
+                    "title": "Start tracked work and Workflow Runs",
+                    "status": "open",
+                    "last_checkpoint_at": "2026-07-06T00:00:00+00:00",
+                    "next_action": "Run command tests.",
+                }
+            ]
+        }
+
+        output = io.StringIO()
+        with redirect_stdout(output):
+            tracker_status.print_active_projects(
+                projects_payload,
+                workstreams_payload,
+                workflow_runs_payload,
+            )
+
+        rendered = output.getvalue()
+        self.assertIn("- Workflow Runs:", rendered)
+        self.assertIn("wfr-1", rendered)
+        self.assertIn("Start tracked work and Workflow Runs", rendered)
 
 
 if __name__ == "__main__":

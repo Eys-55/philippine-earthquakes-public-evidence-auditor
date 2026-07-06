@@ -10,6 +10,13 @@ import subprocess
 from typing import Any
 from urllib.parse import urlparse
 
+try:
+    from tracker_workflow_lib import render_run_line
+    from tracker_workflow_lib import workflow_run_age
+except ImportError:  # pragma: no cover - used when imported as scripts.tracker_status
+    from scripts.tracker_workflow_lib import render_run_line
+    from scripts.tracker_workflow_lib import workflow_run_age
+
 
 ROOT = Path(__file__).resolve().parents[1]
 UPLOADED_STATUSES = {"clean", "uploaded", "verified"}
@@ -289,8 +296,10 @@ def project_workstreams(
 def print_active_projects(
     projects_payload: JsonObject,
     workstreams_payload: JsonObject,
+    workflow_runs_payload: JsonObject,
 ) -> None:
     grouped_workstreams = workstreams_by_project(workstreams_payload)
+    grouped_runs = workflow_runs_by_project(workflow_runs_payload)
 
     print("# Project Status")
     print()
@@ -310,7 +319,60 @@ def print_active_projects(
                 print(f"- Workstream `{workstream_id}`: {status}; next action: {next_action}")
         else:
             print("- Workstream: none recorded")
+        print_project_workflow_runs(grouped_runs.get(str(project_id), []))
         print()
+
+
+def workflow_runs_by_project(workflow_runs_payload: JsonObject) -> dict[str, list[JsonObject]]:
+    by_project: dict[str, list[JsonObject]] = {}
+    runs = workflow_runs_payload.get("workflow_runs", [])
+    if not isinstance(runs, list):
+        return by_project
+    for run in runs:
+        if not isinstance(run, dict):
+            continue
+        project_id = run.get("project_id")
+        if isinstance(project_id, str) and project_id:
+            by_project.setdefault(project_id, []).append(run)
+    return by_project
+
+
+def print_project_workflow_runs(runs: list[JsonObject]) -> None:
+    if not runs:
+        print("- Workflow Runs: none recorded")
+        return
+
+    open_runs: list[JsonObject] = []
+    stale_runs: list[JsonObject] = []
+    waiting_runs: list[JsonObject] = []
+    blocked_runs: list[JsonObject] = []
+    resolved_runs: list[JsonObject] = []
+    for run in runs:
+        status = run.get("status")
+        age = workflow_run_age(run)
+        if status == "waiting_on_user":
+            waiting_runs.append(run)
+        elif status == "blocked":
+            blocked_runs.append(run)
+        elif age.label in {"stale", "very_stale"}:
+            stale_runs.append(run)
+        elif status == "open":
+            open_runs.append(run)
+        else:
+            resolved_runs.append(run)
+
+    print("- Workflow Runs:")
+    for label, values in (
+        ("open", open_runs),
+        ("stale", stale_runs),
+        ("waiting", waiting_runs),
+        ("blocked", blocked_runs),
+        ("resolved", resolved_runs),
+    ):
+        if values:
+            print(f"  - {label}:")
+            for run in values:
+                print(f"    - {render_run_line(run)}")
 
 
 def print_not_active_projects(projects_payload: JsonObject) -> None:
@@ -350,9 +412,10 @@ def main() -> int:
     projects_payload = read_json(ROOT / "ops/registry/projects.json")
     repos_payload = read_json(ROOT / "ops/registry/repos.json")
     workstreams_payload = read_json(ROOT / "ops/registry/workstreams.json")
+    workflow_runs_payload = read_json(ROOT / "ops/registry/workflow-runs.json")
     upload_payload = read_json(ROOT / "ops/sync/github-upload-state.json")
 
-    print_active_projects(projects_payload, workstreams_payload)
+    print_active_projects(projects_payload, workstreams_payload, workflow_runs_payload)
     print_not_active_projects(projects_payload)
     print_upload_state(upload_payload, repos_payload)
     return 0

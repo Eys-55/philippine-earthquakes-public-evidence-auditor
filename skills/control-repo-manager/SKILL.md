@@ -15,6 +15,7 @@ from:
 
 - `ops/registry/*.json`
 - `ops/events/*.jsonl`
+- `ops/workflow-runs/*.jsonl`
 
 Folder scans, lane tables, README sections, AGENTS.md sections, and project
 surface inventories are audit evidence only. They can help explain drift, stale
@@ -30,6 +31,25 @@ Before answering project status, run:
 
 ```bash
 python3 scripts/tracker_status.py
+```
+
+Before starting implementation work, run a project situation check for the
+target project and proposed owned paths:
+
+```bash
+python3 scripts/tracker_project_situation.py --project-id <project-id> --owned-path <path>
+```
+
+If the situation check reports risky parallel work, pause and ask the user
+whether to continue, join the existing run, or wait.
+
+Use these Workflow Run commands for Matt Pocock workflow work:
+
+```bash
+python3 scripts/tracker_start_work.py --project-id <project-id> --objective <objective>
+python3 scripts/tracker_workflow_start.py ...
+python3 scripts/tracker_workflow_checkpoint.py ...
+python3 scripts/tracker_workflow_close.py ...
 ```
 
 When auditing stale project surfaces, run:
@@ -51,9 +71,10 @@ python3 scripts/tracker_upload_gate.py
 A session is not complete until all of these are true:
 
 1. Tracker records are current.
-2. Intended changes are committed.
-3. The commit has been uploaded to GitHub.
-4. Upload verification has succeeded.
+2. Workflow runs are completed, handed off, blocked, or abandoned.
+3. Intended changes are committed.
+4. The commit has been uploaded to GitHub.
+5. Upload verification has succeeded.
 
 Do not treat a local clean tree or a recorded sync event as enough by itself.
 
@@ -71,3 +92,11 @@ Use this distinction when reporting status:
 
 If `python3 scripts/tracker_upload_gate.py` reports local changes still need
 upload, say the session is not uploaded yet and do not report upload completion.
+
+## Workflow Currency
+
+This repo uses the installed Matt Pocock skills as the tracker workflow
+currency. Do not use Superpowers planning or execution skills as the default
+process for tracker work. Workflow runs should record the Matt Pocock flow ID,
+current skill, owned paths, validation commands, checkpoints, and closeout
+state.

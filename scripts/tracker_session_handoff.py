@@ -12,6 +12,11 @@ import sys
 import tempfile
 from typing import Any
 
+try:
+    from tracker_workflow_lib import render_run_line
+except ImportError:  # pragma: no cover - used when imported as scripts.tracker_session_handoff
+    from scripts.tracker_workflow_lib import render_run_line
+
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSTREAM_REGISTRY_LOCK_PATH = ROOT / "ops/sessions/.session-start.lock"
@@ -333,6 +338,28 @@ def markdown_bullets(values: list[str]) -> str:
     return "\n".join(f"- {value}" for value in values)
 
 
+def workflow_runs_for_session(session_id: str) -> list[JsonObject]:
+    path = ROOT / "ops/registry/workflow-runs.json"
+    if not path.exists():
+        return []
+    payload = read_json(path)
+    records = payload.get("workflow_runs", [])
+    if not isinstance(records, list):
+        return []
+    return [
+        record
+        for record in records
+        if isinstance(record, dict) and record.get("session_id") == session_id
+    ]
+
+
+def workflow_run_lines(session_id: str) -> list[str]:
+    runs = workflow_runs_for_session(session_id)
+    if not runs:
+        return ["None"]
+    return [render_run_line(run) for run in runs]
+
+
 def render_handoff(
     session_id: str,
     project_id: str,
@@ -366,6 +393,10 @@ def render_handoff(
             f"- Workstream objective: {objective}",
             f"- Repo: {repo_id}",
             f"- Registered sessions: {session_count}",
+            "",
+            "## Workflow Runs",
+            "",
+            markdown_bullets(workflow_run_lines(session_id)),
             "",
             "## Next Action",
             "",

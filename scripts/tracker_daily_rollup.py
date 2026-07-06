@@ -13,6 +13,11 @@ import sys
 import tempfile
 from typing import Any
 
+try:
+    from tracker_workflow_lib import render_run_line
+except ImportError:  # pragma: no cover - used when imported as scripts.tracker_daily_rollup
+    from scripts.tracker_workflow_lib import render_run_line
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DATE_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -164,11 +169,19 @@ def markdown_list(items: list[str]) -> list[str]:
     return [f"- {item}" for item in items]
 
 
+def workflow_run_items(workflow_runs_payload: JsonObject) -> list[str]:
+    records = workflow_runs_payload.get("workflow_runs", [])
+    if not isinstance(records, list):
+        return []
+    return [render_run_line(record) for record in records if isinstance(record, dict)]
+
+
 def build_markdown(
     rollup_date: str,
     events: list[JsonObject],
     workstreams: list[JsonObject],
     upload_payload: JsonObject,
+    workflow_runs_payload: JsonObject,
 ) -> str:
     projects_moved: list[str] = []
     for event in events:
@@ -209,6 +222,10 @@ def build_markdown(
         "## Blocked",
         "",
         *markdown_list(blocked_items(events, workstreams)),
+        "",
+        "## Workflow Runs",
+        "",
+        *markdown_list(workflow_run_items(workflow_runs_payload)),
         "",
         "## Public Progress Candidates",
         "",
@@ -257,14 +274,22 @@ def generate_rollup(rollup_date: str) -> Path:
     events_path = ROOT / "ops" / "events" / f"{rollup_date}.jsonl"
     workstreams_path = ROOT / "ops" / "registry" / "workstreams.json"
     upload_path = ROOT / "ops" / "sync" / "github-upload-state.json"
+    workflow_runs_path = ROOT / "ops" / "registry" / "workflow-runs.json"
     output_path = ROOT / "ops" / "daily" / f"{rollup_date}.md"
 
     events = read_events(events_path)
     workstreams_payload = read_json_object(workstreams_path)
     upload_payload = read_json_object(upload_path)
+    workflow_runs_payload = read_json_object(workflow_runs_path)
     workstreams = records_array(workstreams_payload, "workstreams", display_path(workstreams_path))
 
-    markdown = build_markdown(rollup_date, events, workstreams, upload_payload)
+    markdown = build_markdown(
+        rollup_date,
+        events,
+        workstreams,
+        upload_payload,
+        workflow_runs_payload,
+    )
     atomic_write_text(output_path, markdown)
     return output_path
 
