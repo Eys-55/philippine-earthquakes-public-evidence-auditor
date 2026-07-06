@@ -1,0 +1,178 @@
+---
+import "../styles/global.css";
+import dashboard from "../data/tracker-dashboard.json";
+
+type BadgeTone = "good" | "warn" | "bad" | "info";
+
+const toneForStatus = (status: unknown): BadgeTone => {
+  if (status === "uploaded" || status === "completed" || status === "active") {
+    return "good";
+  }
+  if (status === "open" || status === "waiting_on_user" || status === "pending_local_changes") {
+    return "warn";
+  }
+  if (status === "blocked" || status === "not_uploaded") {
+    return "bad";
+  }
+  return "info";
+};
+
+const summary = dashboard.summary;
+const projects = dashboard.projects;
+const workflowRuns = dashboard.workflow_runs;
+const uploadRepos = dashboard.upload_repos;
+const nonProjects = dashboard.non_projects;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tracker Monitor</title>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <h1>Tracker Monitor</h1>
+          <p>Read-only Astro view over local control repo tracker state.</p>
+        </div>
+        <div class="status-chip">
+          <span>No 3D</span>
+          <span class="mono">generated {dashboard.generated_at}</span>
+        </div>
+      </header>
+
+      <section class="grid" aria-label="Tracker dashboard">
+        <div>
+          <section class="summary" aria-label="Tracker summary">
+            <div class="metric">
+              <span>Active Projects</span>
+              <strong>{summary.active_projects}</strong>
+            </div>
+            <div class="metric">
+              <span>Workstreams</span>
+              <strong>{summary.workstreams}</strong>
+            </div>
+            <div class="metric">
+              <span>Workflow Runs</span>
+              <strong>{summary.workflow_runs}</strong>
+            </div>
+            <div class="metric">
+              <span>Open Runs</span>
+              <strong>{summary.open_workflow_runs}</strong>
+            </div>
+            <div class="metric">
+              <span>Repos</span>
+              <strong>{summary.repos}</strong>
+            </div>
+          </section>
+
+          <section class="panel" aria-labelledby="projects-heading">
+            <h2 id="projects-heading">Projects And Workstreams</h2>
+            {
+              projects.length === 0 ? (
+                <div class="empty">No tracked projects in the exported snapshot.</div>
+              ) : (
+                projects.map((project) => (
+                  <article class="project">
+                    <div class="project-header">
+                      <div>
+                        <div class="title">{project.title}</div>
+                        <div class="meta mono">{project.id}</div>
+                      </div>
+                      <span class={`badge ${toneForStatus(project.status)}`}>{project.status}</span>
+                    </div>
+                    <p class="small">{project.current_goal}</p>
+                    {project.workstreams.map((workstream) => (
+                      <div class="workstream">
+                        <div class="section-label mono">{workstream.id}</div>
+                        <div class="title">{workstream.objective}</div>
+                        <p>{workstream.next_action}</p>
+                      </div>
+                    ))}
+                  </article>
+                ))
+              )
+            }
+          </section>
+
+          <section class="panel" aria-labelledby="runs-heading">
+            <h2 id="runs-heading">Workflow Runs</h2>
+            {
+              workflowRuns.length === 0 ? (
+                <div class="empty">No workflow runs recorded.</div>
+              ) : (
+                workflowRuns.map((run) => (
+                  <article class="run">
+                    <div class="run-header">
+                      <div>
+                        <div class="title">{run.title}</div>
+                        <div class="meta mono">{run.id}</div>
+                      </div>
+                      <span class={`badge ${toneForStatus(run.status)}`}>{run.status}</span>
+                    </div>
+                    <p>{run.next_action}</p>
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <th>Skill</th>
+                          <td>{run.current_skill}</td>
+                        </tr>
+                        <tr>
+                          <th>Flow</th>
+                          <td>{run.flow_id}</td>
+                        </tr>
+                        <tr>
+                          <th>Owned Paths</th>
+                          <td class="mono">{(run.owned_paths ?? []).join(", ")}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </article>
+                ))
+              )
+            }
+          </section>
+        </div>
+
+        <aside>
+          <section class="panel" aria-labelledby="upload-heading">
+            <h2 id="upload-heading">Upload State</h2>
+            <span class={`badge ${toneForStatus(summary.upload_status)}`}>
+              {summary.upload_status}
+            </span>
+            {
+              uploadRepos.map((repo) => (
+                <div class="upload-row">
+                  <div>
+                    <div class="title">{repo.id}</div>
+                    <div class="meta mono">{repo.local_branch} -> {repo.remote_branch}</div>
+                    <div class="small">verified {repo.last_verified_at}</div>
+                  </div>
+                  <span class={`badge ${toneForStatus(repo.status)}`}>{repo.status}</span>
+                </div>
+              ))
+            }
+          </section>
+
+          <section class="panel" aria-labelledby="non-projects-heading">
+            <h2 id="non-projects-heading">Not Active Projects</h2>
+            {
+              nonProjects.length === 0 ? (
+                <div class="empty">No non-project surfaces recorded.</div>
+              ) : (
+                nonProjects.map((surface) => (
+                  <div class="non-project">
+                    <div class="title mono">{surface.id}</div>
+                    <p>{surface.reason}</p>
+                  </div>
+                ))
+              )
+            }
+          </section>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>

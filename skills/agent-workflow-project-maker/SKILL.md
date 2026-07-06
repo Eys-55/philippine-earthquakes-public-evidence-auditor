@@ -71,6 +71,12 @@ Required sequence:
 Do not ask blank questions. Do not rely on generic Codex assumptions about
 agentic workflows. ECC is the operating model.
 
+Fail-closed enforcement lives in `python3 scripts/validate_tracker.py`.
+Workflow runs in `workflow_intake`, and all `workflow_specific_bug` runs, must
+have a context manifest under `ops/workflow-runs/` with loaded ECC context and
+a premise marker. If that proof is missing, tracker validation must fail before
+the session can be treated as safe to continue, close, or upload.
+
 New workflow creation requires explicit confirmation, such as:
 
 - "Create a new workflow for this"

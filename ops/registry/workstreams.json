@@ -21,7 +21,9 @@
       "objective": "Build a tracker for projects, repos, sessions, and GitHub upload state.",
       "session_ids": [
         "20260706-021920-fe10",
-        "20260706-133456-18ea"
+        "20260706-133456-18ea",
+        "20260706-145212-67df",
+        "20260706-145952-b653"
       ],
       "handoff": "ops/handoffs/latest.md",
       "open_decisions": [

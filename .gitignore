@@ -3,6 +3,7 @@
 .env.*
 !.env.example
 node_modules/
+.astro/
 .cache/
 dist/
 build/

@@ -379,6 +379,200 @@ class ValidateTrackerTests(unittest.TestCase):
                 result.errors,
             )
 
+    def test_workflow_intake_run_requires_context_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_tmp:
+            root = Path(raw_tmp)
+            seed_valid_tracker(root)
+            write_json(
+                root / "ops/registry/workstreams.json",
+                {
+                    "workstreams": [
+                        {
+                            "id": "tracker-build",
+                            "project_id": "agent-workflow-project-maker",
+                            "repo_id": "control-repo",
+                            "status": "active",
+                            "objective": "Build the control repo tracker.",
+                            "session_ids": ["session-1"],
+                            "handoff": "ops/handoffs/latest.md",
+                            "open_decisions": [],
+                            "next_action": "Implement tracker scripts.",
+                        }
+                    ]
+                },
+            )
+            write_text(
+                root / "ops/workflow-runs/2026-07-06/wfr-intake.jsonl",
+                '{"event_type": "workflow_started", "workflow_run_id": "wfr-intake"}\n',
+            )
+            write_json(
+                root / "ops/registry/workflow-runs.json",
+                {
+                    "schema_version": 1,
+                    "generated_at": "2026-07-06T00:00:00Z",
+                    "workflow_runs": [
+                        {
+                            "id": "wfr-intake",
+                            "project_id": "agent-workflow-project-maker",
+                            "session_id": "session-1",
+                            "title": "Investigate workflow bug",
+                            "flow_id": "workflow_specific_bug",
+                            "status": "open",
+                            "current_skill": "workflow_intake",
+                            "owned_paths": ["ops/workflow-runs"],
+                            "validation_commands": ["python3 scripts/validate_tracker.py"],
+                            "started_at": "2026-07-06T00:00:00Z",
+                            "last_checkpoint_at": "2026-07-06T00:00:00Z",
+                            "next_action": "Load ECC context.",
+                            "log_path": "ops/workflow-runs/2026-07-06/wfr-intake.jsonl",
+                        }
+                    ],
+                },
+            )
+
+            result = validate_tracker_root(root)
+
+            self.assertIn(
+                "wfr-intake: context manifest does not exist: "
+                "ops/workflow-runs/2026-07-06/wfr-intake-context.md",
+                result.errors,
+            )
+
+    def test_workflow_intake_context_manifest_requires_ecc_markers(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_tmp:
+            root = Path(raw_tmp)
+            seed_valid_tracker(root)
+            write_json(
+                root / "ops/registry/workstreams.json",
+                {
+                    "workstreams": [
+                        {
+                            "id": "tracker-build",
+                            "project_id": "agent-workflow-project-maker",
+                            "repo_id": "control-repo",
+                            "status": "active",
+                            "objective": "Build the control repo tracker.",
+                            "session_ids": ["session-1"],
+                            "handoff": "ops/handoffs/latest.md",
+                            "open_decisions": [],
+                            "next_action": "Implement tracker scripts.",
+                        }
+                    ]
+                },
+            )
+            write_text(
+                root / "ops/workflow-runs/2026-07-06/wfr-intake.jsonl",
+                '{"event_type": "workflow_started", "workflow_run_id": "wfr-intake"}\n',
+            )
+            write_text(
+                root / "ops/workflow-runs/2026-07-06/wfr-intake-context.md",
+                "# Context Manifest\n\nNo proof here.\n",
+            )
+            write_json(
+                root / "ops/registry/workflow-runs.json",
+                {
+                    "schema_version": 1,
+                    "generated_at": "2026-07-06T00:00:00Z",
+                    "workflow_runs": [
+                        {
+                            "id": "wfr-intake",
+                            "project_id": "agent-workflow-project-maker",
+                            "session_id": "session-1",
+                            "title": "Investigate workflow bug",
+                            "flow_id": "workflow_specific_bug",
+                            "status": "open",
+                            "current_skill": "workflow_intake",
+                            "owned_paths": ["ops/workflow-runs"],
+                            "validation_commands": ["python3 scripts/validate_tracker.py"],
+                            "started_at": "2026-07-06T00:00:00Z",
+                            "last_checkpoint_at": "2026-07-06T00:00:00Z",
+                            "next_action": "Load ECC context.",
+                            "log_path": "ops/workflow-runs/2026-07-06/wfr-intake.jsonl",
+                        }
+                    ],
+                },
+            )
+
+            result = validate_tracker_root(root)
+
+            self.assertIn("wfr-intake: context manifest missing marker AGENTS.md", result.errors)
+            self.assertIn(
+                "wfr-intake: context manifest missing marker "
+                "skills/control-repo-manager/SKILL.md",
+                result.errors,
+            )
+            self.assertIn("wfr-intake: context manifest missing marker Loaded", result.errors)
+            self.assertIn("wfr-intake: context manifest missing marker Premise", result.errors)
+
+    def test_workflow_intake_context_manifest_with_ecc_markers_passes(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_tmp:
+            root = Path(raw_tmp)
+            seed_valid_tracker(root)
+            write_json(
+                root / "ops/registry/workstreams.json",
+                {
+                    "workstreams": [
+                        {
+                            "id": "tracker-build",
+                            "project_id": "agent-workflow-project-maker",
+                            "repo_id": "control-repo",
+                            "status": "active",
+                            "objective": "Build the control repo tracker.",
+                            "session_ids": ["session-1"],
+                            "handoff": "ops/handoffs/latest.md",
+                            "open_decisions": [],
+                            "next_action": "Implement tracker scripts.",
+                        }
+                    ]
+                },
+            )
+            write_text(
+                root / "ops/workflow-runs/2026-07-06/wfr-intake.jsonl",
+                '{"event_type": "workflow_started", "workflow_run_id": "wfr-intake"}\n',
+            )
+            write_text(
+                root / "ops/workflow-runs/2026-07-06/wfr-intake-context.md",
+                "\n".join(
+                    [
+                        "# Context Manifest",
+                        "## Loaded ECC Context",
+                        "- `AGENTS.md`",
+                        "- `skills/control-repo-manager/SKILL.md`",
+                        "## Premise Lock",
+                        "This workflow run must load ECC before grilling.",
+                        "",
+                    ]
+                ),
+            )
+            write_json(
+                root / "ops/registry/workflow-runs.json",
+                {
+                    "schema_version": 1,
+                    "generated_at": "2026-07-06T00:00:00Z",
+                    "workflow_runs": [
+                        {
+                            "id": "wfr-intake",
+                            "project_id": "agent-workflow-project-maker",
+                            "session_id": "session-1",
+                            "title": "Investigate workflow bug",
+                            "flow_id": "workflow_specific_bug",
+                            "status": "open",
+                            "current_skill": "workflow_intake",
+                            "owned_paths": ["ops/workflow-runs"],
+                            "validation_commands": ["python3 scripts/validate_tracker.py"],
+                            "started_at": "2026-07-06T00:00:00Z",
+                            "last_checkpoint_at": "2026-07-06T00:00:00Z",
+                            "next_action": "Load ECC context.",
+                            "log_path": "ops/workflow-runs/2026-07-06/wfr-intake.jsonl",
+                        }
+                    ],
+                },
+            )
+
+            result = validate_tracker_root(root)
+
+            self.assertTrue(result.ok)
+
     def test_required_upload_state_is_enforced(self) -> None:
         with tempfile.TemporaryDirectory() as raw_tmp:
             root = Path(raw_tmp)

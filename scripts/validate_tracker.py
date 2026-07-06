@@ -26,6 +26,12 @@ WORKFLOW_RUN_STATUSES = {
     "handed_off",
     "abandoned",
 }
+CONTEXT_MANIFEST_REQUIRED_MARKERS = (
+    "AGENTS.md",
+    "skills/control-repo-manager/SKILL.md",
+    "Loaded",
+    "Premise",
+)
 
 
 @dataclass(frozen=True)
@@ -149,6 +155,14 @@ def validate_jsonl_file(path: Path, root: Path, errors: list[str]) -> None:
                 errors.append(f"{label}:{line_number}: invalid JSONL")
 
 
+def repo_relative_file(path_value: str, root: Path, owner_id: str, key: str, errors: list[str]) -> Path | None:
+    candidate = Path(path_value)
+    if candidate.is_absolute() or ".." in candidate.parts:
+        errors.append(f"{owner_id}: {key} must be repo-relative")
+        return None
+    return root / candidate
+
+
 def validate_log_folder(root: Path, folder_name: str, errors: list[str], warnings: list[str]) -> None:
     folder = root / "ops" / folder_name
     if not folder.exists():
@@ -162,6 +176,63 @@ def validate_log_folder(root: Path, folder_name: str, errors: list[str], warning
             validate_json_file(path, root, errors)
         elif path.suffix == ".jsonl":
             validate_jsonl_file(path, root, errors)
+
+
+def context_manifest_path_for(workflow_run: JsonObject) -> str | None:
+    explicit_path = workflow_run.get("context_manifest_path")
+    if isinstance(explicit_path, str) and explicit_path:
+        return explicit_path
+
+    artifacts = workflow_run.get("artifacts", [])
+    if isinstance(artifacts, list):
+        for artifact in artifacts:
+            if isinstance(artifact, str) and artifact.endswith("-context.md"):
+                return artifact
+
+    log_path = workflow_run.get("log_path")
+    if not isinstance(log_path, str) or not log_path.endswith(".jsonl"):
+        return None
+    return f"{log_path[:-6]}-context.md"
+
+
+def requires_context_manifest(workflow_run: JsonObject) -> bool:
+    return (
+        workflow_run.get("current_skill") == "workflow_intake"
+        or workflow_run.get("flow_id") == "workflow_specific_bug"
+    )
+
+
+def validate_context_manifest(
+    workflow_run: JsonObject,
+    workflow_run_id: str,
+    root: Path,
+    errors: list[str],
+) -> None:
+    if not requires_context_manifest(workflow_run):
+        return
+
+    manifest_path = context_manifest_path_for(workflow_run)
+    if manifest_path is None:
+        errors.append(f"{workflow_run_id}: workflow_intake requires a context manifest path")
+        return
+
+    manifest_file = repo_relative_file(
+        manifest_path,
+        root,
+        workflow_run_id,
+        "context_manifest_path",
+        errors,
+    )
+    if manifest_file is None:
+        return
+    if not manifest_file.is_file():
+        errors.append(f"{workflow_run_id}: context manifest does not exist: {manifest_path}")
+        return
+
+    manifest_text = manifest_file.read_text(encoding="utf-8")
+    for marker in CONTEXT_MANIFEST_REQUIRED_MARKERS:
+        if marker not in manifest_text:
+            errors.append(f"{workflow_run_id}: context manifest missing marker {marker}")
 
 
 def validate_project_records(
@@ -303,11 +374,17 @@ def validate_workflow_run_records(
 
         log_path = workflow_run.get("log_path")
         if isinstance(log_path, str) and log_path:
-            candidate = Path(log_path)
-            if candidate.is_absolute() or ".." in candidate.parts:
-                errors.append(f"{workflow_run_id}: log_path must be repo-relative")
-            elif not (root / candidate).is_file():
+            candidate = repo_relative_file(
+                log_path,
+                root,
+                workflow_run_id,
+                "log_path",
+                errors,
+            )
+            if candidate is not None and not candidate.is_file():
                 errors.append(f"{workflow_run_id}: log_path does not exist: {log_path}")
+
+        validate_context_manifest(workflow_run, workflow_run_id, root, errors)
 
 
 def validate_non_projects(projects_payload: JsonObject, project_ids: set[str], errors: list[str]) -> None:

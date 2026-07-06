@@ -1,0 +1,246 @@
+:root {
+  color-scheme: light;
+  --bg: #f5f7f8;
+  --panel: #ffffff;
+  --panel-soft: #eef2f2;
+  --text: #17211f;
+  --muted: #5f6f6b;
+  --line: #d8e0de;
+  --good: #147a56;
+  --warn: #9a5b00;
+  --bad: #a43d3d;
+  --info: #285c7f;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+}
+
+.shell {
+  min-height: 100vh;
+}
+
+.topbar {
+  align-items: center;
+  background: #111817;
+  color: #f6fbfa;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  padding: 18px 28px;
+}
+
+.topbar h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.topbar p {
+  color: #b8c8c4;
+  font-size: 13px;
+  margin: 5px 0 0;
+}
+
+.status-chip {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #dbe8e5;
+  display: inline-flex;
+  font-size: 12px;
+  gap: 8px;
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  padding: 22px;
+}
+
+.summary {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.metric,
+.panel,
+.project,
+.run,
+.upload-row,
+.non-project {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.metric {
+  min-height: 86px;
+  padding: 14px;
+}
+
+.metric span,
+.section-label,
+.meta,
+.small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.metric strong {
+  display: block;
+  font-size: 28px;
+  line-height: 1.1;
+  margin-top: 8px;
+}
+
+.panel {
+  margin-bottom: 18px;
+  padding: 16px;
+}
+
+.panel h2 {
+  font-size: 15px;
+  line-height: 1.2;
+  margin: 0 0 14px;
+}
+
+.project,
+.run,
+.upload-row,
+.non-project {
+  margin-top: 10px;
+  padding: 14px;
+}
+
+.project-header,
+.run-header,
+.upload-row {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.badge {
+  border-radius: 6px;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 6px 8px;
+}
+
+.badge.good {
+  background: #e3f4ec;
+  color: var(--good);
+}
+
+.badge.warn {
+  background: #fff1d9;
+  color: var(--warn);
+}
+
+.badge.bad {
+  background: #f9e4e4;
+  color: var(--bad);
+}
+
+.badge.info {
+  background: #e4eff6;
+  color: var(--info);
+}
+
+.workstream {
+  background: var(--panel-soft);
+  border-radius: 6px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.workstream + .workstream {
+  margin-top: 8px;
+}
+
+.workstream p,
+.run p,
+.non-project p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 6px 0 0;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table th,
+.table td {
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  padding: 9px 6px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table th {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.mono {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+}
+
+.empty {
+  background: var(--panel-soft);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 12px;
+}
+
+@media (max-width: 980px) {
+  .grid,
+  .summary {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar,
+  .project-header,
+  .run-header,
+  .upload-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

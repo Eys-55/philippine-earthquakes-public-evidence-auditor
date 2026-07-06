@@ -1,6 +1,64 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-07-06T00:00:00+08:00",
+  "kind": "tracker_astro_monitor_dashboard",
+  "generated_at": "2026-07-06T15:03:36+08:00",
+  "source_root": ".",
+  "summary": {
+    "active_projects": 2,
+    "workstreams": 2,
+    "workflow_runs": 3,
+    "open_workflow_runs": 1,
+    "upload_status": "pending_local_changes",
+    "repos": 1
+  },
+  "projects": [
+    {
+      "id": "philippines-building-code-evidence-auditor-v2",
+      "title": "Philippines Building Code Evidence Auditor V2",
+      "status": "active",
+      "owner_intent": "Audit public earthquake evidence for specific Philippine buildings without overclaiming safety or compliance.",
+      "current_goal": "Keep the V2 evidence-auditor workflow testable, source-bounded, and gated by exact building identity.",
+      "workstreams": [
+        {
+          "id": "philippines-building-code-evidence-auditor-v2",
+          "project_id": "philippines-building-code-evidence-auditor-v2",
+          "repo_id": "market-research-agent-control",
+          "status": "active",
+          "objective": "Maintain the Philippine building earthquake evidence audit workflow.",
+          "session_ids": [],
+          "handoff": "docs/status/2026-07-05-philippines-building-code-evidence-auditor-v2-lock.md",
+          "open_decisions": [],
+          "next_action": "Confirm exact building identity before permit, contractor, incident, code, compliance, earthquake, or safety search."
+        }
+      ]
+    },
+    {
+      "id": "agent-workflow-project-maker",
+      "title": "Agent Workflow Project Maker",
+      "status": "active",
+      "owner_intent": "Create reusable ECC workflow project packs and manage generated repo work.",
+      "current_goal": "Build the control repo tracker and project creation workflow.",
+      "workstreams": [
+        {
+          "id": "control-repo-tracker",
+          "project_id": "agent-workflow-project-maker",
+          "repo_id": "market-research-agent-control",
+          "status": "active",
+          "objective": "Build a tracker for projects, repos, sessions, and GitHub upload state.",
+          "session_ids": [
+            "20260706-021920-fe10",
+            "20260706-133456-18ea",
+            "20260706-145212-67df",
+            "20260706-145952-b653"
+          ],
+          "handoff": "ops/handoffs/latest.md",
+          "open_decisions": [
+            "Decide whether command shims should live under commands/."
+          ],
+          "next_action": "Continue implementing upload gate, daily rollup, and repo audit."
+        }
+      ]
+    }
+  ],
   "workflow_runs": [
     {
       "id": "wfr-20260706-133546-1157",
@@ -119,6 +177,42 @@
         "git diff --check: passed"
       ],
       "review_state": "self-review completed; no blocking findings"
+    }
+  ],
+  "upload_repos": [
+    {
+      "id": "market-research-agent-control",
+      "status": "pending_local_changes",
+      "local_branch": "main",
+      "local_head": "688585589f41a78d1049edf569fc685731232849",
+      "remote_branch": "main",
+      "remote_head": "688585589f41a78d1049edf569fc685731232849",
+      "dirty": null,
+      "untracked_file_count": 22,
+      "last_verified_at": null,
+      "verification_command": null
+    }
+  ],
+  "non_projects": [
+    {
+      "id": "philippines-building-code-evidence-auditor",
+      "reason": "Predecessor V1 surface; do not report as active while V2 is the current auditor."
+    },
+    {
+      "id": "address-disaster-risk-assessor",
+      "reason": "Stale or obsolete surface; do not report as active unless explicitly reopened."
+    },
+    {
+      "id": "metro-manila-source-atlas",
+      "reason": "Stale source-atlas surface; do not report as active."
+    },
+    {
+      "id": "untitled-project",
+      "reason": "Placeholder surface; do not report as active."
+    },
+    {
+      "id": "multi-lane-foundation-model",
+      "reason": "Stale policy model; do not report as active."
     }
   ]
 }

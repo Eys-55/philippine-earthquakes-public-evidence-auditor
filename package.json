@@ -1,0 +1,15 @@
+{
+  "name": "market-research-agent-control",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare:tracker-ui": "python3 scripts/export_tracker_ui_data.py",
+    "dev": "npm run prepare:tracker-ui && astro dev",
+    "build": "npm run prepare:tracker-ui && astro build",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "astro": "^6.3.1"
+  }
+}
