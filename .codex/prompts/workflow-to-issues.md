@@ -1,29 +1,22 @@
-# Workflow To Issues Command Prompt: /workflow-to-issues
+# /workflow-to-issues Slash Prompt
 
-This is a Codex-facing slash prompt. The operator should not run terminal commands.
+Break an approved PRD or plan into vertical-slice issues.
 
-Use this prompt only after a PRD or plan exists and the operator asks to break
-it into issues.
+This is a Codex-facing slash prompt. It is only a thin command shim.
+The workflow behavior lives in the repo skill named below.
 
 ## Required Behavior
 
 1. Work from `/Users/acecanacan/Documents/market-research-agent`.
-2. Load:
-   - `AGENTS.md`
-   - `skills/control-repo-manager/SKILL.md`
-   - the relevant repo skill under `skills/<skill-id>/SKILL.md`
-   - `.agents/skills/to-issues/SKILL.md`
-3. Run `node scripts/control-repo.mjs tracker-status` internally.
-4. Checkpoint the active run to `current_skill=to-issues`.
-5. Follow `.agents/skills/to-issues/SKILL.md`: draft vertical slices, quiz the
-   operator on granularity and dependencies, then publish only after approval.
+2. Read `skills/workflow-to-issues/SKILL.md` completely before acting.
+3. Follow that skill exactly.
+4. Run tracker adapters internally when the skill requires tracker state.
+5. Do not ask the operator to run terminal commands.
 
-## Do Not
+## Skill To Use
 
-- Do not skip the quiz.
-- Do not create issues before approval.
-- Do not use horizontal slices.
+- `skills/workflow-to-issues/SKILL.md`
 
 ## Arguments
 
-$ARGUMENTS: PRD path, plan path, issue reference, or issue-breakdown focus.
+$ARGUMENTS: optional focus text for this slash command.

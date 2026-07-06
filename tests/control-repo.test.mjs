@@ -130,27 +130,29 @@ test("package scripts use Node control adapter", () => {
 });
 
 test("repo-local Codex slash prompts expose workflow commands", () => {
-  const expected = [
-    "tracker-workflow.md",
-    "tracker-status.md",
-    "tracker-closeout.md",
-    "workflow-help.md",
-    "workflow-router.md",
-    "workflow-intake.md",
-    "workflow-grilling.md",
-    "workflow-to-prd.md",
-    "workflow-to-issues.md",
-    "workflow-implement.md",
-    "workflow-code-review.md",
-    "workflow-closeout.md",
-  ];
+  const expected = {
+    "tracker-workflow.md": "skills/workflow-router/SKILL.md",
+    "tracker-status.md": "skills/control-repo-manager/SKILL.md",
+    "tracker-closeout.md": "skills/workflow-closeout/SKILL.md",
+    "workflow-help.md": "skills/workflow-help/SKILL.md",
+    "workflow-router.md": "skills/workflow-router/SKILL.md",
+    "workflow-intake.md": "skills/workflow-intake/SKILL.md",
+    "workflow-grilling.md": "skills/workflow-grilling/SKILL.md",
+    "workflow-to-prd.md": "skills/workflow-to-prd/SKILL.md",
+    "workflow-to-issues.md": "skills/workflow-to-issues/SKILL.md",
+    "workflow-implement.md": "skills/workflow-implement/SKILL.md",
+    "workflow-code-review.md": "skills/workflow-code-review/SKILL.md",
+    "workflow-closeout.md": "skills/workflow-closeout/SKILL.md",
+  };
   const files = listFiles(".codex/prompts").map((file) => path.basename(file));
 
-  for (const file of expected) assert(files.includes(file), file);
-  for (const file of expected) {
+  for (const file of Object.keys(expected)) assert(files.includes(file), file);
+  for (const [file, skillPath] of Object.entries(expected)) {
     const text = read(`.codex/prompts/${file}`);
-    assert(text.includes("Codex-facing slash prompt") || text.includes("Codex-facing command"), file);
-    assert(text.includes("node scripts/control-repo.mjs") || text.includes("npm run"), file);
+    assert(text.includes("Codex-facing slash prompt"), file);
+    assert(text.includes("thin command shim"), file);
+    assert(text.includes(skillPath), file);
+    assert(fs.existsSync(path.join(ROOT, skillPath)), skillPath);
     assert(!text.includes("python"), file);
     assert(!text.includes("tracker_workflow_intake_start"), file);
     assert(!text.includes("validate_tracker.py"), file);

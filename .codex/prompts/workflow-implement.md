@@ -1,31 +1,22 @@
-# Workflow Implement Command Prompt: /workflow-implement
+# /workflow-implement Slash Prompt
 
-This is a Codex-facing slash prompt. The operator should not run terminal commands.
+Implement approved workflow scope only.
 
-Use this prompt only when the operator explicitly asks to implement approved
-workflow work.
+This is a Codex-facing slash prompt. It is only a thin command shim.
+The workflow behavior lives in the repo skill named below.
 
 ## Required Behavior
 
 1. Work from `/Users/acecanacan/Documents/market-research-agent`.
-2. Load:
-   - `AGENTS.md`
-   - `skills/control-repo-manager/SKILL.md`
-   - the relevant repo skill under `skills/<skill-id>/SKILL.md`
-   - `.agents/skills/implement/SKILL.md`
-3. Run `node scripts/control-repo.mjs tracker-status` internally.
-4. Confirm the active run has already passed grilling and, when applicable,
-   PRD/issues.
-5. Checkpoint the active run to `current_skill=implement`.
-6. Implement only the approved scope.
-7. Run the relevant gates and prepare for code review.
+2. Read `skills/workflow-implement/SKILL.md` completely before acting.
+3. Follow that skill exactly.
+4. Run tracker adapters internally when the skill requires tracker state.
+5. Do not ask the operator to run terminal commands.
 
-## Do Not
+## Skill To Use
 
-- Do not implement from a raw first message.
-- Do not implement from a first grilling answer.
-- Do not skip validation.
+- `skills/workflow-implement/SKILL.md`
 
 ## Arguments
 
-$ARGUMENTS: approved implementation scope, PRD, issue, or workflow run id.
+$ARGUMENTS: optional focus text for this slash command.

@@ -1,31 +1,22 @@
-# Workflow Closeout Command Prompt: /workflow-closeout
+# /workflow-closeout Slash Prompt
 
-This is a Codex-facing slash prompt. The operator should not run terminal commands.
+Validate, close tracker state, commit, push, and verify upload.
 
-Use this prompt to close or hand off a tracked workflow run.
+This is a Codex-facing slash prompt. It is only a thin command shim.
+The workflow behavior lives in the repo skill named below.
 
 ## Required Behavior
 
 1. Work from `/Users/acecanacan/Documents/market-research-agent`.
-2. Load:
-   - `AGENTS.md`
-   - `skills/control-repo-manager/SKILL.md`
-   - the relevant repo skill under `skills/<skill-id>/SKILL.md`
-3. Run the internal gates that match the work:
-   - `npm test`
-   - `npm run validate`
-   - `npm run build` when UI or dashboard data changed
-   - `git diff --check`
-4. Close or checkpoint the tracker run with validation results.
-5. Commit and push when changes are intended for the repo.
-6. Run `npm run tracker:upload-gate` and report live upload truth.
+2. Read `skills/workflow-closeout/SKILL.md` completely before acting.
+3. Follow that skill exactly.
+4. Run tracker adapters internally when the skill requires tracker state.
+5. Do not ask the operator to run terminal commands.
 
-## Do Not
+## Skill To Use
 
-- Do not claim upload completion without the live upload gate.
-- Do not leave completed work in an open run.
-- Do not ask the operator to run terminal commands.
+- `skills/workflow-closeout/SKILL.md`
 
 ## Arguments
 
-$ARGUMENTS: workflow run id or closeout focus.
+$ARGUMENTS: optional focus text for this slash command.
