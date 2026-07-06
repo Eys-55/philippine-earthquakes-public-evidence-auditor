@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:09:35+08:00",
-      "next_action": "Ask what the router should do after loaded identification finds a likely existing workflow but not enough certainty.",
+      "last_checkpoint_at": "2026-07-06T14:10:31+08:00",
+      "next_action": "Ask what exact confirmation phrase should unlock new workflow creation.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "On vague workflow/problem messages, immediately track the run, then load project tracker, workflow registry, current projects, previous handoffs, existing workflow surfaces, and relevant prior artifacts before deciding existing workflow vs continuation vs new workflow creation."
+      "decision": "After loaded workflow identification, the router must ask for explicit confirmation before creating a new workflow. The user must say or confirm this is the project/workflow to create, and that it is not a continuation of an existing workflow."
     }
   ]
 }
