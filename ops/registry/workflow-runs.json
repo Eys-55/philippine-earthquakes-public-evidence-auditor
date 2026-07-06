@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:17:09+08:00",
-      "next_action": "Ask what exact wording should be used for not-yet-reached scaffold sections.",
+      "last_checkpoint_at": "2026-07-06T14:18:03+08:00",
+      "next_action": "Ask what the workflow dashboard UI must show first.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "Draft scaffold files and sections must explicitly mark unreached work with a clear not-yet-reached status. Do not leave future workflow surfaces empty or ambiguous; every scaffolded file should show whether it has been touched, what is known, what is unknown, and the next step."
+      "decision": "Scaffold files must include progress markers such as Progress, Current phase, and Next action. Add a future lightweight UI/dashboard requirement that displays all workflows for every project and makes status, progress, and stopping points visible."
     }
   ]
 }
