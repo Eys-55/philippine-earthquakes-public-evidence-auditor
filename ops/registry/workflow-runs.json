@@ -23,13 +23,13 @@
         "python3 scripts/validate_tracker.py"
       ],
       "started_at": "2026-07-06T13:35:46+08:00",
-      "last_checkpoint_at": "2026-07-06T14:08:22+08:00",
-      "next_action": "Ask how the router should behave when the affected workflow cannot be identified from the first message.",
+      "last_checkpoint_at": "2026-07-06T14:09:35+08:00",
+      "next_action": "Ask what the router should do after loaded identification finds a likely existing workflow but not enough certainty.",
       "log_path": "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157.jsonl",
       "artifacts": [
         "ops/workflow-runs/2026-07-06/wfr-20260706-133546-1157-context.md"
       ],
-      "decision": "All bugs and problems in this repo are routed through workflow-specific agentic workflow steps. The immediate run should identify the affected workflow as early as possible, load its context, and proceed through the full workflow sequence rather than a generic bugfix shortcut."
+      "decision": "On vague workflow/problem messages, immediately track the run, then load project tracker, workflow registry, current projects, previous handoffs, existing workflow surfaces, and relevant prior artifacts before deciding existing workflow vs continuation vs new workflow creation."
     }
   ]
 }
